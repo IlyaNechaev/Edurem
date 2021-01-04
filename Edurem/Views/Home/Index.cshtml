@@ -1,0 +1,41 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration AppConfiguration
+
+@{
+    ViewData["Title"] = "Главная";
+    ViewData["ApplicationName"] = "Edurem";
+    Layout = "_Layout";
+
+}
+<div class="container-fluid">
+
+    <header class="text-center">
+        <h1 class="display-4 mt-2">@AppConfiguration["ApplicationName"]</h1>
+        <p style="font-size: 20px">Система проверки заданий</p>
+    </header>
+    <main role="main" id="changableMark" style="background-image: url('/FileSystem/Images/computer_1.jpg')" class="pb-3 align-items-center d-flex mt-5">
+        <div class="row justify-content-center align-content-center w-100" style="height: 45%">
+            <div class="col-10 col-lg-5 col-xl-4 d-flex align-items-center rounded h-100 mb-2 mb-md-0">
+                <input type="button" value="Войти в систему" class="btn btn-light btn-outline-primary w-100 h-50"
+                       style="font-size: 260%; font-family: Georgia" onclick="window.location='@Url.Action("Login", "Administration")'" />
+            </div>
+            <div class="col-10 col-lg-5 col-xl-4 d-flex align-items-center rounded h-100">
+                <input type="button" value="Регистрация" class="btn btn-light btn-outline-dark w-100 h-50"
+                       style="font-size: 260%; font-family: Georgia" onclick="window.location='@Url.Action("Register", "Administration")'" />
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        (function () {
+            window.onresize = changeMarkSize;
+            window.onload = changeMarkSize;
+
+            function changeMarkSize() {
+                let markHeight = window.innerHeight * 0.65;
+
+                document.getElementById("changableMark").style.height = markHeight + "px";
+            };
+        })();
+    </script>
+</div>

@@ -1,0 +1,94 @@
+﻿@model Edurem.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Зарегистрироваться";
+}
+
+<div id="changableMark" class="container-fluid d-flex flex-column" style="background-image: url('/FileSystem/Images/programming_1.jpg')">
+
+    <div class="row justify-content-center align-content-center w-100 h-100">
+        <div class="col-10 col-md-6 col-lg-5 col-xl-4 border rounded" style="background-color: white">
+            <form class="form-signin text-center mb-3 mt-3 ml-3 mr-3" method="post" asp-controller="Administration" asp-action="Register">
+                <img class="mb-2" style="color: purple" src="~/FileSystem/Images/EduremLogoBlue.png" alt="" width="72" height="72">
+                <div class="row justify-content-center">
+                    <p class="mb-3 font-weight-normal" style="font-size: 20px; font-family: Georgia">Пожалуйста, заполните регистрационную форму</p>
+                </div>
+                <div class="row justify-content-between form-group">
+                    <div class="col-6">
+                        <div class="row">
+                            <input asp-for="Name" class="form-control" placeholder="Имя" style="font-size:20px" />
+                            <span asp-validation-for="Name" class="text-danger" style="font-weight: bold"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <input asp-for="Surname" class="form-control" placeholder="Фамилия" style="font-size:20px" />
+                            <span asp-validation-for="Surname" class="text-danger" style="font-weight: bold"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <input asp-for="Email" class="form-control" placeholder="E-mail" style="font-size:20px" />
+                    <span asp-validation-for="Email" class="text-danger" style="font-weight: bold"></span>
+                </div>
+                <div class="row form-group">
+                    <input asp-for="Login" class="form-control" placeholder="Логин" style="font-size:20px" />
+                    <span asp-validation-for="Login" class="text-danger" style="font-weight: bold"></span>
+                </div>
+                <div class="row justify-content-between form-group">
+                    <div class="col-6">
+                        <div class="row">
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Пароль" style="font-size:20px" />
+                            <span asp-validation-for="Password" class="text-danger" style="font-weight: bold"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Пароль еще раз" style="font-size:20px" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger" style="font-weight: bold"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-8 text-left">
+                        <div class="h5">Дата рождения</div>
+                        <component>@(await Html.RenderComponentAsync<Edurem.Components.DatePicker>(RenderMode.ServerPrerendered, new { DefaultDate = Model?.DateOfBirth }))</component>
+                        <input type="hidden" asp-for="DateOfBirth" id="Date" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger" style="font-weight: bold"></span>
+                    </div>
+                    <div class="col-4 text-left">
+                        <div class="h5">Пол</div>
+                        <component>@(await Html.RenderComponentAsync<Edurem.Components.GenderPicker>(RenderMode.ServerPrerendered, new { PickedGender = Model?.Gender }))</component>
+                        <input type="hidden" asp-for="Gender" id="Gender" />
+                        <span asp-validation-for="Gender" class="text-danger" style="font-weight: bold"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" style="font-size: 20px" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    (function () {
+        window.onresize = changeMarkSize;
+        window.onload = changeMarkSize;
+
+        function changeMarkSize() {
+            let markHeight = window.innerHeight * 0.85;
+
+            document.getElementById("changableMark").style.height = markHeight + "px";
+        };
+    })();
+</script>
+<script>
+    window.updateDate = function (date) {
+        document.getElementById('Date').value = date;
+    }
+
+    window.updateGender = function (gender) {
+        document.getElementById('Gender').value = gender;
+    }
+</script>

@@ -1,0 +1,42 @@
+﻿@inject IJSRuntime JSRuntime;
+
+<MatThemeProvider Theme="@theme">
+    <MatRadioGroup @bind-Value="PickedGender">
+        <div class="row align-items-start">
+            <div class="col-12 col-lg-6">
+                <div class="row align-items-center">
+                    <MatRadioButton @onchange="GenderChanged" Value="@("MALE")"></MatRadioButton>
+                    <p class="mb-0" style="font-size: 15px">Муж</p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="row align-items-center">
+                    <MatRadioButton @onchange="GenderChanged" Value="@("FEMALE")"></MatRadioButton>
+                    <p class="mb-0" style="font-size: 15px">Жен</p>
+                </div>
+            </div>
+        </div>
+    </MatRadioGroup>
+</MatThemeProvider>
+
+@code {
+
+    [Parameter]
+    public string PickedGender { get; set; }
+
+    MatTheme theme = new MatTheme
+    {
+        Secondary = "#007bff"
+    };
+
+    public Task GenderChanged(ChangeEventArgs e)
+    {
+        PickedGender = e.Value.ToString();
+        return UpdateGender();
+    }
+
+    public async Task UpdateGender()
+    {
+        await JSRuntime.InvokeVoidAsync("updateGender", PickedGender);
+    }
+}

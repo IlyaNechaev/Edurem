@@ -1,0 +1,93 @@
+﻿@using MimeKit
+@using System.Net.Mail
+@using Edurem.Services
+@inject Edurem.Services.IEmailService<MimeMessage> EmailService;
+@inject Edurem.Services.ISecurityService SecurityService;
+@inject IMatToaster Toaster;
+
+<div class="row">
+    <div class="col-12">
+        <input class="form-control" style="font-size: 19px" @bind="Email" />
+    </div>
+</div>
+<div class="row mt-2 justify-content-between align-items-center">
+    <div class="col-7 col-lg-6 justify-content-end">
+        <a class="form-control btn btn-outline-dark @(IsSendingPerformed ? "disabled" : "")" style="font-size: 15px" @onclick="SendEmail" >Отправить</a>
+    </div>
+    <div class="col-7 col-lg-6 mt-2 mt-lg-0 justify-content-end">
+        <input class="form-control" style="font-size: 19px" placeholder="Код подтверждения" @bind="Password" />
+    </div>
+</div>
+
+<MatThemeProvider Theme="@theme">
+    <MatDialog @bind-IsOpen="@IsSendingFailed">
+        <MatDialogTitle Class="text-center bg-danger">
+            <div class="col-12">
+                <i class="fas fa-times" style="font-size: 65px; color: white"></i>
+                <p style="color: white">Не удалось отправить сообщение</p>
+            </div>
+        </MatDialogTitle>
+        <MatDialogContent>
+            <p class="mt-2">
+                В данный момент мы не можем отправить вам сообщение для подтверждения Email. Попробуйте повторить отправку через несколько минут
+                либо свяжитесь с технической поддержкой
+            </p>
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton Unelevated="true" Type="button" OnClick="@(e => { IsSendingFailed = false; })">Закрыть</MatButton>
+        </MatDialogActions>
+    </MatDialog>
+</MatThemeProvider>
+<MatToastContainer />
+
+
+@code {
+    [Parameter]
+    public string Email { get; set; }
+
+    private string Password { get; set; }
+
+    private bool IsSendingFailed { get; set; }
+
+    private bool IsSendingPerformed { get; set; }
+
+    MatTheme theme = new MatTheme
+    {
+        Primary = "#FF8740", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    private async Task SendEmail()
+    {
+        IsSendingPerformed = true;
+
+        var password = SecurityService.GeneratePassword();
+
+        Password = password;
+
+        var text = "Код подвтерждения электронной почты: <b>" + password + "</b>";
+        var emailMessage = EmailService.CreateEmailMessage(text, "Подтверждение Email", ("ilia.nechaeff@yandex.ru", "Edurem"), (Email, ""));
+        EmailService.SendCompleted += OnSendCompleted;
+
+        await EmailService.SendEmailAsync(emailMessage, ("smtp.yandex.ru", 25, false), ("ilia.nechaeff@yandex.ru", "02081956Qw"));
+    }
+
+    private void Show(MatToastType type, string title, string message, string icon = "")
+    {
+        Toaster.Add(message, type, title, icon);
+    }
+
+    private void OnSendCompleted(object sender, SendCompletedEventArgs e)
+    {
+        if (e.IsFailed)
+        {
+            IsSendingFailed = true;
+        }
+        else
+        {
+            Show(MatToastType.Success, "Сообщение отправлено", "На указанную почту было отправлено сообщение с кодом подтверждения");
+        }
+
+        IsSendingPerformed = false;
+    }
+}

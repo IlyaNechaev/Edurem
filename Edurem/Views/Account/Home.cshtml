@@ -1,0 +1,10 @@
+﻿@model Edurem.Models.User
+
+@{
+    ViewData["Title"] = Model.Surname + " " + Model.Name;
+    ViewData["ApplicationName"] = "Edurem";
+    ViewData["AuthenticatedUser"] = Model;
+    Layout = "_AccountLayout";
+}
+<div class="container-fluid">
+</div>

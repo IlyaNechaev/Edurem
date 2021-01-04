@@ -1,0 +1,142 @@
+﻿@inject IJSRuntime JSRuntime;
+
+<table>
+    <tr>
+        <td>
+            <select @onchange="DateDayChanged" class="form-control">
+                @if (Day == 0)
+                {
+                    <option value="0" selected>-</option>
+                }
+                else
+                {
+                    <option value="0">-</option>
+                }
+                @foreach (var dayNumber in Enumerable.Range(1, 31))
+                {
+                    @if (dayNumber == Day)
+                    {
+                        <option value="@dayNumber" selected>@dayNumber</option>
+                    }
+                    else
+                    {
+                        <option value="@dayNumber">@dayNumber</option>
+                    }
+                }
+            </select>
+        </td>
+        <td>
+            <select @onchange="DateMonthChanged" class="form-control">
+                @if (Month == 0)
+                {
+                    <option value="0" selected>-</option>
+                }
+                else
+                {
+                    <option value="0">-</option>
+                }
+                @foreach (var monthNumber in Enumerable.Range(1, 12))
+                {
+                    @if (monthNumber == Month)
+                    {
+                        <option value="@monthNumber" selected>@Months[monthNumber - 1]</option>
+                    }
+                    else
+                    {
+                        <option value="@monthNumber">@Months[monthNumber - 1]</option>
+                    }
+                }
+            </select>
+        </td>
+        <td>
+            <select @onchange="DateYearChanged" class="form-control">
+                @if (Year == 0)
+                {
+                    <option value="0" selected>-</option>
+                }
+                else
+                {
+                    <option value="0">-</option>
+                }
+                @foreach (var year in Enumerable.Range(1900, DateTime.Now.Year - 1899).Reverse())
+                {
+                    @if (year == Year)
+                    {
+                        <option value="@year" selected>@year</option>
+                    }
+                    else
+                    {
+                        <option value="@year">@year</option>
+                    }
+                }
+            </select>
+        </td>
+    </tr>
+</table>
+
+@code {
+    public int Day { get; set; }
+    public int Month { get; set; }
+    public int Year { get; set; }
+
+    public string[] Months { get; set; } =
+    {
+        "Январь",
+        "Февраль",
+        "Март",
+        "Апрель",
+        "Май",
+        "Июнь",
+        "Июль",
+        "Август",
+        "Сентябрь",
+        "Октябрь",
+        "Ноябрь",
+        "Декабрь"
+    };
+
+    [Parameter]
+    public string DefaultDate { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var DateComponents = (DefaultDate == null || DefaultDate == "") ? new string[] { "0", "0", "0" } : DefaultDate.Split('.');
+
+        (Day, Month, Year) = (int.Parse(DateComponents[0]), int.Parse(DateComponents[1]), int.Parse(DateComponents[2]));
+
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        Task.Run(() => { UpdateDate(); });
+        Task.WaitAll();
+    }
+
+    public async void UpdateDate()
+    {
+        string DateValue = string.Format("{0}.{1}.{2}", (Day == 0 ? "" : "0") + Day.ToString(),
+                                                        (Month == 0 ? "" : "0") + Month.ToString(), 
+                                                        (Year == 0 ? "" : "0") + Year.ToString());
+        await JSRuntime.InvokeVoidAsync("updateDate", DateValue);
+    }
+
+    public Task DateDayChanged(ChangeEventArgs e)
+    {
+        Day = Convert.ToInt32(e.Value.ToString());
+        return new Task(UpdateDate);
+    }
+
+    public Task DateMonthChanged(ChangeEventArgs e)
+    {
+        Month = Convert.ToInt32(e.Value.ToString());
+        return new Task(UpdateDate);
+    }
+
+    public Task DateYearChanged(ChangeEventArgs e)
+    {
+        Year = Convert.ToInt32(e.Value.ToString());
+        return new Task(UpdateDate);
+    }
+}

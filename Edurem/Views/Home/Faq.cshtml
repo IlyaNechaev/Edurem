@@ -1,0 +1,83 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration AppConfiguration
+
+@{
+    ViewData["Title"] = "FAQ";
+}
+<div class="container">
+    <h1 style="font-size:40px" class="display-3 mt-4">Часто задаваемые вопросы</h1>
+
+    <div class="accordion mt-4" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" style="font-size:20px" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Что такое @AppConfiguration["ApplicationName"]?
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div style="font-family:'Times New Roman'; font-size:19px">
+                        <b>@AppConfiguration["ApplicationName"]</b> - это универсальная платформа, которая берет на себя организацию дистанционного обучения.<br />
+                        Здесь собраны все сервисы необходимые для проведения лекций, семинаров и контрольной проверки знаний.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed text-left" style="font-size:20px" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Какие преимущества удаленного формата обучения?
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <ul style="font-family:'Times New Roman'; font-size:19px">
+                        <li>
+                            <b>Всегда быть на связи.</b><br />
+                            Заболели, опоздали на электричку или встали в утреннюю пробку? Такая ситуация знакома не только студентам, но и большинству преподавателей.
+                            И если одногруппники всегда поделятся конспектами, то провести занятие так просто не получится.
+                        </li>
+                        <li class="mt-4">
+                            <b>Экономия времени.</b><br />
+                            Студенты тратят весомое количество времени на дорогу между Университетом и домом, а иногда в расписании занятий возникают "окна". 
+                            Это приводит к проблемам для многих учащихся, поскольку они хотят устроиться на работу и уже получать опыт.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed text-left" style="font-size:20px" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
+                        Какой функционал предоставляет @AppConfiguration["ApplicationName"]?
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <ul style="font-family:'Times New Roman'; font-size:19px">
+                        <li>
+                            <b>Видеоконференции.</b><br />
+                            Нет необходимости использовать сторонние сервисы. Организуйте и участвуйте в онлайн-вебинарах, задавайте вопросы в чате, 
+                            а также при необходимости записывайте занятия, чтобы пересмотреть их в любое удобное время.
+                        </li>
+                        <li class="mt-4">
+                            <b>Индивиуальные разделы для каждого задания.</b><br />
+
+                        </li>
+                        <li class="mt-4">
+                            <b>3.</b><br />
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
