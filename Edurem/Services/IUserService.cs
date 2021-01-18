@@ -23,6 +23,9 @@ namespace Edurem.Services
         // Возвращает авторизованного пользователя
         public User GetAuthenticatedUser(HttpContext context);
 
-        public Task ChangeUser(User user);
+        public Task UpdateUser(User user);
+
+        // Возвращает настройки уведомлений для данного пользователя
+        public NotificationOptions GetUserNotificationOptions(User user);
     }
 }

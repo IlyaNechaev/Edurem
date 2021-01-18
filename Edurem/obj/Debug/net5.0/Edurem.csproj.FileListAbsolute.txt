@@ -14,7 +14,6 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Blazo
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\MatBlazor.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.AspNetCore.Razor.Language.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.Bcl.HashCode.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.CodeAnalysis.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.CodeAnalysis.CSharp.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
@@ -101,7 +100,6 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Edure
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Edurem.RazorComponent.input.cache
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\DatePicker.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\GenderPicker.razor.g.cs
-D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Pages\_Imports.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Edurem.RazorComponent.output.cache
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Edurem.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Edurem.TagHelpers.input.cache
@@ -109,7 +107,6 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Edure
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Edurem.RazorCoreGenerate.cache
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\DatePicker.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\GenderPicker.razor.g.cs
-D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Pages\_Imports.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Administration\Login.cshtml.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Administration\Register.cshtml.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Home\Faq.cshtml.g.cs
@@ -150,3 +147,7 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\runti
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\ConfirmEmail.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\ConfirmEmail.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\GitLabApiClient.dll
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\NotificationOprions.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\NotificationOprions.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.Bcl.HashCode.dll
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Docker.DotNet.dll

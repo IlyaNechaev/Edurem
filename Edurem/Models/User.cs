@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Edurem.Models
 {
-    [Table("Users")]
+    [Table("users")]
     public class User
     {
         [Key]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Edurem.Models
 {
-    [Table("UsersRoles")]
+    [Table("users_roles")]
     public class UserRole
     {
         public int UserId { get; set; }

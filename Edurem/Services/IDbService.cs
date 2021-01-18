@@ -28,6 +28,19 @@ namespace Edurem.Services
         public Task RemoveUserAsync(User user);
 
         // Изменение пользователя. Выполняется по Id
-        public Task SetUser(User user);
+        /// <summary>
+        /// Изменение записи пользователя, которая имеется в БД. Выполняется по соответствию ID
+        /// </summary>
+        /// <param name="user">
+        /// Измененная запись пользователя
+        /// </param>
+        public Task UpdateUser(User user);
+
+        // Найти настройки уведомлений для данного пользователя
+        public NotificationOptions GetUserNotificationOptions(User user);
+
+        public void SetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName, ValueType propertyValue);
+
+        public ValueType GetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName);
     }
 }

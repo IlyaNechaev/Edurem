@@ -1,0 +1,42 @@
+﻿<MatThemeProvider Theme="@theme">
+    <div class="row align-items-center mt-3">
+        <div class="col-1">
+            <MatCheckbox @bind-Value="NotificationOptions.NewTasksToEmail" @onchange="OnValueChanged"></MatCheckbox>
+        </div>
+        <div class="col-10">
+            <p class="mb-0" style="font-size: 18px">Публикация новых заданий</p>
+        </div>
+    </div>
+    <div class="row align-items-center mt-3">
+        <div class="col-1">
+            <MatCheckbox @bind-Value="NotificationOptions.TeacherMessageToEmail" @onchange="OnValueChanged"></MatCheckbox>
+        </div>
+        <div class="col-10">
+            <p class="mb-0" style="font-size: 18px">Ответ преподавателя на ваше сообщение</p>
+        </div>
+    </div>
+    <div class="row align-items-center mt-3">
+        <div class="col-1">
+            <MatCheckbox @bind-Value="NotificationOptions.TaskResultToEmail" @onchange="OnValueChanged"></MatCheckbox>
+        </div>
+        <div class="col-10">
+            <p class="mb-0" style="font-size: 18px">Результаты проверки преподавателем вашего задания</p>
+        </div>
+    </div>
+</MatThemeProvider>
+
+@code {
+
+    MatTheme theme = new MatTheme
+    {
+        Secondary = "#007bff"
+    };
+
+    [Parameter]
+    public NotificationOptions NotificationOptions { get; set; }
+
+    private async Task OnValueChanged()
+    {
+        Console.WriteLine("Value changed to {0}, {1}, {2}", NotificationOptions.NewTasksToEmail, NotificationOptions.TeacherMessageToEmail, NotificationOptions.TaskResultToEmail);
+    }
+}

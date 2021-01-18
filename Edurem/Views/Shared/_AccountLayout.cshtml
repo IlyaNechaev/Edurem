@@ -18,17 +18,21 @@
 <body>
     <app>
         <div class="sidebar">
-            <component>@(await Html.RenderComponentAsync<Edurem.Components.NavMenu>(RenderMode.Server, new { User = ViewData["AuthenticatedUser"] }))</component>
+            <component>@(await Html.RenderComponentAsync<Edurem.Components.NavMenu>(RenderMode.Server, new { ApplicationName = @AppConfiguration["ApplicationName"] }))</component>
         </div>
 
         <div class="main">
             <div class="top-row px-4" style="z-index: 99">
-                <a class="nav-link text-dark font-weight-bold" style="font-size: 20px" href="/home">Edurem</a>
+                <a class="nav-link text-dark" style="font-size: 20px" href="/account/home">
+                    @($"{((User)ViewData["AuthenticatedUser"]).Surname} {((User)ViewData["AuthenticatedUser"]).Name}")
+                </a>
             </div>
             <div class="content px-4">
                 <div class="container">
                     <div class="row border-bottom">
-                        <span class="h1 font-weight-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">@ViewData["Title"]</span>
+                        <span class="h1 font-weight-bold" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+                            @ViewData["Title"]
+                        </span>
                     </div>
                     @RenderBody()
                 </div>

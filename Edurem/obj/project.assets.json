@@ -22,6 +22,19 @@
           "buildMultiTargeting/BlazorAnimate.props": {}
         }
       },
+      "Docker.DotNet/3.125.4": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "System.Buffers": "4.5.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Docker.DotNet.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Docker.DotNet.dll": {}
+        }
+      },
       "GitLabApiClient/1.7.0": {
         "type": "package",
         "dependencies": {
@@ -46,10 +59,10 @@
           "lib/netstandard1.0/Humanizer.dll": {}
         }
       },
-      "MailKit/2.10.0": {
+      "MailKit/2.10.1": {
         "type": "package",
         "dependencies": {
-          "MimeKit": "2.10.0"
+          "MimeKit": "2.10.1"
         },
         "compile": {
           "lib/netstandard2.0/MailKit.dll": {}
@@ -805,21 +818,20 @@
           "ref/netstandard1.3/_._": {}
         }
       },
-      "MimeKit/2.10.0": {
+      "MimeKit/2.10.1": {
         "type": "package",
         "dependencies": {
           "Portable.BouncyCastle": "1.8.8",
           "System.Buffers": "4.5.1",
-          "System.Data.DataSetExtensions": "4.5.0",
           "System.Reflection.TypeExtensions": "4.4.0",
           "System.Security.Cryptography.Pkcs": "4.7.0",
           "System.Text.Encoding.CodePages": "4.4.0"
         },
         "compile": {
-          "lib/netstandard2.0/MimeKit.dll": {}
+          "lib/netstandard2.1/MimeKit.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/MimeKit.dll": {}
+          "lib/netstandard2.1/MimeKit.dll": {}
         }
       },
       "MinVer/2.0.0": {
@@ -1301,15 +1313,6 @@
         },
         "compile": {
           "ref/netstandard1.3/_._": {}
-        }
-      },
-      "System.Data.DataSetExtensions/4.5.0": {
-        "type": "package",
-        "compile": {
-          "ref/netstandard2.0/System.Data.DataSetExtensions.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/System.Data.DataSetExtensions.dll": {}
         }
       },
       "System.Diagnostics.Debug/4.3.0": {
@@ -2242,6 +2245,21 @@
         "staticwebassets/blazorAnimateInterop.js"
       ]
     },
+    "Docker.DotNet/3.125.4": {
+      "sha512": "qStC9eSTewp/ySdN484fWhe9ZJZxuQtLRCMHnBH4GLbSS94A46n5OZp7nmRbe65iXjL4pIgfC7jiHhrEziCg9A==",
+      "type": "package",
+      "path": "docker.dotnet/3.125.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "docker.dotnet.3.125.4.nupkg.sha512",
+        "docker.dotnet.nuspec",
+        "icon.png",
+        "lib/netstandard2.0/Docker.DotNet.dll",
+        "lib/netstandard2.0/Docker.DotNet.pdb"
+      ]
+    },
     "GitLabApiClient/1.7.0": {
       "sha512": "su6z8EdghQpk/3UDc5OzsGnOOBMNpTu0G2Lqjt1/IBcDkFvelFKS645h4fNrI2Awvni2DIl//Z/A3HczY9Kd9w==",
       "type": "package",
@@ -2268,10 +2286,10 @@
         "lib/netstandard1.0/Humanizer.dll"
       ]
     },
-    "MailKit/2.10.0": {
-      "sha512": "+MuVBWstHANt4iescbL0zzOZX+OllALJQf+uDdIPsCx+mE3LsNthpJv/8em93VzGoFev1WGLMJfLjCBreg8STg==",
+    "MailKit/2.10.1": {
+      "sha512": "CG0utzggjYutAzlOnuY+2yS2HGL4WFTbAYtU73vBSGdHKMXNRnVy9onITGqz1Rmmq5Q63de/ZJBXzNyNPCx9Mw==",
       "type": "package",
-      "path": "mailkit/2.10.0",
+      "path": "mailkit/2.10.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2291,7 +2309,7 @@
         "lib/netstandard2.0/MailKit.dll",
         "lib/netstandard2.0/MailKit.pdb",
         "lib/netstandard2.0/MailKit.xml",
-        "mailkit.2.10.0.nupkg.sha512",
+        "mailkit.2.10.1.nupkg.sha512",
         "mailkit.nuspec"
       ]
     },
@@ -3621,10 +3639,10 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "MimeKit/2.10.0": {
-      "sha512": "AHbCxNo6Ue98q/r81TKdCisRJSOv5EF0PWctUqhtzjDJx3xeTxguxZHyZy3ATbHfHFDRVR7TeZgmsfRP7dXs6g==",
+    "MimeKit/2.10.1": {
+      "sha512": "rBpIsOdgpMvcNraBDgQSSNCk/MVxxFv7VX2Qq1WnFJ4AnvjIU+r12gaKs6r+SRvCEZWvC5CQlKHuoQbIbO/brA==",
       "type": "package",
-      "path": "mimekit/2.10.0",
+      "path": "mimekit/2.10.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3644,7 +3662,10 @@
         "lib/netstandard2.0/MimeKit.dll",
         "lib/netstandard2.0/MimeKit.pdb",
         "lib/netstandard2.0/MimeKit.xml",
-        "mimekit.2.10.0.nupkg.sha512",
+        "lib/netstandard2.1/MimeKit.dll",
+        "lib/netstandard2.1/MimeKit.pdb",
+        "lib/netstandard2.1/MimeKit.xml",
+        "mimekit.2.10.1.nupkg.sha512",
         "mimekit.nuspec"
       ]
     },
@@ -4466,25 +4487,6 @@
         "ref/xamarinwatchos10/_._",
         "system.console.4.3.0.nupkg.sha512",
         "system.console.nuspec"
-      ]
-    },
-    "System.Data.DataSetExtensions/4.5.0": {
-      "sha512": "221clPs1445HkTBZPL+K9sDBdJRB8UN8rgjO3ztB0CQ26z//fmJXtlsr6whGatscsKGBrhJl5bwJuKSA8mwFOw==",
-      "type": "package",
-      "path": "system.data.datasetextensions/4.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/net45/_._",
-        "lib/netstandard2.0/System.Data.DataSetExtensions.dll",
-        "ref/net45/_._",
-        "ref/netstandard2.0/System.Data.DataSetExtensions.dll",
-        "system.data.datasetextensions.4.5.0.nupkg.sha512",
-        "system.data.datasetextensions.nuspec",
-        "useSharedDesignerContext.txt",
-        "version.txt"
       ]
     },
     "System.Diagnostics.Debug/4.3.0": {
@@ -7478,8 +7480,9 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "BlazorAnimate >= 3.0.0",
+      "Docker.DotNet >= 3.125.4",
       "GitLabApiClient >= 1.7.0",
-      "MailKit >= 2.10.0",
+      "MailKit >= 2.10.1",
       "MatBlazor >= 2.8.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.1",
       "Pomelo.EntityFrameworkCore.MySql >= 3.2.4"
@@ -7532,13 +7535,17 @@
             "target": "Package",
             "version": "[3.0.0, )"
           },
+          "Docker.DotNet": {
+            "target": "Package",
+            "version": "[3.125.4, )"
+          },
           "GitLabApiClient": {
             "target": "Package",
             "version": "[1.7.0, )"
           },
           "MailKit": {
             "target": "Package",
-            "version": "[2.10.0, )"
+            "version": "[2.10.1, )"
           },
           "MatBlazor": {
             "target": "Package",

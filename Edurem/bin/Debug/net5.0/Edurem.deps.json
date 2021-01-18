@@ -26,8 +26,9 @@
       "Edurem/1.0.0": {
         "dependencies": {
           "BlazorAnimate": "3.0.0",
+          "Docker.DotNet": "3.125.4",
           "GitLabApiClient": "1.7.0",
-          "MailKit": "2.10.0",
+          "MailKit": "2.10.1",
           "MatBlazor": "2.8.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.1",
           "Pomelo.EntityFrameworkCore.MySql": "3.2.4",
@@ -177,7 +178,7 @@
           "System.Console.Reference": "5.0.0.0",
           "System.Core": "4.0.0.0",
           "System.Data.Common": "5.0.0.0",
-          "System.Data.DataSetExtensions.Reference": "4.0.0.0",
+          "System.Data.DataSetExtensions": "4.0.0.0",
           "System.Data": "4.0.0.0",
           "System.Diagnostics.Contracts": "5.0.0.0",
           "System.Diagnostics.Debug.Reference": "5.0.0.0",
@@ -338,6 +339,21 @@
           "lib/netstandard2.0/BlazorAnimate.dll": {}
         }
       },
+      "Docker.DotNet/3.125.4": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "System.Buffers": "4.5.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Docker.DotNet.dll": {
+            "assemblyVersion": "3.125.0.0",
+            "fileVersion": "3.125.4.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Docker.DotNet.dll": {}
+        }
+      },
       "GitLabApiClient/1.7.0": {
         "dependencies": {
           "Newtonsoft.Json": "12.0.3"
@@ -363,14 +379,14 @@
           }
         }
       },
-      "MailKit/2.10.0": {
+      "MailKit/2.10.1": {
         "dependencies": {
-          "MimeKit": "2.10.0"
+          "MimeKit": "2.10.1"
         },
         "runtime": {
           "lib/netstandard2.0/MailKit.dll": {
             "assemblyVersion": "2.10.0.0",
-            "fileVersion": "2.10.0.0"
+            "fileVersion": "2.10.1.0"
           }
         },
         "compile": {
@@ -962,23 +978,22 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "MimeKit/2.10.0": {
+      "MimeKit/2.10.1": {
         "dependencies": {
           "Portable.BouncyCastle": "1.8.8",
           "System.Buffers": "4.5.1",
-          "System.Data.DataSetExtensions": "4.5.0",
           "System.Reflection.TypeExtensions": "4.4.0",
           "System.Security.Cryptography.Pkcs": "4.7.0",
           "System.Text.Encoding.CodePages": "4.5.1"
         },
         "runtime": {
-          "lib/netstandard2.0/MimeKit.dll": {
+          "lib/netstandard2.1/MimeKit.dll": {
             "assemblyVersion": "2.10.0.0",
-            "fileVersion": "2.10.0.0"
+            "fileVersion": "2.10.1.0"
           }
         },
         "compile": {
-          "lib/netstandard2.0/MimeKit.dll": {}
+          "lib/netstandard2.1/MimeKit.dll": {}
         }
       },
       "MinVer/2.0.0": {},
@@ -1307,7 +1322,6 @@
           "System.Text.Encoding": "4.3.0"
         }
       },
-      "System.Data.DataSetExtensions/4.5.0": {},
       "System.Diagnostics.Debug/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "2.1.2",
@@ -2690,7 +2704,7 @@
         },
         "compileOnly": true
       },
-      "System.Data.DataSetExtensions.Reference/4.0.0.0": {
+      "System.Data.DataSetExtensions/4.0.0.0": {
         "compile": {
           "System.Data.DataSetExtensions.dll": {}
         },
@@ -3527,6 +3541,13 @@
       "path": "blazoranimate/3.0.0",
       "hashPath": "blazoranimate.3.0.0.nupkg.sha512"
     },
+    "Docker.DotNet/3.125.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qStC9eSTewp/ySdN484fWhe9ZJZxuQtLRCMHnBH4GLbSS94A46n5OZp7nmRbe65iXjL4pIgfC7jiHhrEziCg9A==",
+      "path": "docker.dotnet/3.125.4",
+      "hashPath": "docker.dotnet.3.125.4.nupkg.sha512"
+    },
     "GitLabApiClient/1.7.0": {
       "type": "package",
       "serviceable": true,
@@ -3541,12 +3562,12 @@
       "path": "humanizer.core/2.2.0",
       "hashPath": "humanizer.core.2.2.0.nupkg.sha512"
     },
-    "MailKit/2.10.0": {
+    "MailKit/2.10.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+MuVBWstHANt4iescbL0zzOZX+OllALJQf+uDdIPsCx+mE3LsNthpJv/8em93VzGoFev1WGLMJfLjCBreg8STg==",
-      "path": "mailkit/2.10.0",
-      "hashPath": "mailkit.2.10.0.nupkg.sha512"
+      "sha512": "sha512-CG0utzggjYutAzlOnuY+2yS2HGL4WFTbAYtU73vBSGdHKMXNRnVy9onITGqz1Rmmq5Q63de/ZJBXzNyNPCx9Mw==",
+      "path": "mailkit/2.10.1",
+      "hashPath": "mailkit.2.10.1.nupkg.sha512"
     },
     "MatBlazor/2.8.0": {
       "type": "package",
@@ -3877,12 +3898,12 @@
       "path": "microsoft.win32.primitives/4.3.0",
       "hashPath": "microsoft.win32.primitives.4.3.0.nupkg.sha512"
     },
-    "MimeKit/2.10.0": {
+    "MimeKit/2.10.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AHbCxNo6Ue98q/r81TKdCisRJSOv5EF0PWctUqhtzjDJx3xeTxguxZHyZy3ATbHfHFDRVR7TeZgmsfRP7dXs6g==",
-      "path": "mimekit/2.10.0",
-      "hashPath": "mimekit.2.10.0.nupkg.sha512"
+      "sha512": "sha512-rBpIsOdgpMvcNraBDgQSSNCk/MVxxFv7VX2Qq1WnFJ4AnvjIU+r12gaKs6r+SRvCEZWvC5CQlKHuoQbIbO/brA==",
+      "path": "mimekit/2.10.1",
+      "hashPath": "mimekit.2.10.1.nupkg.sha512"
     },
     "MinVer/2.0.0": {
       "type": "package",
@@ -4135,13 +4156,6 @@
       "sha512": "sha512-DHDrIxiqk1h03m6khKWV2X8p/uvN79rgSqpilL6uzpmSfxfU5ng8VcPtW4qsDsQDHiTv6IPV9TmD5M/vElPNLg==",
       "path": "system.console/4.3.0",
       "hashPath": "system.console.4.3.0.nupkg.sha512"
-    },
-    "System.Data.DataSetExtensions/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-221clPs1445HkTBZPL+K9sDBdJRB8UN8rgjO3ztB0CQ26z//fmJXtlsr6whGatscsKGBrhJl5bwJuKSA8mwFOw==",
-      "path": "system.data.datasetextensions/4.5.0",
-      "hashPath": "system.data.datasetextensions.4.5.0.nupkg.sha512"
     },
     "System.Diagnostics.Debug/4.3.0": {
       "type": "package",
@@ -5251,7 +5265,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Data.DataSetExtensions.Reference/4.0.0.0": {
+    "System.Data.DataSetExtensions/4.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

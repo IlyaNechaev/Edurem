@@ -41,9 +41,11 @@ namespace Edurem.Services
 
             return user;
         }
+
         public async Task AddUserAsync(User user, List<Role> userRoles = null)
         {
             await Context.Users.AddAsync(user);
+            await Context.NotificationOptions.AddAsync(new NotificationOptions() { UserToNotify = user });
             await Context.SaveChangesAsync();
 
             if (userRoles != null)
@@ -87,7 +89,7 @@ namespace Edurem.Services
             }
         }
 
-        public async Task SetUser(User newUser)
+        public async Task UpdateUser(User newUser)
         {
             var users = Context.Users.ToList();
 
@@ -105,6 +107,37 @@ namespace Edurem.Services
 
                 await Context.SaveChangesAsync();
             }
+        }
+
+        public NotificationOptions GetUserNotificationOptions(User user)
+        {
+            return Context.NotificationOptions.AsQueryable().FirstOrDefault(not => not.UserId == user.Id);
+        }
+
+        public void SetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName, ValueType propertyValue)
+        {
+            try
+            {
+                Context.Entry(entity).Property(propertyName).CurrentValue = propertyValue;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        public ValueType GetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName)
+        {
+            ValueType result = default(ValueType);
+            try
+            {
+                result = (ValueType)Context.Entry(entity).Property(propertyName).CurrentValue;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return result;
         }
     }
 }

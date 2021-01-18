@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using MimeKit;
 
 namespace Edurem.Services
 {
@@ -18,12 +19,15 @@ namespace Edurem.Services
     {
         IDbService DbService;
         ISecurityService SecurityService;
+        IEmailService<MimeMessage> EmailService;
         User AuthenticatedUser;
         public UserService([FromServices] IDbService dbService,
-                           [FromServices] ISecurityService securityService)
+                           [FromServices] ISecurityService securityService,
+                           [FromServices] IEmailService<MimeMessage> emailService)
         {
             DbService = dbService;
             SecurityService = securityService;
+            EmailService = emailService;
         }
 
         public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterViewModel registerModel)
@@ -141,16 +145,29 @@ namespace Edurem.Services
             return AuthenticatedUser ??= DbService.GetUserByLogin(context.User.Identity.Name);
         }
 
-        public async Task ChangeUser(User user)
+        public async Task UpdateUser(User user)
         {
             try
             {
-                await DbService.SetUser(user);
+                await DbService.UpdateUser(user);
             }
             catch(DatabaseServiceException)
             {
                 throw;
             }
+        }
+
+        public NotificationOptions GetUserNotificationOptions(User user)
+        {
+            return DbService.GetUserNotificationOptions(user);
+        }
+
+        public void SendUserEmailConfirmation(User user)
+        {
+            var emailCode = DbService.GetEntityProperty<User, string>(user, "emailCode") ?? SecurityService.GeneratePassword();
+
+            // Отправить письмо
+            EmailService.CreateEmailMessage()
         }
     }
 }

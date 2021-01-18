@@ -14,6 +14,7 @@ namespace Edurem.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UsersRoles { get; set; }
+        public DbSet<NotificationOptions> NotificationOptions { get; set; }
 
         public EduremDbContext(DbContextOptions<EduremDbContext> builder) : base(builder)
         {
@@ -24,25 +25,14 @@ namespace Edurem.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<UserRole>()
-                .HasKey(userRole => new { userRole.UserId, userRole.RoleId });
+            // Добавление конфигураций для моделей
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
 
-            builder.Entity<User>()
-                .HasKey(user => user.Id);
-
-            builder.Entity<User>()
-                .HasMany(user => user.Roles)
-                .WithOne(userRole => userRole.User);
-
-            builder.Entity<Role>()
-                .HasMany(role => role.Users)
-                .WithOne(userRole => userRole.Role);
-
-            builder.Entity<Role>().HasData(
-                Enum.GetValues(typeof(Roles))
-                    .Cast<Roles>()
-                    .Select(role => new Role(role))
-                );
+            // Дополнительная конфигурация
+            builder.Entity<NotificationOptions>()
+                .HasKey(options => options.UserId);
         }
     }
 }

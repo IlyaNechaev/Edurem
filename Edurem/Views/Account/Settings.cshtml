@@ -1,17 +1,18 @@
-﻿@model Edurem.Models.User
+﻿@model Edurem.ViewModels.SettingsViewModel
 
 @{
     ViewData["Title"] = "Настройки";
     ViewData["ApplicationName"] = "Edurem";
-    ViewData["AuthenticatedUser"] = Model;
+    ViewData["AuthenticatedUser"] = Model.Profile;
     Layout = "_AccountLayout";
 }
 
 <form class="mt-5" asp-area="" asp-controller="Account" asp-action="Settings">
+    <!--Окно "ПРОФИЛЬ". Отображает личные данные и данные для входа в систему-->
     <div class="row justify-content-center">
         <div class="col-10 mb-1">
             <p class="mb-0" style="font-size: 20px; font-family: Algerian">
-                ЛИЧНАЯ ИНФОРМАЦИЯ
+                ПРОФИЛЬ
             </p>
         </div>
     </div>
@@ -20,22 +21,44 @@
             <div class="form-group row justify-content-around">
                 <div class="col-9 col-md-5">
                     <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Имя</p>
-                    <input class="form-control" style="font-size: 19px" asp-for="Name" />
-                    <span asp-validation-for="Name" class="text-danger" style="font-weight: bold"></span>
+                    <input placeholder="Имя" class="form-control" style="font-size: 19px" asp-for="Profile.Name" />
+                    <span asp-validation-for="Profile.Name" class="text-danger" style="font-weight: bold"></span>
                 </div>
                 <div class="col-9 col-md-5">
                     <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Фамилия</p>
-                    <input class="form-control" style="font-size: 19px" asp-for="Surname" />
-                    <span asp-validation-for="Surname" class="text-danger" style="font-weight: bold"></span>
+                    <input placeholder="Фамилия" class="form-control" style="font-size: 19px" asp-for="Profile.Surname" />
+                    <span asp-validation-for="Profile.Surname" class="text-danger" style="font-weight: bold"></span>
                 </div>
             </div>
             <div class="form-group row justify-content-around">
                 <div class="col-9 col-md-5">
+                    <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Логин</p>
+                    <input placeholder="Логин" class="form-control" style="font-size: 19px" asp-for="Profile.Login" />
+                    <span asp-validation-for="Profile.Login" class="text-danger" style="font-weight: bold"></span>
+                </div>
+                <div class="col-9 col-md-5 mt-4">
+                    <a style="font-size: 19px" href="#">Сменить пароль</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    @if (Model.IsActivated)
+    <!--Окно "КОНТАКТНЫЕ ДАННЫЕ". Отображает информацию о средствах связи с владельцев аккаунта и оповещения-->
+    <div class="row justify-content-center mt-3">
+        <div class="col-10 mb-1">
+            <p class="mb-0" style="font-size: 20px; font-family: Algerian">
+                КОНТАКТНЫЕ ДАННЫЕ
+            </p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10 border rounded">
+            <div class="form-group row justify-content-center">
+                <div class="col-9 col-md-7">
+                    @if (Model.Profile.IsActivated)
                     {
                         <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Почта</p>
-                        <input class="form-control" style="font-size: 19px" asp-for="Email" readonly />
+                        <input class="form-control" style="font-size: 19px" asp-for="Profile.Email" readonly />
                     }
                     else
                     {
@@ -45,17 +68,14 @@
                                 <i class="far fa-question-circle ml-2" style="color:red"></i>
                             </a>
                         </p>
-                        <component>@(await Html.RenderComponentAsync<Edurem.Components.ConfirmEmail>(RenderMode.ServerPrerendered, new { Email = Model.Email }))</component>
+                        <component>@(await Html.RenderComponentAsync<Edurem.Components.ConfirmEmail>(RenderMode.ServerPrerendered, new { Email = Model.Profile.Email }))</component>
                     }
-                </div>
-                <div class="col-9 col-md-5">
-                    <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Фамилия</p>
-                    <input class="form-control" style="font-size: 19px" asp-for="Surname" />
-                    <span asp-validation-for="Surname" class="text-danger" style="font-weight: bold"></span>
                 </div>
             </div>
         </div>
     </div>
+
+    <!--Окно "УВЕДОМЛЕНИЯ". Отображает о каких событиях пользователь будет уведомлен по контактным данным, а о каких не будет-->
     <div class="row justify-content-center mt-3">
         <div class="col-10 mb-1">
             <p class="mb-0" style="font-size: 20px; font-family: Algerian">
@@ -65,10 +85,12 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-10 border rounded">
-            <div class="form-group row justify-content-around">
-
-
+            <div class="form-group row justify-content-md-start justify-content-center ml-md-4 ml-0">
+                <div class="col-12">
+                    <component>@(await Html.RenderComponentAsync<Edurem.Components.NotificationOprions>(RenderMode.ServerPrerendered, new { NotificationOptions = Model.Notifications }))</component>
+                </div>
             </div>
         </div>
     </div>
+
 </form>

@@ -47,13 +47,17 @@
               "target": "Package",
               "version": "[3.0.0, )"
             },
+            "Docker.DotNet": {
+              "target": "Package",
+              "version": "[3.125.4, )"
+            },
             "GitLabApiClient": {
               "target": "Package",
               "version": "[1.7.0, )"
             },
             "MailKit": {
               "target": "Package",
-              "version": "[2.10.0, )"
+              "version": "[2.10.1, )"
             },
             "MatBlazor": {
               "target": "Package",

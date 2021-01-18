@@ -15,7 +15,7 @@ namespace Edurem.Models
     }
 
 
-    [Table("Roles")]
+    [Table("roles")]
     public class Role
     {
         [Key]

@@ -6,14 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="BlazorAnimate" Version="3.0.0" />
+    <PackageReference Include="Docker.DotNet" Version="3.125.4" />
     <PackageReference Include="GitLabApiClient" Version="1.7.0" />
-    <PackageReference Include="MailKit" Version="2.10.0" />
+    <PackageReference Include="MailKit" Version="2.10.1" />
     <PackageReference Include="MatBlazor" Version="2.8.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\FileSystem\Dockerfiles\Python\" />
     <Folder Include="wwwroot\FileSystem\Images\" />
   </ItemGroup>
 

@@ -1,8 +1,10 @@
 ﻿using Edurem.Data;
 using Edurem.Models;
 using Edurem.Services;
+using Edurem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -24,7 +26,7 @@ namespace Edurem.Controllers
 
         public IActionResult Index()
         {
-            // Получаем статус пользователя из клеймов
+            // Получаем статус пользователя из Claims
             var userStatus = (Status)Enum.Parse(typeof(Status), HttpContext.User.Claims.First(claim => claim.Type == "Status").Value);
 
             switch (userStatus)
@@ -39,7 +41,7 @@ namespace Edurem.Controllers
         }
 
         [Route("home")]
-        public IActionResult Home()
+        public IActionResult Home([FromServices] IConfiguration config)
         {
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
             return View(authenticatedUser);
@@ -50,7 +52,14 @@ namespace Edurem.Controllers
         public IActionResult Settings()
         {
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
-            return View(authenticatedUser);
+            var userNotificationOptions = UserService.GetUserNotificationOptions(authenticatedUser);
+
+            var settings = new SettingsViewModel();
+
+            settings.Profile = authenticatedUser;
+            settings.Notifications = userNotificationOptions;
+
+            return View(settings);
         }
 
 
@@ -66,7 +75,7 @@ namespace Edurem.Controllers
             {
                 try
                 {
-                    await UserService.ChangeUser(userModel);
+                    await UserService.UpdateUser(userModel);
                 }
                 catch (DatabaseServiceException)
                 {
