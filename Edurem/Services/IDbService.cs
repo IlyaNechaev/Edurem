@@ -39,7 +39,7 @@ namespace Edurem.Services
         // Найти настройки уведомлений для данного пользователя
         public NotificationOptions GetUserNotificationOptions(User user);
 
-        public void SetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName, ValueType propertyValue);
+        public Task SetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName, ValueType propertyValue);
 
         public ValueType GetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName);
     }

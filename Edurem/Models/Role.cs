@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Edurem.Models
 {
+    [Flags]
     public enum Roles
     {
-        ADMIN = 1,
-        STUDENT,
-        TEACHER
+        ADMIN = 1 << 0,
+        STUDENT = 1 << 1,
+        TEACHER = 1 << 2
     }
 
 
@@ -21,9 +22,15 @@ namespace Edurem.Models
         [Key]
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        [Column(nameof(Name))]
+        public string Name { get; private set; }
 
-        public Roles Value { get; set; }
+        [NotMapped]
+        public Roles Value 
+        { 
+            get => (Roles)Enum.Parse(typeof(Roles), Name); 
+            set => Name = Enum.GetName(typeof(Roles), value); 
+        }
 
         public List<UserRole> Users { get; set; }
 

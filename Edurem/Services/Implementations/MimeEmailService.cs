@@ -1,17 +1,27 @@
-﻿using MailKit.Net.Smtp;
+﻿using Edurem.Models;
+using MailKit.Net.Smtp;
 using MimeKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Edurem.Services.IEmailService;
 
 namespace Edurem.Services
 {
-    public class MimeEmailService : IEmailService<MimeMessage>
+    public class MimeEmailService : IEmailService
     {
-        public event IEmailService<MimeMessage>.SendCompletedHandler SendCompleted;
+        public event SendCompletedHandler SendCompleted;
 
-        public MimeMessage CreateEmailMessage(string text, string subject, (string Email, string Name) sender, params (string Email, string Name)[] receivers)
+        public async Task SendEmailAsync(EmailOptions options)
+        {
+            var emailMessage = CreateEmailMessage(options.Text, options.Subject, options.Sender, options.Receivers.ToArray());
+
+            await SendEmail(emailMessage, options.SmtpServer, options.AuthInfo);
+        }
+
+        // Создание сообщения
+        private MimeMessage CreateEmailMessage(string text, string subject, (string Email, string Name) sender, params (string Email, string Name)[] receivers)
         {
             var emailMessage = new MimeMessage();
 
@@ -35,7 +45,8 @@ namespace Edurem.Services
             return emailMessage;
         }
 
-        public async Task SendEmailAsync(MimeMessage emailMessage, (string Host, int Port, bool UseSsl) smtpServer, (string Username, string Password) authInfo)
+        // Отправка сообщения
+        private async Task SendEmail(MimeMessage emailMessage, (string Host, int Port, bool UseSsl) smtpServer, (string Username, string Password) authInfo)
         {
             try
             {

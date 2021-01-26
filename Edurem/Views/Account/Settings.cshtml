@@ -68,7 +68,7 @@
                                 <i class="far fa-question-circle ml-2" style="color:red"></i>
                             </a>
                         </p>
-                        <component>@(await Html.RenderComponentAsync<Edurem.Components.ConfirmEmail>(RenderMode.ServerPrerendered, new { Email = Model.Profile.Email }))</component>
+                        <component>@(await Html.RenderComponentAsync<Edurem.Components.ConfirmEmail>(RenderMode.ServerPrerendered, new { User = Model.Profile }))</component>
                     }
                 </div>
             </div>

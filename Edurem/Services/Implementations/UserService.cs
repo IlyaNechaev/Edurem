@@ -6,28 +6,41 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using MimeKit;
+using Microsoft.Extensions.Configuration;
+using Edurem.Extensions;
+using Microsoft.AspNetCore.Hosting;
+using static Edurem.Services.IEmailService;
 
 namespace Edurem.Services
 {
     public class UserService : IUserService
     {
-        IDbService DbService;
-        ISecurityService SecurityService;
-        IEmailService<MimeMessage> EmailService;
+        IDbService DbService { get; init; }
+        ISecurityService SecurityService { get; init; }
+        IEmailService EmailService { get; init; }
+        IFileService FileService { get; init; }
+        IConfiguration Configuration { get; init; }
+
         User AuthenticatedUser;
+
         public UserService([FromServices] IDbService dbService,
                            [FromServices] ISecurityService securityService,
-                           [FromServices] IEmailService<MimeMessage> emailService)
+                           [FromServices] IEmailService emailService,
+                           [FromServices] IFileService fileService,
+                           [FromServices] IConfiguration configuration)
         {
             DbService = dbService;
             SecurityService = securityService;
             EmailService = emailService;
+            FileService = fileService;
+            Configuration = configuration;
         }
 
         public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterViewModel registerModel)
@@ -162,12 +175,41 @@ namespace Edurem.Services
             return DbService.GetUserNotificationOptions(user);
         }
 
-        public void SendUserEmailConfirmation(User user)
+        public async Task SendUserEmailConfirmation(User user, params SendCompletedHandler[] onSendCompleted)
         {
-            var emailCode = DbService.GetEntityProperty<User, string>(user, "emailCode") ?? SecurityService.GeneratePassword();
+            var emailCode = DbService.GetEntityProperty<User, string>(user, "EmailConfirmCode") ?? SecurityService.GeneratePassword();
 
-            // Отправить письмо
-            EmailService.CreateEmailMessage()
+            // Если свойство emailCode не заполнен (null или пустая строка)
+            if (emailCode is null || emailCode.Equals(string.Empty))
+            {
+                // Генерируем пароль и передаем в БД
+                emailCode = SecurityService.GeneratePassword();
+                await DbService.SetEntityProperty(user, "EmailConfirmCode", emailCode);
+            }
+
+            // Получить текст файла
+            var emailMessageText = FileService.GetFileText(Configuration.GetFilePath("ConfirmEmail.html"));
+
+            // Вставка пароля
+            emailMessageText = emailMessageText.Replace("@password", emailCode);
+
+            var emailOptions = new EmailOptions
+            {
+                Text = emailMessageText,
+                Subject = "Подтверждение Email",
+                Sender = ("ilia.nechaeff@yandex.ru", "Edurem"),
+                Receivers = new() { (user.Email, "") },
+                SmtpServer = ("smtp.yandex.ru", 25, false),
+                AuthInfo = ("ilia.nechaeff@yandex.ru", "02081956Qw")
+            };            
+
+            foreach (var s in onSendCompleted)
+            {
+                EmailService.SendCompleted += s;
+            }
+
+            // Отправить email
+            await EmailService.SendEmailAsync(emailOptions);
         }
     }
 }

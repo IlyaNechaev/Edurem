@@ -114,11 +114,12 @@ namespace Edurem.Services
             return Context.NotificationOptions.AsQueryable().FirstOrDefault(not => not.UserId == user.Id);
         }
 
-        public void SetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName, ValueType propertyValue)
+        public async Task SetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName, ValueType propertyValue)
         {
             try
             {
                 Context.Entry(entity).Property(propertyName).CurrentValue = propertyValue;
+                await Context.SaveChangesAsync();
             }
             catch(Exception)
             {
@@ -131,7 +132,7 @@ namespace Edurem.Services
             ValueType result = default(ValueType);
             try
             {
-                result = (ValueType)Context.Entry(entity).Property(propertyName).CurrentValue;
+                result = (ValueType)Context.Entry(entity).Property(propertyName).CurrentValue;                
             }
             catch (Exception)
             {

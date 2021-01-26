@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Edurem.Services.IEmailService;
 
 namespace Edurem.Services
 {
@@ -27,5 +28,8 @@ namespace Edurem.Services
 
         // Возвращает настройки уведомлений для данного пользователя
         public NotificationOptions GetUserNotificationOptions(User user);
+
+        // Отправить на почту пользователя письмо с подтверждением
+        public Task SendUserEmailConfirmation(User user, params SendCompletedHandler[] onSendCompleted);
     }
 }

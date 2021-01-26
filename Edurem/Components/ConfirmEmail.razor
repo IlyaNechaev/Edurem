@@ -1,15 +1,15 @@
 ﻿@using MimeKit
 @using System.Net.Mail
-@using Edurem.Services
 @using Edurem.Extensions
-@inject Edurem.Services.IEmailService<MimeMessage> EmailService;
+@inject Edurem.Services.IEmailService EmailService;
 @inject Edurem.Services.ISecurityService SecurityService;
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+@inject Edurem.Services.IUserService UserService;
 @inject IMatToaster Toaster;
 
 <div class="row">
     <div class="col-12">
-        <input placeholder="Email" class="form-control" style="font-size: 19px" @bind="Email" />
+        <input placeholder="Email" class="form-control" style="font-size: 19px" @bind="User.Email" />
     </div>
 </div>
 <div class="row mt-2 justify-content-between align-items-center">
@@ -45,7 +45,7 @@
 
 @code {
     [Parameter]
-    public string Email { get; set; }
+    public User User { get; set; }
 
     private string Password { get; set; }
 
@@ -63,15 +63,9 @@
     {
         IsSendingPerformed = true;
 
+
+        await UserService.SendUserEmailConfirmation(User, OnSendCompleted);
         var password = SecurityService.GeneratePassword();
-
-        Password = password;
-
-        var text = "Код подвтерждения электронной почты: <b>" + password + "</b>";
-        var emailMessage = EmailService.CreateEmailMessage(text, "Подтверждение Email", ("ilia.nechaeff@yandex.ru", "Edurem"), (Email, ""));
-        EmailService.SendCompleted += OnSendCompleted;
-
-        await EmailService.SendEmailAsync(emailMessage, ("smtp.yandex.ru", 25, false), ("ilia.nechaeff@yandex.ru", "02081956Qw"));
     }
 
     private void Show(MatToastType type, string title, string message, string icon = "")
@@ -79,7 +73,7 @@
         Toaster.Add(message, type, title, icon);
     }
 
-    private void OnSendCompleted(object sender, SendCompletedEventArgs e)
+    private void OnSendCompleted(object sender, Edurem.Services.SendCompletedEventArgs e)
     {
         if (e.IsFailed)
         {

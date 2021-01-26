@@ -105,7 +105,7 @@ using System.Net.Mail;
 #nullable disable
 #nullable restore
 #line 3 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\ConfirmEmail.razor"
-using Edurem.Services;
+using Edurem.Extensions;
 
 #line default
 #line hidden
@@ -118,10 +118,10 @@ using Edurem.Services;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 44 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\ConfirmEmail.razor"
+#line 46 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\ConfirmEmail.razor"
        
     [Parameter]
-    public string Email { get; set; }
+    public User User { get; set; }
 
     private string Password { get; set; }
 
@@ -139,15 +139,9 @@ using Edurem.Services;
     {
         IsSendingPerformed = true;
 
+
+        await UserService.SendUserEmailConfirmation(User, OnSendCompleted);
         var password = SecurityService.GeneratePassword();
-
-        Password = password;
-
-        var text = "Код подвтерждения электронной почты: <b>" + password + "</b>";
-        var emailMessage = EmailService.CreateEmailMessage(text, "Подтверждение Email", ("ilia.nechaeff@yandex.ru", "Edurem"), (Email, ""));
-        EmailService.SendCompleted += OnSendCompleted;
-
-        await EmailService.SendEmailAsync(emailMessage, ("smtp.yandex.ru", 25, false), ("ilia.nechaeff@yandex.ru", "02081956Qw"));
     }
 
     private void Show(MatToastType type, string title, string message, string icon = "")
@@ -155,7 +149,7 @@ using Edurem.Services;
         Toaster.Add(message, type, title, icon);
     }
 
-    private void OnSendCompleted(object sender, SendCompletedEventArgs e)
+    private void OnSendCompleted(object sender, Edurem.Services.SendCompletedEventArgs e)
     {
         if (e.IsFailed)
         {
@@ -173,8 +167,10 @@ using Edurem.Services;
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMatToaster Toaster { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Edurem.Services.IUserService UserService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Microsoft.Extensions.Configuration.IConfiguration Configuration { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private Edurem.Services.ISecurityService SecurityService { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Edurem.Services.IEmailService<MimeMessage> EmailService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Edurem.Services.IEmailService EmailService { get; set; }
     }
 }
 #pragma warning restore 1591

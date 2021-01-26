@@ -1,17 +1,27 @@
-﻿using System;
+﻿using Edurem.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using static Edurem.Services.IEmailService;
 
 namespace Edurem.Services
 {
-    public class EmailService : IEmailService<MailMessage>
+    public class MailService : IEmailService
     {
-        public event IEmailService<MailMessage>.SendCompletedHandler SendCompleted;
+        public event SendCompletedHandler SendCompleted;
 
-        public MailMessage CreateEmailMessage(string text, string subject, (string Email, string Name) sender, params (string Email, string Name)[] receivers)
+        public async Task SendEmailAsync(EmailOptions options)
+        {
+            var emailMessage = CreateEmailMessage(options.Text, options.Subject, options.Sender, options.Receivers.ToArray());
+
+            await SendEmail(emailMessage, options.SmtpServer, options.AuthInfo);
+        }
+
+        // Создание сообщения
+        private MailMessage CreateEmailMessage(string text, string subject, (string Email, string Name) sender, params (string Email, string Name)[] receivers)
         {
             MailMessage emailMessage = new MailMessage(new MailAddress(sender.Email, sender.Name), new MailAddress(receivers[0].Email, receivers[0].Name));
 
@@ -26,7 +36,8 @@ namespace Edurem.Services
             return emailMessage;
         }
 
-        public async Task SendEmailAsync(MailMessage emailMessage, (string Host, int Port, bool UseSsl) smtpServer, (string Username, string Password) authInfo)
+        // Отправка сообщения
+        private async Task SendEmail(MailMessage emailMessage, (string Host, int Port, bool UseSsl) smtpServer, (string Username, string Password) authInfo)
         {
             SmtpClient smtpClient = new SmtpClient(smtpServer.Host, smtpServer.Port);
 

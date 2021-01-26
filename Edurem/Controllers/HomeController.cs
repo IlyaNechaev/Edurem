@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using Edurem.Models;
 using Microsoft.AspNetCore.Hosting;
 using Edurem.Data;
+using System.IO;
+using Edurem.Services;
 
 namespace Edurem.Controllers
 {
@@ -16,14 +18,14 @@ namespace Edurem.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, IDbService dbService)
         {
             _logger = logger;
         }
 
         [HttpGet]
         [Route("")]
-        public IActionResult Index([FromServices] IWebHostEnvironment webEnvironment)
+        public IActionResult Index()
         {
             return View();
         }

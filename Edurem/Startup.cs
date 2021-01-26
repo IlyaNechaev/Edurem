@@ -39,6 +39,7 @@ namespace Edurem
             services.AddControllersWithViews();
 
             services.AddServerSideBlazor();
+
             // Добавляем конфигурацию Toaster
             services.AddMatToaster(config =>
             {
@@ -64,8 +65,8 @@ namespace Edurem
             services.AddTransient<ISecurityService, SecurityService>();
             services.AddTransient<IDbService, MySqlService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IEmailService<MailMessage>, EmailService>();
-            services.AddTransient<IEmailService<MimeMessage>, MimeEmailService>();
+            services.AddTransient<IEmailService, MimeEmailService>();
+            services.AddTransient<IFileService, FileService>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

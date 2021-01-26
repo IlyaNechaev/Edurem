@@ -3,17 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Edurem.Models;
 
 namespace Edurem.Services
 {
     // Работа с электронной почтой
-    public interface IEmailService<MessageType>
+    public interface IEmailService
     {
         public delegate void SendCompletedHandler(object sender, SendCompletedEventArgs e);
 
-        public MessageType CreateEmailMessage(string text, string subject, (string Email, string Name) sender, params (string Email, string Name)[] receivers);
-
-        public Task SendEmailAsync(MessageType emailMessage, (string Host, int Port, bool UseSsl) smtpServer, (string Username, string Password) authInfo);
+        public Task SendEmailAsync(EmailOptions options);
 
         public event SendCompletedHandler SendCompleted;
     }

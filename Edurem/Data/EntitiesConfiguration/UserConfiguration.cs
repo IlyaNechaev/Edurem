@@ -9,18 +9,18 @@ using System.Data;
 using Edurem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Edurem.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace Edurem.Data
 {
     // Конфигурация модели User
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        ISecurityService SecurityService;
-        public UserConfiguration([FromServices] ISecurityService securityService)
+        ISecurityService SecurityService { get; init; }
+        public UserConfiguration(ISecurityService securityService)
         {
             SecurityService = securityService;
         }
-
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
@@ -36,22 +36,29 @@ namespace Edurem.Data
             // Добавочное поле для кода подтверждения Email
             
             builder
-                .Property("EmailConfirmCode")
+                .Property<string>("EmailConfirmCode")
                 .HasColumnType("nvarchar(10)")
-                .HasColumnName("emailCode")
+                .HasColumnName("EmailCode")
                 .ValueGeneratedNever();
 
+            CreateAdminUser(builder);
+        }
+
+        private void CreateAdminUser(EntityTypeBuilder<User> builder)
+        {
+            // Добавляем администратора
             var adminUser = new RegisterViewModel
             {
                 Name = "Илья",
                 Surname = "Нечаев",
-                DateOfBirth = "2020.01.01",
+                DateOfBirth = "01.01.2020",
                 Password = "123",
                 Login = "root",
                 Gender = "MALE",
                 Email = "ilia.nechaeff@yandex.ru"
-            }
-            .ToUser(SecurityService);
+            }.ToUser(SecurityService);
+
+            adminUser.Id = 1;
 
             builder.HasData(adminUser);
         }
