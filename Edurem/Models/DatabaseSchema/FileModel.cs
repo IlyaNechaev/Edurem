@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace Edurem.Models
 {
-    [Table("groups")]
-    public class Group
+    [Table("files")]
+    public class FileModel
     {
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
-        public List<User> Students { get; set; }
+        [Required]
+        public string Path { get; set; }
 
-        public List<User> Teachers { get; set; }
+        public string GetFullPath() => System.IO.Path.Combine(Path, Name);
     }
 }

@@ -13,6 +13,18 @@ using Microsoft.AspNetCore.Components;
 
 namespace Edurem.Data
 {
+    public static partial class ModelBuilderConfiguration
+    {
+        /// <summary>
+        /// Добавляет конфигурации для пользователей: <c><see cref="User"/></c>, <c><see cref="NotificationOptions"/></c>
+        /// </summary>
+        public static void AddUserConfiguration(this ModelBuilder builder, ISecurityService securityService)
+        {
+            builder.ApplyConfiguration(new UserConfiguration(securityService));
+            builder.ApplyConfiguration(new NotifOptionsConfiguration());
+        }
+    }
+
     // Конфигурация модели User
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
@@ -21,6 +33,7 @@ namespace Edurem.Data
         {
             SecurityService = securityService;
         }
+
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
@@ -61,6 +74,25 @@ namespace Edurem.Data
             adminUser.Id = 1;
 
             builder.HasData(adminUser);
+        }
+    }
+
+    public class NotifOptionsConfiguration : IEntityTypeConfiguration<NotificationOptions>
+    {
+        public void Configure(EntityTypeBuilder<NotificationOptions> builder)
+        {
+            builder.HasKey(options => options.UserId);
+
+            var notifOptions = new NotificationOptions
+            {
+                NewTasksToEmail = false,
+                TaskResultToEmail = false,
+                TeacherMessageToEmail = false,
+                UserId = 1
+            };
+
+            builder
+                .HasData(notifOptions);
         }
     }
 }

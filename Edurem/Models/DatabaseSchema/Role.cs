@@ -11,8 +11,7 @@ namespace Edurem.Models
     public enum Roles
     {
         ADMIN = 1 << 0,
-        STUDENT = 1 << 1,
-        TEACHER = 1 << 2
+        USER = 1 << 1
     }
 
 

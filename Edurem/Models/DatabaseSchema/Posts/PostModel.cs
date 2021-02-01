@@ -7,17 +7,23 @@ using System.Threading.Tasks;
 
 namespace Edurem.Models
 {
-    public class FileModel
+    [Table("posts")]
+    public class PostModel
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public DateTime PublicationDate { get; set; }
 
         [Required]
-        public string Path { get; set; }
+        public string PostBody { get; set; }
 
-        public string GetFullPath() => System.IO.Path.Combine(Path, Name);
+        public int AuthorId { get; set; }
+
+        [ForeignKey(nameof(AuthorId))]
+        public User Author { get; set; }
+
+        public List<PostFile> AttachedFiles { get; set; }
     }
 }

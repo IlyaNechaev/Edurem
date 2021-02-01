@@ -8,6 +8,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Edurem.Data
 {
+    public static partial class ModelBuilderConfiguration
+    {
+        /// <summary>
+        /// Добавляет конфигурации для ролей пользователей: <c><see cref="Role"/></c>, <c><see cref="UserRole"/></c>
+        /// </summary>
+        public static void AddRoleConfiguration(this ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
+        }
+    }
+
     // Конфигурация модели Role
     public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
@@ -23,6 +35,15 @@ namespace Edurem.Data
                         .Cast<Roles>()
                         .Select(role => new Role(role))
                 );
+        }
+    }
+    public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
+    {
+        public void Configure(EntityTypeBuilder<UserRole> builder)
+        {
+            // Первичный ключ
+            builder
+                .HasKey(userRole => new { userRole.UserId, userRole.RoleId });
         }
     }
 }

@@ -13,10 +13,25 @@ namespace Edurem.Data
     public class EduremDbContext : DbContext
     {
         ISecurityService SecurityService { get; init; }
+
+        public DbSet<FileModel> Files { get; set; }
+        // Пользователи
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UsersRoles { get; set; }
         public DbSet<NotificationOptions> NotificationOptions { get; set; }
+
+        // Группы
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<GroupMember> GroupsMembers { get; set; }
+        public DbSet<GroupAdministrator> GroupsAdministrators { get; set; }
+        public DbSet<GroupPost> GroupsPosts { get; set; }
+
+        // Записи
+        public DbSet<PostModel> Posts { get; set; }
+        public DbSet<PostFile> PostsFiles { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Discussion> Discussions { get; set; }
 
         public EduremDbContext(DbContextOptions<EduremDbContext> builder,
                                [FromServices] ISecurityService securityService) : base(builder)
@@ -31,10 +46,10 @@ namespace Edurem.Data
             base.OnModelCreating(builder);
 
             // Добавление конфигураций для моделей
-            builder.ApplyConfiguration(new UserConfiguration(SecurityService));
-            builder.ApplyConfiguration(new RoleConfiguration());
-            builder.ApplyConfiguration(new UserRoleConfiguration());
-            builder.ApplyConfiguration(new NotifOptionsConfiguration());            
+            builder.AddUserConfiguration(SecurityService);
+            builder.AddRoleConfiguration();
+            builder.AddGroupConfiguration();
+            builder.AddPostsConfiguration();
         }
     }
 }

@@ -80,6 +80,7 @@ namespace Edurem
                         options.AddPolicy("AccessDenied", policy => policy.RequireClaim("Status", "REGISTERED")
                                                                           .AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme)
                                                                           .Build());
+
                         options.AddPolicy("AuthenticatedOnly", policy => policy.RequireAuthenticatedUser()
                                                                                .AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme)
                                                                                .Build());
@@ -106,7 +107,6 @@ namespace Edurem
 
             app.UseAuthorization();
             app.UseAuthentication();
-
 
             app.UseEndpoints(endpoints =>
             {
