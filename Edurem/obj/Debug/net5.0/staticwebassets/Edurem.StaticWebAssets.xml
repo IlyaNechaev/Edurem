@@ -1,4 +1,0 @@
-﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="_content/BlazorAnimate" Path="C:\Users\Илья\.nuget\packages\blazoranimate\3.0.0\build\..\staticwebassets\" />
-  <ContentRoot BasePath="_content/MatBlazor" Path="C:\Users\Илья\.nuget\packages\matblazor\2.8.0\build\..\staticwebassets\" />
-</StaticWebAssets>
