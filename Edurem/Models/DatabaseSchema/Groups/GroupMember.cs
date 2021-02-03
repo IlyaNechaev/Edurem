@@ -18,5 +18,7 @@ namespace Edurem.Models
 
         [ForeignKey(nameof(GroupId))]
         public Group Group { get; set; }
+
+        public RoleInGroup RoleInGroup { get; set; }
     }
 }

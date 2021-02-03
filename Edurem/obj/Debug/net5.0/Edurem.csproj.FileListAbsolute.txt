@@ -151,3 +151,7 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\NotificationOprions.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.Bcl.HashCode.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Docker.DotNet.dll
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Account\Groups.cshtml.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\GroupsFilterSearch.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\GroupsFilterSearch.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Account\CreateGroup.cshtml.g.cs

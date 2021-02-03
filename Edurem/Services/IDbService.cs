@@ -39,8 +39,17 @@ namespace Edurem.Services
         // Найти настройки уведомлений для данного пользователя
         public NotificationOptions GetUserNotificationOptions(User user);
 
+        // Возвращает группы, в которых пользователь является участником
+        public Task<List<(Group Group, RoleInGroup UserRole)>> GetUserGroups(User user);
+
         public Task SetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName, ValueType propertyValue);
 
         public ValueType GetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName);
+
+        // Добавляет новую группу в БД
+        public Task AddGroupAsync(Group newGroup);
+        
+        // Добавляет пользователя членом группы
+        public Task AddUserToGroupAsync(Group group, User user, RoleInGroup userRole);
     }
 }

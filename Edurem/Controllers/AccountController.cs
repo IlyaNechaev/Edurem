@@ -86,6 +86,39 @@ namespace Edurem.Controllers
             return View(userModel);
         }
 
+        [Route("groups")]
+        [HttpGet]
+        public async Task<IActionResult> Groups([FromServices] IGroupService groupService)
+        {
+            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+            var groups = await groupService.GetUserGroups(authenticatedUser);
+
+            var groupsListViewModel = new GroupsListViewModel(groups);
+
+
+            return View(groupsListViewModel);
+        }
+
+        [Route("groups/create")]
+        [HttpGet]
+        public IActionResult CreateGroup()
+        {
+            return View("CreateGroup");
+        }
+
+        [Route("groups/create")]
+        [HttpPost]
+        public async Task<IActionResult> CreateGroup(GroupCreationViewModel creationViewModel,
+                                         [FromServices] IGroupService groupService)
+        {
+            var newGroup = creationViewModel.ToGroup();
+            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+
+            await groupService.CreateGroup(newGroup, authenticatedUser);
+
+            return RedirectToAction("Groups");
+        }
+
         [Route("verifyEmail")]
         [HttpGet]
         public IActionResult VerifyEmail()

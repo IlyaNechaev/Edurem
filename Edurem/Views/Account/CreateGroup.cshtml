@@ -1,0 +1,22 @@
+﻿@using Edurem.Components;
+@model Edurem.ViewModels.GroupCreationViewModel
+
+@{
+    ViewData["Title"] = "Новая группа";
+    ViewData["ApplicationName"] = "Edurem";
+    Layout = "_AccountLayout";
+}
+
+<form class="row mt-5" asp-controller="Account" asp-action="CreateGroup" method="post" autocomplete="off">
+    <div class="col-12 justify-content-center">
+        <div class="row">
+            <div class="col-5">
+                <input asp-for="Name" class="form-control" placeholder="Название группы" style="font-size:20px" />
+                <span asp-validation-for="Name" class="text-danger" style="font-weight: bold"></span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <input class="btn btn-primary" value="Создать" type="submit"/>
+        </div>
+    </div>    
+</form>

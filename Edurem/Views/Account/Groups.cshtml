@@ -1,0 +1,67 @@
+﻿@using Edurem.Components;
+@model Edurem.ViewModels.GroupsListViewModel
+
+@{
+    ViewData["Title"] = "Группы";
+    ViewData["ApplicationName"] = "Edurem";
+    Layout = "_AccountLayout";
+}
+
+<div class="row border-bottom mt-2 mb-2">
+    <component type="typeof(Edurem.Components.GroupsFilterSearch)" render-mode="ServerPrerendered" />
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="row text-left align-items-center mt-2">
+            <input type="button" value="Создать группу" class="col-3 col-md-4 col-xl-2 btn btn-success text-center"
+                   onclick="window.location='@Url.Action("CreateGroup", "Account")'" />
+        </div>
+        @if (Model.GroupsForView.Count == 0)
+        {
+            <div class="row justify-content-center mt-4">
+                <h3 class="text-muted text-center mt-4">Группы не найдены</h3>
+            </div>
+        }
+        @foreach (var group in Model.GroupsForView)
+        {
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-lg-10 card">
+                    <div class="card-header">
+                        <h5>@group.Name</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-11">
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <p><b>Количество участников</b>:</p>
+                                    </div>
+                                    <div class="col-8 text-left">
+                                        <p>@group.MembersCount</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <p><b>Вы</b>:</p>
+                                    </div>
+                                    <div class="col-8 text-left">
+                                        @if (group.UserRole == RoleInGroup.ADMIN)
+                                        {
+                                            <p>Администратор</p>
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>

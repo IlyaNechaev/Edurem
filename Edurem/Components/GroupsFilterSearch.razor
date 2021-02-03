@@ -1,0 +1,43 @@
+﻿<div class="col-12">
+    <div class="row text-left align-items-center mb-2">
+        <input class="col-4 col-md-5 col-xl-3 form-control" placeholder="Название группы" />
+        <a href="" @onclick="() => { IsFilterOpened = true; }" @onclick:preventDefault><i class="col-1 fas fa-filter" style="font-size: 20px"></i></a>
+    </div>
+    <div class="row text-left align-items-center mt-2 mb-2">
+        <button class="col-2 col-md-2 col-xl-1 btn btn-primary text-center" @onclick="SearchGroups">Поиск</button>
+    </div>
+</div>
+
+<MatDialog @bind-IsOpen="@IsFilterOpened">
+    <MatDialogTitle Class="text-left">
+        <p style="font-size: 30px">Фильтр групп</p>
+    </MatDialogTitle>
+    <MatDialogContent>
+        <div class="row">
+            ЗДЕСЬ БУДЕТ ФИЛЬТР
+        </div>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton Unelevated="true" Type="button" OnClick="@(e => { IsFilterOpened = false; AcceptChanges(); })">Готово</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code {
+
+    public bool IsFilterOpened { get; set; }
+
+    public GroupsFilterSearch()
+    {
+        IsFilterOpened = false;
+    }
+
+    public void AcceptChanges()
+    {
+
+    }
+
+    public void SearchGroups()
+    {
+
+    }
+}

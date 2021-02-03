@@ -15,6 +15,7 @@ namespace Edurem.Data
         ISecurityService SecurityService { get; init; }
 
         public DbSet<FileModel> Files { get; set; }
+
         // Пользователи
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -24,7 +25,6 @@ namespace Edurem.Data
         // Группы
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupMember> GroupsMembers { get; set; }
-        public DbSet<GroupAdministrator> GroupsAdministrators { get; set; }
         public DbSet<GroupPost> GroupsPosts { get; set; }
 
         // Записи

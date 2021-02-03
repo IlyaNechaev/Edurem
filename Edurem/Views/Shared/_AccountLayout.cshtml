@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.Extensions.Configuration.IConfiguration AppConfiguration
+@inject Edurem.Services.IUserService UserService
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -21,10 +22,10 @@
             <component>@(await Html.RenderComponentAsync<Edurem.Components.NavMenu>(RenderMode.Server, new { ApplicationName = @AppConfiguration["ApplicationName"] }))</component>
         </div>
 
-        <div class="main">
+        <div class="main"> 
             <div class="top-row px-4" style="z-index: 99">
                 <a class="nav-link text-dark" style="font-size: 20px" href="/account/home">
-                    @($"{((User)ViewData["AuthenticatedUser"]).Surname} {((User)ViewData["AuthenticatedUser"]).Name}")
+                    @($"{UserService.GetAuthenticatedUser(Context).Surname} {UserService.GetAuthenticatedUser(Context).Name}")
                 </a>
             </div>
             <div class="content px-4">

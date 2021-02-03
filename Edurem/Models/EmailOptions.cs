@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Edurem.Models
 {
-    public class EmailOptions
+    public struct EmailOptions
     {
         // Тело сообщения
         public string Text { get; set; }

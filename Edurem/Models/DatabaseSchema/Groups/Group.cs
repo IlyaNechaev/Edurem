@@ -15,10 +15,14 @@ namespace Edurem.Models
 
         public string Name { get; set; }
 
-        public List<GroupMember> Students { get; set; }
-
-        public List<GroupAdministrator> Administrators { get; set; }
+        public List<GroupMember> Members { get; set; }
 
         public List<GroupPost> GroupPosts { get; set; }
+    }
+
+    public enum RoleInGroup
+    {
+        ADMIN,
+        MEMBER
     }
 }

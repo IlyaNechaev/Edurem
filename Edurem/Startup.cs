@@ -65,6 +65,7 @@ namespace Edurem
             services.AddTransient<ISecurityService, SecurityService>();
             services.AddTransient<IDbService, MySqlService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IEmailService, MimeEmailService>();
             services.AddTransient<IFileService, FileService>();
 

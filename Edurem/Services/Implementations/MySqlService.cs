@@ -1,6 +1,7 @@
 ﻿using Edurem.Data;
 using Edurem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,6 +115,21 @@ namespace Edurem.Services
             return Context.NotificationOptions.AsQueryable().FirstOrDefault(not => not.UserId == user.Id);
         }
 
+        public async Task<List<(Group, RoleInGroup)>> GetUserGroups(User user)
+        {
+            List<(Group, RoleInGroup)> groupsWithRoles = new();
+
+            var groupMembers = await Context.GroupsMembers.Include(gm => gm.Group)
+                                                          .Where(gm => gm.UserId == user.Id)
+                                                          .ToListAsync();
+            foreach (var groupMember in groupMembers)
+            {
+                groupsWithRoles.Add((groupMember.Group, groupMember.RoleInGroup));
+            }
+
+            return groupsWithRoles;
+        }
+
         public async Task SetEntityProperty<EntityType, ValueType>(EntityType entity, string propertyName, ValueType propertyValue)
         {
             try
@@ -121,7 +137,7 @@ namespace Edurem.Services
                 Context.Entry(entity).Property(propertyName).CurrentValue = propertyValue;
                 await Context.SaveChangesAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -132,13 +148,31 @@ namespace Edurem.Services
             ValueType result = default(ValueType);
             try
             {
-                result = (ValueType)Context.Entry(entity).Property(propertyName).CurrentValue;                
+                result = (ValueType)Context.Entry(entity).Property(propertyName).CurrentValue;
             }
             catch (Exception)
             {
                 throw;
             }
             return result;
+        }
+
+        public async Task AddGroupAsync(Group newGroup)
+        {
+            if (!Context.Groups.Any(group => group.Id == newGroup.Id))
+            {
+                await Context.Groups.AddAsync(newGroup);
+                await Context.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddUserToGroupAsync(Group group, User user, RoleInGroup userRole)
+        {
+            if (!Context.GroupsMembers.Any(groupMember => groupMember.GroupId == group.Id && groupMember.UserId == user.Id))
+            {
+                await Context.GroupsMembers.AddAsync(new GroupMember() { Group = group, User = user, RoleInGroup = userRole });
+                await Context.SaveChangesAsync();
+            }
         }
     }
 }

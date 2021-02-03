@@ -17,7 +17,6 @@ namespace Edurem.Data
         public static void AddGroupConfiguration(this ModelBuilder builder)
         {
             builder.ApplyConfiguration(new GroupConfiguration());
-            builder.ApplyConfiguration(new GroupAdminConfiguration());
             builder.ApplyConfiguration(new GroupMemberConfiguration());
             builder.ApplyConfiguration(new GroupPostsConfiguration());
         }
@@ -34,33 +33,14 @@ namespace Edurem.Data
 
             // Связь с таблицей groups_members
             builder
-                .HasMany(group => group.Students)
+                .HasMany(group => group.Members)
                 .WithOne(member => member.Group);
 
-            // Связь с таблицей groups_administrators
-            builder
-                .HasMany(group => group.Administrators)
-                .WithOne(admin => admin.Group);
 
             // Связь с таблицей groups_posts
             builder
                 .HasMany(group => group.GroupPosts)
                 .WithOne(groupPost => groupPost.Group);
-        }
-    }
-
-    public class GroupAdminConfiguration : IEntityTypeConfiguration<GroupAdministrator>
-    {
-        public void Configure(EntityTypeBuilder<GroupAdministrator> builder)
-        {
-            // Первичный ключ
-            builder
-                .HasKey(admin => new { admin.GroupId, admin.UserId });
-            
-            // Связь с таблицей groups
-            builder
-                .HasOne(admin => admin.Group)
-                .WithMany(group => group.Administrators);            
         }
     }
 
@@ -75,7 +55,7 @@ namespace Edurem.Data
             // Связь с таблицей groups
             builder
                 .HasOne(admin => admin.Group)
-                .WithMany(group => group.Students);            
+                .WithMany(group => group.Members);            
         }
     }
 
