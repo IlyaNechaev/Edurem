@@ -51,5 +51,9 @@ namespace Edurem.Services
         
         // Добавляет пользователя членом группы
         public Task AddUserToGroupAsync(Group group, User user, RoleInGroup userRole);
+
+        public Task AddSubjectAsync(Subject subject);
+
+        public Task<List<Subject>> GetUserSubjectsAsync(User user);
     }
 }

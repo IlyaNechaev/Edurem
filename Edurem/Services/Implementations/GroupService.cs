@@ -27,5 +27,16 @@ namespace Edurem.Services
 
             await DbService.AddUserToGroupAsync(group, creator, RoleInGroup.ADMIN);
         }
+
+        public async Task AddSubject(string subjectName, User user)
+        {
+            var subject = new Subject() { Author = user, Name = subjectName };
+            await DbService.AddSubjectAsync(subject);
+        }
+
+        public async Task<List<Subject>> GetUserSubjects(User user)
+        {
+            return await DbService.GetUserSubjectsAsync(user);
+        }
     }
 }

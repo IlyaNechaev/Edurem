@@ -13,5 +13,9 @@ namespace Edurem.Services
         public Task<List<(Group Group, RoleInGroup UserRole)>> GetUserGroups(User user);
 
         public Task CreateGroup(Group group, User creator);
+
+        public Task AddSubject(string subjectName, User user);
+
+        public Task<List<Subject>> GetUserSubjects(User user);
     }
 }

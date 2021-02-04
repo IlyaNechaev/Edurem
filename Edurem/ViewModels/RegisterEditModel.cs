@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Edurem.ViewModels
 {
-    public class RegisterViewModel
+    public class RegisterEditModel
     {
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Не указано имя")]

@@ -7,10 +7,14 @@ using Edurem.Models;
 
 namespace Edurem.ViewModels
 {
-    public class GroupCreationViewModel
+    public class GroupCreationEditModel
     {
-        [Required]
+        [Required(ErrorMessage = "Введите название группы")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Выберите дисциплину")]
+        [Range(1, int.MaxValue)]
+        public int SubjectId { get; set; }
 
         public Group ToGroup()
         {

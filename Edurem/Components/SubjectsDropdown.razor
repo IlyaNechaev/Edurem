@@ -1,0 +1,87 @@
+﻿@using Edurem.Models;
+@inject Edurem.Services.IGroupService GroupService;
+@inject IJSRuntime JSRuntime;
+
+<div class="row mt-3">
+    <div class="col-12">
+        <span class="h5">Дисциплина</span>
+    </div>
+</div>
+<div class="row align-items-center">
+    <div class="col-5">
+        <select @onchange="SelectedSubjectChanged" class="form-control">
+            @foreach (var subject in AvailableSubjects)
+            {
+                <option value="@subject">@subject.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-1 text-center">
+        <a href="" @onclick="() => { IsAddSubjectOpened = true; }" @onclick:preventDefault>
+            <i class="fas fa-plus" style="color: green; font-size: 25px"></i>
+        </a>
+    </div>
+</div>
+
+<MatDialog @bind-IsOpen="@IsAddSubjectOpened">
+    <MatDialogTitle>
+        <div class="col-12 text-left">
+            <p style="font-size: 20px">Добавить дисциплину</p>
+        </div>
+    </MatDialogTitle>
+    <MatDialogContent>
+        <input placeholder="Название дисциплины" @bind-value="SubjectName"/>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton Class="btn-primary" Unelevated="true" Type="button" OnClick="@(AddSubject)">Добавить</MatButton>
+        <MatButton Class="btn-danger" Unelevated="true" Type="button" OnClick="@(e => { IsAddSubjectOpened = false; })">Закрыть</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code {
+
+    [Parameter]
+    public User CurrentUser { get; set; }
+
+    int SubjectId { get; set; }
+
+    List<Subject> AvailableSubjects { get; set; }
+
+    public bool IsAddSubjectOpened { get; set; }
+
+    string SubjectName { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Task.WaitAll(
+            Task.Run(FillAvailableSubjects)
+            );
+    }
+
+    async Task FillAvailableSubjects()
+    {
+        AvailableSubjects = new();
+        AvailableSubjects.Add(new Subject() { Name = "-" });
+
+        // Добавляем все имеющиеся дисциплины
+        var subjects = await GroupService.GetUserSubjects(CurrentUser);
+    }
+
+    async Task AddSubject()
+    {
+        await GroupService.AddSubject(SubjectName, CurrentUser);
+    }
+
+    public Task SelectedSubjectChanged(ChangeEventArgs e)
+    {
+        SubjectId = ((Subject)e.Value).Id;
+
+        return UpdateSubject();
+    }
+
+    public async Task UpdateSubject()
+    {
+        await JSRuntime.InvokeVoidAsync("updateSubject", SubjectId);
+    }
+
+}

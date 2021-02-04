@@ -60,7 +60,7 @@ namespace Edurem.Data
         private void CreateAdminUser(EntityTypeBuilder<User> builder)
         {
             // Добавляем администратора
-            var adminUser = new RegisterViewModel
+            var adminUser = new RegisterEditModel
             {
                 Name = "Илья",
                 Surname = "Нечаев",

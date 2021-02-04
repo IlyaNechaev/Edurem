@@ -17,19 +17,27 @@ namespace Edurem.ViewModels
 
         public RoleInGroup UserRole { get; set; }
 
+        public string SubjectName { get; set; }
 
+        public Dictionary<string, string> GroupInfo { get; set; }
 
-        public GroupViewModel()
-        {
-
-        }
-        public GroupViewModel(Group group, RoleInGroup role)
+        public GroupViewModel(Group group, RoleInGroup role, Subject subject)
         {
             UserRole = role;
 
             Id = group.Id;
             Name = group.Name;
             MembersCount = group.Members.Count();
+            SubjectName = subject.Name;
+
+            GroupInfo = new();
+            GroupInfo.Add("Дисциплина", SubjectName);
+            GroupInfo.Add("Количество участников", MembersCount.ToString());
+            if (role == RoleInGroup.ADMIN)
+                GroupInfo.Add("Вы", "Администратор");
+            else if (role == RoleInGroup.MEMBER)
+                GroupInfo.Add("Вы", "Участник");
+
         }
     }
 
@@ -50,7 +58,7 @@ namespace Edurem.ViewModels
 
             groups.ForEach(group =>
             {
-                Groups.Add(new(group.Group, group.UserRole));
+                Groups.Add(new(group.Group, group.UserRole, new Subject() { Name = "Test" }));
             });
 
             GroupsForView = Groups;

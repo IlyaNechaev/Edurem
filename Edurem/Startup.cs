@@ -57,9 +57,11 @@ namespace Edurem
                 config.RequireInteraction = false;
             });
 
-            services.AddDbContext<EduremDbContext>(options => options.UseMySql(
-                Configuration.GetConnectionString("DefaultConnection"),
-                builder => builder.EnableRetryOnFailure())
+            services.AddDbContext<EduremDbContext>(options =>
+                options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    builder => builder.EnableRetryOnFailure()),
+                    ServiceLifetime.Transient
             );
 
             services.AddTransient<ISecurityService, SecurityService>();
@@ -75,7 +77,7 @@ namespace Edurem
                     options.LoginPath = new PathString("/login");
                     options.LogoutPath = new PathString("/logout");
                 });
-            
+
             services.AddAuthorization(options =>
                     {
                         options.AddPolicy("AccessDenied", policy => policy.RequireClaim("Status", "REGISTERED")

@@ -174,5 +174,16 @@ namespace Edurem.Services
                 await Context.SaveChangesAsync();
             }
         }
+
+        public async Task AddSubjectAsync(Subject subject)
+        {
+            await Context.Subjects.AddAsync(subject);
+            await Context.SaveChangesAsync();
+        }
+
+        public async Task<List<Subject>> GetUserSubjectsAsync(User user)
+        {
+            return await Context.Subjects.Where(subject => subject.AuthorId == user.Id).ToListAsync();
+        }
     }
 }

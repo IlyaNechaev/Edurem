@@ -10,10 +10,8 @@ namespace Edurem.ViewModels
     {
         public SettingsViewModel()
         {
-            Profile = new User();
             Notifications = new NotificationOptions();
-        }
-        public User Profile { get; set; }     
+        } 
         
         public NotificationOptions Notifications { get; set; }
     }    

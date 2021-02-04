@@ -12,8 +12,8 @@ namespace Edurem.Services
     public interface IUserService
     {
         // Регистрация нового пользователя
-        public Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterViewModel registerModel);
-        public Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterViewModel registerModel, ISecurityService securityService);
+        public Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterEditModel registerModel);
+        public Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterEditModel registerModel, ISecurityService securityService);
 
         // Вход в систему пользователя по логину и паролю
         public Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> SignInUser(string userLogin, string userPassword, HttpContext context);

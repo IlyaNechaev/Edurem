@@ -155,3 +155,5 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\GroupsFilterSearch.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\GroupsFilterSearch.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Account\CreateGroup.cshtml.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\SubjectsDropdown.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\SubjectsDropdown.razor.g.cs

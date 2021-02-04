@@ -1,5 +1,6 @@
 ﻿@using Edurem.Components;
-@model Edurem.ViewModels.GroupCreationViewModel
+@inject Edurem.Services.IUserService UserService;
+@model Edurem.ViewModels.AccountViewModel<Edurem.ViewModels.GroupCreationEditModel>
 
 @{
     ViewData["Title"] = "Новая группа";
@@ -11,8 +12,15 @@
     <div class="col-12 justify-content-center">
         <div class="row">
             <div class="col-5">
-                <input asp-for="Name" class="form-control" placeholder="Название группы" style="font-size:20px" />
-                <span asp-validation-for="Name" class="text-danger" style="font-weight: bold"></span>
+                <input asp-for="ViewModel.Name" class="form-control" placeholder="Название группы" style="font-size:20px" />
+                <span asp-validation-for="ViewModel.Name" class="text-danger" style="font-weight: bold"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <component>@(await Html.RenderComponentAsync<Edurem.Components.SubjectsDropdown>(RenderMode.ServerPrerendered, new { CurrentUser = Model.CurrentUser }))</component>
+                <input asp-for="ViewModel.SubjectId" id="SubjectId" hidden />
+
             </div>
         </div>
         <div class="row mt-2">
@@ -20,3 +28,9 @@
         </div>
     </div>    
 </form>
+
+<script>
+    window.updateSubject = function (subjectId) {
+        document.getElementById('SubjectId').value = subjectId;
+    }
+</script>

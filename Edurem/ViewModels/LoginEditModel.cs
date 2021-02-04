@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Edurem.ViewModels
 {
-    public class LoginViewModel
+    public class LoginEditModel
     {
         [Required(ErrorMessage = "Не указан логин")]
         public string Login { get; set; }

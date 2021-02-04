@@ -34,7 +34,7 @@ namespace Edurem.Controllers
 
         [Route("register")]
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterEditModel model)
         {
             // Присутствуют ли в моделе ошибки
             if (!ModelState.IsValid)
@@ -68,7 +68,7 @@ namespace Edurem.Controllers
 
         [Route("login")]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginEditModel model)
         {
             // Проверяем, присутствуют ли в моделе ошибки
             if (ModelState.IsValid)

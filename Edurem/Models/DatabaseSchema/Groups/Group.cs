@@ -15,6 +15,11 @@ namespace Edurem.Models
 
         public string Name { get; set; }
 
+        public int SubjectId { get; set; }
+
+        [ForeignKey(nameof(SubjectId))]
+        public Subject SUbject { get; set; }
+
         public List<GroupMember> Members { get; set; }
 
         public List<GroupPost> GroupPosts { get; set; }

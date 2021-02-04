@@ -56,34 +56,36 @@ namespace Edurem.Controllers
 
             var settings = new SettingsViewModel();
 
-            settings.Profile = authenticatedUser;
             settings.Notifications = userNotificationOptions;
 
-            return View(settings);
+            var accountViewModel = new AccountViewModel<SettingsViewModel>() { ViewModel = settings, CurrentUser = authenticatedUser };
+
+            return View(accountViewModel);
         }
 
 
         [Route("settings")]
         [HttpPost]
-        public async Task<IActionResult> Settings(User userModel)
+        public async Task<IActionResult> Settings(AccountViewModel<SettingsViewModel> accountViewModel)
         {
+            TryValidateModel(accountViewModel.CurrentUser);
             if (!ModelState.IsValid)
             {
-                return View(userModel);
+                return View(accountViewModel);
             }
             else
             {
                 try
                 {
-                    await UserService.UpdateUser(userModel);
+                    await UserService.UpdateUser(accountViewModel.CurrentUser);
                 }
                 catch (DatabaseServiceException)
                 {
                     ModelState.AddModelError("", "Не удалось изменить данные. Попробуйте повторить опреацию позже");
-                    return View(userModel);
+                    return View(accountViewModel);
                 }
             }
-            return View(userModel);
+            return View(accountViewModel);
         }
 
         [Route("groups")]
@@ -95,20 +97,27 @@ namespace Edurem.Controllers
 
             var groupsListViewModel = new GroupsListViewModel(groups);
 
+            var accountViewModel = new AccountViewModel<GroupsListViewModel>() { ViewModel = groupsListViewModel, CurrentUser = authenticatedUser };
 
-            return View(groupsListViewModel);
+            return View(accountViewModel);
         }
 
         [Route("groups/create")]
         [HttpGet]
-        public IActionResult CreateGroup()
+        public async Task<IActionResult> CreateGroup([FromServices] IGroupService groupService)
         {
-            return View("CreateGroup");
+
+            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+
+            await groupService.AddSubject("География", authenticatedUser);
+            var accountViewModel = new AccountViewModel<GroupCreationEditModel>() { ViewModel = new GroupCreationEditModel(), CurrentUser = authenticatedUser };
+
+            return View(accountViewModel);
         }
 
         [Route("groups/create")]
         [HttpPost]
-        public async Task<IActionResult> CreateGroup(GroupCreationViewModel creationViewModel,
+        public async Task<IActionResult> CreateGroup(GroupCreationEditModel creationViewModel,
                                          [FromServices] IGroupService groupService)
         {
             var newGroup = creationViewModel.ToGroup();

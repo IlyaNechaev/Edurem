@@ -43,12 +43,12 @@ namespace Edurem.Services
             Configuration = configuration;
         }
 
-        public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterViewModel registerModel)
+        public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterEditModel registerModel)
         {
             return await RegisterUser(registerModel, SecurityService);
         }
 
-        public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterViewModel registerModel, 
+        public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterEditModel registerModel, 
                                                                                                            ISecurityService securityService)
         {
             (bool HasErrors, List<(string Key, string Message)> ErrorMessages) result = new();

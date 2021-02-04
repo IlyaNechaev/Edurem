@@ -26,6 +26,7 @@ namespace Edurem.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupMember> GroupsMembers { get; set; }
         public DbSet<GroupPost> GroupsPosts { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
 
         // Записи
         public DbSet<PostModel> Posts { get; set; }
