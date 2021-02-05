@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Edurem.Models
 {
     [Table("users")]
-    public class User
+    public class User : IEntity
     {
         [Key]
         public int Id { get; set; }

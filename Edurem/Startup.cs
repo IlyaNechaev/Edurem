@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Edurem.Data;
+using Edurem.Data.Repositories;
 using Edurem.Models;
 using Edurem.Services;
 using Edurem.ViewModels;
