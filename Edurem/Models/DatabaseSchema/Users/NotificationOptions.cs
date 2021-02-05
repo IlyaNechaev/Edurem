@@ -11,10 +11,7 @@ namespace Edurem.Models
     public class NotificationOptions
     {
         [Key]
-        public int UserId { get; set; }
-
-        [ForeignKey(nameof(UserId))]
-        public User UserToNotify { get; set; }
+        public int Id { get; set; }
 
         public bool NewTasksToEmail { get; set; }
 

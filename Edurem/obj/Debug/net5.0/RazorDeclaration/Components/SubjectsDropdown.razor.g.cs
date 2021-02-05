@@ -100,22 +100,20 @@ using Edurem.Models;
 #line 41 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
        
 
-    [Parameter]
-    public User CurrentUser { get; set; }
+        [Parameter]
+        public User CurrentUser { get; set; }
 
-    int SubjectId { get; set; }
+        int SubjectId { get; set; }
 
-    List<Subject> AvailableSubjects { get; set; }
+        List<Subject> AvailableSubjects { get; set; }
 
-    public bool IsAddSubjectOpened { get; set; }
+        bool IsAddSubjectOpened { get; set; }
 
-    string SubjectName { get; set; }
+        string SubjectName { get; set; }
 
     protected override void OnInitialized()
     {
-        Task.WaitAll(
-            Task.Run(FillAvailableSubjects)
-            );
+        Task.WaitAll(FillAvailableSubjects());
     }
 
     async Task FillAvailableSubjects()
@@ -124,12 +122,19 @@ using Edurem.Models;
         AvailableSubjects.Add(new Subject() { Name = "-" });
 
         // Добавляем все имеющиеся дисциплины
-        var subjects = await GroupService.GetUserSubjects(CurrentUser);
+        (await GroupService.GetUserSubjects(CurrentUser))
+            .ForEach(AvailableSubjects.Add);
     }
 
-    async Task AddSubject()
+    void AddSubject()
     {
-        await GroupService.AddSubject(SubjectName, CurrentUser);
+        Task.WaitAll(
+            Task.Run(async () =>
+            {
+                await GroupService.AddSubject(SubjectName, CurrentUser);
+                await FillAvailableSubjects();
+            })
+        );
     }
 
     public Task SelectedSubjectChanged(ChangeEventArgs e)

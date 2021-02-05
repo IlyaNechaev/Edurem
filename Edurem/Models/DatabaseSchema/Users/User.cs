@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Edurem.Models
 {
     [Table("users")]
-    public class User : IEntity
+    public class User
     {
         [Key]
         public int Id { get; set; }
@@ -35,7 +35,14 @@ namespace Edurem.Models
         [Column(TypeName = "nvarchar(50)")]
         public Status Status { get; set; }
 
+        public int OptionsId { get; set; }
+
+        [ForeignKey(nameof(OptionsId))]
+        public NotificationOptions Options { get; set; }
+
         public List<UserRole> Roles { get; set; }
+
+        public List<GroupMember> Groups { get; set; }
 
         public bool IsEnabled => !Status.Equals(Status.DELETED) && !Status.Equals(Status.BLOCKED);
 

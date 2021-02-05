@@ -73,4 +73,18 @@ namespace Edurem.Data
                 .WithMany(group => group.GroupPosts);
         }
     }
+
+    public class SubjectsConfiguration : IEntityTypeConfiguration<Subject>
+    {
+        public void Configure(EntityTypeBuilder<Subject> builder)
+        {
+            // Первичный ключ
+            builder
+                .HasKey(subject => subject.Id);
+
+            builder
+                .HasOne(subject => subject.Author);
+                
+        }
+    }
 }

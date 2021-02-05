@@ -30,32 +30,30 @@
         </div>
     </MatDialogTitle>
     <MatDialogContent>
-        <input placeholder="Название дисциплины" @bind-value="SubjectName"/>
+        <input placeholder="Название дисциплины" @bind-value="SubjectName" />
     </MatDialogContent>
     <MatDialogActions>
-        <MatButton Class="btn-primary" Unelevated="true" Type="button" OnClick="@(AddSubject)">Добавить</MatButton>
+        <MatButton Class="btn-primary" Unelevated="true" Type="button" OnClick="@(e => { AddSubject(); IsAddSubjectOpened = false;})">Добавить</MatButton>
         <MatButton Class="btn-danger" Unelevated="true" Type="button" OnClick="@(e => { IsAddSubjectOpened = false; })">Закрыть</MatButton>
     </MatDialogActions>
 </MatDialog>
 
 @code {
 
-    [Parameter]
-    public User CurrentUser { get; set; }
+        [Parameter]
+        public User CurrentUser { get; set; }
 
-    int SubjectId { get; set; }
+        int SubjectId { get; set; }
 
-    List<Subject> AvailableSubjects { get; set; }
+        List<Subject> AvailableSubjects { get; set; }
 
-    public bool IsAddSubjectOpened { get; set; }
+        bool IsAddSubjectOpened { get; set; }
 
-    string SubjectName { get; set; }
+        string SubjectName { get; set; }
 
     protected override void OnInitialized()
     {
-        Task.WaitAll(
-            Task.Run(FillAvailableSubjects)
-            );
+        Task.WaitAll(FillAvailableSubjects());
     }
 
     async Task FillAvailableSubjects()
@@ -64,12 +62,19 @@
         AvailableSubjects.Add(new Subject() { Name = "-" });
 
         // Добавляем все имеющиеся дисциплины
-        var subjects = await GroupService.GetUserSubjects(CurrentUser);
+        (await GroupService.GetUserSubjects(CurrentUser))
+            .ForEach(AvailableSubjects.Add);
     }
 
-    async Task AddSubject()
+    void AddSubject()
     {
-        await GroupService.AddSubject(SubjectName, CurrentUser);
+        Task.WaitAll(
+            Task.Run(async () =>
+            {
+                await GroupService.AddSubject(SubjectName, CurrentUser);
+                await FillAvailableSubjects();
+            })
+        );
     }
 
     public Task SelectedSubjectChanged(ChangeEventArgs e)

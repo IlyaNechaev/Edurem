@@ -58,7 +58,7 @@ namespace Edurem
                 config.RequireInteraction = false;
             });
 
-            services.AddDbContext<EduremDbContext>(options =>
+            services.AddDbContext<DbContext, EduremDbContext>(options =>
                 options.UseMySql(
                     Configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.EnableRetryOnFailure()),

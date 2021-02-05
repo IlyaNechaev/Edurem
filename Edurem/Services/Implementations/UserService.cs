@@ -17,25 +17,28 @@ using Microsoft.Extensions.Configuration;
 using Edurem.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using static Edurem.Services.IEmailService;
+using Microsoft.EntityFrameworkCore;
+using Edurem.Data.Repositories;
 
 namespace Edurem.Services
 {
     public class UserService : IUserService
     {
-        IDbService DbService { get; init; }
         ISecurityService SecurityService { get; init; }
         IEmailService EmailService { get; init; }
         IFileService FileService { get; init; }
         IConfiguration Configuration { get; init; }
+        IDbService DbService { get; set; }
+        Repository<User> UserRepository { get; init; }
 
-        User AuthenticatedUser;
-
-        public UserService([FromServices] IDbService dbService,
+        public UserService([FromServices] DbContext context,
+                           [FromServices] IDbService dbService,
                            [FromServices] ISecurityService securityService,
                            [FromServices] IEmailService emailService,
                            [FromServices] IFileService fileService,
                            [FromServices] IConfiguration configuration)
         {
+            UserRepository = new (context);
             DbService = dbService;
             SecurityService = securityService;
             EmailService = emailService;
@@ -55,18 +58,18 @@ namespace Edurem.Services
             result.ErrorMessages = new List<(string Key, string Message)>();
 
             // Существует ли пользователь с таким логином
-            if (DbService.GetUserByLogin(registerModel.Login) != null)
+            if (await UserRepository.Get(user => user.Login == registerModel.Login) != null)
             {
                 result.ErrorMessages.Add(("Login", "Логин уже используется"));
             }
-            else if (DbService.GetUserByEmail(registerModel.Email) != null)
+            else if (await UserRepository.Get(user => user.Email == registerModel.Email) != null)
             {
                 result.ErrorMessages.Add(("Email", "Email уже используется"));
             }
             else
             {
                 User user = registerModel.ToUser(securityService);
-                await DbService.AddUserAsync(user);
+                await UserRepository.Add(user);
             }
             result.HasErrors = result.ErrorMessages.Count > 0;
 
@@ -88,7 +91,7 @@ namespace Edurem.Services
             (bool HasErrors, List<(string Key, string Message)> ErrorMessages) result = new();
             result.ErrorMessages = new List<(string Key, string Message)>();
 
-            var validUser = DbService.GetUserByLogin(userLogin);
+            var validUser = await UserRepository.Get(user => user.Login == userLogin, nameof(User.Roles));
 
             // Если в базе нет пользователя с такими логином и паролем
             if (validUser == null || !securityService.ValidatePassword(userPassword, validUser?.PasswordHash))
@@ -110,7 +113,6 @@ namespace Edurem.Services
             else
             {
                 await AuthenticateUser();
-                AuthenticatedUser = validUser; // Запоминаем пользователя
             }
 
             result.HasErrors = result.ErrorMessages.Count > 0;
@@ -145,8 +147,6 @@ namespace Edurem.Services
         public async Task LogoutUser(HttpContext context)
         {
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            AuthenticatedUser = null;
         }
 
         public User GetAuthenticatedUser(HttpContext context)
@@ -155,14 +155,14 @@ namespace Edurem.Services
             if (!context.User.Identity.IsAuthenticated)
                 return null;
 
-            return AuthenticatedUser ??= DbService.GetUserByLogin(context.User.Identity.Name);
+            return UserRepository.Get(user => user.Login == context.User.Identity.Name).Result;
         }
 
         public async Task UpdateUser(User user)
         {
             try
             {
-                await DbService.UpdateUser(user);
+                await UserRepository.Update(user);
             }
             catch(DatabaseServiceException)
             {
@@ -170,9 +170,9 @@ namespace Edurem.Services
             }
         }
 
-        public NotificationOptions GetUserNotificationOptions(User user)
+        public async Task<NotificationOptions> GetUserNotificationOptions(User user)
         {
-            return DbService.GetUserNotificationOptions(user);
+            return (await UserRepository.Get(u => u.Id == user.Id, nameof(user.Options))).Options;
         }
 
         public async Task SendUserEmailConfirmation(User user, params SendCompletedHandler[] onSendCompleted)

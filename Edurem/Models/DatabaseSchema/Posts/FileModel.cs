@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Edurem.Models
 {
     [Table("files")]
-    public class FileModel
+    public class FileModel 
     {
         [Key]
         public int Id { get; set; }

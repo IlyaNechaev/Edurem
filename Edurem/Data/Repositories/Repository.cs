@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Edurem.Data.Repositories
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity>
-        where TEntity : class, IEntity
+    public class Repository<TEntity>
+        where TEntity : class
     {
         private DbContext Context { get; init; }
 
@@ -48,10 +49,10 @@ namespace Edurem.Data.Repositories
             IEnumerable<TEntity> entities;
             try
             {
-                var contextEntites = Context.Set<TEntity>();
+                var contextEntites = Context.Set<TEntity>().AsQueryable();
                 foreach (var inclusion in inclusions)
                 {
-                    contextEntites.Include(inclusion);
+                    contextEntites = contextEntites.Include(inclusion);
                 }
                 entities = await contextEntites.ToListAsync();
             }
@@ -63,12 +64,12 @@ namespace Edurem.Data.Repositories
             return entities;
         }
 
-        public async Task<TEntity> Get(int id)
+        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
         {
             TEntity entity;
             try
             {
-                entity = await Context.Set<TEntity>().FirstOrDefaultAsync(entity => entity.Id == id);
+                entity = await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
             }
             catch (Exception)
             {
@@ -78,17 +79,17 @@ namespace Edurem.Data.Repositories
             return entity;
         }
 
-        public async Task<TEntity> Get(int id, params string[] inclusions)
+        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate, params string[] inclusions)
         {
             TEntity entity;
             try
             {
-                var contextEntites = Context.Set<TEntity>();
+                var contextEntites = Context.Set<TEntity>().AsQueryable();
                 foreach (var inclusion in inclusions)
                 {
-                    contextEntites.Include(inclusion);
+                    contextEntites = contextEntites.Include(inclusion);
                 }
-                entity = await contextEntites.FirstOrDefaultAsync(entity => entity.Id == id);
+                entity = await contextEntites.FirstOrDefaultAsync(predicate);
             }
             catch (Exception)
             {
@@ -104,10 +105,10 @@ namespace Edurem.Data.Repositories
 
             try
             {
-                entities = await Context.Set<TEntity>()
-                    .Where(predicate)
-                    .AsQueryable()
-                    .ToListAsync();
+                entities = Context.Set<TEntity>()
+                    .Where(predicate);
+
+                await Task.FromResult(entities.ToList());
             }
             catch (Exception)
             {
@@ -123,16 +124,16 @@ namespace Edurem.Data.Repositories
 
             try
             {
-                var contextEntites = Context.Set<TEntity>();
+                var contextEntites = Context.Set<TEntity>().AsQueryable();
                 foreach (var inclusion in inclusions)
                 {
-                    contextEntites.Include(inclusion);
+                    contextEntites = contextEntites.Include(inclusion);
                 }
 
-                entities = await contextEntites
-                    .Where(predicate)
-                    .AsQueryable()
-                    .ToListAsync();
+                entities = contextEntites
+                    .Where(predicate);
+
+                await Task.FromResult(entities.ToList());
             }
             catch (Exception)
             {

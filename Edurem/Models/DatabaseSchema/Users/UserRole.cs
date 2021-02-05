@@ -10,7 +10,6 @@ namespace Edurem.Models
     public class UserRole
     {
         public int UserId { get; set; }
-
         public int RoleId { get; set; }
 
         [ForeignKey(nameof(UserId))]
@@ -18,6 +17,5 @@ namespace Edurem.Models
 
         [ForeignKey(nameof(RoleId))]
         public Role Role { get; set; }
-
     }
 }

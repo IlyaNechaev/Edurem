@@ -46,6 +46,10 @@ namespace Edurem.Data
                 .HasMany(user => user.Roles)
                 .WithOne(userRole => userRole.User);
 
+            builder
+                .HasMany(user => user.Groups)
+                .WithOne(groupMember => groupMember.User);
+
             // Добавочное поле для кода подтверждения Email
             
             builder
@@ -72,6 +76,7 @@ namespace Edurem.Data
             }.ToUser(SecurityService);
 
             adminUser.Id = 1;
+            adminUser.OptionsId = 1;
 
             builder.HasData(adminUser);
         }
@@ -81,14 +86,14 @@ namespace Edurem.Data
     {
         public void Configure(EntityTypeBuilder<NotificationOptions> builder)
         {
-            builder.HasKey(options => options.UserId);
+            builder.HasKey(options => options.Id);
 
             var notifOptions = new NotificationOptions
             {
+                Id = 1,
                 NewTasksToEmail = false,
                 TaskResultToEmail = false,
-                TeacherMessageToEmail = false,
-                UserId = 1
+                TeacherMessageToEmail = false
             };
 
             builder

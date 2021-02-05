@@ -50,10 +50,10 @@ namespace Edurem.Controllers
 
         [Route("settings")]
         [HttpGet]
-        public IActionResult Settings()
+        public async Task<IActionResult> Settings()
         {
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
-            var userNotificationOptions = UserService.GetUserNotificationOptions(authenticatedUser);
+            var userNotificationOptions = await UserService.GetUserNotificationOptions(authenticatedUser);
 
             var settings = new SettingsViewModel();
 
@@ -105,12 +105,11 @@ namespace Edurem.Controllers
 
         [Route("groups/create")]
         [HttpGet]
-        public async Task<IActionResult> CreateGroup([FromServices] IGroupService groupService)
+        public IActionResult CreateGroup([FromServices] IGroupService groupService)
         {
 
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
 
-            await groupService.AddSubject("География", authenticatedUser);
             var accountViewModel = new AccountViewModel<GroupCreationEditModel>() { ViewModel = new GroupCreationEditModel(), CurrentUser = authenticatedUser };
 
             return View(accountViewModel);
