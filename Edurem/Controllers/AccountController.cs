@@ -117,11 +117,17 @@ namespace Edurem.Controllers
 
         [Route("groups/create")]
         [HttpPost]
-        public async Task<IActionResult> CreateGroup(GroupCreationEditModel creationViewModel,
+        public async Task<IActionResult> CreateGroup(AccountViewModel<GroupCreationEditModel> accountViewModel,
                                          [FromServices] IGroupService groupService)
         {
-            var newGroup = creationViewModel.ToGroup();
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+
+            if (!TryValidateModel(accountViewModel.ViewModel))
+            {
+                accountViewModel.CurrentUser = authenticatedUser;
+                return View(accountViewModel);
+            }
+            var newGroup = accountViewModel.ViewModel.ToGroup();
 
             await groupService.CreateGroup(newGroup, authenticatedUser);
 

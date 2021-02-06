@@ -26,9 +26,10 @@ namespace Edurem.Services
 
         public async Task<List<(Group, RoleInGroup)>> GetUserGroups(User user)
         {
-            var groupsMember = (await UserRepository.Get(u => u.Id == user.Id, nameof(user.Groups))).Groups;
+            // Находим группы, в которых состоит пользователь
+            var groups = await GroupRepository.Find(group => group.Members.Any(gm => gm.UserId == user.Id), nameof(Group.Subject), nameof(Group.Members));
 
-            return groupsMember.Select(gm => (gm.Group, gm.RoleInGroup)).ToList();
+            return groups.Select(group => (group, group.Members.First(gm => gm.UserId == user.Id).RoleInGroup)).ToList();
         }
 
         public async Task CreateGroup(Group group, User creator)

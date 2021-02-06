@@ -12,8 +12,7 @@ namespace Edurem.ViewModels
         [Required(ErrorMessage = "Введите название группы")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Выберите дисциплину")]
-        [Range(1, int.MaxValue)]
+        [Range(1, int.MaxValue, ErrorMessage = "Выберите дисциплину")]
         public int SubjectId { get; set; }
 
         public Group ToGroup()
@@ -21,6 +20,7 @@ namespace Edurem.ViewModels
             var group = new Group();
 
             group.Name = Name;
+            group.SubjectId = SubjectId;
 
             return group;
         }

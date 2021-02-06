@@ -97,19 +97,20 @@ using Edurem.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 41 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
+#line 50 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
        
 
-        [Parameter]
-        public User CurrentUser { get; set; }
+    [Parameter]
+    public User CurrentUser { get; set; }
 
-        int SubjectId { get; set; }
+    [Parameter]
+    public int SubjectId { get; set; }
 
-        List<Subject> AvailableSubjects { get; set; }
+    List<Subject> AvailableSubjects { get; set; }
 
-        bool IsAddSubjectOpened { get; set; }
+    bool IsAddSubjectOpened { get; set; }
 
-        string SubjectName { get; set; }
+    string SubjectName { get; set; }
 
     protected override void OnInitialized()
     {
@@ -119,7 +120,7 @@ using Edurem.Models;
     async Task FillAvailableSubjects()
     {
         AvailableSubjects = new();
-        AvailableSubjects.Add(new Subject() { Name = "-" });
+        AvailableSubjects.Add(new Subject() { Name = "-", Id = 0 });
 
         // Добавляем все имеющиеся дисциплины
         (await GroupService.GetUserSubjects(CurrentUser))
@@ -139,7 +140,8 @@ using Edurem.Models;
 
     public Task SelectedSubjectChanged(ChangeEventArgs e)
     {
-        SubjectId = ((Subject)e.Value).Id;
+        var s = e.Value.ToString();
+        SubjectId = int.Parse(s);
 
         return UpdateSubject();
     }

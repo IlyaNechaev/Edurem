@@ -18,7 +18,7 @@ namespace Edurem.Models
         public int SubjectId { get; set; }
 
         [ForeignKey(nameof(SubjectId))]
-        public Subject SUbject { get; set; }
+        public Subject Subject { get; set; }
 
         public List<GroupMember> Members { get; set; }
 

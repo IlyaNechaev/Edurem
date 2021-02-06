@@ -58,7 +58,7 @@ namespace Edurem.ViewModels
 
             groups.ForEach(group =>
             {
-                Groups.Add(new(group.Group, group.UserRole, new Subject() { Name = "Test" }));
+                Groups.Add(new(group.Group, group.UserRole, group.Group.Subject));
             });
 
             GroupsForView = Groups;

@@ -172,7 +172,7 @@ namespace Edurem.Services
 
         public async Task<NotificationOptions> GetUserNotificationOptions(User user)
         {
-            return (await UserRepository.Get(u => u.Id == user.Id, nameof(user.Options))).Options;
+            return (await UserRepository.Get(u => u.Id == user.Id, nameof(User.Options))).Options;
         }
 
         public async Task SendUserEmailConfirmation(User user, params SendCompletedHandler[] onSendCompleted)
