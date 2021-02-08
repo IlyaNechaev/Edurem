@@ -1,5 +1,4 @@
 ﻿using Edurem.Data;
-using Edurem.Data.Repositories;
 using Edurem.Models;
 using Edurem.Services;
 using Edurem.ViewModels;

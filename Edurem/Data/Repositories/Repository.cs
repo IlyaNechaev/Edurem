@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Edurem.Data.Repositories
+namespace Edurem.Data
 {
     public class Repository<TEntity>
         where TEntity : class

@@ -18,7 +18,6 @@ using Edurem.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using static Edurem.Services.IEmailService;
 using Microsoft.EntityFrameworkCore;
-using Edurem.Data.Repositories;
 
 namespace Edurem.Services
 {
@@ -28,17 +27,17 @@ namespace Edurem.Services
         IEmailService EmailService { get; init; }
         IFileService FileService { get; init; }
         IConfiguration Configuration { get; init; }
-        IDbService DbService { get; set; }
-        Repository<User> UserRepository { get; init; }
+        IDbService DbService { get; init; }
+        IRepositoryFactory RepositoryFactory { get; init; }
 
-        public UserService([FromServices] DbContext context,
+        public UserService([FromServices] IRepositoryFactory repositoryFactory,
                            [FromServices] IDbService dbService,
                            [FromServices] ISecurityService securityService,
                            [FromServices] IEmailService emailService,
                            [FromServices] IFileService fileService,
                            [FromServices] IConfiguration configuration)
         {
-            UserRepository = new (context);
+            RepositoryFactory = repositoryFactory;
             DbService = dbService;
             SecurityService = securityService;
             EmailService = emailService;
@@ -56,6 +55,8 @@ namespace Edurem.Services
         {
             (bool HasErrors, List<(string Key, string Message)> ErrorMessages) result = new();
             result.ErrorMessages = new List<(string Key, string Message)>();
+
+            var UserRepository = RepositoryFactory.GetRepository<User>();
 
             // Существует ли пользователь с таким логином
             if (await UserRepository.Get(user => user.Login == registerModel.Login) != null)
@@ -90,6 +91,8 @@ namespace Edurem.Services
         {
             (bool HasErrors, List<(string Key, string Message)> ErrorMessages) result = new();
             result.ErrorMessages = new List<(string Key, string Message)>();
+
+            var UserRepository = RepositoryFactory.GetRepository<User>();
 
             var validUser = await UserRepository.Get(user => user.Login == userLogin, nameof(User.Roles));
 
@@ -155,6 +158,8 @@ namespace Edurem.Services
             if (!context.User.Identity.IsAuthenticated)
                 return null;
 
+            var UserRepository = RepositoryFactory.GetRepository<User>();
+
             return UserRepository.Get(user => user.Login == context.User.Identity.Name).Result;
         }
 
@@ -162,6 +167,7 @@ namespace Edurem.Services
         {
             try
             {
+                var UserRepository = RepositoryFactory.GetRepository<User>();
                 await UserRepository.Update(user);
             }
             catch(DatabaseServiceException)
@@ -172,6 +178,8 @@ namespace Edurem.Services
 
         public async Task<NotificationOptions> GetUserNotificationOptions(User user)
         {
+            var UserRepository = RepositoryFactory.GetRepository<User>();
+
             return (await UserRepository.Get(u => u.Id == user.Id, nameof(User.Options))).Options;
         }
 

@@ -6,7 +6,6 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Edurem.Data;
-using Edurem.Data.Repositories;
 using Edurem.Models;
 using Edurem.Services;
 using Edurem.ViewModels;
@@ -72,6 +71,7 @@ namespace Edurem
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IEmailService, MimeEmailService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
