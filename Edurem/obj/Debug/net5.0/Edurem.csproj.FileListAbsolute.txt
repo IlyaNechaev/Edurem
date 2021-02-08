@@ -173,3 +173,6 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Micro
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Microsoft.Rest.ClientRuntime.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\System.IO.Pipelines.dll
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\PostsList.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\PostsList.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Group\GroupPosts.cshtml.g.cs

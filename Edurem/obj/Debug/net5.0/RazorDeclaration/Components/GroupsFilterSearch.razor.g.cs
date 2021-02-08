@@ -104,7 +104,7 @@ using Edurem.ViewModels;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 108 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\GroupsFilterSearch.razor"
+#line 111 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\GroupsFilterSearch.razor"
        
 
     [Parameter]
@@ -135,10 +135,10 @@ using Edurem.ViewModels;
 
         Roles = new()
         {
-            (RoleInGroup.MEMBER | RoleInGroup.ADMIN, "-"),
-            (RoleInGroup.ADMIN, "Администратор"),
-            (RoleInGroup.MEMBER, "Участник")
-        };
+                (RoleInGroup.MEMBER | RoleInGroup.ADMIN, "-"),
+                (RoleInGroup.ADMIN, "Администратор"),
+                (RoleInGroup.MEMBER, "Участник")
+            };
 
         FilterOptions = new()
         {
@@ -185,6 +185,7 @@ using Edurem.ViewModels;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private Edurem.Services.IGroupService GroupService { get; set; }
     }
 }

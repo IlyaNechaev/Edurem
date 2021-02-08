@@ -50,5 +50,21 @@ namespace Edurem.Services
         {
             return (await SubjectRepository.Find(subject => subject.AuthorId == user.Id)).ToList();
         }
+
+        public async Task<Group> GetGroup(int groupId)
+        {
+            return await GroupRepository.Get(group => group.Id == groupId, nameof(Group.Subject), nameof(Group.Members));
+        }
+
+        /*
+        public async Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1)
+        {
+            (await GroupRepository.Get(group => group.Id == groupId, nameof(Group.GroupPosts)))
+                .GroupPosts
+                .OrderBy(post => post.)
+                .Reverse()
+                .Skip(startIndex)
+                .Take(postsCount);
+        }*/
     }
 }

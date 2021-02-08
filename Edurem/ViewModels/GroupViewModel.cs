@@ -17,7 +17,7 @@ namespace Edurem.ViewModels
 
         public RoleInGroup UserRole { get; set; }
 
-        public string SubjectName { get; set; }
+        public Subject Subject { get; set; }
 
         public Dictionary<string, string> GroupInfo { get; set; }
 
@@ -28,10 +28,10 @@ namespace Edurem.ViewModels
             Id = group.Id;
             Name = group.Name;
             MembersCount = group.Members.Count();
-            SubjectName = subject.Name;
+            Subject = subject;
 
             GroupInfo = new();
-            GroupInfo.Add("Дисциплина", SubjectName);
+            GroupInfo.Add("Дисциплина", Subject.Name);
             GroupInfo.Add("Количество участников", MembersCount.ToString());
             if (role == RoleInGroup.ADMIN)
                 GroupInfo.Add("Вы", "Администратор");

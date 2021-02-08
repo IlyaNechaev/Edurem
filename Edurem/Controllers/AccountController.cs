@@ -91,7 +91,7 @@ namespace Edurem.Controllers
 
         [Route("groups")]
         [HttpGet]
-        public async Task<IActionResult> Groups([FromServices] IGroupService groupService)
+        public IActionResult Groups([FromServices] IGroupService groupService)
         {
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
 

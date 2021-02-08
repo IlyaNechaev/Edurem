@@ -1,5 +1,6 @@
 ﻿@using Edurem.ViewModels;
 @inject Edurem.Services.IGroupService GroupService;
+@inject NavigationManager NavigationManager;
 
 <div class="row border-bottom mt-2 mb-2">
     <div class="col-12">
@@ -29,7 +30,9 @@
             <div class="row justify-content-center mt-4">
                 <div class="col-12 col-lg-10 card">
                     <div class="card-header">
-                        <h5>@group.Name</h5>
+                        <a href="" @onclick="@(e => NavigationManager.NavigateTo($"group/{group.Id}", true))" @onclick:preventDefault="true">
+                            <h5>@group.Name</h5>
+                        </a>
                     </div>
                     <div class="card-body">
                         <div class="row justify-content-center">
@@ -135,10 +138,10 @@
 
         Roles = new()
         {
-            (RoleInGroup.MEMBER | RoleInGroup.ADMIN, "-"),
-            (RoleInGroup.ADMIN, "Администратор"),
-            (RoleInGroup.MEMBER, "Участник")
-        };
+                (RoleInGroup.MEMBER | RoleInGroup.ADMIN, "-"),
+                (RoleInGroup.ADMIN, "Администратор"),
+                (RoleInGroup.MEMBER, "Участник")
+            };
 
         FilterOptions = new()
         {

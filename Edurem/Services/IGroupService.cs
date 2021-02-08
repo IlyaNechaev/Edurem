@@ -17,5 +17,9 @@ namespace Edurem.Services
         public Task AddSubject(string subjectName, User user);
 
         public Task<List<Subject>> GetUserSubjects(User user);
+
+        public Task<Group> GetGroup(int groupId);
+
+        //public Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1);
     }
 }
