@@ -97,7 +97,7 @@ using Edurem.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 50 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
+#line 48 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
        
 
     [Parameter]

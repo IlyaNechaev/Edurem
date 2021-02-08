@@ -94,11 +94,8 @@ namespace Edurem.Controllers
         public async Task<IActionResult> Groups([FromServices] IGroupService groupService)
         {
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
-            var groups = await groupService.GetUserGroups(authenticatedUser);
 
-            var groupsListViewModel = new GroupsListViewModel(groups);
-
-            var accountViewModel = new AccountViewModel<GroupsListViewModel>() { ViewModel = groupsListViewModel, CurrentUser = authenticatedUser };
+            var accountViewModel = new AccountViewModel() { CurrentUser = authenticatedUser };
 
             return View(accountViewModel);
         }

@@ -19,7 +19,7 @@
 <body>
     <app>
         <div class="sidebar">
-            <component>@(await Html.RenderComponentAsync<Edurem.Components.NavMenu>(RenderMode.Server, new { ApplicationName = @AppConfiguration["ApplicationName"] }))</component>
+            <component>@(await Html.RenderComponentAsync<Edurem.Components.NavMenu>(RenderMode.ServerPrerendered, new { ApplicationName = @AppConfiguration["ApplicationName"] }))</component>
         </div>
 
         <div class="main"> 

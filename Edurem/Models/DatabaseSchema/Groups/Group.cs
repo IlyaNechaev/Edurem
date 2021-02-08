@@ -27,7 +27,7 @@ namespace Edurem.Models
 
     public enum RoleInGroup
     {
-        ADMIN,
-        MEMBER
+        ADMIN = 1,
+        MEMBER = 2
     }
 }

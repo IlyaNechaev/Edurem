@@ -1,48 +1,184 @@
 ﻿@using Edurem.ViewModels;
+@inject Edurem.Services.IGroupService GroupService;
 
-<div class="col-12">
-    <div class="row text-left align-items-center mb-2">
-        <input class="col-4 col-md-5 col-xl-3 form-control" placeholder="Название группы" />
-        <a href="" @onclick="() => { IsFilterOpened = true; }" @onclick:preventDefault><i class="col-1 fas fa-filter" style="font-size: 20px"></i></a>
+<div class="row border-bottom mt-2 mb-2">
+    <div class="col-12">
+        <div class="row text-left align-items-center mb-2">
+            <input @onchange="e => GroupName = e.Value.ToString().ToLower()" class="col-4 col-md-5 col-xl-3 form-control" placeholder="Название группы" />
+            <div class="col-1">
+                <a href="" @onclick="() => { IsFilterOpened = true; }" @onclick:preventDefault="true">
+                    <i class="fas fa-filter" style="font-size: 20px"></i>
+                </a>
+            </div>
+        </div>
+        <div class="row text-left align-items-center mt-2 mb-2">
+            <button class="col-2 col-md-2 col-xl-1 btn btn-primary text-center" @onclick="SearchGroups">Поиск</button>
+        </div>
     </div>
-    <div class="row text-left align-items-center mt-2 mb-2">
-        <button class="col-2 col-md-2 col-xl-1 btn btn-primary text-center" @onclick="SearchGroups">Поиск</button>
+</div>
+<div class="row">
+    <div class="col-12">
+        @if (GroupsList.GroupsForView.Count == 0)
+        {
+            <div class="row justify-content-center mt-4">
+                <h3 class="text-muted text-center mt-4">Группы не найдены</h3>
+            </div>
+        }
+        @foreach (var group in GroupsList.GroupsForView)
+        {
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-lg-10 card">
+                    <div class="card-header">
+                        <h5>@group.Name</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-11">
+                                @foreach (var info in group.GroupInfo)
+                                {
+                                    <div class="row">
+                                        <div class="col-4 text-right">
+                                            <p><b>@info.Key</b>:</p>
+                                        </div>
+                                        <div class="col-8 text-left">
+                                            <p>@info.Value</p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
-<MatDialog @bind-IsOpen="@IsFilterOpened">
-    <MatDialogTitle Class="text-left">
-        <p style="font-size: 30px">Фильтр групп</p>
-    </MatDialogTitle>
-    <MatDialogContent>
-        <div class="row">
-            ЗДЕСЬ БУДЕТ ФИЛЬТР
-        </div>
-    </MatDialogContent>
-    <MatDialogActions>
-        <MatButton Unelevated="true" Type="button" OnClick="@(e => { IsFilterOpened = false; AcceptChanges(); })">Готово</MatButton>
-    </MatDialogActions>
-</MatDialog>
+
+<MatThemeProvider Theme="theme">
+    <MatDialog @bind-IsOpen="@IsFilterOpened">
+        <MatDialogTitle Class="text-left">
+            <p style="font-size: 30px">Фильтр групп</p>
+        </MatDialogTitle>
+        <MatDialogContent>
+            <div class="row">
+                <div class="col-6">
+                    <p style="font-size: 18px">Минимальное число участников</p>
+                    <MatNumericUpDownField Label="Введите число"
+                                           @bind-Value="MinMembersCount"
+                                           DecimalPlaces="0"
+                                           Minimum="1" Maximum="int.MaxValue">
+                    </MatNumericUpDownField>
+                </div>
+                <div class="col-6">
+                    <p style="font-size: 18px">Максимальное число участников</p>
+                    <MatNumericUpDownField Label="Введите число"
+                                           @bind-Value="MaxMembersCount"
+                                           DecimalPlaces="0"
+                                           Minimum="1" Maximum="int.MaxValue">
+                    </MatNumericUpDownField>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-6">
+                    <p class="mb-1" style="font-size: 18px">Роль в группе</p>
+                    <select class="form-control" @onchange="e => UserRole = (RoleInGroup)Enum.Parse(typeof(RoleInGroup), e.Value.ToString())">
+                        @foreach (var role in Roles)
+                        {
+                            @if (role.Role.Equals(UserRole))
+                            {
+                                <option value="@role.Role" selected>@role.Value</option>
+                            }
+                            else
+                            {
+                                <option value="@role.Role">@role.Value</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </MatDialogContent>
+        <MatDialogActions>
+            <button class="btn btn-primary" type="button" @onclick="(e => { IsFilterOpened = false; AcceptChanges(); })">Готово</button>
+            <button class="btn btn-danger ml-2" type="button" @onclick="(e => { IsFilterOpened = false; CancelChanges(); })">Отмена</button>
+        </MatDialogActions>
+    </MatDialog>
+</MatThemeProvider>
 
 @code {
 
     [Parameter]
-    public List<GroupViewModel> AvailableGroups { get; set; }
+    public User CurrentUser { get; set; }
 
-    public bool IsFilterOpened { get; set; }
+    GroupsListViewModel GroupsList { get; set; }
 
-    public GroupsFilterSearch()
+    bool IsFilterOpened { get; set; }
+
+    GroupFilterOptions FilterOptions { get; set; }
+
+    int MinMembersCount { get; set; }
+    int MaxMembersCount { get; set; }
+    RoleInGroup UserRole { get; set; }
+    string GroupName { get; set; }
+
+    MatTheme theme = new MatTheme
     {
+        Primary = "#007bff", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    List<(RoleInGroup Role, string Value)> Roles;
+
+    protected override void OnInitialized()
+    {
+        Task.WaitAll(GetGroupViews());
+
+        Roles = new()
+        {
+            (RoleInGroup.MEMBER | RoleInGroup.ADMIN, "-"),
+            (RoleInGroup.ADMIN, "Администратор"),
+            (RoleInGroup.MEMBER, "Участник")
+        };
+
+        FilterOptions = new()
+        {
+            MinMembersCount = 1,
+            MaxMembersCount = int.MaxValue,
+            UserRole = Roles[0].Role
+
+        };
+
         IsFilterOpened = false;
+
+        MinMembersCount = FilterOptions.MinMembersCount;
+        MaxMembersCount = FilterOptions.MaxMembersCount;
+        UserRole = FilterOptions.UserRole;
     }
 
-    public void AcceptChanges()
+    async Task GetGroupViews()
     {
+        var groups = await GroupService.GetUserGroups(CurrentUser);
 
+        GroupsList = new(groups);
     }
 
-    public void SearchGroups()
+    void AcceptChanges()
     {
+        FilterOptions.MinMembersCount = MinMembersCount;
+        FilterOptions.MaxMembersCount = MaxMembersCount;
+        FilterOptions.UserRole = UserRole;
+    }
 
+    void CancelChanges()
+    {
+        MinMembersCount = FilterOptions.MinMembersCount;
+        MaxMembersCount = FilterOptions.MaxMembersCount;
+        UserRole = FilterOptions.UserRole;
+    }
+
+    void SearchGroups()
+    {
+        GroupsList.FilterGroups(FilterOptions);
+        GroupsList.GroupsForView = GroupsList.GroupsForView.Where(group => group.Name.ToLower().Contains(GroupName)).ToList();
     }
 }

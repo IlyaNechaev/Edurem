@@ -12,4 +12,9 @@ namespace Edurem.ViewModels
 
         public TViewModel ViewModel { get; set; }
     }
+
+    public class AccountViewModel
+    {
+        public User CurrentUser { get; set; }
+    }
 }

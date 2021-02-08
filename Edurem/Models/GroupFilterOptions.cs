@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Edurem.Models
 {
-    public struct GroupFilterOptions
+    public class GroupFilterOptions
     {
         /// <summary>
         /// Роль пользователя в группе

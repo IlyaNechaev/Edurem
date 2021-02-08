@@ -40,6 +40,7 @@ namespace Edurem
             services.AddControllersWithViews();
 
             services.AddServerSideBlazor();
+            services.AddRazorPages();
 
             // Добавляем конфигурацию Toaster
             services.AddMatToaster(config =>
@@ -116,6 +117,7 @@ namespace Edurem
             {
                 endpoints.MapFallbackToController("Default", "Home");
                 endpoints.MapBlazorHub();
+                endpoints.MapRazorPages();
             });
         }
     }

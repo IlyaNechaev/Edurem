@@ -51,6 +51,12 @@ namespace Edurem.ViewModels
         // Данная коллекция меняется при фильтрации имеющихся групп
         public List<GroupViewModel> GroupsForView { get; set; }
 
+        public GroupsListViewModel()
+        {
+            Groups = new();
+            GroupsForView = new();
+        }
+
         public GroupsListViewModel(List<(Group Group, RoleInGroup UserRole)> groups)
         {
             Groups = new();

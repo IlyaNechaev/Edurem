@@ -89,6 +89,13 @@ using Edurem.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 1 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\GroupsFilterSearch.razor"
+using Edurem.ViewModels;
+
+#line default
+#line hidden
+#nullable disable
     public partial class GroupsFilterSearch : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -97,29 +104,88 @@ using Edurem.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 25 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\GroupsFilterSearch.razor"
+#line 108 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\GroupsFilterSearch.razor"
        
 
-    public bool IsFilterOpened { get; set; }
+    [Parameter]
+    public User CurrentUser { get; set; }
 
-    public GroupsFilterSearch()
+    GroupsListViewModel GroupsList { get; set; }
+
+    bool IsFilterOpened { get; set; }
+
+    GroupFilterOptions FilterOptions { get; set; }
+
+    int MinMembersCount { get; set; }
+    int MaxMembersCount { get; set; }
+    RoleInGroup UserRole { get; set; }
+    string GroupName { get; set; }
+
+    MatTheme theme = new MatTheme
     {
+        Primary = "#007bff", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    List<(RoleInGroup Role, string Value)> Roles;
+
+    protected override void OnInitialized()
+    {
+        Task.WaitAll(GetGroupViews());
+
+        Roles = new()
+        {
+            (RoleInGroup.MEMBER | RoleInGroup.ADMIN, "-"),
+            (RoleInGroup.ADMIN, "Администратор"),
+            (RoleInGroup.MEMBER, "Участник")
+        };
+
+        FilterOptions = new()
+        {
+            MinMembersCount = 1,
+            MaxMembersCount = int.MaxValue,
+            UserRole = Roles[0].Role
+
+        };
+
         IsFilterOpened = false;
+
+        MinMembersCount = FilterOptions.MinMembersCount;
+        MaxMembersCount = FilterOptions.MaxMembersCount;
+        UserRole = FilterOptions.UserRole;
     }
 
-    public void AcceptChanges()
+    async Task GetGroupViews()
     {
+        var groups = await GroupService.GetUserGroups(CurrentUser);
 
+        GroupsList = new(groups);
     }
 
-    public void SearchGroups()
+    void AcceptChanges()
     {
+        FilterOptions.MinMembersCount = MinMembersCount;
+        FilterOptions.MaxMembersCount = MaxMembersCount;
+        FilterOptions.UserRole = UserRole;
+    }
 
+    void CancelChanges()
+    {
+        MinMembersCount = FilterOptions.MinMembersCount;
+        MaxMembersCount = FilterOptions.MaxMembersCount;
+        UserRole = FilterOptions.UserRole;
+    }
+
+    void SearchGroups()
+    {
+        GroupsList.FilterGroups(FilterOptions);
+        GroupsList.GroupsForView = GroupsList.GroupsForView.Where(group => group.Name.ToLower().Contains(GroupName)).ToList();
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Edurem.Services.IGroupService GroupService { get; set; }
     }
 }
 #pragma warning restore 1591
