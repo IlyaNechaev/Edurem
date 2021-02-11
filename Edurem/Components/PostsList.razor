@@ -1,16 +1,39 @@
 ﻿@inject Edurem.Services.IGroupService GroupService;
 
-<div>
+@if (Posts.Count == 0)
+{
+    <div class="row justify-content-center mt-4">
+        <h3 class="text-muted text-center mt-4">Нет записей</h3>
+    </div>
+}
+else
+{
+    @foreach (var post in Posts)
+    {
+        <div class="row">
+            <p>@post.Title</p>
+        </div>
+    }
+    <div class="row">
+        <MatButtonLink OnClick="AddPosts">Ранние записи</MatButtonLink>
+    </div>
+}
 
-</div>
-
-@code 
+@code
 {
     [Parameter]
     public int GroupId { get; set; }
 
+    public List<PostModel> Posts { get; set; }
+
     protected override void OnInitialized()
     {
+        Posts = new List<PostModel>();
+        Task.WaitAll(AddPosts());
+    }
 
+    async Task AddPosts()
+    {
+        Posts.AddRange(await GroupService.GetGroupPosts(GroupId, startIndex: Posts.Count, postsCount: 3));
     }
 }

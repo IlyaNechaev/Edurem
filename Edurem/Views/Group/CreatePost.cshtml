@@ -1,0 +1,10 @@
+﻿
+
+@{
+    ViewData["Title"] = "Новый пост";
+    ViewData["ApplicationName"] = "Edurem";
+    Layout = "_AccountLayout";
+}
+
+
+<component>@(await Html.RenderComponentAsync<Edurem.Components.EditPost>(RenderMode.ServerPrerendered))</component>

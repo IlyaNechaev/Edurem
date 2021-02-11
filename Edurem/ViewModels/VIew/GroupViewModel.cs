@@ -21,6 +21,7 @@ namespace Edurem.ViewModels
 
         public Dictionary<string, string> GroupInfo { get; set; }
 
+
         public GroupViewModel(Group group, RoleInGroup role, Subject subject)
         {
             UserRole = role;

@@ -131,6 +131,7 @@ using Edurem.ViewModels;
 
     protected override void OnInitialized()
     {
+        GroupName = string.Empty;
         Task.WaitAll(GetGroupViews());
 
         Roles = new()

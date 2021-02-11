@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StardustDL.RazorComponents.Markdown;
 using MimeKit;
 
 namespace Edurem
@@ -40,6 +41,7 @@ namespace Edurem
 
             services.AddServerSideBlazor();
             services.AddRazorPages();
+            services.AddMarkdownComponent();
 
             // Добавляем конфигурацию Toaster
             services.AddMatToaster(config =>
@@ -71,6 +73,7 @@ namespace Edurem
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IEmailService, MimeEmailService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IMarkdownService, Services.Markdig>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

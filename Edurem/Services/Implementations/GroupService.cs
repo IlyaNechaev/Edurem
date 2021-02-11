@@ -60,15 +60,22 @@ namespace Edurem.Services
             return await GroupRepository.Get(group => group.Id == groupId, nameof(Group.Subject), nameof(Group.Members));
         }
 
-        /*
+        
         public async Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1)
         {
-            (await GroupRepository.Get(group => group.Id == groupId, nameof(Group.GroupPosts)))
-                .GroupPosts
-                .OrderBy(post => post.)
-                .Reverse()
-                .Skip(startIndex)
-                .Take(postsCount);
-        }*/
+            var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
+
+            // 
+            var groupPosts = (await GroupPostRepository.Find(gp => gp.GroupId == groupId, nameof(GroupPost.Post)));
+
+            // Находим последние несколько постов (postsCount), начиная со startIndex
+            return groupPosts?
+                .Select(gp => gp.Post)?
+                .OrderBy(post => post.PublicationDate)?
+                .Reverse()?
+                .Skip(startIndex)?
+                .Take(postsCount)?
+                .ToList();
+        }
     }
 }

@@ -47,6 +47,26 @@
               "target": "Package",
               "version": "[3.0.0, )"
             },
+            "Blazored.TextEditor": {
+              "target": "Package",
+              "version": "[1.0.3, )"
+            },
+            "CKEditor": {
+              "target": "Package",
+              "version": "[3.6.4, )"
+            },
+            "ColorCode.Core": {
+              "target": "Package",
+              "version": "[2.0.6, )"
+            },
+            "ColorCode.HTML": {
+              "target": "Package",
+              "version": "[2.0.6, )"
+            },
+            "CommonMark.NET": {
+              "target": "Package",
+              "version": "[0.15.1, )"
+            },
             "Docker.DotNet": {
               "target": "Package",
               "version": "[3.125.4, )"
@@ -55,9 +75,25 @@
               "target": "Package",
               "version": "[1.7.0, )"
             },
+            "Html2Markdown": {
+              "target": "Package",
+              "version": "[4.0.0.427, )"
+            },
+            "Jering.Web.SyntaxHighlighters.Prism": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[2.10.1, )"
+            },
+            "Markdig": {
+              "target": "Package",
+              "version": "[0.23.0, )"
+            },
+            "MarkdigExtensions.SyntaxHighlighting": {
+              "target": "Package",
+              "version": "[1.0.3, )"
             },
             "MatBlazor": {
               "target": "Package",
@@ -65,15 +101,23 @@
             },
             "Microsoft.Azure.SignalR": {
               "target": "Package",
-              "version": "[1.7.0, )"
+              "version": "[1.7.1, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[5.0.2, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[3.2.4, )"
+            },
+            "StardustDL.RazorComponents.Markdown": {
+              "target": "Package",
+              "version": "[0.0.2.24, )"
+            },
+            "WebStoating.Markdig.Prism": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             }
           },
           "imports": [

@@ -23,6 +23,7 @@ namespace Edurem.Controllers
         }
 
         [Route("{id}")]
+        [HttpGet]
         public async Task<IActionResult> GroupPosts(int id)
         {
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
@@ -32,6 +33,13 @@ namespace Edurem.Controllers
             var accountViewModel = new AccountViewModel<GroupViewModel>() { CurrentUser = authenticatedUser, ViewModel = groupView };
 
             return View("GroupPosts", accountViewModel);
+        }
+
+        [Route("{id}/createPost")]
+        [HttpGet]
+        public IActionResult CreatePost(int id)
+        {
+            return View();
         }
     }
 }

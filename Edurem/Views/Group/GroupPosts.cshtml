@@ -1,25 +1,33 @@
 ﻿@model Edurem.ViewModels.AccountViewModel<Edurem.ViewModels.GroupViewModel>
 
 @{
-    ViewData["Title"] = Model.ViewModel.Name;
+    ViewData["Title"] = $"{Model.ViewModel.Name}, {Model.ViewModel.Subject.Name}";
     ViewData["ApplicationName"] = "Edurem";
     Layout = "_AccountLayout";
 }
 
-<div class="row">
-    <p style="font-size: 18px">@Model.ViewModel.Subject.Name</p>
-</div>
-<div class="row">
-    <div class="col-8">
-        <component>@(await Html.RenderComponentAsync<Edurem.Components.PostsList>(RenderMode.ServerPrerendered, new {  }))</component>
+@if (Model.ViewModel.UserRole.Equals(RoleInGroup.ADMIN))
+{
+    <div class="row mt-2">
+        <div class="col-3 col-md-4 col-xl-2 text-left">
+            <div class="row">
+                <input type="button" value="Добавить пост" class="w-100 btn btn-success text-center"
+                       onclick="window.location='@Url.Action("CreatePost", "Group", new { id = Model.ViewModel.Id })'" />
+            </div>
+        </div>
     </div>
-    <div class="col-4">
-        <div class="row rounded" style="background-color: azure">
+}
+<div class="row">
+    <div class="col-7">
+        <component>@(await Html.RenderComponentAsync<Edurem.Components.PostsList>(RenderMode.ServerPrerendered, new { GroupId = Model.ViewModel.Id }))</component>
+    </div>
+    <div class="col-5">
+        <div class="row rounded border" style="background-color: azure">
             <div class="col-12">
-                <div class="row mt-2">
+                <div class="row mt-2 align-items-center">
                     <div class="col-6">
                         <p class="text-right" style="font-size: 15px">
-                            <b>Количество участников</b>:
+                            <b>Количество участников</b>
                         </p>
                     </div>
                     <div class="col-6">
@@ -28,7 +36,7 @@
                         </p>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>

@@ -22,6 +22,62 @@
           "buildMultiTargeting/BlazorAnimate.props": {}
         }
       },
+      "Blazored.TextEditor/1.0.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "3.1.0",
+          "Microsoft.AspNetCore.Components.Web": "3.1.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Blazored.TextEditor.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Blazored.TextEditor.dll": {}
+        },
+        "build": {
+          "buildTransitive/Blazored.TextEditor.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazored.TextEditor.props": {}
+        }
+      },
+      "CKEditor/3.6.4": {
+        "type": "package"
+      },
+      "ColorCode.Core/2.0.6": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/ColorCode.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/ColorCode.Core.dll": {}
+        }
+      },
+      "ColorCode.HTML/2.0.6": {
+        "type": "package",
+        "dependencies": {
+          "ColorCode.Core": "2.0.6",
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/ColorCode.HTML.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/ColorCode.HTML.dll": {}
+        }
+      },
+      "CommonMark.NET/0.15.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/CommonMark.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/CommonMark.dll": {}
+        }
+      },
       "Docker.DotNet/3.125.4": {
         "type": "package",
         "dependencies": {
@@ -33,6 +89,56 @@
         },
         "runtime": {
           "lib/netstandard2.0/Docker.DotNet.dll": {}
+        }
+      },
+      "FSharp.Core/4.7.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/FSharp.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Core.dll": {}
+        },
+        "resource": {
+          "lib/netstandard2.0/cs/FSharp.Core.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netstandard2.0/de/FSharp.Core.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netstandard2.0/es/FSharp.Core.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netstandard2.0/fr/FSharp.Core.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netstandard2.0/it/FSharp.Core.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netstandard2.0/ja/FSharp.Core.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netstandard2.0/ko/FSharp.Core.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netstandard2.0/pl/FSharp.Core.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netstandard2.0/pt-BR/FSharp.Core.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netstandard2.0/ru/FSharp.Core.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netstandard2.0/tr/FSharp.Core.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netstandard2.0/zh-Hans/FSharp.Core.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netstandard2.0/zh-Hant/FSharp.Core.resources.dll": {
+            "locale": "zh-Hant"
+          }
         }
       },
       "GitLabApiClient/1.7.0": {
@@ -47,6 +153,35 @@
           "lib/netcoreapp3.1/GitLabApiClient.dll": {}
         }
       },
+      "Html2Markdown/4.0.0.427": {
+        "type": "package",
+        "dependencies": {
+          "HtmlAgilityPack": "1.5.0",
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.4/Html2Markdown.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Html2Markdown.dll": {}
+        }
+      },
+      "HtmlAgilityPack/1.5.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "System.Net.Http": "4.3.1",
+          "System.Xml.XPath": "4.3.0",
+          "System.Xml.XPath.XmlDocument": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.6/HtmlAgilityPack.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/HtmlAgilityPack.dll": {}
+        }
+      },
       "Humanizer.Core/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -59,6 +194,50 @@
           "lib/netstandard1.0/Humanizer.dll": {}
         }
       },
+      "Jering.IocServices.System.Net.Http/0.3.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/Jering.IocServices.System.Net.Http.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Jering.IocServices.System.Net.Http.dll": {}
+        }
+      },
+      "Jering.Javascript.NodeJS/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Jering.IocServices.System.Net.Http": "0.3.0",
+          "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
+          "Microsoft.Extensions.DependencyInjection": "3.0.0",
+          "Microsoft.Extensions.Logging": "3.0.0",
+          "Microsoft.Extensions.Options": "3.0.0",
+          "Newtonsoft.Json": "12.0.3",
+          "System.Buffers": "4.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Jering.Javascript.NodeJS.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Jering.Javascript.NodeJS.dll": {}
+        }
+      },
+      "Jering.Web.SyntaxHighlighters.Prism/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Jering.Javascript.NodeJS": "4.3.0",
+          "Microsoft.Extensions.DependencyInjection": "3.0.0",
+          "System.Threading.Tasks.Extensions": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/Jering.Web.SyntaxHighlighters.Prism.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Jering.Web.SyntaxHighlighters.Prism.dll": {}
+        }
+      },
       "MailKit/2.10.1": {
         "type": "package",
         "dependencies": {
@@ -69,6 +248,29 @@
         },
         "runtime": {
           "lib/netstandard2.0/MailKit.dll": {}
+        }
+      },
+      "Markdig/0.23.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/Markdig.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Markdig.dll": {}
+        }
+      },
+      "MarkdigExtensions.SyntaxHighlighting/1.0.3": {
+        "type": "package",
+        "dependencies": {
+          "ColorCode.HTML": "2.0.6",
+          "FSharp.Core": "4.7.0",
+          "Markdig": "0.16.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MarkdigExtensions.SyntaxHighlighting.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MarkdigExtensions.SyntaxHighlighting.dll": {}
         }
       },
       "MatBlazor/2.8.0": {
@@ -97,65 +299,65 @@
           "buildMultiTargeting/MatBlazor.props": {}
         }
       },
-      "Microsoft.AspNetCore.Authorization/3.1.10": {
+      "Microsoft.AspNetCore.Authorization/5.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Metadata": "3.1.10",
-          "Microsoft.Extensions.Logging.Abstractions": "3.1.10",
-          "Microsoft.Extensions.Options": "3.1.10"
+          "Microsoft.AspNetCore.Metadata": "5.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Options": "5.0.0"
         },
         "compile": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Authorization.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Authorization.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Authorization.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Authorization.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Components/3.1.10": {
+      "Microsoft.AspNetCore.Components/5.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Authorization": "3.1.10",
-          "Microsoft.AspNetCore.Components.Analyzers": "3.1.10",
-          "Microsoft.JSInterop": "3.1.10"
+          "Microsoft.AspNetCore.Authorization": "5.0.0",
+          "Microsoft.AspNetCore.Components.Analyzers": "5.0.0"
         },
         "compile": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Components.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Components.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Components.Analyzers/3.1.10": {
+      "Microsoft.AspNetCore.Components.Analyzers/5.0.0": {
         "type": "package",
         "build": {
           "buildTransitive/netstandard2.0/Microsoft.AspNetCore.Components.Analyzers.targets": {}
         }
       },
-      "Microsoft.AspNetCore.Components.Forms/3.1.10": {
+      "Microsoft.AspNetCore.Components.Forms/5.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "3.1.10"
+          "Microsoft.AspNetCore.Components": "5.0.0"
         },
         "compile": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.Forms.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Components.Forms.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.Forms.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Components.Forms.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Components.Web/3.1.10": {
+      "Microsoft.AspNetCore.Components.Web/5.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "3.1.10",
-          "Microsoft.AspNetCore.Components.Forms": "3.1.10",
-          "Microsoft.Extensions.DependencyInjection": "3.1.10",
-          "Microsoft.JSInterop": "3.1.10"
+          "Microsoft.AspNetCore.Components": "5.0.0",
+          "Microsoft.AspNetCore.Components.Forms": "5.0.0",
+          "Microsoft.Extensions.DependencyInjection": "5.0.0",
+          "Microsoft.JSInterop": "5.0.0",
+          "System.IO.Pipelines": "5.0.0"
         },
         "compile": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.Web.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Components.Web.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.Web.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Components.Web.dll": {}
         }
       },
       "Microsoft.AspNetCore.Connections.Abstractions/5.0.1": {
@@ -170,6 +372,33 @@
           "lib/net5.0/Microsoft.AspNetCore.Connections.Abstractions.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Hosting.Abstractions/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Hosting.Server.Abstractions": "2.2.0",
+          "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "2.2.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Hosting.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Hosting.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Hosting.Server.Abstractions/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "2.2.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "2.2.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Hosting.Server.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Hosting.Server.Abstractions.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -180,6 +409,19 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Html.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Http.Abstractions/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "2.2.0",
+          "System.Text.Encodings.Web": "4.5.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll": {}
         }
       },
       "Microsoft.AspNetCore.Http.Connections.Client/5.0.1": {
@@ -221,13 +463,13 @@
           "lib/net5.0/Microsoft.AspNetCore.Http.Features.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Metadata/3.1.10": {
+      "Microsoft.AspNetCore.Metadata/5.0.0": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Metadata.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Metadata.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Microsoft.AspNetCore.Metadata.dll": {}
+          "lib/net5.0/Microsoft.AspNetCore.Metadata.dll": {}
         }
       },
       "Microsoft.AspNetCore.Razor/2.2.0": {
@@ -277,12 +519,12 @@
           "lib/netstandard2.0/Microsoft.Azure.Services.AppAuthentication.dll": {}
         }
       },
-      "Microsoft.Azure.SignalR/1.7.0": {
+      "Microsoft.Azure.SignalR/1.7.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Http.Connections.Client": "5.0.1",
           "Microsoft.Azure.Services.AppAuthentication": "1.5.0",
-          "Microsoft.Azure.SignalR.Protocols": "1.7.0",
+          "Microsoft.Azure.SignalR.Protocols": "1.7.1",
           "Microsoft.Extensions.Http": "2.1.0",
           "Microsoft.Identity.Client": "4.9.0",
           "Microsoft.Rest.ClientRuntime": "2.3.21",
@@ -300,7 +542,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Microsoft.Azure.SignalR.Protocols/1.7.0": {
+      "Microsoft.Azure.SignalR.Protocols/1.7.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Connections.Abstractions": "2.1.0",
@@ -729,6 +971,33 @@
           "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
         }
       },
+      "Microsoft.Extensions.FileProviders.Abstractions/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "2.2.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "2.2.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.2.0",
+          "Microsoft.Extensions.FileProviders.Abstractions": "2.2.0",
+          "Microsoft.Extensions.Logging.Abstractions": "2.2.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.dll": {}
+        }
+      },
       "Microsoft.Extensions.Http/2.1.0": {
         "type": "package",
         "dependencies": {
@@ -868,13 +1137,13 @@
           "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.JSInterop/3.1.10": {
+      "Microsoft.JSInterop/5.0.0": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp3.1/Microsoft.JSInterop.dll": {}
+          "lib/net5.0/Microsoft.JSInterop.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Microsoft.JSInterop.dll": {}
+          "lib/net5.0/Microsoft.JSInterop.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/2.1.2": {
@@ -907,11 +1176,11 @@
           "lib/netstandard2.0/Microsoft.Rest.ClientRuntime.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration/5.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "5.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore": "5.0.2"
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.dll": {}
@@ -920,7 +1189,7 @@
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/5.0.2": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "11.0.2",
@@ -933,11 +1202,11 @@
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Core/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Core/5.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "5.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Templating": "5.0.1",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Templating": "5.0.2",
           "Newtonsoft.Json": "11.0.2"
         },
         "compile": {
@@ -947,10 +1216,10 @@
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design/5.0.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": "5.0.2"
         },
         "compile": {
           "lib/net5.0/dotnet-aspnet-codegenerator-design.dll": {}
@@ -969,10 +1238,10 @@
           }
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore/5.0.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.VisualStudio.Web.CodeGeneration.Core": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Core": "5.0.2"
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll": {}
@@ -981,14 +1250,14 @@
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Templating/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Templating/5.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Razor.Language": "5.0.0",
           "Microsoft.AspNetCore.Razor.Runtime": "2.2.0",
           "Microsoft.CodeAnalysis.CSharp": "3.8.0",
           "Microsoft.CodeAnalysis.Razor": "5.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "5.0.2"
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll": {}
@@ -997,11 +1266,11 @@
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Utils/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Utils/5.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "3.8.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Contracts": "5.0.1",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Contracts": "5.0.2",
           "Newtonsoft.Json": "11.0.2"
         },
         "compile": {
@@ -1011,10 +1280,10 @@
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGenerators.Mvc/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGenerators.Mvc/5.0.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.VisualStudio.Web.CodeGeneration": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration": "5.0.2"
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {}
@@ -1357,6 +1626,37 @@
             "assetType": "native",
             "rid": "ubuntu.16.10-x64"
           }
+        }
+      },
+      "StardustDL.RazorComponents.Markdown/0.0.2.24": {
+        "type": "package",
+        "dependencies": {
+          "Markdig": "0.22.0",
+          "Microsoft.AspNetCore.Components.Web": "5.0.0"
+        },
+        "compile": {
+          "lib/net5.0/StardustDL.RazorComponents.Markdown.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/StardustDL.RazorComponents.Markdown.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net5.0/package-lock.json": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net5.0/package.json": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
+        },
+        "build": {
+          "buildTransitive/StardustDL.RazorComponents.Markdown.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/StardustDL.RazorComponents.Markdown.props": {}
         }
       },
       "System.AppContext/4.3.0": {
@@ -2926,6 +3226,59 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "System.Xml.XPath/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.dll": {}
+        }
+      },
+      "System.Xml.XPath.XmlDocument/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0",
+          "System.Xml.XPath": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
+        }
+      },
+      "WebStoating.Markdig.Prism/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Markdig": "0.22.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Markdig.Prism.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Markdig.Prism.dll": {}
+        }
       }
     }
   },
@@ -2948,6 +3301,445 @@
         "staticwebassets/blazorAnimateInterop.js"
       ]
     },
+    "Blazored.TextEditor/1.0.3": {
+      "sha512": "8B2QiqmoGjdvknI++Imq7zcAhyfKCHfiqNYXff7Ilv9iGt+Hu9UkCO5zE1JcQmayFac/I2ddXOikixbmVfW4dg==",
+      "type": "package",
+      "path": "blazored.texteditor/1.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "blazored.texteditor.1.0.3.nupkg.sha512",
+        "blazored.texteditor.nuspec",
+        "build/Blazored.TextEditor.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/Blazored.TextEditor.props",
+        "buildTransitive/Blazored.TextEditor.props",
+        "lib/netstandard2.0/Blazored.TextEditor.dll",
+        "staticwebassets/Blazored-BlazorQuill.js",
+        "staticwebassets/quill-blot-formatter.min.js"
+      ]
+    },
+    "CKEditor/3.6.4": {
+      "sha512": "roGF09wJmp7Zyyvq/bDzbLccKUfMumMpmgPav5U/naoVoDis1izPsSL8H/MEFG3hfFBC4HegSRwlYZG+PWHnaQ==",
+      "type": "package",
+      "path": "ckeditor/3.6.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/ckeditor/CHANGES.html",
+        "Content/Scripts/ckeditor/INSTALL.html",
+        "Content/Scripts/ckeditor/LICENSE.html",
+        "Content/Scripts/ckeditor/adapters/jquery.js",
+        "Content/Scripts/ckeditor/ckeditor.asp",
+        "Content/Scripts/ckeditor/ckeditor.js",
+        "Content/Scripts/ckeditor/ckeditor.pack",
+        "Content/Scripts/ckeditor/ckeditor.php",
+        "Content/Scripts/ckeditor/ckeditor_basic.js",
+        "Content/Scripts/ckeditor/ckeditor_basic_source.js",
+        "Content/Scripts/ckeditor/ckeditor_php4.php",
+        "Content/Scripts/ckeditor/ckeditor_php5.php",
+        "Content/Scripts/ckeditor/ckeditor_source.js",
+        "Content/Scripts/ckeditor/config.js",
+        "Content/Scripts/ckeditor/contents.css",
+        "Content/Scripts/ckeditor/images/spacer.gif",
+        "Content/Scripts/ckeditor/lang/_languages.js",
+        "Content/Scripts/ckeditor/lang/_translationstatus.txt",
+        "Content/Scripts/ckeditor/lang/af.js",
+        "Content/Scripts/ckeditor/lang/ar.js",
+        "Content/Scripts/ckeditor/lang/bg.js",
+        "Content/Scripts/ckeditor/lang/bn.js",
+        "Content/Scripts/ckeditor/lang/bs.js",
+        "Content/Scripts/ckeditor/lang/ca.js",
+        "Content/Scripts/ckeditor/lang/cs.js",
+        "Content/Scripts/ckeditor/lang/cy.js",
+        "Content/Scripts/ckeditor/lang/da.js",
+        "Content/Scripts/ckeditor/lang/de.js",
+        "Content/Scripts/ckeditor/lang/el.js",
+        "Content/Scripts/ckeditor/lang/en-au.js",
+        "Content/Scripts/ckeditor/lang/en-ca.js",
+        "Content/Scripts/ckeditor/lang/en-gb.js",
+        "Content/Scripts/ckeditor/lang/en.js",
+        "Content/Scripts/ckeditor/lang/eo.js",
+        "Content/Scripts/ckeditor/lang/es.js",
+        "Content/Scripts/ckeditor/lang/et.js",
+        "Content/Scripts/ckeditor/lang/eu.js",
+        "Content/Scripts/ckeditor/lang/fa.js",
+        "Content/Scripts/ckeditor/lang/fi.js",
+        "Content/Scripts/ckeditor/lang/fo.js",
+        "Content/Scripts/ckeditor/lang/fr-ca.js",
+        "Content/Scripts/ckeditor/lang/fr.js",
+        "Content/Scripts/ckeditor/lang/gl.js",
+        "Content/Scripts/ckeditor/lang/gu.js",
+        "Content/Scripts/ckeditor/lang/he.js",
+        "Content/Scripts/ckeditor/lang/hi.js",
+        "Content/Scripts/ckeditor/lang/hr.js",
+        "Content/Scripts/ckeditor/lang/hu.js",
+        "Content/Scripts/ckeditor/lang/id.js",
+        "Content/Scripts/ckeditor/lang/is.js",
+        "Content/Scripts/ckeditor/lang/it.js",
+        "Content/Scripts/ckeditor/lang/ja.js",
+        "Content/Scripts/ckeditor/lang/ka.js",
+        "Content/Scripts/ckeditor/lang/km.js",
+        "Content/Scripts/ckeditor/lang/ko.js",
+        "Content/Scripts/ckeditor/lang/lt.js",
+        "Content/Scripts/ckeditor/lang/lv.js",
+        "Content/Scripts/ckeditor/lang/mk.js",
+        "Content/Scripts/ckeditor/lang/mn.js",
+        "Content/Scripts/ckeditor/lang/ms.js",
+        "Content/Scripts/ckeditor/lang/nb.js",
+        "Content/Scripts/ckeditor/lang/nl.js",
+        "Content/Scripts/ckeditor/lang/no.js",
+        "Content/Scripts/ckeditor/lang/pl.js",
+        "Content/Scripts/ckeditor/lang/pt-br.js",
+        "Content/Scripts/ckeditor/lang/pt.js",
+        "Content/Scripts/ckeditor/lang/ro.js",
+        "Content/Scripts/ckeditor/lang/ru.js",
+        "Content/Scripts/ckeditor/lang/sk.js",
+        "Content/Scripts/ckeditor/lang/sl.js",
+        "Content/Scripts/ckeditor/lang/sr-latn.js",
+        "Content/Scripts/ckeditor/lang/sr.js",
+        "Content/Scripts/ckeditor/lang/sv.js",
+        "Content/Scripts/ckeditor/lang/th.js",
+        "Content/Scripts/ckeditor/lang/tr.js",
+        "Content/Scripts/ckeditor/lang/ug.js",
+        "Content/Scripts/ckeditor/lang/uk.js",
+        "Content/Scripts/ckeditor/lang/vi.js",
+        "Content/Scripts/ckeditor/lang/zh-cn.js",
+        "Content/Scripts/ckeditor/lang/zh.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/dialogs/a11yhelp.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/_translationstatus.txt",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/cs.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/cy.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/da.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/de.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/el.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/en.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/eo.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/fa.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/fi.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/fr.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/gu.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/he.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/it.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/mk.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/nb.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/nl.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/no.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/pt-br.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/ro.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/tr.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/ug.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/vi.js",
+        "Content/Scripts/ckeditor/plugins/a11yhelp/lang/zh-cn.js",
+        "Content/Scripts/ckeditor/plugins/about/dialogs/about.js",
+        "Content/Scripts/ckeditor/plugins/about/dialogs/logo_ckeditor.png",
+        "Content/Scripts/ckeditor/plugins/adobeair/plugin.js",
+        "Content/Scripts/ckeditor/plugins/ajax/plugin.js",
+        "Content/Scripts/ckeditor/plugins/autogrow/plugin.js",
+        "Content/Scripts/ckeditor/plugins/bbcode/plugin.js",
+        "Content/Scripts/ckeditor/plugins/clipboard/dialogs/paste.js",
+        "Content/Scripts/ckeditor/plugins/colordialog/dialogs/colordialog.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/_translationstatus.txt",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/bg.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/cs.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/cy.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/da.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/de.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/el.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/en.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/eo.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/et.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/fa.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/fi.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/fr.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/gu.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/he.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/hr.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/it.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/nb.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/nl.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/no.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/pl.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/pt-br.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/tr.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/ug.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/uk.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/vi.js",
+        "Content/Scripts/ckeditor/plugins/devtools/lang/zh-cn.js",
+        "Content/Scripts/ckeditor/plugins/devtools/plugin.js",
+        "Content/Scripts/ckeditor/plugins/dialog/dialogDefinition.js",
+        "Content/Scripts/ckeditor/plugins/div/dialogs/div.js",
+        "Content/Scripts/ckeditor/plugins/docprops/dialogs/docprops.js",
+        "Content/Scripts/ckeditor/plugins/docprops/plugin.js",
+        "Content/Scripts/ckeditor/plugins/find/dialogs/find.js",
+        "Content/Scripts/ckeditor/plugins/flash/dialogs/flash.js",
+        "Content/Scripts/ckeditor/plugins/flash/images/placeholder.png",
+        "Content/Scripts/ckeditor/plugins/forms/dialogs/button.js",
+        "Content/Scripts/ckeditor/plugins/forms/dialogs/checkbox.js",
+        "Content/Scripts/ckeditor/plugins/forms/dialogs/form.js",
+        "Content/Scripts/ckeditor/plugins/forms/dialogs/hiddenfield.js",
+        "Content/Scripts/ckeditor/plugins/forms/dialogs/radio.js",
+        "Content/Scripts/ckeditor/plugins/forms/dialogs/select.js",
+        "Content/Scripts/ckeditor/plugins/forms/dialogs/textarea.js",
+        "Content/Scripts/ckeditor/plugins/forms/dialogs/textfield.js",
+        "Content/Scripts/ckeditor/plugins/forms/images/hiddenfield.gif",
+        "Content/Scripts/ckeditor/plugins/iframe/dialogs/iframe.js",
+        "Content/Scripts/ckeditor/plugins/iframe/images/placeholder.png",
+        "Content/Scripts/ckeditor/plugins/iframedialog/plugin.js",
+        "Content/Scripts/ckeditor/plugins/image/dialogs/image.js",
+        "Content/Scripts/ckeditor/plugins/link/dialogs/anchor.js",
+        "Content/Scripts/ckeditor/plugins/link/dialogs/link.js",
+        "Content/Scripts/ckeditor/plugins/link/images/anchor.gif",
+        "Content/Scripts/ckeditor/plugins/liststyle/dialogs/liststyle.js",
+        "Content/Scripts/ckeditor/plugins/pagebreak/images/pagebreak.gif",
+        "Content/Scripts/ckeditor/plugins/pastefromword/filter/default.js",
+        "Content/Scripts/ckeditor/plugins/pastetext/dialogs/pastetext.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/dialogs/placeholder.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/_translationstatus.txt",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/bg.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/cs.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/cy.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/da.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/de.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/el.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/en.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/eo.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/et.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/fa.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/fi.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/fr.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/he.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/hr.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/it.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/nb.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/nl.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/no.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/pl.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/pt-br.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/tr.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/ug.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/uk.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/vi.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/lang/zh-cn.js",
+        "Content/Scripts/ckeditor/plugins/placeholder/placeholder.gif",
+        "Content/Scripts/ckeditor/plugins/placeholder/plugin.js",
+        "Content/Scripts/ckeditor/plugins/preview/preview.html",
+        "Content/Scripts/ckeditor/plugins/scayt/dialogs/options.js",
+        "Content/Scripts/ckeditor/plugins/scayt/dialogs/toolbar.css",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_address.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_blockquote.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_div.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_h1.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_h2.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_h3.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_h4.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_h5.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_h6.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_p.png",
+        "Content/Scripts/ckeditor/plugins/showblocks/images/block_pre.png",
+        "Content/Scripts/ckeditor/plugins/smiley/dialogs/smiley.js",
+        "Content/Scripts/ckeditor/plugins/smiley/images/angel_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/angry_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/broken_heart.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/confused_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/cry_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/devil_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/embaressed_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/envelope.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/heart.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/kiss.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/lightbulb.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/omg_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/regular_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/sad_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/shades_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/teeth_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/thumbs_down.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/thumbs_up.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/tounge_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/whatchutalkingabout_smile.gif",
+        "Content/Scripts/ckeditor/plugins/smiley/images/wink_smile.gif",
+        "Content/Scripts/ckeditor/plugins/specialchar/dialogs/specialchar.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/_translationstatus.txt",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/cs.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/cy.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/de.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/el.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/en.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/eo.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/et.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/fa.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/fi.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/fr.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/he.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/hr.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/it.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/nb.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/nl.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/no.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/pt-br.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/tr.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/ug.js",
+        "Content/Scripts/ckeditor/plugins/specialchar/lang/zh-cn.js",
+        "Content/Scripts/ckeditor/plugins/styles/styles/default.js",
+        "Content/Scripts/ckeditor/plugins/stylesheetparser/plugin.js",
+        "Content/Scripts/ckeditor/plugins/table/dialogs/table.js",
+        "Content/Scripts/ckeditor/plugins/tableresize/plugin.js",
+        "Content/Scripts/ckeditor/plugins/tabletools/dialogs/tableCell.js",
+        "Content/Scripts/ckeditor/plugins/templates/dialogs/templates.js",
+        "Content/Scripts/ckeditor/plugins/templates/templates/default.js",
+        "Content/Scripts/ckeditor/plugins/templates/templates/images/template1.gif",
+        "Content/Scripts/ckeditor/plugins/templates/templates/images/template2.gif",
+        "Content/Scripts/ckeditor/plugins/templates/templates/images/template3.gif",
+        "Content/Scripts/ckeditor/plugins/uicolor/dialogs/uicolor.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/_translationstatus.txt",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/bg.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/cs.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/cy.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/da.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/de.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/el.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/en.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/eo.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/et.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/fa.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/fi.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/fr.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/he.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/hr.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/it.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/mk.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/nb.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/nl.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/no.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/pl.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/pt-br.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/tr.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/ug.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/uk.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/vi.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/lang/zh-cn.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/plugin.js",
+        "Content/Scripts/ckeditor/plugins/uicolor/uicolor.gif",
+        "Content/Scripts/ckeditor/plugins/uicolor/yui/assets/hue_bg.png",
+        "Content/Scripts/ckeditor/plugins/uicolor/yui/assets/hue_thumb.png",
+        "Content/Scripts/ckeditor/plugins/uicolor/yui/assets/picker_mask.png",
+        "Content/Scripts/ckeditor/plugins/uicolor/yui/assets/picker_thumb.png",
+        "Content/Scripts/ckeditor/plugins/uicolor/yui/assets/yui.css",
+        "Content/Scripts/ckeditor/plugins/uicolor/yui/yui.js",
+        "Content/Scripts/ckeditor/plugins/wsc/dialogs/ciframe.html",
+        "Content/Scripts/ckeditor/plugins/wsc/dialogs/tmpFrameset.html",
+        "Content/Scripts/ckeditor/plugins/wsc/dialogs/wsc.css",
+        "Content/Scripts/ckeditor/plugins/wsc/dialogs/wsc.js",
+        "Content/Scripts/ckeditor/plugins/xml/plugin.js",
+        "Content/Scripts/ckeditor/skins/kama/dialog.css",
+        "Content/Scripts/ckeditor/skins/kama/editor.css",
+        "Content/Scripts/ckeditor/skins/kama/icons.png",
+        "Content/Scripts/ckeditor/skins/kama/icons_rtl.png",
+        "Content/Scripts/ckeditor/skins/kama/images/dialog_sides.gif",
+        "Content/Scripts/ckeditor/skins/kama/images/dialog_sides.png",
+        "Content/Scripts/ckeditor/skins/kama/images/dialog_sides_rtl.png",
+        "Content/Scripts/ckeditor/skins/kama/images/mini.gif",
+        "Content/Scripts/ckeditor/skins/kama/images/noimage.png",
+        "Content/Scripts/ckeditor/skins/kama/images/sprites.png",
+        "Content/Scripts/ckeditor/skins/kama/images/sprites_ie6.png",
+        "Content/Scripts/ckeditor/skins/kama/images/toolbar_start.gif",
+        "Content/Scripts/ckeditor/skins/kama/skin.js",
+        "Content/Scripts/ckeditor/skins/kama/templates.css",
+        "Content/Scripts/ckeditor/skins/office2003/dialog.css",
+        "Content/Scripts/ckeditor/skins/office2003/editor.css",
+        "Content/Scripts/ckeditor/skins/office2003/icons.png",
+        "Content/Scripts/ckeditor/skins/office2003/icons_rtl.png",
+        "Content/Scripts/ckeditor/skins/office2003/images/dialog_sides.gif",
+        "Content/Scripts/ckeditor/skins/office2003/images/dialog_sides.png",
+        "Content/Scripts/ckeditor/skins/office2003/images/dialog_sides_rtl.png",
+        "Content/Scripts/ckeditor/skins/office2003/images/mini.gif",
+        "Content/Scripts/ckeditor/skins/office2003/images/noimage.png",
+        "Content/Scripts/ckeditor/skins/office2003/images/sprites.png",
+        "Content/Scripts/ckeditor/skins/office2003/images/sprites_ie6.png",
+        "Content/Scripts/ckeditor/skins/office2003/skin.js",
+        "Content/Scripts/ckeditor/skins/office2003/templates.css",
+        "Content/Scripts/ckeditor/skins/v2/dialog.css",
+        "Content/Scripts/ckeditor/skins/v2/editor.css",
+        "Content/Scripts/ckeditor/skins/v2/icons.png",
+        "Content/Scripts/ckeditor/skins/v2/icons_rtl.png",
+        "Content/Scripts/ckeditor/skins/v2/images/dialog_sides.gif",
+        "Content/Scripts/ckeditor/skins/v2/images/dialog_sides.png",
+        "Content/Scripts/ckeditor/skins/v2/images/dialog_sides_rtl.png",
+        "Content/Scripts/ckeditor/skins/v2/images/mini.gif",
+        "Content/Scripts/ckeditor/skins/v2/images/noimage.png",
+        "Content/Scripts/ckeditor/skins/v2/images/sprites.png",
+        "Content/Scripts/ckeditor/skins/v2/images/sprites_ie6.png",
+        "Content/Scripts/ckeditor/skins/v2/images/toolbar_start.gif",
+        "Content/Scripts/ckeditor/skins/v2/skin.js",
+        "Content/Scripts/ckeditor/skins/v2/templates.css",
+        "Content/Scripts/ckeditor/themes/default/theme.js",
+        "ckeditor.3.6.4.nupkg.sha512",
+        "ckeditor.nuspec"
+      ]
+    },
+    "ColorCode.Core/2.0.6": {
+      "sha512": "Fn3CE3fyeql2Vj7+0H4QTAlceWsQvas3flzE2dRJ7JW6XBmPUR/zx69XhX0HPcDzoelfy2qh/wgG3rjDzqu2BQ==",
+      "type": "package",
+      "path": "colorcode.core/2.0.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "colorcode.core.2.0.6.nupkg.sha512",
+        "colorcode.core.nuspec",
+        "lib/netstandard1.4/ColorCode.Core.dll",
+        "lib/netstandard1.4/ColorCode.Core.pdb"
+      ]
+    },
+    "ColorCode.HTML/2.0.6": {
+      "sha512": "NA8Gdp75X3hACXxyZFZ0yr0Ohl+7fc2UkLNovRbZUhu1AnLzsimrKHxl0LKEOhrxQZIuCT8r3qg+IlDPxoOHbg==",
+      "type": "package",
+      "path": "colorcode.html/2.0.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "colorcode.html.2.0.6.nupkg.sha512",
+        "colorcode.html.nuspec",
+        "lib/netstandard1.4/ColorCode.HTML.dll",
+        "lib/netstandard1.4/ColorCode.HTML.pdb"
+      ]
+    },
+    "CommonMark.NET/0.15.1": {
+      "sha512": "xgAvZ0tNcupiabTcOOvNYRzU7h9dZ28xIFh/CHiNgCI6GUu/ME2hmZP3abLgRFrnXyNBfVxfL4ZNmqkRnBSLEg==",
+      "type": "package",
+      "path": "commonmark.net/0.15.1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "commonmark.net.0.15.1.nupkg.sha512",
+        "commonmark.net.nuspec",
+        "lib/net20/CommonMark.dll",
+        "lib/net20/CommonMark.pdb",
+        "lib/net20/CommonMark.xml",
+        "lib/net35-client/CommonMark.dll",
+        "lib/net35-client/CommonMark.pdb",
+        "lib/net35-client/CommonMark.xml",
+        "lib/net40-client/CommonMark.dll",
+        "lib/net40-client/CommonMark.pdb",
+        "lib/net40-client/CommonMark.xml",
+        "lib/net45/CommonMark.dll",
+        "lib/net45/CommonMark.pdb",
+        "lib/net45/CommonMark.xml",
+        "lib/netstandard1.0/CommonMark.dll",
+        "lib/netstandard1.0/CommonMark.pdb",
+        "lib/netstandard1.0/CommonMark.xml",
+        "lib/portable-net40+sl50+wp80+win+wpa81+MonoAndroid10+MonoTouch10/CommonMark.dll",
+        "lib/portable-net40+sl50+wp80+win+wpa81+MonoAndroid10+MonoTouch10/CommonMark.pdb",
+        "lib/portable-net40+sl50+wp80+win+wpa81+MonoAndroid10+MonoTouch10/CommonMark.xml",
+        "lib/portable-net45+wp80+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10/CommonMark.dll",
+        "lib/portable-net45+wp80+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10/CommonMark.pdb",
+        "lib/portable-net45+wp80+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10/CommonMark.xml",
+        "tools/cmark.exe",
+        "tools/cmark.exe.config"
+      ]
+    },
     "Docker.DotNet/3.125.4": {
       "sha512": "qStC9eSTewp/ySdN484fWhe9ZJZxuQtLRCMHnBH4GLbSS94A46n5OZp7nmRbe65iXjL4pIgfC7jiHhrEziCg9A==",
       "type": "package",
@@ -2961,6 +3753,51 @@
         "icon.png",
         "lib/netstandard2.0/Docker.DotNet.dll",
         "lib/netstandard2.0/Docker.DotNet.pdb"
+      ]
+    },
+    "FSharp.Core/4.7.0": {
+      "sha512": "6Bf2qzSCaJoP6tTfO+a5muUS7QbyJANqSut73zQvwQ9It5P0ITz9VKseeia2ofco30c55EQ0jA2wf2+A2gpGnw==",
+      "type": "package",
+      "path": "fsharp.core/4.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fsharp.core.4.7.0.nupkg.sha512",
+        "fsharp.core.nuspec",
+        "lib/net45/FSharp.Core.dll",
+        "lib/net45/FSharp.Core.optdata",
+        "lib/net45/FSharp.Core.sigdata",
+        "lib/net45/FSharp.Core.xml",
+        "lib/net45/cs/FSharp.Core.resources.dll",
+        "lib/net45/de/FSharp.Core.resources.dll",
+        "lib/net45/es/FSharp.Core.resources.dll",
+        "lib/net45/fr/FSharp.Core.resources.dll",
+        "lib/net45/it/FSharp.Core.resources.dll",
+        "lib/net45/ja/FSharp.Core.resources.dll",
+        "lib/net45/ko/FSharp.Core.resources.dll",
+        "lib/net45/pl/FSharp.Core.resources.dll",
+        "lib/net45/pt-BR/FSharp.Core.resources.dll",
+        "lib/net45/ru/FSharp.Core.resources.dll",
+        "lib/net45/tr/FSharp.Core.resources.dll",
+        "lib/net45/zh-Hans/FSharp.Core.resources.dll",
+        "lib/net45/zh-Hant/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/FSharp.Core.dll",
+        "lib/netstandard2.0/FSharp.Core.optdata",
+        "lib/netstandard2.0/FSharp.Core.sigdata",
+        "lib/netstandard2.0/FSharp.Core.xml",
+        "lib/netstandard2.0/cs/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/de/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/es/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/fr/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/it/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ja/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ko/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/pl/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/pt-BR/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ru/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/tr/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/zh-Hans/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/zh-Hant/FSharp.Core.resources.dll"
       ]
     },
     "GitLabApiClient/1.7.0": {
@@ -2977,6 +3814,60 @@
         "lib/netstandard2.0/GitLabApiClient.dll"
       ]
     },
+    "Html2Markdown/4.0.0.427": {
+      "sha512": "xG14hyxIDKfTtFfAsGxIiApdlG02VNkC3QB0IxRTvw1ICfTNTHxg1n6xxlB8uLGYUT4W8XMhyvXYyWlH1lSDVg==",
+      "type": "package",
+      "path": "html2markdown/4.0.0.427",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "html2markdown.4.0.0.427.nupkg.sha512",
+        "html2markdown.nuspec",
+        "lib/net40/Html2Markdown.dll",
+        "lib/net45/Html2Markdown.dll",
+        "lib/netstandard1.3/Html2Markdown.dll",
+        "lib/netstandard1.4/Html2Markdown.dll"
+      ]
+    },
+    "HtmlAgilityPack/1.5.0": {
+      "sha512": "vuU4JyMdZJ5l/oepOIZIsd4AYy7grMUb1sygS5VkI2IHCmov9dPgGI1i6wB5ko2SSqnlP2m2KSEgHrrbVLrr3g==",
+      "type": "package",
+      "path": "htmlagilitypack/1.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "htmlagilitypack.1.5.0.nupkg.sha512",
+        "htmlagilitypack.nuspec",
+        "lib/Net20/HtmlAgilityPack.dll",
+        "lib/Net20/HtmlAgilityPack.pdb",
+        "lib/Net20/HtmlAgilityPack.xml",
+        "lib/Net40-client/HtmlAgilityPack.dll",
+        "lib/Net40-client/HtmlAgilityPack.pdb",
+        "lib/Net40-client/HtmlAgilityPack.xml",
+        "lib/Net40/HtmlAgilityPack.XML",
+        "lib/Net40/HtmlAgilityPack.dll",
+        "lib/Net40/HtmlAgilityPack.pdb",
+        "lib/Net45/HtmlAgilityPack.XML",
+        "lib/Net45/HtmlAgilityPack.dll",
+        "lib/Net45/HtmlAgilityPack.pdb",
+        "lib/NetCore45/HtmlAgilityPack.dll",
+        "lib/NetCore45/HtmlAgilityPack.pdb",
+        "lib/NetCore45/HtmlAgilityPack.pri",
+        "lib/NetCore45/HtmlAgilityPack.xml",
+        "lib/netstandard1.3/HtmlAgilityPack.dll",
+        "lib/netstandard1.3/HtmlAgilityPack.pdb",
+        "lib/netstandard1.6/HtmlAgilityPack.dll",
+        "lib/netstandard1.6/HtmlAgilityPack.pdb",
+        "lib/portable-net45+netcore45+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.dll",
+        "lib/portable-net45+netcore45+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.pdb",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.pdb",
+        "lib/sl5/HtmlAgilityPack.XML",
+        "lib/sl5/HtmlAgilityPack.dll",
+        "lib/sl5/HtmlAgilityPack.pdb",
+        "readme.txt"
+      ]
+    },
     "Humanizer.Core/2.2.0": {
       "sha512": "rsYXB7+iUPP8AHgQ8JP2UZI2xK2KhjcdGr9E6zX3CsZaTLCaw8M35vaAJRo1rfxeaZEVMuXeaquLVCkZ7JcZ5Q==",
       "type": "package",
@@ -2987,6 +3878,52 @@
         "humanizer.core.2.2.0.nupkg.sha512",
         "humanizer.core.nuspec",
         "lib/netstandard1.0/Humanizer.dll"
+      ]
+    },
+    "Jering.IocServices.System.Net.Http/0.3.0": {
+      "sha512": "F7Wq5iaY5eCJriYe3SijaKqhvRbMKWpdPSAAUvXR/dxVDBgkldx+NIS1wLYRRTYeYAMooO1lelPvHPhackLchw==",
+      "type": "package",
+      "path": "jering.iocservices.system.net.http/0.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "jering.iocservices.system.net.http.0.3.0.nupkg.sha512",
+        "jering.iocservices.system.net.http.nuspec",
+        "lib/netstandard1.1/Jering.IocServices.System.Net.Http.dll"
+      ]
+    },
+    "Jering.Javascript.NodeJS/4.3.0": {
+      "sha512": "eNQ3So2KPb3rnjixkB6IMvoB9EQbAyxtFfBwkdPmZR0zAXCkr3NwrXEbCSIlH0V0A30YtFzwY0wkDXOxhQS0Eg==",
+      "type": "package",
+      "path": "jering.javascript.nodejs/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "jering.javascript.nodejs.4.3.0.nupkg.sha512",
+        "jering.javascript.nodejs.nuspec",
+        "lib/net461/Jering.Javascript.NodeJS.dll",
+        "lib/net461/Jering.Javascript.NodeJS.pdb",
+        "lib/net461/Jering.Javascript.NodeJS.xml",
+        "lib/netstandard2.0/Jering.Javascript.NodeJS.dll",
+        "lib/netstandard2.0/Jering.Javascript.NodeJS.pdb",
+        "lib/netstandard2.0/Jering.Javascript.NodeJS.xml"
+      ]
+    },
+    "Jering.Web.SyntaxHighlighters.Prism/4.3.0": {
+      "sha512": "UPcn4/7ojKPYYe1JdnASVSqXM8yUyzDNJze/pr1w8uiBquXri7KRJTjcls22yfey0w9szb7qMaJQgK0aCtk+YA==",
+      "type": "package",
+      "path": "jering.web.syntaxhighlighters.prism/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "jering.web.syntaxhighlighters.prism.4.3.0.nupkg.sha512",
+        "jering.web.syntaxhighlighters.prism.nuspec",
+        "lib/net461/Jering.Web.SyntaxHighlighters.Prism.dll",
+        "lib/net461/Jering.Web.SyntaxHighlighters.Prism.pdb",
+        "lib/net461/Jering.Web.SyntaxHighlighters.Prism.xml",
+        "lib/netstandard2.0/Jering.Web.SyntaxHighlighters.Prism.dll",
+        "lib/netstandard2.0/Jering.Web.SyntaxHighlighters.Prism.pdb",
+        "lib/netstandard2.0/Jering.Web.SyntaxHighlighters.Prism.xml"
       ]
     },
     "MailKit/2.10.1": {
@@ -3016,6 +3953,41 @@
         "mailkit.nuspec"
       ]
     },
+    "Markdig/0.23.0": {
+      "sha512": "jPPcnHGSDSedPvwZ6jiMJpvK3iJGA2djU6TFmEr6XK2BiYK1ier2lTHVwDt41XLxDbfGu5Dn42hKDzwqs049PA==",
+      "type": "package",
+      "path": "markdig/0.23.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/Markdig.dll",
+        "lib/net452/Markdig.xml",
+        "lib/netcoreapp2.1/Markdig.dll",
+        "lib/netcoreapp2.1/Markdig.xml",
+        "lib/netcoreapp3.1/Markdig.dll",
+        "lib/netcoreapp3.1/Markdig.xml",
+        "lib/netstandard2.0/Markdig.dll",
+        "lib/netstandard2.0/Markdig.xml",
+        "lib/netstandard2.1/Markdig.dll",
+        "lib/netstandard2.1/Markdig.xml",
+        "markdig.0.23.0.nupkg.sha512",
+        "markdig.nuspec",
+        "markdig.png"
+      ]
+    },
+    "MarkdigExtensions.SyntaxHighlighting/1.0.3": {
+      "sha512": "f2tIf06cReSzL5/gcrCRM+ssDiXHzud9XNmBcQjz0bHO3b/adIqm2JmQwW7JjxjNKi5A/skaFGWg/zFV9sNOww==",
+      "type": "package",
+      "path": "markdigextensions.syntaxhighlighting/1.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/MarkdigExtensions.SyntaxHighlighting.dll",
+        "lib/netstandard2.0/MarkdigExtensions.SyntaxHighlighting.xml",
+        "markdigextensions.syntaxhighlighting.1.0.3.nupkg.sha512",
+        "markdigextensions.syntaxhighlighting.nuspec"
+      ]
+    },
     "MatBlazor/2.8.0": {
       "sha512": "NAbkrLR6YdEXNtQQreJOAdZEqTBeG6wXiTxs9ItHBCLnoCouX//VELHakDXcMtK27QzmeB8uGRwWIkglvhpKLg==",
       "type": "package",
@@ -3037,44 +4009,44 @@
         "staticwebassets/dist/matBlazor.js"
       ]
     },
-    "Microsoft.AspNetCore.Authorization/3.1.10": {
-      "sha512": "hhPUTfYTFtyT9+TI0vmmz+QeR4BjPkLeuqgBAJIN02y77cawo60RU3v/x/8Tj4bBgIzSeBfyarwJk+o9Bj0hqQ==",
+    "Microsoft.AspNetCore.Authorization/5.0.0": {
+      "sha512": "kNiUekkQZIgd0k8WJZVLpdaJSTgpwHT+gn9slPtON4FC8vGGsFWQo3Bd5wo363EJuxlOgszUNQBbpLAaFh1kFg==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authorization/3.1.10",
+      "path": "microsoft.aspnetcore.authorization/5.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "THIRD-PARTY-NOTICES.TXT",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Authorization.dll",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Authorization.xml",
+        "lib/net461/Microsoft.AspNetCore.Authorization.dll",
+        "lib/net461/Microsoft.AspNetCore.Authorization.xml",
+        "lib/net5.0/Microsoft.AspNetCore.Authorization.dll",
+        "lib/net5.0/Microsoft.AspNetCore.Authorization.xml",
         "lib/netstandard2.0/Microsoft.AspNetCore.Authorization.dll",
         "lib/netstandard2.0/Microsoft.AspNetCore.Authorization.xml",
-        "microsoft.aspnetcore.authorization.3.1.10.nupkg.sha512",
+        "microsoft.aspnetcore.authorization.5.0.0.nupkg.sha512",
         "microsoft.aspnetcore.authorization.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Components/3.1.10": {
-      "sha512": "WCMq6vG5wFY+41wfaCd/54yvVPfcb5lHuqGDaBCDkx6DduKYSDq/qj6CreDzaT+QpibQlC2MsOUfJHZyvwOeJQ==",
+    "Microsoft.AspNetCore.Components/5.0.0": {
+      "sha512": "kfJF9EqJGzVgfEN15vWI+8g+ZhtlMAk9YO6G8lXKO9s1AxWv+Ct4OLOMO46PXyjPWWJ7X9gded9EFVFyxsdyjg==",
       "type": "package",
-      "path": "microsoft.aspnetcore.components/3.1.10",
+      "path": "microsoft.aspnetcore.components/5.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "THIRD-PARTY-NOTICES.txt",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.dll",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.xml",
-        "lib/netstandard2.0/Microsoft.AspNetCore.Components.dll",
-        "lib/netstandard2.0/Microsoft.AspNetCore.Components.xml",
-        "microsoft.aspnetcore.components.3.1.10.nupkg.sha512",
+        "lib/net5.0/Microsoft.AspNetCore.Components.dll",
+        "lib/net5.0/Microsoft.AspNetCore.Components.xml",
+        "microsoft.aspnetcore.components.5.0.0.nupkg.sha512",
         "microsoft.aspnetcore.components.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Components.Analyzers/3.1.10": {
-      "sha512": "E3AcukEtbV5VZk/dkjs6PINyVWsct3G+sK+jhhMgSXB6xuqt8X6wwAwrLYJ1BKAtXgtNJdBYciQAl0VOAdpJrw==",
+    "Microsoft.AspNetCore.Components.Analyzers/5.0.0": {
+      "sha512": "G5SP+2FO90d84XB90A1NBKJaDjhkhcv3kDumd7zughGt1tNQn92sCpBoRs51LT1M1Cp4w4cD/WHS8WB8t5ol9A==",
       "type": "package",
-      "path": "microsoft.aspnetcore.components.analyzers/3.1.10",
+      "path": "microsoft.aspnetcore.components.analyzers/5.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3083,41 +4055,37 @@
         "analyzers/dotnet/cs/Microsoft.AspNetCore.Components.Analyzers.dll",
         "build/netstandard2.0/Microsoft.AspNetCore.Components.Analyzers.targets",
         "buildTransitive/netstandard2.0/Microsoft.AspNetCore.Components.Analyzers.targets",
-        "microsoft.aspnetcore.components.analyzers.3.1.10.nupkg.sha512",
+        "microsoft.aspnetcore.components.analyzers.5.0.0.nupkg.sha512",
         "microsoft.aspnetcore.components.analyzers.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Components.Forms/3.1.10": {
-      "sha512": "B/agF+PfFB7Fw2K5iP2B6jErFsC1KAopfd2l9289DJ9v6ev290hXs8Zpq4Lb+j6jp+LWVnIn/7+9/h+flWcVqA==",
+    "Microsoft.AspNetCore.Components.Forms/5.0.0": {
+      "sha512": "6Xdql+Sbx7XM1XjNXx6iyEmlAujTM2GFgeOdzlHip3h6g/M3D/al+K945JuFQ5HlBUQv3SL0c6Okencad6nVmA==",
       "type": "package",
-      "path": "microsoft.aspnetcore.components.forms/3.1.10",
+      "path": "microsoft.aspnetcore.components.forms/5.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "THIRD-PARTY-NOTICES.txt",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.Forms.dll",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.Forms.xml",
-        "lib/netstandard2.0/Microsoft.AspNetCore.Components.Forms.dll",
-        "lib/netstandard2.0/Microsoft.AspNetCore.Components.Forms.xml",
-        "microsoft.aspnetcore.components.forms.3.1.10.nupkg.sha512",
+        "lib/net5.0/Microsoft.AspNetCore.Components.Forms.dll",
+        "lib/net5.0/Microsoft.AspNetCore.Components.Forms.xml",
+        "microsoft.aspnetcore.components.forms.5.0.0.nupkg.sha512",
         "microsoft.aspnetcore.components.forms.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Components.Web/3.1.10": {
-      "sha512": "BrvCCdFaGdhj5VJxr3bndFEA0sC+7rgYhmZfoGRhPvIvtBVpxQlsdCZJU97scKZ4hwx4LgWqGCG5SwWkP/CsAQ==",
+    "Microsoft.AspNetCore.Components.Web/5.0.0": {
+      "sha512": "TYnULwOuF43ITRlL02CmVoXLb1t1NSNbmUXuIrS4IMJd+HjK+sIisTRoJOr4L13LDWmOr1OM8teA04tOFf4I6w==",
       "type": "package",
-      "path": "microsoft.aspnetcore.components.web/3.1.10",
+      "path": "microsoft.aspnetcore.components.web/5.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "THIRD-PARTY-NOTICES.txt",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.Web.dll",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Components.Web.xml",
-        "lib/netstandard2.0/Microsoft.AspNetCore.Components.Web.dll",
-        "lib/netstandard2.0/Microsoft.AspNetCore.Components.Web.xml",
-        "microsoft.aspnetcore.components.web.3.1.10.nupkg.sha512",
+        "lib/net5.0/Microsoft.AspNetCore.Components.Web.dll",
+        "lib/net5.0/Microsoft.AspNetCore.Components.Web.xml",
+        "microsoft.aspnetcore.components.web.5.0.0.nupkg.sha512",
         "microsoft.aspnetcore.components.web.nuspec"
       ]
     },
@@ -3142,6 +4110,32 @@
         "microsoft.aspnetcore.connections.abstractions.nuspec"
       ]
     },
+    "Microsoft.AspNetCore.Hosting.Abstractions/2.2.0": {
+      "sha512": "ubycklv+ZY7Kutdwuy1W4upWcZ6VFR8WUXU7l7B2+mvbDBBPAcfpi+E+Y5GFe+Q157YfA3C49D2GCjAZc7Mobw==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.hosting.abstractions/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Hosting.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Hosting.Abstractions.xml",
+        "microsoft.aspnetcore.hosting.abstractions.2.2.0.nupkg.sha512",
+        "microsoft.aspnetcore.hosting.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Hosting.Server.Abstractions/2.2.0": {
+      "sha512": "1PMijw8RMtuQF60SsD/JlKtVfvh4NORAhF4wjysdABhlhTrYmtgssqyncR0Stq5vqtjplZcj6kbT4LRTglt9IQ==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.hosting.server.abstractions/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Hosting.Server.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Hosting.Server.Abstractions.xml",
+        "microsoft.aspnetcore.hosting.server.abstractions.2.2.0.nupkg.sha512",
+        "microsoft.aspnetcore.hosting.server.abstractions.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
       "sha512": "Y4rs5aMEXY8G7wJo5S3EEt6ltqyOTr/qOeZzfn+hw/fuQj5GppGckMY5psGLETo1U9hcT5MmAhaT5xtusM1b5g==",
       "type": "package",
@@ -3153,6 +4147,19 @@
         "lib/netstandard2.0/Microsoft.AspNetCore.Html.Abstractions.xml",
         "microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
         "microsoft.aspnetcore.html.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Http.Abstractions/2.2.0": {
+      "sha512": "Nxs7Z1q3f1STfLYKJSVXCs1iBl+Ya6E8o4Oy1bCxJ/rNI44E/0f6tbsrVqAWfB7jlnJfyaAtIalBVxPKUPQb4Q==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.http.abstractions/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.xml",
+        "microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
+        "microsoft.aspnetcore.http.abstractions.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Http.Connections.Client/5.0.1": {
@@ -3212,20 +4219,22 @@
         "microsoft.aspnetcore.http.features.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Metadata/3.1.10": {
-      "sha512": "lKOEoTSwMgASq1y+0OgF3ZvrQLf/3KhAocKUb3zJIf7wcSPa+CLHzVdvwcDvpnglBsIDV+Dgu+ZsKvAnEmOTxw==",
+    "Microsoft.AspNetCore.Metadata/5.0.0": {
+      "sha512": "Gr7YSfoYYnyiQ3+se9RjiZhj2h7I9uDn0ps1kPfxGqLbC8fzpfAzb3EPbHz0sBHtw8aBE0zyckZixmAMqHJnpA==",
       "type": "package",
-      "path": "microsoft.aspnetcore.metadata/3.1.10",
+      "path": "microsoft.aspnetcore.metadata/5.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "THIRD-PARTY-NOTICES.TXT",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Metadata.dll",
-        "lib/netcoreapp3.1/Microsoft.AspNetCore.Metadata.xml",
+        "lib/net461/Microsoft.AspNetCore.Metadata.dll",
+        "lib/net461/Microsoft.AspNetCore.Metadata.xml",
+        "lib/net5.0/Microsoft.AspNetCore.Metadata.dll",
+        "lib/net5.0/Microsoft.AspNetCore.Metadata.xml",
         "lib/netstandard2.0/Microsoft.AspNetCore.Metadata.dll",
         "lib/netstandard2.0/Microsoft.AspNetCore.Metadata.xml",
-        "microsoft.aspnetcore.metadata.3.1.10.nupkg.sha512",
+        "microsoft.aspnetcore.metadata.5.0.0.nupkg.sha512",
         "microsoft.aspnetcore.metadata.nuspec"
       ]
     },
@@ -3290,10 +4299,10 @@
         "microsoft.azure.services.appauthentication.nuspec"
       ]
     },
-    "Microsoft.Azure.SignalR/1.7.0": {
-      "sha512": "c5l4svEClKULDHrXp2eDKlmM9e1r9qPhTcz52icZ5Q0HlX7gLwALEOGQMmfxbuaQtV2XG/msJDIpj99jIlbslQ==",
+    "Microsoft.Azure.SignalR/1.7.1": {
+      "sha512": "NFOG1n9IRYBjWWcCkg+MEWk4IJiefcvhoSdH03jxM9O2L9JVrxRLpIcg4DDDy69XpKFP4R5XPDzZW4wlh1Qvsw==",
       "type": "package",
-      "path": "microsoft.azure.signalr/1.7.0",
+      "path": "microsoft.azure.signalr/1.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3309,21 +4318,21 @@
         "lib/netstandard2.0/Microsoft.Azure.SignalR.Common.xml",
         "lib/netstandard2.0/Microsoft.Azure.SignalR.dll",
         "lib/netstandard2.0/Microsoft.Azure.SignalR.xml",
-        "microsoft.azure.signalr.1.7.0.nupkg.sha512",
+        "microsoft.azure.signalr.1.7.1.nupkg.sha512",
         "microsoft.azure.signalr.nuspec",
         "microsoft.png"
       ]
     },
-    "Microsoft.Azure.SignalR.Protocols/1.7.0": {
-      "sha512": "agaBMvN5ISiUE1AKbl3/Q23reWnlvND30oZCZ8ZAOB8G7nJMecCSyAimfw5vUAuYReX5sWLTq4xnRyPCBw2FRg==",
+    "Microsoft.Azure.SignalR.Protocols/1.7.1": {
+      "sha512": "K446nGQM741rEnrzaTlaj08gc0Fbyc4n+RDb2UKfv9QEFoq1P4n5ocVSGNXVFFg0+xmWI7lJbFOb+sEnNgkkxw==",
       "type": "package",
-      "path": "microsoft.azure.signalr.protocols/1.7.0",
+      "path": "microsoft.azure.signalr.protocols/1.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Azure.SignalR.Protocols.dll",
         "lib/netstandard2.0/Microsoft.Azure.SignalR.Protocols.xml",
-        "microsoft.azure.signalr.protocols.1.7.0.nupkg.sha512",
+        "microsoft.azure.signalr.protocols.1.7.1.nupkg.sha512",
         "microsoft.azure.signalr.protocols.nuspec",
         "microsoft.png"
       ]
@@ -3923,6 +4932,32 @@
         "version.txt"
       ]
     },
+    "Microsoft.Extensions.FileProviders.Abstractions/2.2.0": {
+      "sha512": "EcnaSsPTqx2MGnHrmWOD0ugbuuqVT8iICqSqPzi45V5/MA1LjUNb0kwgcxBGqizV1R+WeBK7/Gw25Jzkyk9bIw==",
+      "type": "package",
+      "path": "microsoft.extensions.fileproviders.abstractions/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
+        "microsoft.extensions.fileproviders.abstractions.2.2.0.nupkg.sha512",
+        "microsoft.extensions.fileproviders.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
+      "sha512": "+k4AEn68HOJat5gj1TWa6X28WlirNQO9sPIIeQbia+91n03esEtMSSoekSTpMjUzjqtJWQN3McVx0GvSPFHF/Q==",
+      "type": "package",
+      "path": "microsoft.extensions.hosting.abstractions/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.xml",
+        "microsoft.extensions.hosting.abstractions.2.2.0.nupkg.sha512",
+        "microsoft.extensions.hosting.abstractions.nuspec"
+      ]
+    },
     "Microsoft.Extensions.Http/2.1.0": {
       "sha512": "vkSkGa1UIZVlAd18oDhrtoawN/q7fDemJcVpT9+28mP7bP0I8zKLSLRwqF++GmPs/7e0Aqlo6jpZm3P7YYS0ag==",
       "type": "package",
@@ -4146,19 +5181,18 @@
         "microsoft.identitymodel.tokens.nuspec"
       ]
     },
-    "Microsoft.JSInterop/3.1.10": {
-      "sha512": "mIOidfUfRJhFdXi9flTu06vFgHP07OxnGiO3OI61sOioK5oVveWJg9UKTStnTELm5Vvd495O+WlhYjZtVRsKEg==",
+    "Microsoft.JSInterop/5.0.0": {
+      "sha512": "qhLTZMoOsAbDWwE7M+VbjxH3EuP654tclaOhi6Sf7Xh6bj6TXDO0GiNQeNPdebMClKMGELJezOwbFp1BFB+9Ug==",
       "type": "package",
-      "path": "microsoft.jsinterop/3.1.10",
+      "path": "microsoft.jsinterop/5.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
-        "lib/netcoreapp3.1/Microsoft.JSInterop.dll",
-        "lib/netcoreapp3.1/Microsoft.JSInterop.xml",
-        "lib/netstandard2.0/Microsoft.JSInterop.dll",
-        "lib/netstandard2.0/Microsoft.JSInterop.xml",
-        "microsoft.jsinterop.3.1.10.nupkg.sha512",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net5.0/Microsoft.JSInterop.dll",
+        "lib/net5.0/Microsoft.JSInterop.xml",
+        "microsoft.jsinterop.5.0.0.nupkg.sha512",
         "microsoft.jsinterop.nuspec"
       ]
     },
@@ -4213,59 +5247,59 @@
         "microsoft.rest.clientruntime.nuspec"
       ]
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration/5.0.1": {
-      "sha512": "+UbVWKosEMf9AW/6H7GrlU20wXwZ+/8o4yHk4QiZzODzgVzrkLaPkV7ioj58/06KvhetyPJ2wNR4eXQNZ53tgw==",
+    "Microsoft.VisualStudio.Web.CodeGeneration/5.0.2": {
+      "sha512": "YUah81QG5q/ViVbr1BZcTbDLNJ5/k84fr+xx3/IoDVJR8KEUm89HmPAGM+FMMyWOjit+CIVpyOq7yEmRBBWXxQ==",
       "type": "package",
-      "path": "microsoft.visualstudio.web.codegeneration/5.0.1",
+      "path": "microsoft.visualstudio.web.codegeneration/5.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.dll",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.xml",
-        "microsoft.visualstudio.web.codegeneration.5.0.1.nupkg.sha512",
+        "microsoft.visualstudio.web.codegeneration.5.0.2.nupkg.sha512",
         "microsoft.visualstudio.web.codegeneration.nuspec"
       ]
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/5.0.1": {
-      "sha512": "so0+F5gW7kVQd0aCH86zc+KduHax1GGt7u8gdiypJsCL0NFIX96rejOefpJN+qhpWFUisjWTPGUMcSYuUvIIJg==",
+    "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/5.0.2": {
+      "sha512": "34v6AkkRJykgFq7rHwNbzXBsLFquevLuegM9XDQl2j+wyOfj+ql1++jUR1WdZoPkv04WoM09mD47S3lMzJmHrQ==",
       "type": "package",
-      "path": "microsoft.visualstudio.web.codegeneration.contracts/5.0.1",
+      "path": "microsoft.visualstudio.web.codegeneration.contracts/5.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Contracts.xml",
-        "microsoft.visualstudio.web.codegeneration.contracts.5.0.1.nupkg.sha512",
+        "microsoft.visualstudio.web.codegeneration.contracts.5.0.2.nupkg.sha512",
         "microsoft.visualstudio.web.codegeneration.contracts.nuspec"
       ]
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Core/5.0.1": {
-      "sha512": "MOuDz7SX4ODoQqd9+TGhIO6qdBTBCjZ/7M98Y0nrj5fLrk4M6P7CWffI89m686acfmWSb0+7KC6TIKX9fODV0w==",
+    "Microsoft.VisualStudio.Web.CodeGeneration.Core/5.0.2": {
+      "sha512": "R7mrxvTtv/MiEH42OtHYi/3L0A/vaAH8mwg+3yAyQtVuy6v9CeeVyL30lfTQ7EYV4ezUmuQKFwfjcU6PP0/KSQ==",
       "type": "package",
-      "path": "microsoft.visualstudio.web.codegeneration.core/5.0.1",
+      "path": "microsoft.visualstudio.web.codegeneration.core/5.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.xml",
-        "microsoft.visualstudio.web.codegeneration.core.5.0.1.nupkg.sha512",
+        "microsoft.visualstudio.web.codegeneration.core.5.0.2.nupkg.sha512",
         "microsoft.visualstudio.web.codegeneration.core.nuspec"
       ]
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Design/5.0.1": {
-      "sha512": "vOyq0iocfEVA2lR5RkKzZLJbszmBgwk4Qz0TDghzLdAaL1+lPkFWnFlJ1wbR4mVVmurMSmnXFlYbbjcKmzOGWA==",
+    "Microsoft.VisualStudio.Web.CodeGeneration.Design/5.0.2": {
+      "sha512": "9eTZV7W+S2iO2AJD03xXyXJZ+Nf71Y25gMXhqyXb8bB63jPfn+VQhV8I1lb6J+NR3jW98m5EB9QBftBSrjgiYQ==",
       "type": "package",
-      "path": "microsoft.visualstudio.web.codegeneration.design/5.0.1",
+      "path": "microsoft.visualstudio.web.codegeneration.design/5.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net5.0/dotnet-aspnet-codegenerator-design.dll",
         "lib/net5.0/dotnet-aspnet-codegenerator-design.xml",
-        "microsoft.visualstudio.web.codegeneration.design.5.0.1.nupkg.sha512",
+        "microsoft.visualstudio.web.codegeneration.design.5.0.2.nupkg.sha512",
         "microsoft.visualstudio.web.codegeneration.design.nuspec",
         "runtimes/win-arm/lib/net5.0/dotnet-aspnet-codegenerator-design.exe",
         "runtimes/win-arm/lib/net5.0/dotnet-aspnet-codegenerator-design.xml",
@@ -4273,10 +5307,10 @@
         "runtimes/win-arm64/lib/net5.0/dotnet-aspnet-codegenerator-design.xml"
       ]
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore/5.0.1": {
-      "sha512": "v8i6qz0N5p7Tankyi1MHwjZl5/pmKeKkXcao+8hkCrcaX5yv4P7vGkgcl8arQNfmtGGenmqVGFHZOWIkwNElYA==",
+    "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore/5.0.2": {
+      "sha512": "f9XeBRS9ICosrCpbO9jnAVMd/ISLhaZgx388XNBjigiyBJuq577J6tQgQWZA8PQTiPj6MKe9HVIW2GnKXDiUrQ==",
       "type": "package",
-      "path": "microsoft.visualstudio.web.codegeneration.entityframeworkcore/5.0.1",
+      "path": "microsoft.visualstudio.web.codegeneration.entityframeworkcore/5.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4285,42 +5319,42 @@
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.runtimeconfig.json",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.xml",
-        "microsoft.visualstudio.web.codegeneration.entityframeworkcore.5.0.1.nupkg.sha512",
+        "microsoft.visualstudio.web.codegeneration.entityframeworkcore.5.0.2.nupkg.sha512",
         "microsoft.visualstudio.web.codegeneration.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Templating/5.0.1": {
-      "sha512": "+lKKgzWYUtKjlEkIfPkO+4uYl74idZKx1y2T29bpUv14X4hASYB+P0a55zC8anlIbwDCD5ShPX6txd5+5BES2A==",
+    "Microsoft.VisualStudio.Web.CodeGeneration.Templating/5.0.2": {
+      "sha512": "P3z/JZTGP5DhSc8ik4xrimWuCZ2ZaEZ6q7WGgfgmSVibfXxwh2Oo+dtdkiXwq8MNlkrcP0AZAo3+1wowYUzluA==",
       "type": "package",
-      "path": "microsoft.visualstudio.web.codegeneration.templating/5.0.1",
+      "path": "microsoft.visualstudio.web.codegeneration.templating/5.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.xml",
-        "microsoft.visualstudio.web.codegeneration.templating.5.0.1.nupkg.sha512",
+        "microsoft.visualstudio.web.codegeneration.templating.5.0.2.nupkg.sha512",
         "microsoft.visualstudio.web.codegeneration.templating.nuspec"
       ]
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Utils/5.0.1": {
-      "sha512": "fXQY9chx9mIErQGpshoYhjgCv10UeG14Gzeh1oyvwUDW7Mtxx3Xtmz8IBmT8x9hw62uLTRbFFQ2ry2sZpGLRCg==",
+    "Microsoft.VisualStudio.Web.CodeGeneration.Utils/5.0.2": {
+      "sha512": "4zViWGIFeKsGxDmc5xpn2G8kWs2FSHiLOolw85ZPHihDXc2jiFKp7qjA3SRt8U23kR3zeb0vZiFlETxgTHwAUA==",
       "type": "package",
-      "path": "microsoft.visualstudio.web.codegeneration.utils/5.0.1",
+      "path": "microsoft.visualstudio.web.codegeneration.utils/5.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll",
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.xml",
-        "microsoft.visualstudio.web.codegeneration.utils.5.0.1.nupkg.sha512",
+        "microsoft.visualstudio.web.codegeneration.utils.5.0.2.nupkg.sha512",
         "microsoft.visualstudio.web.codegeneration.utils.nuspec"
       ]
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc/5.0.1": {
-      "sha512": "u5piiR8X8WAmcQ1vbthd9jqxKeESCEC7AH+zZKFwrMI870J4++FvYaOf/zIJaesVIm1q7L7yH85AMkP3i1S6fg==",
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc/5.0.2": {
+      "sha512": "W4Uk2y0oja+4E+XP5d5OFu+ViTEtlqm3a6nYuuC3tjA+lTK6dLaMf0G6WnO4BO18i0kM0l49XjTwwXd5XpjnAQ==",
       "type": "package",
-      "path": "microsoft.visualstudio.web.codegenerators.mvc/5.0.1",
+      "path": "microsoft.visualstudio.web.codegenerators.mvc/5.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4617,7 +5651,7 @@
         "lib/net5.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.xml",
         "lib/net5.0/bootstrap3_identitygeneratorfilesconfig.json",
         "lib/net5.0/bootstrap4_identitygeneratorfilesconfig.json",
-        "microsoft.visualstudio.web.codegenerators.mvc.5.0.1.nupkg.sha512",
+        "microsoft.visualstudio.web.codegenerators.mvc.5.0.2.nupkg.sha512",
         "microsoft.visualstudio.web.codegenerators.mvc.nuspec"
       ]
     },
@@ -5074,6 +6108,672 @@
         "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
         "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.nuspec",
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
+      ]
+    },
+    "StardustDL.RazorComponents.Markdown/0.0.2.24": {
+      "sha512": "H2+BaWAmOteEcVjdZBQ3IngCuMi1wfnGWh5ljN9pJt6ZxVe5lLSraWKc3DvFkGwGZKK/2EUJzJBIyLpWH03GZQ==",
+      "type": "package",
+      "path": "stardustdl.razorcomponents.markdown/0.0.2.24",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "build/StardustDL.RazorComponents.Markdown.props",
+        "buildMultiTargeting/StardustDL.RazorComponents.Markdown.props",
+        "buildTransitive/StardustDL.RazorComponents.Markdown.props",
+        "content/package-lock.json",
+        "content/package.json",
+        "contentFiles/any/net5.0/package-lock.json",
+        "contentFiles/any/net5.0/package.json",
+        "lib/net5.0/StardustDL.RazorComponents.Markdown.dll",
+        "stardustdl.razorcomponents.markdown.0.0.2.24.nupkg.sha512",
+        "stardustdl.razorcomponents.markdown.nuspec",
+        "staticwebassets/component-min.js",
+        "staticwebassets/component-min.js.map",
+        "staticwebassets/component.js",
+        "staticwebassets/component.js.map",
+        "staticwebassets/css/markdown.css",
+        "staticwebassets/katex/README.md",
+        "staticwebassets/katex/contrib/auto-render.js",
+        "staticwebassets/katex/contrib/auto-render.min.js",
+        "staticwebassets/katex/contrib/auto-render.mjs",
+        "staticwebassets/katex/contrib/copy-tex.css",
+        "staticwebassets/katex/contrib/copy-tex.js",
+        "staticwebassets/katex/contrib/copy-tex.min.css",
+        "staticwebassets/katex/contrib/copy-tex.min.js",
+        "staticwebassets/katex/contrib/copy-tex.mjs",
+        "staticwebassets/katex/contrib/mathtex-script-type.js",
+        "staticwebassets/katex/contrib/mathtex-script-type.min.js",
+        "staticwebassets/katex/contrib/mathtex-script-type.mjs",
+        "staticwebassets/katex/contrib/mhchem.js",
+        "staticwebassets/katex/contrib/mhchem.min.js",
+        "staticwebassets/katex/contrib/mhchem.mjs",
+        "staticwebassets/katex/contrib/render-a11y-string.js",
+        "staticwebassets/katex/contrib/render-a11y-string.min.js",
+        "staticwebassets/katex/contrib/render-a11y-string.mjs",
+        "staticwebassets/katex/fonts/KaTeX_AMS-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_AMS-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_AMS-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Caligraphic-Bold.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Caligraphic-Bold.woff",
+        "staticwebassets/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Caligraphic-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Caligraphic-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Fraktur-Bold.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Fraktur-Bold.woff",
+        "staticwebassets/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Fraktur-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Fraktur-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Main-Bold.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Main-Bold.woff",
+        "staticwebassets/katex/fonts/KaTeX_Main-Bold.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Main-BoldItalic.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Main-BoldItalic.woff",
+        "staticwebassets/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Main-Italic.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Main-Italic.woff",
+        "staticwebassets/katex/fonts/KaTeX_Main-Italic.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Main-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Main-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Main-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Math-BoldItalic.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Math-BoldItalic.woff",
+        "staticwebassets/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Math-Italic.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Math-Italic.woff",
+        "staticwebassets/katex/fonts/KaTeX_Math-Italic.woff2",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Bold.ttf",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Bold.woff",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Italic.ttf",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Italic.woff",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Script-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Script-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Script-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Size1-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Size1-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Size1-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Size2-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Size2-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Size2-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Size3-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Size3-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Size3-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Size4-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Size4-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Size4-Regular.woff2",
+        "staticwebassets/katex/fonts/KaTeX_Typewriter-Regular.ttf",
+        "staticwebassets/katex/fonts/KaTeX_Typewriter-Regular.woff",
+        "staticwebassets/katex/fonts/KaTeX_Typewriter-Regular.woff2",
+        "staticwebassets/katex/katex.css",
+        "staticwebassets/katex/katex.js",
+        "staticwebassets/katex/katex.min.css",
+        "staticwebassets/katex/katex.min.js",
+        "staticwebassets/katex/katex.mjs",
+        "staticwebassets/mermaid/index.html",
+        "staticwebassets/mermaid/mermaid.core.js",
+        "staticwebassets/mermaid/mermaid.core.js.map",
+        "staticwebassets/mermaid/mermaid.js",
+        "staticwebassets/mermaid/mermaid.js.map",
+        "staticwebassets/mermaid/mermaid.min.js",
+        "staticwebassets/mermaid/mermaid.min.js.map",
+        "staticwebassets/prismjs/CHANGELOG.md",
+        "staticwebassets/prismjs/README.md",
+        "staticwebassets/prismjs/components.js",
+        "staticwebassets/prismjs/components.json",
+        "staticwebassets/prismjs/components/index.js",
+        "staticwebassets/prismjs/components/prism-abap.js",
+        "staticwebassets/prismjs/components/prism-abap.min.js",
+        "staticwebassets/prismjs/components/prism-abnf.js",
+        "staticwebassets/prismjs/components/prism-abnf.min.js",
+        "staticwebassets/prismjs/components/prism-actionscript.js",
+        "staticwebassets/prismjs/components/prism-actionscript.min.js",
+        "staticwebassets/prismjs/components/prism-ada.js",
+        "staticwebassets/prismjs/components/prism-ada.min.js",
+        "staticwebassets/prismjs/components/prism-agda.js",
+        "staticwebassets/prismjs/components/prism-agda.min.js",
+        "staticwebassets/prismjs/components/prism-al.js",
+        "staticwebassets/prismjs/components/prism-al.min.js",
+        "staticwebassets/prismjs/components/prism-antlr4.js",
+        "staticwebassets/prismjs/components/prism-antlr4.min.js",
+        "staticwebassets/prismjs/components/prism-apacheconf.js",
+        "staticwebassets/prismjs/components/prism-apacheconf.min.js",
+        "staticwebassets/prismjs/components/prism-apl.js",
+        "staticwebassets/prismjs/components/prism-apl.min.js",
+        "staticwebassets/prismjs/components/prism-applescript.js",
+        "staticwebassets/prismjs/components/prism-applescript.min.js",
+        "staticwebassets/prismjs/components/prism-aql.js",
+        "staticwebassets/prismjs/components/prism-aql.min.js",
+        "staticwebassets/prismjs/components/prism-arduino.js",
+        "staticwebassets/prismjs/components/prism-arduino.min.js",
+        "staticwebassets/prismjs/components/prism-arff.js",
+        "staticwebassets/prismjs/components/prism-arff.min.js",
+        "staticwebassets/prismjs/components/prism-asciidoc.js",
+        "staticwebassets/prismjs/components/prism-asciidoc.min.js",
+        "staticwebassets/prismjs/components/prism-asm6502.js",
+        "staticwebassets/prismjs/components/prism-asm6502.min.js",
+        "staticwebassets/prismjs/components/prism-aspnet.js",
+        "staticwebassets/prismjs/components/prism-aspnet.min.js",
+        "staticwebassets/prismjs/components/prism-autohotkey.js",
+        "staticwebassets/prismjs/components/prism-autohotkey.min.js",
+        "staticwebassets/prismjs/components/prism-autoit.js",
+        "staticwebassets/prismjs/components/prism-autoit.min.js",
+        "staticwebassets/prismjs/components/prism-bash.js",
+        "staticwebassets/prismjs/components/prism-bash.min.js",
+        "staticwebassets/prismjs/components/prism-basic.js",
+        "staticwebassets/prismjs/components/prism-basic.min.js",
+        "staticwebassets/prismjs/components/prism-batch.js",
+        "staticwebassets/prismjs/components/prism-batch.min.js",
+        "staticwebassets/prismjs/components/prism-bbcode.js",
+        "staticwebassets/prismjs/components/prism-bbcode.min.js",
+        "staticwebassets/prismjs/components/prism-birb.js",
+        "staticwebassets/prismjs/components/prism-birb.min.js",
+        "staticwebassets/prismjs/components/prism-bison.js",
+        "staticwebassets/prismjs/components/prism-bison.min.js",
+        "staticwebassets/prismjs/components/prism-bnf.js",
+        "staticwebassets/prismjs/components/prism-bnf.min.js",
+        "staticwebassets/prismjs/components/prism-brainfuck.js",
+        "staticwebassets/prismjs/components/prism-brainfuck.min.js",
+        "staticwebassets/prismjs/components/prism-brightscript.js",
+        "staticwebassets/prismjs/components/prism-brightscript.min.js",
+        "staticwebassets/prismjs/components/prism-bro.js",
+        "staticwebassets/prismjs/components/prism-bro.min.js",
+        "staticwebassets/prismjs/components/prism-bsl.js",
+        "staticwebassets/prismjs/components/prism-bsl.min.js",
+        "staticwebassets/prismjs/components/prism-c.js",
+        "staticwebassets/prismjs/components/prism-c.min.js",
+        "staticwebassets/prismjs/components/prism-cil.js",
+        "staticwebassets/prismjs/components/prism-cil.min.js",
+        "staticwebassets/prismjs/components/prism-clike.js",
+        "staticwebassets/prismjs/components/prism-clike.min.js",
+        "staticwebassets/prismjs/components/prism-clojure.js",
+        "staticwebassets/prismjs/components/prism-clojure.min.js",
+        "staticwebassets/prismjs/components/prism-cmake.js",
+        "staticwebassets/prismjs/components/prism-cmake.min.js",
+        "staticwebassets/prismjs/components/prism-coffeescript.js",
+        "staticwebassets/prismjs/components/prism-coffeescript.min.js",
+        "staticwebassets/prismjs/components/prism-concurnas.js",
+        "staticwebassets/prismjs/components/prism-concurnas.min.js",
+        "staticwebassets/prismjs/components/prism-core.js",
+        "staticwebassets/prismjs/components/prism-core.min.js",
+        "staticwebassets/prismjs/components/prism-cpp.js",
+        "staticwebassets/prismjs/components/prism-cpp.min.js",
+        "staticwebassets/prismjs/components/prism-crystal.js",
+        "staticwebassets/prismjs/components/prism-crystal.min.js",
+        "staticwebassets/prismjs/components/prism-csharp.js",
+        "staticwebassets/prismjs/components/prism-csharp.min.js",
+        "staticwebassets/prismjs/components/prism-csp.js",
+        "staticwebassets/prismjs/components/prism-csp.min.js",
+        "staticwebassets/prismjs/components/prism-css-extras.js",
+        "staticwebassets/prismjs/components/prism-css-extras.min.js",
+        "staticwebassets/prismjs/components/prism-css.js",
+        "staticwebassets/prismjs/components/prism-css.min.js",
+        "staticwebassets/prismjs/components/prism-cypher.js",
+        "staticwebassets/prismjs/components/prism-cypher.min.js",
+        "staticwebassets/prismjs/components/prism-d.js",
+        "staticwebassets/prismjs/components/prism-d.min.js",
+        "staticwebassets/prismjs/components/prism-dart.js",
+        "staticwebassets/prismjs/components/prism-dart.min.js",
+        "staticwebassets/prismjs/components/prism-dax.js",
+        "staticwebassets/prismjs/components/prism-dax.min.js",
+        "staticwebassets/prismjs/components/prism-dhall.js",
+        "staticwebassets/prismjs/components/prism-dhall.min.js",
+        "staticwebassets/prismjs/components/prism-diff.js",
+        "staticwebassets/prismjs/components/prism-diff.min.js",
+        "staticwebassets/prismjs/components/prism-django.js",
+        "staticwebassets/prismjs/components/prism-django.min.js",
+        "staticwebassets/prismjs/components/prism-dns-zone-file.js",
+        "staticwebassets/prismjs/components/prism-dns-zone-file.min.js",
+        "staticwebassets/prismjs/components/prism-docker.js",
+        "staticwebassets/prismjs/components/prism-docker.min.js",
+        "staticwebassets/prismjs/components/prism-ebnf.js",
+        "staticwebassets/prismjs/components/prism-ebnf.min.js",
+        "staticwebassets/prismjs/components/prism-editorconfig.js",
+        "staticwebassets/prismjs/components/prism-editorconfig.min.js",
+        "staticwebassets/prismjs/components/prism-eiffel.js",
+        "staticwebassets/prismjs/components/prism-eiffel.min.js",
+        "staticwebassets/prismjs/components/prism-ejs.js",
+        "staticwebassets/prismjs/components/prism-ejs.min.js",
+        "staticwebassets/prismjs/components/prism-elixir.js",
+        "staticwebassets/prismjs/components/prism-elixir.min.js",
+        "staticwebassets/prismjs/components/prism-elm.js",
+        "staticwebassets/prismjs/components/prism-elm.min.js",
+        "staticwebassets/prismjs/components/prism-erb.js",
+        "staticwebassets/prismjs/components/prism-erb.min.js",
+        "staticwebassets/prismjs/components/prism-erlang.js",
+        "staticwebassets/prismjs/components/prism-erlang.min.js",
+        "staticwebassets/prismjs/components/prism-etlua.js",
+        "staticwebassets/prismjs/components/prism-etlua.min.js",
+        "staticwebassets/prismjs/components/prism-excel-formula.js",
+        "staticwebassets/prismjs/components/prism-excel-formula.min.js",
+        "staticwebassets/prismjs/components/prism-factor.js",
+        "staticwebassets/prismjs/components/prism-factor.min.js",
+        "staticwebassets/prismjs/components/prism-firestore-security-rules.js",
+        "staticwebassets/prismjs/components/prism-firestore-security-rules.min.js",
+        "staticwebassets/prismjs/components/prism-flow.js",
+        "staticwebassets/prismjs/components/prism-flow.min.js",
+        "staticwebassets/prismjs/components/prism-fortran.js",
+        "staticwebassets/prismjs/components/prism-fortran.min.js",
+        "staticwebassets/prismjs/components/prism-fsharp.js",
+        "staticwebassets/prismjs/components/prism-fsharp.min.js",
+        "staticwebassets/prismjs/components/prism-ftl.js",
+        "staticwebassets/prismjs/components/prism-ftl.min.js",
+        "staticwebassets/prismjs/components/prism-gcode.js",
+        "staticwebassets/prismjs/components/prism-gcode.min.js",
+        "staticwebassets/prismjs/components/prism-gdscript.js",
+        "staticwebassets/prismjs/components/prism-gdscript.min.js",
+        "staticwebassets/prismjs/components/prism-gedcom.js",
+        "staticwebassets/prismjs/components/prism-gedcom.min.js",
+        "staticwebassets/prismjs/components/prism-gherkin.js",
+        "staticwebassets/prismjs/components/prism-gherkin.min.js",
+        "staticwebassets/prismjs/components/prism-git.js",
+        "staticwebassets/prismjs/components/prism-git.min.js",
+        "staticwebassets/prismjs/components/prism-glsl.js",
+        "staticwebassets/prismjs/components/prism-glsl.min.js",
+        "staticwebassets/prismjs/components/prism-gml.js",
+        "staticwebassets/prismjs/components/prism-gml.min.js",
+        "staticwebassets/prismjs/components/prism-go.js",
+        "staticwebassets/prismjs/components/prism-go.min.js",
+        "staticwebassets/prismjs/components/prism-graphql.js",
+        "staticwebassets/prismjs/components/prism-graphql.min.js",
+        "staticwebassets/prismjs/components/prism-groovy.js",
+        "staticwebassets/prismjs/components/prism-groovy.min.js",
+        "staticwebassets/prismjs/components/prism-haml.js",
+        "staticwebassets/prismjs/components/prism-haml.min.js",
+        "staticwebassets/prismjs/components/prism-handlebars.js",
+        "staticwebassets/prismjs/components/prism-handlebars.min.js",
+        "staticwebassets/prismjs/components/prism-haskell.js",
+        "staticwebassets/prismjs/components/prism-haskell.min.js",
+        "staticwebassets/prismjs/components/prism-haxe.js",
+        "staticwebassets/prismjs/components/prism-haxe.min.js",
+        "staticwebassets/prismjs/components/prism-hcl.js",
+        "staticwebassets/prismjs/components/prism-hcl.min.js",
+        "staticwebassets/prismjs/components/prism-hlsl.js",
+        "staticwebassets/prismjs/components/prism-hlsl.min.js",
+        "staticwebassets/prismjs/components/prism-hpkp.js",
+        "staticwebassets/prismjs/components/prism-hpkp.min.js",
+        "staticwebassets/prismjs/components/prism-hsts.js",
+        "staticwebassets/prismjs/components/prism-hsts.min.js",
+        "staticwebassets/prismjs/components/prism-http.js",
+        "staticwebassets/prismjs/components/prism-http.min.js",
+        "staticwebassets/prismjs/components/prism-ichigojam.js",
+        "staticwebassets/prismjs/components/prism-ichigojam.min.js",
+        "staticwebassets/prismjs/components/prism-icon.js",
+        "staticwebassets/prismjs/components/prism-icon.min.js",
+        "staticwebassets/prismjs/components/prism-iecst.js",
+        "staticwebassets/prismjs/components/prism-iecst.min.js",
+        "staticwebassets/prismjs/components/prism-ignore.js",
+        "staticwebassets/prismjs/components/prism-ignore.min.js",
+        "staticwebassets/prismjs/components/prism-inform7.js",
+        "staticwebassets/prismjs/components/prism-inform7.min.js",
+        "staticwebassets/prismjs/components/prism-ini.js",
+        "staticwebassets/prismjs/components/prism-ini.min.js",
+        "staticwebassets/prismjs/components/prism-io.js",
+        "staticwebassets/prismjs/components/prism-io.min.js",
+        "staticwebassets/prismjs/components/prism-j.js",
+        "staticwebassets/prismjs/components/prism-j.min.js",
+        "staticwebassets/prismjs/components/prism-java.js",
+        "staticwebassets/prismjs/components/prism-java.min.js",
+        "staticwebassets/prismjs/components/prism-javadoc.js",
+        "staticwebassets/prismjs/components/prism-javadoc.min.js",
+        "staticwebassets/prismjs/components/prism-javadoclike.js",
+        "staticwebassets/prismjs/components/prism-javadoclike.min.js",
+        "staticwebassets/prismjs/components/prism-javascript.js",
+        "staticwebassets/prismjs/components/prism-javascript.min.js",
+        "staticwebassets/prismjs/components/prism-javastacktrace.js",
+        "staticwebassets/prismjs/components/prism-javastacktrace.min.js",
+        "staticwebassets/prismjs/components/prism-jolie.js",
+        "staticwebassets/prismjs/components/prism-jolie.min.js",
+        "staticwebassets/prismjs/components/prism-jq.js",
+        "staticwebassets/prismjs/components/prism-jq.min.js",
+        "staticwebassets/prismjs/components/prism-js-extras.js",
+        "staticwebassets/prismjs/components/prism-js-extras.min.js",
+        "staticwebassets/prismjs/components/prism-js-templates.js",
+        "staticwebassets/prismjs/components/prism-js-templates.min.js",
+        "staticwebassets/prismjs/components/prism-jsdoc.js",
+        "staticwebassets/prismjs/components/prism-jsdoc.min.js",
+        "staticwebassets/prismjs/components/prism-json.js",
+        "staticwebassets/prismjs/components/prism-json.min.js",
+        "staticwebassets/prismjs/components/prism-json5.js",
+        "staticwebassets/prismjs/components/prism-json5.min.js",
+        "staticwebassets/prismjs/components/prism-jsonp.js",
+        "staticwebassets/prismjs/components/prism-jsonp.min.js",
+        "staticwebassets/prismjs/components/prism-jsstacktrace.js",
+        "staticwebassets/prismjs/components/prism-jsstacktrace.min.js",
+        "staticwebassets/prismjs/components/prism-jsx.js",
+        "staticwebassets/prismjs/components/prism-jsx.min.js",
+        "staticwebassets/prismjs/components/prism-julia.js",
+        "staticwebassets/prismjs/components/prism-julia.min.js",
+        "staticwebassets/prismjs/components/prism-keyman.js",
+        "staticwebassets/prismjs/components/prism-keyman.min.js",
+        "staticwebassets/prismjs/components/prism-kotlin.js",
+        "staticwebassets/prismjs/components/prism-kotlin.min.js",
+        "staticwebassets/prismjs/components/prism-latex.js",
+        "staticwebassets/prismjs/components/prism-latex.min.js",
+        "staticwebassets/prismjs/components/prism-latte.js",
+        "staticwebassets/prismjs/components/prism-latte.min.js",
+        "staticwebassets/prismjs/components/prism-less.js",
+        "staticwebassets/prismjs/components/prism-less.min.js",
+        "staticwebassets/prismjs/components/prism-lilypond.js",
+        "staticwebassets/prismjs/components/prism-lilypond.min.js",
+        "staticwebassets/prismjs/components/prism-liquid.js",
+        "staticwebassets/prismjs/components/prism-liquid.min.js",
+        "staticwebassets/prismjs/components/prism-lisp.js",
+        "staticwebassets/prismjs/components/prism-lisp.min.js",
+        "staticwebassets/prismjs/components/prism-livescript.js",
+        "staticwebassets/prismjs/components/prism-livescript.min.js",
+        "staticwebassets/prismjs/components/prism-llvm.js",
+        "staticwebassets/prismjs/components/prism-llvm.min.js",
+        "staticwebassets/prismjs/components/prism-lolcode.js",
+        "staticwebassets/prismjs/components/prism-lolcode.min.js",
+        "staticwebassets/prismjs/components/prism-lua.js",
+        "staticwebassets/prismjs/components/prism-lua.min.js",
+        "staticwebassets/prismjs/components/prism-makefile.js",
+        "staticwebassets/prismjs/components/prism-makefile.min.js",
+        "staticwebassets/prismjs/components/prism-markdown.js",
+        "staticwebassets/prismjs/components/prism-markdown.min.js",
+        "staticwebassets/prismjs/components/prism-markup-templating.js",
+        "staticwebassets/prismjs/components/prism-markup-templating.min.js",
+        "staticwebassets/prismjs/components/prism-markup.js",
+        "staticwebassets/prismjs/components/prism-markup.min.js",
+        "staticwebassets/prismjs/components/prism-matlab.js",
+        "staticwebassets/prismjs/components/prism-matlab.min.js",
+        "staticwebassets/prismjs/components/prism-mel.js",
+        "staticwebassets/prismjs/components/prism-mel.min.js",
+        "staticwebassets/prismjs/components/prism-mizar.js",
+        "staticwebassets/prismjs/components/prism-mizar.min.js",
+        "staticwebassets/prismjs/components/prism-mongodb.js",
+        "staticwebassets/prismjs/components/prism-mongodb.min.js",
+        "staticwebassets/prismjs/components/prism-monkey.js",
+        "staticwebassets/prismjs/components/prism-monkey.min.js",
+        "staticwebassets/prismjs/components/prism-moonscript.js",
+        "staticwebassets/prismjs/components/prism-moonscript.min.js",
+        "staticwebassets/prismjs/components/prism-n1ql.js",
+        "staticwebassets/prismjs/components/prism-n1ql.min.js",
+        "staticwebassets/prismjs/components/prism-n4js.js",
+        "staticwebassets/prismjs/components/prism-n4js.min.js",
+        "staticwebassets/prismjs/components/prism-nand2tetris-hdl.js",
+        "staticwebassets/prismjs/components/prism-nand2tetris-hdl.min.js",
+        "staticwebassets/prismjs/components/prism-naniscript.js",
+        "staticwebassets/prismjs/components/prism-naniscript.min.js",
+        "staticwebassets/prismjs/components/prism-nasm.js",
+        "staticwebassets/prismjs/components/prism-nasm.min.js",
+        "staticwebassets/prismjs/components/prism-neon.js",
+        "staticwebassets/prismjs/components/prism-neon.min.js",
+        "staticwebassets/prismjs/components/prism-nginx.js",
+        "staticwebassets/prismjs/components/prism-nginx.min.js",
+        "staticwebassets/prismjs/components/prism-nim.js",
+        "staticwebassets/prismjs/components/prism-nim.min.js",
+        "staticwebassets/prismjs/components/prism-nix.js",
+        "staticwebassets/prismjs/components/prism-nix.min.js",
+        "staticwebassets/prismjs/components/prism-nsis.js",
+        "staticwebassets/prismjs/components/prism-nsis.min.js",
+        "staticwebassets/prismjs/components/prism-objectivec.js",
+        "staticwebassets/prismjs/components/prism-objectivec.min.js",
+        "staticwebassets/prismjs/components/prism-ocaml.js",
+        "staticwebassets/prismjs/components/prism-ocaml.min.js",
+        "staticwebassets/prismjs/components/prism-opencl.js",
+        "staticwebassets/prismjs/components/prism-opencl.min.js",
+        "staticwebassets/prismjs/components/prism-oz.js",
+        "staticwebassets/prismjs/components/prism-oz.min.js",
+        "staticwebassets/prismjs/components/prism-parigp.js",
+        "staticwebassets/prismjs/components/prism-parigp.min.js",
+        "staticwebassets/prismjs/components/prism-parser.js",
+        "staticwebassets/prismjs/components/prism-parser.min.js",
+        "staticwebassets/prismjs/components/prism-pascal.js",
+        "staticwebassets/prismjs/components/prism-pascal.min.js",
+        "staticwebassets/prismjs/components/prism-pascaligo.js",
+        "staticwebassets/prismjs/components/prism-pascaligo.min.js",
+        "staticwebassets/prismjs/components/prism-pcaxis.js",
+        "staticwebassets/prismjs/components/prism-pcaxis.min.js",
+        "staticwebassets/prismjs/components/prism-peoplecode.js",
+        "staticwebassets/prismjs/components/prism-peoplecode.min.js",
+        "staticwebassets/prismjs/components/prism-perl.js",
+        "staticwebassets/prismjs/components/prism-perl.min.js",
+        "staticwebassets/prismjs/components/prism-php-extras.js",
+        "staticwebassets/prismjs/components/prism-php-extras.min.js",
+        "staticwebassets/prismjs/components/prism-php.js",
+        "staticwebassets/prismjs/components/prism-php.min.js",
+        "staticwebassets/prismjs/components/prism-phpdoc.js",
+        "staticwebassets/prismjs/components/prism-phpdoc.min.js",
+        "staticwebassets/prismjs/components/prism-plsql.js",
+        "staticwebassets/prismjs/components/prism-plsql.min.js",
+        "staticwebassets/prismjs/components/prism-powerquery.js",
+        "staticwebassets/prismjs/components/prism-powerquery.min.js",
+        "staticwebassets/prismjs/components/prism-powershell.js",
+        "staticwebassets/prismjs/components/prism-powershell.min.js",
+        "staticwebassets/prismjs/components/prism-processing.js",
+        "staticwebassets/prismjs/components/prism-processing.min.js",
+        "staticwebassets/prismjs/components/prism-prolog.js",
+        "staticwebassets/prismjs/components/prism-prolog.min.js",
+        "staticwebassets/prismjs/components/prism-properties.js",
+        "staticwebassets/prismjs/components/prism-properties.min.js",
+        "staticwebassets/prismjs/components/prism-protobuf.js",
+        "staticwebassets/prismjs/components/prism-protobuf.min.js",
+        "staticwebassets/prismjs/components/prism-pug.js",
+        "staticwebassets/prismjs/components/prism-pug.min.js",
+        "staticwebassets/prismjs/components/prism-puppet.js",
+        "staticwebassets/prismjs/components/prism-puppet.min.js",
+        "staticwebassets/prismjs/components/prism-pure.js",
+        "staticwebassets/prismjs/components/prism-pure.min.js",
+        "staticwebassets/prismjs/components/prism-purebasic.js",
+        "staticwebassets/prismjs/components/prism-purebasic.min.js",
+        "staticwebassets/prismjs/components/prism-purescript.js",
+        "staticwebassets/prismjs/components/prism-purescript.min.js",
+        "staticwebassets/prismjs/components/prism-python.js",
+        "staticwebassets/prismjs/components/prism-python.min.js",
+        "staticwebassets/prismjs/components/prism-q.js",
+        "staticwebassets/prismjs/components/prism-q.min.js",
+        "staticwebassets/prismjs/components/prism-qml.js",
+        "staticwebassets/prismjs/components/prism-qml.min.js",
+        "staticwebassets/prismjs/components/prism-qore.js",
+        "staticwebassets/prismjs/components/prism-qore.min.js",
+        "staticwebassets/prismjs/components/prism-r.js",
+        "staticwebassets/prismjs/components/prism-r.min.js",
+        "staticwebassets/prismjs/components/prism-racket.js",
+        "staticwebassets/prismjs/components/prism-racket.min.js",
+        "staticwebassets/prismjs/components/prism-reason.js",
+        "staticwebassets/prismjs/components/prism-reason.min.js",
+        "staticwebassets/prismjs/components/prism-regex.js",
+        "staticwebassets/prismjs/components/prism-regex.min.js",
+        "staticwebassets/prismjs/components/prism-renpy.js",
+        "staticwebassets/prismjs/components/prism-renpy.min.js",
+        "staticwebassets/prismjs/components/prism-rest.js",
+        "staticwebassets/prismjs/components/prism-rest.min.js",
+        "staticwebassets/prismjs/components/prism-rip.js",
+        "staticwebassets/prismjs/components/prism-rip.min.js",
+        "staticwebassets/prismjs/components/prism-roboconf.js",
+        "staticwebassets/prismjs/components/prism-roboconf.min.js",
+        "staticwebassets/prismjs/components/prism-robotframework.js",
+        "staticwebassets/prismjs/components/prism-robotframework.min.js",
+        "staticwebassets/prismjs/components/prism-ruby.js",
+        "staticwebassets/prismjs/components/prism-ruby.min.js",
+        "staticwebassets/prismjs/components/prism-rust.js",
+        "staticwebassets/prismjs/components/prism-rust.min.js",
+        "staticwebassets/prismjs/components/prism-sas.js",
+        "staticwebassets/prismjs/components/prism-sas.min.js",
+        "staticwebassets/prismjs/components/prism-sass.js",
+        "staticwebassets/prismjs/components/prism-sass.min.js",
+        "staticwebassets/prismjs/components/prism-scala.js",
+        "staticwebassets/prismjs/components/prism-scala.min.js",
+        "staticwebassets/prismjs/components/prism-scheme.js",
+        "staticwebassets/prismjs/components/prism-scheme.min.js",
+        "staticwebassets/prismjs/components/prism-scss.js",
+        "staticwebassets/prismjs/components/prism-scss.min.js",
+        "staticwebassets/prismjs/components/prism-shell-session.js",
+        "staticwebassets/prismjs/components/prism-shell-session.min.js",
+        "staticwebassets/prismjs/components/prism-smali.js",
+        "staticwebassets/prismjs/components/prism-smali.min.js",
+        "staticwebassets/prismjs/components/prism-smalltalk.js",
+        "staticwebassets/prismjs/components/prism-smalltalk.min.js",
+        "staticwebassets/prismjs/components/prism-smarty.js",
+        "staticwebassets/prismjs/components/prism-smarty.min.js",
+        "staticwebassets/prismjs/components/prism-sml.js",
+        "staticwebassets/prismjs/components/prism-sml.min.js",
+        "staticwebassets/prismjs/components/prism-solidity.js",
+        "staticwebassets/prismjs/components/prism-solidity.min.js",
+        "staticwebassets/prismjs/components/prism-solution-file.js",
+        "staticwebassets/prismjs/components/prism-solution-file.min.js",
+        "staticwebassets/prismjs/components/prism-soy.js",
+        "staticwebassets/prismjs/components/prism-soy.min.js",
+        "staticwebassets/prismjs/components/prism-sparql.js",
+        "staticwebassets/prismjs/components/prism-sparql.min.js",
+        "staticwebassets/prismjs/components/prism-splunk-spl.js",
+        "staticwebassets/prismjs/components/prism-splunk-spl.min.js",
+        "staticwebassets/prismjs/components/prism-sqf.js",
+        "staticwebassets/prismjs/components/prism-sqf.min.js",
+        "staticwebassets/prismjs/components/prism-sql.js",
+        "staticwebassets/prismjs/components/prism-sql.min.js",
+        "staticwebassets/prismjs/components/prism-stan.js",
+        "staticwebassets/prismjs/components/prism-stan.min.js",
+        "staticwebassets/prismjs/components/prism-stylus.js",
+        "staticwebassets/prismjs/components/prism-stylus.min.js",
+        "staticwebassets/prismjs/components/prism-swift.js",
+        "staticwebassets/prismjs/components/prism-swift.min.js",
+        "staticwebassets/prismjs/components/prism-t4-cs.js",
+        "staticwebassets/prismjs/components/prism-t4-cs.min.js",
+        "staticwebassets/prismjs/components/prism-t4-templating.js",
+        "staticwebassets/prismjs/components/prism-t4-templating.min.js",
+        "staticwebassets/prismjs/components/prism-t4-vb.js",
+        "staticwebassets/prismjs/components/prism-t4-vb.min.js",
+        "staticwebassets/prismjs/components/prism-tap.js",
+        "staticwebassets/prismjs/components/prism-tap.min.js",
+        "staticwebassets/prismjs/components/prism-tcl.js",
+        "staticwebassets/prismjs/components/prism-tcl.min.js",
+        "staticwebassets/prismjs/components/prism-textile.js",
+        "staticwebassets/prismjs/components/prism-textile.min.js",
+        "staticwebassets/prismjs/components/prism-toml.js",
+        "staticwebassets/prismjs/components/prism-toml.min.js",
+        "staticwebassets/prismjs/components/prism-tsx.js",
+        "staticwebassets/prismjs/components/prism-tsx.min.js",
+        "staticwebassets/prismjs/components/prism-tt2.js",
+        "staticwebassets/prismjs/components/prism-tt2.min.js",
+        "staticwebassets/prismjs/components/prism-turtle.js",
+        "staticwebassets/prismjs/components/prism-turtle.min.js",
+        "staticwebassets/prismjs/components/prism-twig.js",
+        "staticwebassets/prismjs/components/prism-twig.min.js",
+        "staticwebassets/prismjs/components/prism-typescript.js",
+        "staticwebassets/prismjs/components/prism-typescript.min.js",
+        "staticwebassets/prismjs/components/prism-typoscript.js",
+        "staticwebassets/prismjs/components/prism-typoscript.min.js",
+        "staticwebassets/prismjs/components/prism-unrealscript.js",
+        "staticwebassets/prismjs/components/prism-unrealscript.min.js",
+        "staticwebassets/prismjs/components/prism-vala.js",
+        "staticwebassets/prismjs/components/prism-vala.min.js",
+        "staticwebassets/prismjs/components/prism-vbnet.js",
+        "staticwebassets/prismjs/components/prism-vbnet.min.js",
+        "staticwebassets/prismjs/components/prism-velocity.js",
+        "staticwebassets/prismjs/components/prism-velocity.min.js",
+        "staticwebassets/prismjs/components/prism-verilog.js",
+        "staticwebassets/prismjs/components/prism-verilog.min.js",
+        "staticwebassets/prismjs/components/prism-vhdl.js",
+        "staticwebassets/prismjs/components/prism-vhdl.min.js",
+        "staticwebassets/prismjs/components/prism-vim.js",
+        "staticwebassets/prismjs/components/prism-vim.min.js",
+        "staticwebassets/prismjs/components/prism-visual-basic.js",
+        "staticwebassets/prismjs/components/prism-visual-basic.min.js",
+        "staticwebassets/prismjs/components/prism-warpscript.js",
+        "staticwebassets/prismjs/components/prism-warpscript.min.js",
+        "staticwebassets/prismjs/components/prism-wasm.js",
+        "staticwebassets/prismjs/components/prism-wasm.min.js",
+        "staticwebassets/prismjs/components/prism-wiki.js",
+        "staticwebassets/prismjs/components/prism-wiki.min.js",
+        "staticwebassets/prismjs/components/prism-xeora.js",
+        "staticwebassets/prismjs/components/prism-xeora.min.js",
+        "staticwebassets/prismjs/components/prism-xml-doc.js",
+        "staticwebassets/prismjs/components/prism-xml-doc.min.js",
+        "staticwebassets/prismjs/components/prism-xojo.js",
+        "staticwebassets/prismjs/components/prism-xojo.min.js",
+        "staticwebassets/prismjs/components/prism-xquery.js",
+        "staticwebassets/prismjs/components/prism-xquery.min.js",
+        "staticwebassets/prismjs/components/prism-yaml.js",
+        "staticwebassets/prismjs/components/prism-yaml.min.js",
+        "staticwebassets/prismjs/components/prism-yang.js",
+        "staticwebassets/prismjs/components/prism-yang.min.js",
+        "staticwebassets/prismjs/components/prism-zig.js",
+        "staticwebassets/prismjs/components/prism-zig.min.js",
+        "staticwebassets/prismjs/dependencies.js",
+        "staticwebassets/prismjs/package.json",
+        "staticwebassets/prismjs/plugins/autolinker/prism-autolinker.css",
+        "staticwebassets/prismjs/plugins/autolinker/prism-autolinker.js",
+        "staticwebassets/prismjs/plugins/autolinker/prism-autolinker.min.js",
+        "staticwebassets/prismjs/plugins/autoloader/prism-autoloader.js",
+        "staticwebassets/prismjs/plugins/autoloader/prism-autoloader.min.js",
+        "staticwebassets/prismjs/plugins/command-line/prism-command-line.css",
+        "staticwebassets/prismjs/plugins/command-line/prism-command-line.js",
+        "staticwebassets/prismjs/plugins/command-line/prism-command-line.min.js",
+        "staticwebassets/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.js",
+        "staticwebassets/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js",
+        "staticwebassets/prismjs/plugins/custom-class/prism-custom-class.js",
+        "staticwebassets/prismjs/plugins/custom-class/prism-custom-class.min.js",
+        "staticwebassets/prismjs/plugins/data-uri-highlight/prism-data-uri-highlight.js",
+        "staticwebassets/prismjs/plugins/data-uri-highlight/prism-data-uri-highlight.min.js",
+        "staticwebassets/prismjs/plugins/diff-highlight/prism-diff-highlight.css",
+        "staticwebassets/prismjs/plugins/diff-highlight/prism-diff-highlight.js",
+        "staticwebassets/prismjs/plugins/diff-highlight/prism-diff-highlight.min.js",
+        "staticwebassets/prismjs/plugins/download-button/prism-download-button.js",
+        "staticwebassets/prismjs/plugins/download-button/prism-download-button.min.js",
+        "staticwebassets/prismjs/plugins/file-highlight/prism-file-highlight.js",
+        "staticwebassets/prismjs/plugins/file-highlight/prism-file-highlight.min.js",
+        "staticwebassets/prismjs/plugins/filter-highlight-all/prism-filter-highlight-all.js",
+        "staticwebassets/prismjs/plugins/filter-highlight-all/prism-filter-highlight-all.min.js",
+        "staticwebassets/prismjs/plugins/highlight-keywords/prism-highlight-keywords.js",
+        "staticwebassets/prismjs/plugins/highlight-keywords/prism-highlight-keywords.min.js",
+        "staticwebassets/prismjs/plugins/inline-color/prism-inline-color.css",
+        "staticwebassets/prismjs/plugins/inline-color/prism-inline-color.js",
+        "staticwebassets/prismjs/plugins/inline-color/prism-inline-color.min.js",
+        "staticwebassets/prismjs/plugins/jsonp-highlight/prism-jsonp-highlight.js",
+        "staticwebassets/prismjs/plugins/jsonp-highlight/prism-jsonp-highlight.min.js",
+        "staticwebassets/prismjs/plugins/keep-markup/prism-keep-markup.js",
+        "staticwebassets/prismjs/plugins/keep-markup/prism-keep-markup.min.js",
+        "staticwebassets/prismjs/plugins/line-highlight/prism-line-highlight.css",
+        "staticwebassets/prismjs/plugins/line-highlight/prism-line-highlight.js",
+        "staticwebassets/prismjs/plugins/line-highlight/prism-line-highlight.min.js",
+        "staticwebassets/prismjs/plugins/line-numbers/prism-line-numbers.css",
+        "staticwebassets/prismjs/plugins/line-numbers/prism-line-numbers.js",
+        "staticwebassets/prismjs/plugins/line-numbers/prism-line-numbers.min.js",
+        "staticwebassets/prismjs/plugins/match-braces/prism-match-braces.css",
+        "staticwebassets/prismjs/plugins/match-braces/prism-match-braces.js",
+        "staticwebassets/prismjs/plugins/match-braces/prism-match-braces.min.js",
+        "staticwebassets/prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.js",
+        "staticwebassets/prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.min.js",
+        "staticwebassets/prismjs/plugins/previewers/prism-previewers.css",
+        "staticwebassets/prismjs/plugins/previewers/prism-previewers.js",
+        "staticwebassets/prismjs/plugins/previewers/prism-previewers.min.js",
+        "staticwebassets/prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.js",
+        "staticwebassets/prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.min.js",
+        "staticwebassets/prismjs/plugins/show-invisibles/prism-show-invisibles.css",
+        "staticwebassets/prismjs/plugins/show-invisibles/prism-show-invisibles.js",
+        "staticwebassets/prismjs/plugins/show-invisibles/prism-show-invisibles.min.js",
+        "staticwebassets/prismjs/plugins/show-language/prism-show-language.js",
+        "staticwebassets/prismjs/plugins/show-language/prism-show-language.min.js",
+        "staticwebassets/prismjs/plugins/toolbar/prism-toolbar.css",
+        "staticwebassets/prismjs/plugins/toolbar/prism-toolbar.js",
+        "staticwebassets/prismjs/plugins/toolbar/prism-toolbar.min.js",
+        "staticwebassets/prismjs/plugins/treeview/prism-treeview.css",
+        "staticwebassets/prismjs/plugins/treeview/prism-treeview.js",
+        "staticwebassets/prismjs/plugins/treeview/prism-treeview.min.js",
+        "staticwebassets/prismjs/plugins/unescaped-markup/prism-unescaped-markup.css",
+        "staticwebassets/prismjs/plugins/unescaped-markup/prism-unescaped-markup.js",
+        "staticwebassets/prismjs/plugins/unescaped-markup/prism-unescaped-markup.min.js",
+        "staticwebassets/prismjs/plugins/wpd/prism-wpd.css",
+        "staticwebassets/prismjs/plugins/wpd/prism-wpd.js",
+        "staticwebassets/prismjs/plugins/wpd/prism-wpd.min.js",
+        "staticwebassets/prismjs/prism.js",
+        "staticwebassets/prismjs/themes/prism-coy.css",
+        "staticwebassets/prismjs/themes/prism-dark.css",
+        "staticwebassets/prismjs/themes/prism-funky.css",
+        "staticwebassets/prismjs/themes/prism-okaidia.css",
+        "staticwebassets/prismjs/themes/prism-solarizedlight.css",
+        "staticwebassets/prismjs/themes/prism-tomorrow.css",
+        "staticwebassets/prismjs/themes/prism-twilight.css",
+        "staticwebassets/prismjs/themes/prism.css"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -9480,18 +11180,118 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "System.Xml.XPath/4.3.0": {
+      "sha512": "v1JQ5SETnQusqmS3RwStF7vwQ3L02imIzl++sewmt23VGygix04pEH+FCj1yWb+z4GDzKiljr1W7Wfvrx0YwgA==",
+      "type": "package",
+      "path": "system.xml.xpath/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Xml.XPath.dll",
+        "lib/netstandard1.3/System.Xml.XPath.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Xml.XPath.dll",
+        "ref/netstandard1.3/System.Xml.XPath.dll",
+        "ref/netstandard1.3/System.Xml.XPath.xml",
+        "ref/netstandard1.3/de/System.Xml.XPath.xml",
+        "ref/netstandard1.3/es/System.Xml.XPath.xml",
+        "ref/netstandard1.3/fr/System.Xml.XPath.xml",
+        "ref/netstandard1.3/it/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ja/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ko/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ru/System.Xml.XPath.xml",
+        "ref/netstandard1.3/zh-hans/System.Xml.XPath.xml",
+        "ref/netstandard1.3/zh-hant/System.Xml.XPath.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.xml.xpath.4.3.0.nupkg.sha512",
+        "system.xml.xpath.nuspec"
+      ]
+    },
+    "System.Xml.XPath.XmlDocument/4.3.0": {
+      "sha512": "A/uxsWi/Ifzkmd4ArTLISMbfFs6XpRPsXZonrIqyTY70xi8t+mDtvSM5Os0RqyRDobjMBwIDHDL4NOIbkDwf7A==",
+      "type": "package",
+      "path": "system.xml.xpath.xmldocument/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Xml.XPath.XmlDocument.dll",
+        "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll",
+        "ref/netstandard1.3/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/de/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/es/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/fr/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/it/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ja/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ko/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/ru/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/zh-hans/System.Xml.XPath.XmlDocument.xml",
+        "ref/netstandard1.3/zh-hant/System.Xml.XPath.XmlDocument.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
+        "system.xml.xpath.xmldocument.nuspec"
+      ]
+    },
+    "WebStoating.Markdig.Prism/1.0.0": {
+      "sha512": "Yyw4/fuqVEEIqjCGbRfowLAQ1pMZwuOU7s3FMg/J48LaJDW55pJfvBoKaeQTKSjQwWOFZonHu+VWSvd6RC0zVA==",
+      "type": "package",
+      "path": "webstoating.markdig.prism/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Markdig.Prism.dll",
+        "webstoating.markdig.prism.1.0.0.nupkg.sha512",
+        "webstoating.markdig.prism.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
       "BlazorAnimate >= 3.0.0",
+      "Blazored.TextEditor >= 1.0.3",
+      "CKEditor >= 3.6.4",
+      "ColorCode.Core >= 2.0.6",
+      "ColorCode.HTML >= 2.0.6",
+      "CommonMark.NET >= 0.15.1",
       "Docker.DotNet >= 3.125.4",
       "GitLabApiClient >= 1.7.0",
+      "Html2Markdown >= 4.0.0.427",
+      "Jering.Web.SyntaxHighlighters.Prism >= 4.3.0",
       "MailKit >= 2.10.1",
+      "Markdig >= 0.23.0",
+      "MarkdigExtensions.SyntaxHighlighting >= 1.0.3",
       "MatBlazor >= 2.8.0",
-      "Microsoft.Azure.SignalR >= 1.7.0",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.1",
-      "Pomelo.EntityFrameworkCore.MySql >= 3.2.4"
+      "Microsoft.Azure.SignalR >= 1.7.1",
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
+      "Pomelo.EntityFrameworkCore.MySql >= 3.2.4",
+      "StardustDL.RazorComponents.Markdown >= 0.0.2.24",
+      "WebStoating.Markdig.Prism >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -9541,6 +11341,26 @@
             "target": "Package",
             "version": "[3.0.0, )"
           },
+          "Blazored.TextEditor": {
+            "target": "Package",
+            "version": "[1.0.3, )"
+          },
+          "CKEditor": {
+            "target": "Package",
+            "version": "[3.6.4, )"
+          },
+          "ColorCode.Core": {
+            "target": "Package",
+            "version": "[2.0.6, )"
+          },
+          "ColorCode.HTML": {
+            "target": "Package",
+            "version": "[2.0.6, )"
+          },
+          "CommonMark.NET": {
+            "target": "Package",
+            "version": "[0.15.1, )"
+          },
           "Docker.DotNet": {
             "target": "Package",
             "version": "[3.125.4, )"
@@ -9549,9 +11369,25 @@
             "target": "Package",
             "version": "[1.7.0, )"
           },
+          "Html2Markdown": {
+            "target": "Package",
+            "version": "[4.0.0.427, )"
+          },
+          "Jering.Web.SyntaxHighlighters.Prism": {
+            "target": "Package",
+            "version": "[4.3.0, )"
+          },
           "MailKit": {
             "target": "Package",
             "version": "[2.10.1, )"
+          },
+          "Markdig": {
+            "target": "Package",
+            "version": "[0.23.0, )"
+          },
+          "MarkdigExtensions.SyntaxHighlighting": {
+            "target": "Package",
+            "version": "[1.0.3, )"
           },
           "MatBlazor": {
             "target": "Package",
@@ -9559,15 +11395,23 @@
           },
           "Microsoft.Azure.SignalR": {
             "target": "Package",
-            "version": "[1.7.0, )"
+            "version": "[1.7.1, )"
           },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
-            "version": "[5.0.1, )"
+            "version": "[5.0.2, )"
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
             "version": "[3.2.4, )"
+          },
+          "StardustDL.RazorComponents.Markdown": {
+            "target": "Package",
+            "version": "[0.0.2.24, )"
+          },
+          "WebStoating.Markdig.Prism": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           }
         },
         "imports": [

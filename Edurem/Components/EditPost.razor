@@ -1,0 +1,179 @@
+﻿@inject Edurem.Services.IMarkdownService MarkdownService;
+@using ColorCode;
+@using Jering.Web.SyntaxHighlighters.Prism;
+@using Blazored.TextEditor;
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="row mt-2">
+            <div class="col-6">
+                <input class="form-control" style="font-size: 18px" placeholder="Название поста" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <MatTabGroup ActiveIndexChanged="TextEditorChanged">
+                    @foreach (var editor in Editors)
+                    {
+                        <MatTab Label="@editor.Name">
+                        </MatTab>
+                    }
+                </MatTabGroup>
+            </div>
+        </div>
+
+        <div class="row mt-2" style="@(CurrentEditor.Equals(TextEditors.Markdown) ? "" : "display:none")">
+            <div class="col-12">
+                @if (Position.Equals(MdPosition.COL))
+                {
+                    <div class="row">
+                        <div class="col-10">
+                            <textarea class="form-control" rows="10" @oninput="MarkdownTextChanged" style="resize: none">@MarkdownText</textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-10 border">
+                            <StardustDL.RazorComponents.Markdown.MarkdownRenderer Value="@MarkdownText" />
+                        </div>
+                    </div>
+                }
+                else if (Position.Equals(MdPosition.ROW))
+                {
+                    <div class="row">
+                        <div class="col-6">
+                            <MatInputTextComponent Value="@MarkdownText" @oninput="MarkdownTextChanged" Outlined="true" Class="w-100" TextArea="true" Style="resize: none; height: 50vh">
+                            </MatInputTextComponent>
+                        </div>
+                        <div class="col-6">
+                            @((MarkupString)MarkdownService.ToHtml(MarkdownText))
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="row mt-2" style="@(CurrentEditor.Equals(TextEditors.RichText) ? "" : "display:none")">
+            <div class="col-12">
+                <BlazoredTextEditor @ref="@Editor">
+                    <ToolbarContent>
+                        <span class="ql-formats">
+                            <select class="ql-font">
+                                <option selected=""></option>
+                                <option value="serif"></option>
+                                <option value="monospace"></option>
+                            </select>
+                            <select class="ql-size">
+                                <option value="small"></option>
+                                <option selected=""></option>
+                                <option value="large"></option>
+                                <option value="huge"></option>
+                            </select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <select class="ql-color"></select>
+                            <select class="ql-background"></select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-list" value="ordered"></button>
+                            <button class="ql-list" value="bullet"></button>
+                            <button class="ql-indent" value="-1"></button>
+                            <button class="ql-indent" value="+1"></button>
+                            <select class="ql-align">
+                                <option selected=""></option>
+                                <option value="center"></option>
+                                <option value="right"></option>
+                                <option value="justify"></option>
+                            </select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-link"></button>
+                        </span>
+                    </ToolbarContent>
+                    <EditorContent >
+                    </EditorContent>
+                </BlazoredTextEditor>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    enum TextEditors { Markdown, RichText };
+
+    enum MdPosition { COVERED, ROW, COL };
+
+    MdPosition Position { get; set; }
+
+    TextEditors CurrentEditor { get; set; }
+
+    List<(TextEditors Type, string Name)> Editors { get; set; }
+
+    BlazoredTextEditor Editor { get; set; }
+
+    string MarkdownText { get; set; }
+
+    string HtmlText { get; set; }
+
+    bool IsOpened { get; set; }
+
+    protected override void OnInitialized()
+    {
+        MarkdownText = string.Empty;
+        HtmlText = string.Empty;
+
+        IsOpened = false;
+        Position = MdPosition.ROW;
+
+        Editors = new()
+        {
+            (TextEditors.Markdown, "Markdown"),
+            (TextEditors.RichText, "Rich Text")
+        };
+        CurrentEditor = Editors[0].Type;
+    }
+
+    void MarkdownTextChanged(ChangeEventArgs e)
+    {
+        MarkdownText = e.Value.ToString();
+
+        var s = MarkdownService.ToHtml(MarkdownText);
+    }
+
+
+    async Task TextEditorChanged(int activeIndex)
+    {
+        CurrentEditor = activeIndex == 0 ? TextEditors.Markdown : TextEditors.RichText;
+
+        if (CurrentEditor.Equals(TextEditors.Markdown))
+        {
+            var html = await Editor.GetHTML();
+            MarkdownText = MarkdownService.ToMarkdown(html);
+        }
+        else if (CurrentEditor.Equals(TextEditors.RichText))
+        {
+            var html = MarkdownService.ToHtml(MarkdownText);
+
+            await Task.WhenAll(Task.Run(() => { while (Editor is null) ; }));
+
+            try
+            {
+                await Editor.LoadHTMLContent(html);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                await Editor.LoadHTMLContent(html);
+            }
+        }
+
+    }
+}

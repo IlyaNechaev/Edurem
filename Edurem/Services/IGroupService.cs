@@ -20,6 +20,6 @@ namespace Edurem.Services
 
         public Task<Group> GetGroup(int groupId);
 
-        //public Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1);
+        public Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1);
     }
 }

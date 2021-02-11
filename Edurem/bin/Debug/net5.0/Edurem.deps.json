@@ -26,13 +26,24 @@
       "Edurem/1.0.0": {
         "dependencies": {
           "BlazorAnimate": "3.0.0",
+          "Blazored.TextEditor": "1.0.3",
+          "CKEditor": "3.6.4",
+          "ColorCode.Core": "2.0.6",
+          "ColorCode.HTML": "2.0.6",
+          "CommonMark.NET": "0.15.1",
           "Docker.DotNet": "3.125.4",
           "GitLabApiClient": "1.7.0",
+          "Html2Markdown": "4.0.0.427",
+          "Jering.Web.SyntaxHighlighters.Prism": "4.3.0",
           "MailKit": "2.10.1",
+          "Markdig": "0.23.0",
+          "MarkdigExtensions.SyntaxHighlighting": "1.0.3",
           "MatBlazor": "2.8.0",
-          "Microsoft.Azure.SignalR": "1.7.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.1",
+          "Microsoft.Azure.SignalR": "1.7.1",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
           "Pomelo.EntityFrameworkCore.MySql": "3.2.4",
+          "StardustDL.RazorComponents.Markdown": "0.0.2.24",
+          "WebStoating.Markdig.Prism": "1.0.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "5.0.0.0",
@@ -58,11 +69,11 @@
           "Microsoft.AspNetCore.Diagnostics.HealthChecks": "5.0.0.0",
           "Microsoft.AspNetCore": "5.0.0.0",
           "Microsoft.AspNetCore.HostFiltering": "5.0.0.0",
-          "Microsoft.AspNetCore.Hosting.Abstractions": "5.0.0.0",
+          "Microsoft.AspNetCore.Hosting.Abstractions.Reference": "5.0.0.0",
           "Microsoft.AspNetCore.Hosting": "5.0.0.0",
-          "Microsoft.AspNetCore.Hosting.Server.Abstractions": "5.0.0.0",
+          "Microsoft.AspNetCore.Hosting.Server.Abstractions.Reference": "5.0.0.0",
           "Microsoft.AspNetCore.Html.Abstractions.Reference": "5.0.0.0",
-          "Microsoft.AspNetCore.Http.Abstractions": "5.0.0.0",
+          "Microsoft.AspNetCore.Http.Abstractions.Reference": "5.0.0.0",
           "Microsoft.AspNetCore.Http.Connections": "5.0.0.0",
           "Microsoft.AspNetCore.Http": "5.0.0.0",
           "Microsoft.AspNetCore.Http.Extensions": "5.0.0.0",
@@ -125,12 +136,12 @@
           "Microsoft.Extensions.DependencyInjection.Reference": "5.0.0.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions": "5.0.0.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "5.0.0.0",
-          "Microsoft.Extensions.FileProviders.Abstractions": "5.0.0.0",
+          "Microsoft.Extensions.FileProviders.Abstractions.Reference": "5.0.0.0",
           "Microsoft.Extensions.FileProviders.Composite": "5.0.0.0",
           "Microsoft.Extensions.FileProviders.Embedded": "5.0.0.0",
           "Microsoft.Extensions.FileProviders.Physical": "5.0.0.0",
           "Microsoft.Extensions.FileSystemGlobbing": "5.0.0.0",
-          "Microsoft.Extensions.Hosting.Abstractions": "5.0.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions.Reference": "5.0.0.0",
           "Microsoft.Extensions.Hosting": "5.0.0.0",
           "Microsoft.Extensions.Http.Reference": "5.0.0.0",
           "Microsoft.Extensions.Identity.Core": "5.0.0.0",
@@ -309,7 +320,7 @@
           "System.Xml.XDocument.Reference": "5.0.0.0",
           "System.Xml.XmlDocument.Reference": "5.0.0.0",
           "System.Xml.XmlSerializer.Reference": "5.0.0.0",
-          "System.Xml.XPath": "5.0.0.0",
+          "System.Xml.XPath.Reference": "5.0.0.0",
           "System.Xml.XPath.XDocument": "5.0.0.0",
           "WindowsBase": "4.0.0.0"
         },
@@ -322,8 +333,8 @@
       },
       "BlazorAnimate/3.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "3.1.10",
-          "Microsoft.AspNetCore.Components.Web": "3.1.10",
+          "Microsoft.AspNetCore.Components": "5.0.0",
+          "Microsoft.AspNetCore.Components.Web": "5.0.0",
           "MinVer": "2.0.0"
         },
         "runtime": {
@@ -334,6 +345,62 @@
         },
         "compile": {
           "lib/netstandard2.0/BlazorAnimate.dll": {}
+        }
+      },
+      "Blazored.TextEditor/1.0.3": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "5.0.0",
+          "Microsoft.AspNetCore.Components.Web": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Blazored.TextEditor.dll": {
+            "assemblyVersion": "1.0.3.0",
+            "fileVersion": "1.0.3.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Blazored.TextEditor.dll": {}
+        }
+      },
+      "CKEditor/3.6.4": {},
+      "ColorCode.Core/2.0.6": {
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "runtime": {
+          "lib/netstandard1.4/ColorCode.Core.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.6.18"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.4/ColorCode.Core.dll": {}
+        }
+      },
+      "ColorCode.HTML/2.0.6": {
+        "dependencies": {
+          "ColorCode.Core": "2.0.6",
+          "NETStandard.Library": "1.6.1"
+        },
+        "runtime": {
+          "lib/netstandard1.4/ColorCode.HTML.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.6.18"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.4/ColorCode.HTML.dll": {}
+        }
+      },
+      "CommonMark.NET/0.15.1": {
+        "runtime": {
+          "lib/netstandard1.0/CommonMark.dll": {
+            "assemblyVersion": "0.1.0.0",
+            "fileVersion": "0.1.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.0/CommonMark.dll": {}
         }
       },
       "Docker.DotNet/3.125.4": {
@@ -351,6 +418,58 @@
           "lib/netstandard2.0/Docker.DotNet.dll": {}
         }
       },
+      "FSharp.Core/4.7.0": {
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Core.dll": {
+            "assemblyVersion": "4.7.0.0",
+            "fileVersion": "4.700.19.40208"
+          }
+        },
+        "resources": {
+          "lib/netstandard2.0/cs/FSharp.Core.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netstandard2.0/de/FSharp.Core.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netstandard2.0/es/FSharp.Core.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netstandard2.0/fr/FSharp.Core.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netstandard2.0/it/FSharp.Core.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netstandard2.0/ja/FSharp.Core.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netstandard2.0/ko/FSharp.Core.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netstandard2.0/pl/FSharp.Core.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netstandard2.0/pt-BR/FSharp.Core.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netstandard2.0/ru/FSharp.Core.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netstandard2.0/tr/FSharp.Core.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netstandard2.0/zh-Hans/FSharp.Core.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netstandard2.0/zh-Hant/FSharp.Core.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/FSharp.Core.dll": {}
+        }
+      },
       "GitLabApiClient/1.7.0": {
         "dependencies": {
           "Newtonsoft.Json": "12.0.3"
@@ -365,6 +484,39 @@
           "lib/netcoreapp3.1/GitLabApiClient.dll": {}
         }
       },
+      "Html2Markdown/4.0.0.427": {
+        "dependencies": {
+          "HtmlAgilityPack": "1.5.0",
+          "NETStandard.Library": "1.6.1"
+        },
+        "runtime": {
+          "lib/netstandard1.4/Html2Markdown.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.4/Html2Markdown.dll": {}
+        }
+      },
+      "HtmlAgilityPack/1.5.0": {
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "System.Net.Http": "4.3.4",
+          "System.Xml.XPath": "4.3.0",
+          "System.Xml.XPath.XmlDocument": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.6/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.5.0.0",
+            "fileVersion": "1.5.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.6/HtmlAgilityPack.dll": {}
+        }
+      },
       "Humanizer.Core/2.2.0": {
         "dependencies": {
           "NETStandard.Library": "1.6.1"
@@ -374,6 +526,56 @@
             "assemblyVersion": "2.2.0.0",
             "fileVersion": "2.2.0.0"
           }
+        }
+      },
+      "Jering.IocServices.System.Net.Http/0.3.0": {
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "runtime": {
+          "lib/netstandard1.1/Jering.IocServices.System.Net.Http.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.1/Jering.IocServices.System.Net.Http.dll": {}
+        }
+      },
+      "Jering.Javascript.NodeJS/4.3.0": {
+        "dependencies": {
+          "Jering.IocServices.System.Net.Http": "0.3.0",
+          "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
+          "Microsoft.Extensions.DependencyInjection": "5.0.0",
+          "Microsoft.Extensions.Logging": "3.1.8",
+          "Microsoft.Extensions.Options": "5.0.0",
+          "Newtonsoft.Json": "12.0.3",
+          "System.Buffers": "4.5.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Jering.Javascript.NodeJS.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Jering.Javascript.NodeJS.dll": {}
+        }
+      },
+      "Jering.Web.SyntaxHighlighters.Prism/4.3.0": {
+        "dependencies": {
+          "Jering.Javascript.NodeJS": "4.3.0",
+          "Microsoft.Extensions.DependencyInjection": "5.0.0",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Jering.Web.SyntaxHighlighters.Prism.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Jering.Web.SyntaxHighlighters.Prism.dll": {}
         }
       },
       "MailKit/2.10.1": {
@@ -390,10 +592,37 @@
           "lib/netstandard2.0/MailKit.dll": {}
         }
       },
+      "Markdig/0.23.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/Markdig.dll": {
+            "assemblyVersion": "0.23.0.0",
+            "fileVersion": "0.23.0.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Markdig.dll": {}
+        }
+      },
+      "MarkdigExtensions.SyntaxHighlighting/1.0.3": {
+        "dependencies": {
+          "ColorCode.HTML": "2.0.6",
+          "FSharp.Core": "4.7.0",
+          "Markdig": "0.23.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/MarkdigExtensions.SyntaxHighlighting.dll": {
+            "assemblyVersion": "1.0.3.0",
+            "fileVersion": "1.0.3.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/MarkdigExtensions.SyntaxHighlighting.dll": {}
+        }
+      },
       "MatBlazor/2.8.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "3.1.10",
-          "Microsoft.AspNetCore.Components.Web": "3.1.10"
+          "Microsoft.AspNetCore.Components": "5.0.0",
+          "Microsoft.AspNetCore.Components.Web": "5.0.0"
         },
         "runtime": {
           "lib/netstandard2.1/MatBlazor.dll": {
@@ -405,32 +634,32 @@
           "lib/netstandard2.1/MatBlazor.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Authorization/3.1.10": {
+      "Microsoft.AspNetCore.Authorization/5.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Metadata": "3.1.10",
+          "Microsoft.AspNetCore.Metadata": "5.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "Microsoft.Extensions.Options": "5.0.0"
         }
       },
-      "Microsoft.AspNetCore.Components/3.1.10": {
+      "Microsoft.AspNetCore.Components/5.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Authorization": "3.1.10",
-          "Microsoft.AspNetCore.Components.Analyzers": "3.1.10",
-          "Microsoft.JSInterop": "3.1.10"
+          "Microsoft.AspNetCore.Authorization": "5.0.0",
+          "Microsoft.AspNetCore.Components.Analyzers": "5.0.0"
         }
       },
-      "Microsoft.AspNetCore.Components.Analyzers/3.1.10": {},
-      "Microsoft.AspNetCore.Components.Forms/3.1.10": {
+      "Microsoft.AspNetCore.Components.Analyzers/5.0.0": {},
+      "Microsoft.AspNetCore.Components.Forms/5.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "3.1.10"
+          "Microsoft.AspNetCore.Components": "5.0.0"
         }
       },
-      "Microsoft.AspNetCore.Components.Web/3.1.10": {
+      "Microsoft.AspNetCore.Components.Web/5.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "3.1.10",
-          "Microsoft.AspNetCore.Components.Forms": "3.1.10",
+          "Microsoft.AspNetCore.Components": "5.0.0",
+          "Microsoft.AspNetCore.Components.Forms": "5.0.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.0",
-          "Microsoft.JSInterop": "3.1.10"
+          "Microsoft.JSInterop": "5.0.0",
+          "System.IO.Pipelines": "5.0.1"
         }
       },
       "Microsoft.AspNetCore.Connections.Abstractions/5.0.1": {
@@ -447,8 +676,27 @@
           "lib/net5.0/Microsoft.AspNetCore.Connections.Abstractions.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Hosting.Abstractions/2.2.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Hosting.Server.Abstractions": "2.2.0",
+          "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "2.2.0"
+        }
+      },
+      "Microsoft.AspNetCore.Hosting.Server.Abstractions/2.2.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "5.0.1",
+          "Microsoft.Extensions.Configuration.Abstractions": "3.1.8"
+        }
+      },
       "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
         "dependencies": {
+          "System.Text.Encodings.Web": "4.5.0"
+        }
+      },
+      "Microsoft.AspNetCore.Http.Abstractions/2.2.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "5.0.1",
           "System.Text.Encodings.Web": "4.5.0"
         }
       },
@@ -497,7 +745,7 @@
           "lib/net5.0/Microsoft.AspNetCore.Http.Features.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Metadata/3.1.10": {},
+      "Microsoft.AspNetCore.Metadata/5.0.0": {},
       "Microsoft.AspNetCore.Razor/2.2.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Html.Abstractions": "2.2.0"
@@ -535,11 +783,11 @@
           "lib/netstandard2.0/Microsoft.Azure.Services.AppAuthentication.dll": {}
         }
       },
-      "Microsoft.Azure.SignalR/1.7.0": {
+      "Microsoft.Azure.SignalR/1.7.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Connections.Client": "5.0.1",
           "Microsoft.Azure.Services.AppAuthentication": "1.5.0",
-          "Microsoft.Azure.SignalR.Protocols": "1.7.0",
+          "Microsoft.Azure.SignalR.Protocols": "1.7.1",
           "Microsoft.Extensions.Http": "2.1.0",
           "Microsoft.Identity.Client": "4.9.0",
           "Microsoft.Rest.ClientRuntime": "2.3.21",
@@ -547,12 +795,12 @@
         },
         "runtime": {
           "lib/net5.0/Microsoft.Azure.SignalR.Common.dll": {
-            "assemblyVersion": "1.7.0.0",
-            "fileVersion": "1.7.0.0"
+            "assemblyVersion": "1.7.1.0",
+            "fileVersion": "1.7.1.0"
           },
           "lib/net5.0/Microsoft.Azure.SignalR.dll": {
-            "assemblyVersion": "1.7.0.0",
-            "fileVersion": "1.7.0.0"
+            "assemblyVersion": "1.7.1.0",
+            "fileVersion": "1.7.1.0"
           }
         },
         "compile": {
@@ -560,7 +808,7 @@
           "lib/net5.0/Microsoft.Azure.SignalR.dll": {}
         }
       },
-      "Microsoft.Azure.SignalR.Protocols/1.7.0": {
+      "Microsoft.Azure.SignalR.Protocols/1.7.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Connections.Abstractions": "5.0.1",
           "Microsoft.Azure.Services.AppAuthentication": "1.5.0",
@@ -578,8 +826,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Azure.SignalR.Protocols.dll": {
-            "assemblyVersion": "1.7.0.0",
-            "fileVersion": "1.7.0.0"
+            "assemblyVersion": "1.7.1.0",
+            "fileVersion": "1.7.1.0"
           }
         },
         "compile": {
@@ -940,6 +1188,19 @@
         }
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions/5.0.0": {},
+      "Microsoft.Extensions.FileProviders.Abstractions/2.2.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "5.0.0"
+        }
+      },
+      "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "3.1.8",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "Microsoft.Extensions.FileProviders.Abstractions": "2.2.0",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0"
+        }
+      },
       "Microsoft.Extensions.Http/2.1.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
@@ -1052,7 +1313,7 @@
           "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.JSInterop/3.1.10": {},
+      "Microsoft.JSInterop/5.0.0": {},
       "Microsoft.NETCore.Platforms/2.1.2": {},
       "Microsoft.NETCore.Targets/1.1.3": {},
       "Microsoft.Rest.ClientRuntime/2.3.21": {
@@ -1069,134 +1330,134 @@
           "lib/netstandard2.0/Microsoft.Rest.ClientRuntime.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration/5.0.2": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "5.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore": "5.0.2"
         },
         "runtime": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.dll": {
-            "assemblyVersion": "5.0.1.0",
-            "fileVersion": "5.0.120.60303"
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.221.10809"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/5.0.2": {
         "dependencies": {
           "Newtonsoft.Json": "12.0.3",
           "System.Collections.Immutable": "5.0.0"
         },
         "runtime": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll": {
-            "assemblyVersion": "5.0.1.0",
-            "fileVersion": "5.0.120.60303"
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.221.10809"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Core/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Core/5.0.2": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "5.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Templating": "5.0.1",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Templating": "5.0.2",
           "Newtonsoft.Json": "12.0.3"
         },
         "runtime": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll": {
-            "assemblyVersion": "5.0.1.0",
-            "fileVersion": "5.0.120.60303"
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.221.10809"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design/5.0.2": {
         "dependencies": {
-          "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": "5.0.2"
         },
         "runtime": {
           "lib/net5.0/dotnet-aspnet-codegenerator-design.dll": {
-            "assemblyVersion": "5.0.1.0",
-            "fileVersion": "5.0.120.60303"
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.221.10809"
           }
         },
         "runtimeTargets": {
           "runtimes/win-arm/lib/net5.0/dotnet-aspnet-codegenerator-design.exe": {
             "rid": "win-arm",
             "assetType": "runtime",
-            "fileVersion": "5.0.120.60303"
+            "fileVersion": "5.0.221.10809"
           },
           "runtimes/win-arm64/lib/net5.0/dotnet-aspnet-codegenerator-design.exe": {
             "rid": "win-arm64",
             "assetType": "runtime",
-            "fileVersion": "5.0.120.60303"
+            "fileVersion": "5.0.221.10809"
           }
         },
         "compile": {
           "lib/net5.0/dotnet-aspnet-codegenerator-design.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore/5.0.2": {
         "dependencies": {
-          "Microsoft.VisualStudio.Web.CodeGeneration.Core": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Core": "5.0.2"
         },
         "runtime": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll": {
-            "assemblyVersion": "5.0.1.0",
-            "fileVersion": "5.0.120.60303"
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.221.10809"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Templating/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Templating/5.0.2": {
         "dependencies": {
           "Microsoft.AspNetCore.Razor.Language": "5.0.0",
           "Microsoft.AspNetCore.Razor.Runtime": "2.2.0",
           "Microsoft.CodeAnalysis.CSharp": "3.8.0",
           "Microsoft.CodeAnalysis.Razor": "5.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "5.0.2"
         },
         "runtime": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll": {
-            "assemblyVersion": "5.0.1.0",
-            "fileVersion": "5.0.120.60303"
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.221.10809"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGeneration.Utils/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGeneration.Utils/5.0.2": {
         "dependencies": {
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "3.8.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Contracts": "5.0.1",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Contracts": "5.0.2",
           "Newtonsoft.Json": "12.0.3"
         },
         "runtime": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll": {
-            "assemblyVersion": "5.0.1.0",
-            "fileVersion": "5.0.120.60303"
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.221.10809"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Web.CodeGenerators.Mvc/5.0.1": {
+      "Microsoft.VisualStudio.Web.CodeGenerators.Mvc/5.0.2": {
         "dependencies": {
-          "Microsoft.VisualStudio.Web.CodeGeneration": "5.0.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration": "5.0.2"
         },
         "runtime": {
           "lib/net5.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {
-            "assemblyVersion": "5.0.1.0",
-            "fileVersion": "5.0.120.60303"
+            "assemblyVersion": "5.0.2.0",
+            "fileVersion": "5.0.221.10809"
           }
         },
         "compile": {
@@ -1401,6 +1662,21 @@
       "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
+      "StardustDL.RazorComponents.Markdown/0.0.2.24": {
+        "dependencies": {
+          "Markdig": "0.23.0",
+          "Microsoft.AspNetCore.Components.Web": "5.0.0"
+        },
+        "runtime": {
+          "lib/net5.0/StardustDL.RazorComponents.Markdown.dll": {
+            "assemblyVersion": "0.0.2.24",
+            "fileVersion": "0.0.2.24"
+          }
+        },
+        "compile": {
+          "lib/net5.0/StardustDL.RazorComponents.Markdown.dll": {}
+        }
+      },
       "System.AppContext/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
@@ -2361,6 +2637,56 @@
           "System.Xml.XmlDocument": "4.3.0"
         }
       },
+      "System.Xml.XPath/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0"
+        }
+      },
+      "System.Xml.XPath.XmlDocument/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0",
+          "System.Xml.XPath": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {
+            "assemblyVersion": "4.0.2.0",
+            "fileVersion": "4.6.24705.1"
+          }
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
+        }
+      },
+      "WebStoating.Markdig.Prism/1.0.0": {
+        "dependencies": {
+          "Markdig": "0.23.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Markdig.Prism.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Markdig.Prism.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Antiforgery.dll": {}
@@ -2511,7 +2837,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Hosting.Abstractions/5.0.0.0": {
+      "Microsoft.AspNetCore.Hosting.Abstractions.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Hosting.Abstractions.dll": {}
         },
@@ -2523,7 +2849,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Hosting.Server.Abstractions/5.0.0.0": {
+      "Microsoft.AspNetCore.Hosting.Server.Abstractions.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Hosting.Server.Abstractions.dll": {}
         },
@@ -2535,7 +2861,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Http.Abstractions/5.0.0.0": {
+      "Microsoft.AspNetCore.Http.Abstractions.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Http.Abstractions.dll": {}
         },
@@ -2913,7 +3239,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.FileProviders.Abstractions/5.0.0.0": {
+      "Microsoft.Extensions.FileProviders.Abstractions.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.Extensions.FileProviders.Abstractions.dll": {}
         },
@@ -2943,7 +3269,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.Hosting.Abstractions/5.0.0.0": {
+      "Microsoft.Extensions.Hosting.Abstractions.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Hosting.Abstractions.dll": {}
         },
@@ -4017,7 +4343,7 @@
         },
         "compileOnly": true
       },
-      "System.Xml.XPath/5.0.0.0": {
+      "System.Xml.XPath.Reference/5.0.0.0": {
         "compile": {
           "System.Xml.XPath.dll": {}
         },
@@ -4050,12 +4376,54 @@
       "path": "blazoranimate/3.0.0",
       "hashPath": "blazoranimate.3.0.0.nupkg.sha512"
     },
+    "Blazored.TextEditor/1.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8B2QiqmoGjdvknI++Imq7zcAhyfKCHfiqNYXff7Ilv9iGt+Hu9UkCO5zE1JcQmayFac/I2ddXOikixbmVfW4dg==",
+      "path": "blazored.texteditor/1.0.3",
+      "hashPath": "blazored.texteditor.1.0.3.nupkg.sha512"
+    },
+    "CKEditor/3.6.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-roGF09wJmp7Zyyvq/bDzbLccKUfMumMpmgPav5U/naoVoDis1izPsSL8H/MEFG3hfFBC4HegSRwlYZG+PWHnaQ==",
+      "path": "ckeditor/3.6.4",
+      "hashPath": "ckeditor.3.6.4.nupkg.sha512"
+    },
+    "ColorCode.Core/2.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Fn3CE3fyeql2Vj7+0H4QTAlceWsQvas3flzE2dRJ7JW6XBmPUR/zx69XhX0HPcDzoelfy2qh/wgG3rjDzqu2BQ==",
+      "path": "colorcode.core/2.0.6",
+      "hashPath": "colorcode.core.2.0.6.nupkg.sha512"
+    },
+    "ColorCode.HTML/2.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NA8Gdp75X3hACXxyZFZ0yr0Ohl+7fc2UkLNovRbZUhu1AnLzsimrKHxl0LKEOhrxQZIuCT8r3qg+IlDPxoOHbg==",
+      "path": "colorcode.html/2.0.6",
+      "hashPath": "colorcode.html.2.0.6.nupkg.sha512"
+    },
+    "CommonMark.NET/0.15.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xgAvZ0tNcupiabTcOOvNYRzU7h9dZ28xIFh/CHiNgCI6GUu/ME2hmZP3abLgRFrnXyNBfVxfL4ZNmqkRnBSLEg==",
+      "path": "commonmark.net/0.15.1",
+      "hashPath": "commonmark.net.0.15.1.nupkg.sha512"
+    },
     "Docker.DotNet/3.125.4": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-qStC9eSTewp/ySdN484fWhe9ZJZxuQtLRCMHnBH4GLbSS94A46n5OZp7nmRbe65iXjL4pIgfC7jiHhrEziCg9A==",
       "path": "docker.dotnet/3.125.4",
       "hashPath": "docker.dotnet.3.125.4.nupkg.sha512"
+    },
+    "FSharp.Core/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6Bf2qzSCaJoP6tTfO+a5muUS7QbyJANqSut73zQvwQ9It5P0ITz9VKseeia2ofco30c55EQ0jA2wf2+A2gpGnw==",
+      "path": "fsharp.core/4.7.0",
+      "hashPath": "fsharp.core.4.7.0.nupkg.sha512"
     },
     "GitLabApiClient/1.7.0": {
       "type": "package",
@@ -4064,12 +4432,47 @@
       "path": "gitlabapiclient/1.7.0",
       "hashPath": "gitlabapiclient.1.7.0.nupkg.sha512"
     },
+    "Html2Markdown/4.0.0.427": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xG14hyxIDKfTtFfAsGxIiApdlG02VNkC3QB0IxRTvw1ICfTNTHxg1n6xxlB8uLGYUT4W8XMhyvXYyWlH1lSDVg==",
+      "path": "html2markdown/4.0.0.427",
+      "hashPath": "html2markdown.4.0.0.427.nupkg.sha512"
+    },
+    "HtmlAgilityPack/1.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vuU4JyMdZJ5l/oepOIZIsd4AYy7grMUb1sygS5VkI2IHCmov9dPgGI1i6wB5ko2SSqnlP2m2KSEgHrrbVLrr3g==",
+      "path": "htmlagilitypack/1.5.0",
+      "hashPath": "htmlagilitypack.1.5.0.nupkg.sha512"
+    },
     "Humanizer.Core/2.2.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-rsYXB7+iUPP8AHgQ8JP2UZI2xK2KhjcdGr9E6zX3CsZaTLCaw8M35vaAJRo1rfxeaZEVMuXeaquLVCkZ7JcZ5Q==",
       "path": "humanizer.core/2.2.0",
       "hashPath": "humanizer.core.2.2.0.nupkg.sha512"
+    },
+    "Jering.IocServices.System.Net.Http/0.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-F7Wq5iaY5eCJriYe3SijaKqhvRbMKWpdPSAAUvXR/dxVDBgkldx+NIS1wLYRRTYeYAMooO1lelPvHPhackLchw==",
+      "path": "jering.iocservices.system.net.http/0.3.0",
+      "hashPath": "jering.iocservices.system.net.http.0.3.0.nupkg.sha512"
+    },
+    "Jering.Javascript.NodeJS/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-eNQ3So2KPb3rnjixkB6IMvoB9EQbAyxtFfBwkdPmZR0zAXCkr3NwrXEbCSIlH0V0A30YtFzwY0wkDXOxhQS0Eg==",
+      "path": "jering.javascript.nodejs/4.3.0",
+      "hashPath": "jering.javascript.nodejs.4.3.0.nupkg.sha512"
+    },
+    "Jering.Web.SyntaxHighlighters.Prism/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UPcn4/7ojKPYYe1JdnASVSqXM8yUyzDNJze/pr1w8uiBquXri7KRJTjcls22yfey0w9szb7qMaJQgK0aCtk+YA==",
+      "path": "jering.web.syntaxhighlighters.prism/4.3.0",
+      "hashPath": "jering.web.syntaxhighlighters.prism.4.3.0.nupkg.sha512"
     },
     "MailKit/2.10.1": {
       "type": "package",
@@ -4078,6 +4481,20 @@
       "path": "mailkit/2.10.1",
       "hashPath": "mailkit.2.10.1.nupkg.sha512"
     },
+    "Markdig/0.23.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jPPcnHGSDSedPvwZ6jiMJpvK3iJGA2djU6TFmEr6XK2BiYK1ier2lTHVwDt41XLxDbfGu5Dn42hKDzwqs049PA==",
+      "path": "markdig/0.23.0",
+      "hashPath": "markdig.0.23.0.nupkg.sha512"
+    },
+    "MarkdigExtensions.SyntaxHighlighting/1.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-f2tIf06cReSzL5/gcrCRM+ssDiXHzud9XNmBcQjz0bHO3b/adIqm2JmQwW7JjxjNKi5A/skaFGWg/zFV9sNOww==",
+      "path": "markdigextensions.syntaxhighlighting/1.0.3",
+      "hashPath": "markdigextensions.syntaxhighlighting.1.0.3.nupkg.sha512"
+    },
     "MatBlazor/2.8.0": {
       "type": "package",
       "serviceable": true,
@@ -4085,40 +4502,40 @@
       "path": "matblazor/2.8.0",
       "hashPath": "matblazor.2.8.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Authorization/3.1.10": {
+    "Microsoft.AspNetCore.Authorization/5.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-hhPUTfYTFtyT9+TI0vmmz+QeR4BjPkLeuqgBAJIN02y77cawo60RU3v/x/8Tj4bBgIzSeBfyarwJk+o9Bj0hqQ==",
-      "path": "microsoft.aspnetcore.authorization/3.1.10",
-      "hashPath": "microsoft.aspnetcore.authorization.3.1.10.nupkg.sha512"
+      "sha512": "sha512-kNiUekkQZIgd0k8WJZVLpdaJSTgpwHT+gn9slPtON4FC8vGGsFWQo3Bd5wo363EJuxlOgszUNQBbpLAaFh1kFg==",
+      "path": "microsoft.aspnetcore.authorization/5.0.0",
+      "hashPath": "microsoft.aspnetcore.authorization.5.0.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components/3.1.10": {
+    "Microsoft.AspNetCore.Components/5.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-WCMq6vG5wFY+41wfaCd/54yvVPfcb5lHuqGDaBCDkx6DduKYSDq/qj6CreDzaT+QpibQlC2MsOUfJHZyvwOeJQ==",
-      "path": "microsoft.aspnetcore.components/3.1.10",
-      "hashPath": "microsoft.aspnetcore.components.3.1.10.nupkg.sha512"
+      "sha512": "sha512-kfJF9EqJGzVgfEN15vWI+8g+ZhtlMAk9YO6G8lXKO9s1AxWv+Ct4OLOMO46PXyjPWWJ7X9gded9EFVFyxsdyjg==",
+      "path": "microsoft.aspnetcore.components/5.0.0",
+      "hashPath": "microsoft.aspnetcore.components.5.0.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components.Analyzers/3.1.10": {
+    "Microsoft.AspNetCore.Components.Analyzers/5.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-E3AcukEtbV5VZk/dkjs6PINyVWsct3G+sK+jhhMgSXB6xuqt8X6wwAwrLYJ1BKAtXgtNJdBYciQAl0VOAdpJrw==",
-      "path": "microsoft.aspnetcore.components.analyzers/3.1.10",
-      "hashPath": "microsoft.aspnetcore.components.analyzers.3.1.10.nupkg.sha512"
+      "sha512": "sha512-G5SP+2FO90d84XB90A1NBKJaDjhkhcv3kDumd7zughGt1tNQn92sCpBoRs51LT1M1Cp4w4cD/WHS8WB8t5ol9A==",
+      "path": "microsoft.aspnetcore.components.analyzers/5.0.0",
+      "hashPath": "microsoft.aspnetcore.components.analyzers.5.0.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components.Forms/3.1.10": {
+    "Microsoft.AspNetCore.Components.Forms/5.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-B/agF+PfFB7Fw2K5iP2B6jErFsC1KAopfd2l9289DJ9v6ev290hXs8Zpq4Lb+j6jp+LWVnIn/7+9/h+flWcVqA==",
-      "path": "microsoft.aspnetcore.components.forms/3.1.10",
-      "hashPath": "microsoft.aspnetcore.components.forms.3.1.10.nupkg.sha512"
+      "sha512": "sha512-6Xdql+Sbx7XM1XjNXx6iyEmlAujTM2GFgeOdzlHip3h6g/M3D/al+K945JuFQ5HlBUQv3SL0c6Okencad6nVmA==",
+      "path": "microsoft.aspnetcore.components.forms/5.0.0",
+      "hashPath": "microsoft.aspnetcore.components.forms.5.0.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components.Web/3.1.10": {
+    "Microsoft.AspNetCore.Components.Web/5.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-BrvCCdFaGdhj5VJxr3bndFEA0sC+7rgYhmZfoGRhPvIvtBVpxQlsdCZJU97scKZ4hwx4LgWqGCG5SwWkP/CsAQ==",
-      "path": "microsoft.aspnetcore.components.web/3.1.10",
-      "hashPath": "microsoft.aspnetcore.components.web.3.1.10.nupkg.sha512"
+      "sha512": "sha512-TYnULwOuF43ITRlL02CmVoXLb1t1NSNbmUXuIrS4IMJd+HjK+sIisTRoJOr4L13LDWmOr1OM8teA04tOFf4I6w==",
+      "path": "microsoft.aspnetcore.components.web/5.0.0",
+      "hashPath": "microsoft.aspnetcore.components.web.5.0.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Connections.Abstractions/5.0.1": {
       "type": "package",
@@ -4127,12 +4544,33 @@
       "path": "microsoft.aspnetcore.connections.abstractions/5.0.1",
       "hashPath": "microsoft.aspnetcore.connections.abstractions.5.0.1.nupkg.sha512"
     },
+    "Microsoft.AspNetCore.Hosting.Abstractions/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ubycklv+ZY7Kutdwuy1W4upWcZ6VFR8WUXU7l7B2+mvbDBBPAcfpi+E+Y5GFe+Q157YfA3C49D2GCjAZc7Mobw==",
+      "path": "microsoft.aspnetcore.hosting.abstractions/2.2.0",
+      "hashPath": "microsoft.aspnetcore.hosting.abstractions.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Hosting.Server.Abstractions/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1PMijw8RMtuQF60SsD/JlKtVfvh4NORAhF4wjysdABhlhTrYmtgssqyncR0Stq5vqtjplZcj6kbT4LRTglt9IQ==",
+      "path": "microsoft.aspnetcore.hosting.server.abstractions/2.2.0",
+      "hashPath": "microsoft.aspnetcore.hosting.server.abstractions.2.2.0.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-Y4rs5aMEXY8G7wJo5S3EEt6ltqyOTr/qOeZzfn+hw/fuQj5GppGckMY5psGLETo1U9hcT5MmAhaT5xtusM1b5g==",
       "path": "microsoft.aspnetcore.html.abstractions/2.2.0",
       "hashPath": "microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Http.Abstractions/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Nxs7Z1q3f1STfLYKJSVXCs1iBl+Ya6E8o4Oy1bCxJ/rNI44E/0f6tbsrVqAWfB7jlnJfyaAtIalBVxPKUPQb4Q==",
+      "path": "microsoft.aspnetcore.http.abstractions/2.2.0",
+      "hashPath": "microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Http.Connections.Client/5.0.1": {
       "type": "package",
@@ -4155,12 +4593,12 @@
       "path": "microsoft.aspnetcore.http.features/5.0.1",
       "hashPath": "microsoft.aspnetcore.http.features.5.0.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Metadata/3.1.10": {
+    "Microsoft.AspNetCore.Metadata/5.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-lKOEoTSwMgASq1y+0OgF3ZvrQLf/3KhAocKUb3zJIf7wcSPa+CLHzVdvwcDvpnglBsIDV+Dgu+ZsKvAnEmOTxw==",
-      "path": "microsoft.aspnetcore.metadata/3.1.10",
-      "hashPath": "microsoft.aspnetcore.metadata.3.1.10.nupkg.sha512"
+      "sha512": "sha512-Gr7YSfoYYnyiQ3+se9RjiZhj2h7I9uDn0ps1kPfxGqLbC8fzpfAzb3EPbHz0sBHtw8aBE0zyckZixmAMqHJnpA==",
+      "path": "microsoft.aspnetcore.metadata/5.0.0",
+      "hashPath": "microsoft.aspnetcore.metadata.5.0.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Razor/2.2.0": {
       "type": "package",
@@ -4190,19 +4628,19 @@
       "path": "microsoft.azure.services.appauthentication/1.5.0",
       "hashPath": "microsoft.azure.services.appauthentication.1.5.0.nupkg.sha512"
     },
-    "Microsoft.Azure.SignalR/1.7.0": {
+    "Microsoft.Azure.SignalR/1.7.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-c5l4svEClKULDHrXp2eDKlmM9e1r9qPhTcz52icZ5Q0HlX7gLwALEOGQMmfxbuaQtV2XG/msJDIpj99jIlbslQ==",
-      "path": "microsoft.azure.signalr/1.7.0",
-      "hashPath": "microsoft.azure.signalr.1.7.0.nupkg.sha512"
+      "sha512": "sha512-NFOG1n9IRYBjWWcCkg+MEWk4IJiefcvhoSdH03jxM9O2L9JVrxRLpIcg4DDDy69XpKFP4R5XPDzZW4wlh1Qvsw==",
+      "path": "microsoft.azure.signalr/1.7.1",
+      "hashPath": "microsoft.azure.signalr.1.7.1.nupkg.sha512"
     },
-    "Microsoft.Azure.SignalR.Protocols/1.7.0": {
+    "Microsoft.Azure.SignalR.Protocols/1.7.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-agaBMvN5ISiUE1AKbl3/Q23reWnlvND30oZCZ8ZAOB8G7nJMecCSyAimfw5vUAuYReX5sWLTq4xnRyPCBw2FRg==",
-      "path": "microsoft.azure.signalr.protocols/1.7.0",
-      "hashPath": "microsoft.azure.signalr.protocols.1.7.0.nupkg.sha512"
+      "sha512": "sha512-K446nGQM741rEnrzaTlaj08gc0Fbyc4n+RDb2UKfv9QEFoq1P4n5ocVSGNXVFFg0+xmWI7lJbFOb+sEnNgkkxw==",
+      "path": "microsoft.azure.signalr.protocols/1.7.1",
+      "hashPath": "microsoft.azure.signalr.protocols.1.7.1.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
       "type": "package",
@@ -4344,6 +4782,20 @@
       "path": "microsoft.extensions.dependencyinjection.abstractions/5.0.0",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512"
     },
+    "Microsoft.Extensions.FileProviders.Abstractions/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EcnaSsPTqx2MGnHrmWOD0ugbuuqVT8iICqSqPzi45V5/MA1LjUNb0kwgcxBGqizV1R+WeBK7/Gw25Jzkyk9bIw==",
+      "path": "microsoft.extensions.fileproviders.abstractions/2.2.0",
+      "hashPath": "microsoft.extensions.fileproviders.abstractions.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+k4AEn68HOJat5gj1TWa6X28WlirNQO9sPIIeQbia+91n03esEtMSSoekSTpMjUzjqtJWQN3McVx0GvSPFHF/Q==",
+      "path": "microsoft.extensions.hosting.abstractions/2.2.0",
+      "hashPath": "microsoft.extensions.hosting.abstractions.2.2.0.nupkg.sha512"
+    },
     "Microsoft.Extensions.Http/2.1.0": {
       "type": "package",
       "serviceable": true,
@@ -4414,12 +4866,12 @@
       "path": "microsoft.identitymodel.tokens/5.5.0",
       "hashPath": "microsoft.identitymodel.tokens.5.5.0.nupkg.sha512"
     },
-    "Microsoft.JSInterop/3.1.10": {
+    "Microsoft.JSInterop/5.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-mIOidfUfRJhFdXi9flTu06vFgHP07OxnGiO3OI61sOioK5oVveWJg9UKTStnTELm5Vvd495O+WlhYjZtVRsKEg==",
-      "path": "microsoft.jsinterop/3.1.10",
-      "hashPath": "microsoft.jsinterop.3.1.10.nupkg.sha512"
+      "sha512": "sha512-qhLTZMoOsAbDWwE7M+VbjxH3EuP654tclaOhi6Sf7Xh6bj6TXDO0GiNQeNPdebMClKMGELJezOwbFp1BFB+9Ug==",
+      "path": "microsoft.jsinterop/5.0.0",
+      "hashPath": "microsoft.jsinterop.5.0.0.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/2.1.2": {
       "type": "package",
@@ -4442,61 +4894,61 @@
       "path": "microsoft.rest.clientruntime/2.3.21",
       "hashPath": "microsoft.rest.clientruntime.2.3.21.nupkg.sha512"
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration/5.0.1": {
+    "Microsoft.VisualStudio.Web.CodeGeneration/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+UbVWKosEMf9AW/6H7GrlU20wXwZ+/8o4yHk4QiZzODzgVzrkLaPkV7ioj58/06KvhetyPJ2wNR4eXQNZ53tgw==",
-      "path": "microsoft.visualstudio.web.codegeneration/5.0.1",
-      "hashPath": "microsoft.visualstudio.web.codegeneration.5.0.1.nupkg.sha512"
+      "sha512": "sha512-YUah81QG5q/ViVbr1BZcTbDLNJ5/k84fr+xx3/IoDVJR8KEUm89HmPAGM+FMMyWOjit+CIVpyOq7yEmRBBWXxQ==",
+      "path": "microsoft.visualstudio.web.codegeneration/5.0.2",
+      "hashPath": "microsoft.visualstudio.web.codegeneration.5.0.2.nupkg.sha512"
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/5.0.1": {
+    "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-so0+F5gW7kVQd0aCH86zc+KduHax1GGt7u8gdiypJsCL0NFIX96rejOefpJN+qhpWFUisjWTPGUMcSYuUvIIJg==",
-      "path": "microsoft.visualstudio.web.codegeneration.contracts/5.0.1",
-      "hashPath": "microsoft.visualstudio.web.codegeneration.contracts.5.0.1.nupkg.sha512"
+      "sha512": "sha512-34v6AkkRJykgFq7rHwNbzXBsLFquevLuegM9XDQl2j+wyOfj+ql1++jUR1WdZoPkv04WoM09mD47S3lMzJmHrQ==",
+      "path": "microsoft.visualstudio.web.codegeneration.contracts/5.0.2",
+      "hashPath": "microsoft.visualstudio.web.codegeneration.contracts.5.0.2.nupkg.sha512"
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Core/5.0.1": {
+    "Microsoft.VisualStudio.Web.CodeGeneration.Core/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-MOuDz7SX4ODoQqd9+TGhIO6qdBTBCjZ/7M98Y0nrj5fLrk4M6P7CWffI89m686acfmWSb0+7KC6TIKX9fODV0w==",
-      "path": "microsoft.visualstudio.web.codegeneration.core/5.0.1",
-      "hashPath": "microsoft.visualstudio.web.codegeneration.core.5.0.1.nupkg.sha512"
+      "sha512": "sha512-R7mrxvTtv/MiEH42OtHYi/3L0A/vaAH8mwg+3yAyQtVuy6v9CeeVyL30lfTQ7EYV4ezUmuQKFwfjcU6PP0/KSQ==",
+      "path": "microsoft.visualstudio.web.codegeneration.core/5.0.2",
+      "hashPath": "microsoft.visualstudio.web.codegeneration.core.5.0.2.nupkg.sha512"
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Design/5.0.1": {
+    "Microsoft.VisualStudio.Web.CodeGeneration.Design/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-vOyq0iocfEVA2lR5RkKzZLJbszmBgwk4Qz0TDghzLdAaL1+lPkFWnFlJ1wbR4mVVmurMSmnXFlYbbjcKmzOGWA==",
-      "path": "microsoft.visualstudio.web.codegeneration.design/5.0.1",
-      "hashPath": "microsoft.visualstudio.web.codegeneration.design.5.0.1.nupkg.sha512"
+      "sha512": "sha512-9eTZV7W+S2iO2AJD03xXyXJZ+Nf71Y25gMXhqyXb8bB63jPfn+VQhV8I1lb6J+NR3jW98m5EB9QBftBSrjgiYQ==",
+      "path": "microsoft.visualstudio.web.codegeneration.design/5.0.2",
+      "hashPath": "microsoft.visualstudio.web.codegeneration.design.5.0.2.nupkg.sha512"
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore/5.0.1": {
+    "Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-v8i6qz0N5p7Tankyi1MHwjZl5/pmKeKkXcao+8hkCrcaX5yv4P7vGkgcl8arQNfmtGGenmqVGFHZOWIkwNElYA==",
-      "path": "microsoft.visualstudio.web.codegeneration.entityframeworkcore/5.0.1",
-      "hashPath": "microsoft.visualstudio.web.codegeneration.entityframeworkcore.5.0.1.nupkg.sha512"
+      "sha512": "sha512-f9XeBRS9ICosrCpbO9jnAVMd/ISLhaZgx388XNBjigiyBJuq577J6tQgQWZA8PQTiPj6MKe9HVIW2GnKXDiUrQ==",
+      "path": "microsoft.visualstudio.web.codegeneration.entityframeworkcore/5.0.2",
+      "hashPath": "microsoft.visualstudio.web.codegeneration.entityframeworkcore.5.0.2.nupkg.sha512"
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Templating/5.0.1": {
+    "Microsoft.VisualStudio.Web.CodeGeneration.Templating/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+lKKgzWYUtKjlEkIfPkO+4uYl74idZKx1y2T29bpUv14X4hASYB+P0a55zC8anlIbwDCD5ShPX6txd5+5BES2A==",
-      "path": "microsoft.visualstudio.web.codegeneration.templating/5.0.1",
-      "hashPath": "microsoft.visualstudio.web.codegeneration.templating.5.0.1.nupkg.sha512"
+      "sha512": "sha512-P3z/JZTGP5DhSc8ik4xrimWuCZ2ZaEZ6q7WGgfgmSVibfXxwh2Oo+dtdkiXwq8MNlkrcP0AZAo3+1wowYUzluA==",
+      "path": "microsoft.visualstudio.web.codegeneration.templating/5.0.2",
+      "hashPath": "microsoft.visualstudio.web.codegeneration.templating.5.0.2.nupkg.sha512"
     },
-    "Microsoft.VisualStudio.Web.CodeGeneration.Utils/5.0.1": {
+    "Microsoft.VisualStudio.Web.CodeGeneration.Utils/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-fXQY9chx9mIErQGpshoYhjgCv10UeG14Gzeh1oyvwUDW7Mtxx3Xtmz8IBmT8x9hw62uLTRbFFQ2ry2sZpGLRCg==",
-      "path": "microsoft.visualstudio.web.codegeneration.utils/5.0.1",
-      "hashPath": "microsoft.visualstudio.web.codegeneration.utils.5.0.1.nupkg.sha512"
+      "sha512": "sha512-4zViWGIFeKsGxDmc5xpn2G8kWs2FSHiLOolw85ZPHihDXc2jiFKp7qjA3SRt8U23kR3zeb0vZiFlETxgTHwAUA==",
+      "path": "microsoft.visualstudio.web.codegeneration.utils/5.0.2",
+      "hashPath": "microsoft.visualstudio.web.codegeneration.utils.5.0.2.nupkg.sha512"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc/5.0.1": {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc/5.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-u5piiR8X8WAmcQ1vbthd9jqxKeESCEC7AH+zZKFwrMI870J4++FvYaOf/zIJaesVIm1q7L7yH85AMkP3i1S6fg==",
-      "path": "microsoft.visualstudio.web.codegenerators.mvc/5.0.1",
-      "hashPath": "microsoft.visualstudio.web.codegenerators.mvc.5.0.1.nupkg.sha512"
+      "sha512": "sha512-W4Uk2y0oja+4E+XP5d5OFu+ViTEtlqm3a6nYuuC3tjA+lTK6dLaMf0G6WnO4BO18i0kM0l49XjTwwXd5XpjnAQ==",
+      "path": "microsoft.visualstudio.web.codegenerators.mvc/5.0.2",
+      "hashPath": "microsoft.visualstudio.web.codegenerators.mvc.5.0.2.nupkg.sha512"
     },
     "Microsoft.Win32.Primitives/4.3.0": {
       "type": "package",
@@ -4679,6 +5131,13 @@
       "sha512": "sha512-leXiwfiIkW7Gmn7cgnNcdtNAU70SjmKW3jxGj1iKHOvdn0zRWsgv/l2OJUO5zdGdiv2VRFnAsxxhDgMzofPdWg==",
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "StardustDL.RazorComponents.Markdown/0.0.2.24": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H2+BaWAmOteEcVjdZBQ3IngCuMi1wfnGWh5ljN9pJt6ZxVe5lLSraWKc3DvFkGwGZKK/2EUJzJBIyLpWH03GZQ==",
+      "path": "stardustdl.razorcomponents.markdown/0.0.2.24",
+      "hashPath": "stardustdl.razorcomponents.markdown.0.0.2.24.nupkg.sha512"
     },
     "System.AppContext/4.3.0": {
       "type": "package",
@@ -5310,6 +5769,27 @@
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
+    "System.Xml.XPath/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-v1JQ5SETnQusqmS3RwStF7vwQ3L02imIzl++sewmt23VGygix04pEH+FCj1yWb+z4GDzKiljr1W7Wfvrx0YwgA==",
+      "path": "system.xml.xpath/4.3.0",
+      "hashPath": "system.xml.xpath.4.3.0.nupkg.sha512"
+    },
+    "System.Xml.XPath.XmlDocument/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-A/uxsWi/Ifzkmd4ArTLISMbfFs6XpRPsXZonrIqyTY70xi8t+mDtvSM5Os0RqyRDobjMBwIDHDL4NOIbkDwf7A==",
+      "path": "system.xml.xpath.xmldocument/4.3.0",
+      "hashPath": "system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
+    },
+    "WebStoating.Markdig.Prism/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Yyw4/fuqVEEIqjCGbRfowLAQ1pMZwuOU7s3FMg/J48LaJDW55pJfvBoKaeQTKSjQwWOFZonHu+VWSvd6RC0zVA==",
+      "path": "webstoating.markdig.prism/1.0.0",
+      "hashPath": "webstoating.markdig.prism.1.0.0.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
@@ -5435,7 +5915,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Hosting.Abstractions/5.0.0.0": {
+    "Microsoft.AspNetCore.Hosting.Abstractions.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -5445,7 +5925,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Hosting.Server.Abstractions/5.0.0.0": {
+    "Microsoft.AspNetCore.Hosting.Server.Abstractions.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -5455,7 +5935,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Http.Abstractions/5.0.0.0": {
+    "Microsoft.AspNetCore.Http.Abstractions.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -5770,7 +6250,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.FileProviders.Abstractions/5.0.0.0": {
+    "Microsoft.Extensions.FileProviders.Abstractions.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -5795,7 +6275,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.Hosting.Abstractions/5.0.0.0": {
+    "Microsoft.Extensions.Hosting.Abstractions.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -6690,7 +7170,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Xml.XPath/5.0.0.0": {
+    "System.Xml.XPath.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
