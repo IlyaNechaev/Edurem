@@ -39,7 +39,11 @@ namespace Edurem.Controllers
         [HttpGet]
         public IActionResult CreatePost(int id)
         {
-            return View();
+            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+
+            var accountViewModel = new AccountViewModel() { CurrentUser = authenticatedUser };
+
+            return View(accountViewModel);
         }
     }
 }

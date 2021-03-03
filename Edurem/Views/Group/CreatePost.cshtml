@@ -1,4 +1,4 @@
-﻿
+﻿@model Edurem.ViewModels.AccountViewModel;
 
 @{
     ViewData["Title"] = "Новый пост";
@@ -7,4 +7,4 @@
 }
 
 
-<component>@(await Html.RenderComponentAsync<Edurem.Components.EditPost>(RenderMode.ServerPrerendered))</component>
+<component>@(await Html.RenderComponentAsync<Edurem.Components.EditPost>(RenderMode.ServerPrerendered, new { CurrentUser = Model.CurrentUser }))</component>

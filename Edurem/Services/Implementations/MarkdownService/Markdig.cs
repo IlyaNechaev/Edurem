@@ -22,13 +22,14 @@ namespace Edurem.Services
 
             return html;
         }
+
         public string ToMarkdown(string htmlText)
         {
             var converter = new Converter();
 
             htmlText = SimplifyCodeFragments(htmlText);
 
-            return converter.Convert(htmlText); 
+            return converter.Convert(htmlText).Replace("\r\n\r\n", "\r\n"); 
         }
 
         private List<(string Code, string Language)> GetCodeFragments(string markdownText)
@@ -126,6 +127,5 @@ namespace Edurem.Services
 
             return StaticPrismService.IsValidLanguageAliasAsync(language).Result ? StaticPrismService.HighlightAsync(code, language).Result : code;
         }
-
     }
 }

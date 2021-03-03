@@ -1,111 +1,164 @@
 ﻿@inject Edurem.Services.IMarkdownService MarkdownService;
+@inject Edurem.Services.IFileService FileService;
+@inject NavigationManager NavigationManager;
+@using System.IO;
 @using ColorCode;
 @using Jering.Web.SyntaxHighlighters.Prism;
 @using Blazored.TextEditor;
 
-
-<div class="row">
-    <div class="col-12">
-        <div class="row mt-2">
-            <div class="col-6">
-                <input class="form-control" style="font-size: 18px" placeholder="Название поста" />
+<form action="">
+    <div class="row">
+        <div class="col-12">
+            <div class="row mt-2">
+                <div class="col-6">
+                    <input class="form-control" style="font-size: 18px" placeholder="Название поста" />
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <MatTabGroup ActiveIndexChanged="TextEditorChanged">
-                    @foreach (var editor in Editors)
+            <div class="row">
+                <div class="col-6">
+                    <MatThemeProvider Theme="theme">
+                        <MatTabGroup ActiveIndexChanged="TextEditorChanged">
+                            @foreach (var editor in Editors)
+                            {
+                                <MatTab Label="@editor.Name">
+                                </MatTab>
+                            }
+                        </MatTabGroup>
+                    </MatThemeProvider>
+                </div>
+            </div>
+
+            <div class="row mt-2" style="@(CurrentEditor.Equals(TextEditors.Markdown) ? "" : "display:none")">
+                <div class="col-12">
+                    <div class="row mt-2  mb-2">
+                        <div class="col-3">
+                            <select class="form-control" @onchange="e => Position = (MdPosition)Enum.Parse(typeof(MdPosition), e.Value.ToString())">
+                                <option value="@MdPosition.COL" selected>В столбец</option>
+                                <option value="@MdPosition.ROW">В строку</option>
+                            </select>
+                        </div>
+                    </div>
+                    @if (Position.Equals(MdPosition.COL))
                     {
-                        <MatTab Label="@editor.Name">
-                        </MatTab>
+                        <div class="row">
+                            <div class="col-10">
+                                <MatThemeProvider Theme="theme">
+                                    <MatInputTextComponent Value="@(MarkdownText)" @oninput="MarkdownTextChanged" Outlined="true" Class="w-100" TextArea="true" Style="resize: none; height: 30vh">
+                                    </MatInputTextComponent>
+                                </MatThemeProvider>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-10 border">
+                                <StardustDL.RazorComponents.Markdown.MarkdownRenderer Value="@MarkdownText" />
+                            </div>
+                        </div>
                     }
-                </MatTabGroup>
-            </div>
-        </div>
-
-        <div class="row mt-2" style="@(CurrentEditor.Equals(TextEditors.Markdown) ? "" : "display:none")">
-            <div class="col-12">
-                @if (Position.Equals(MdPosition.COL))
-                {
-                    <div class="row">
-                        <div class="col-10">
-                            <textarea class="form-control" rows="10" @oninput="MarkdownTextChanged" style="resize: none">@MarkdownText</textarea>
+                    else if (Position.Equals(MdPosition.ROW))
+                    {
+                        <div class="row">
+                            <div class="col-6">
+                                <MatThemeProvider Theme="theme">
+                                    <MatInputTextComponent Value="@MarkdownText" @oninput="MarkdownTextChanged" Outlined="true" Class="w-100" TextArea="true" Style="resize: none; height: 50vh">
+                                    </MatInputTextComponent>
+                                </MatThemeProvider>
+                            </div>
+                            <div class="col-6">
+                                @((MarkupString)MarkdownService.ToHtml(MarkdownText))
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-10 border">
-                            <StardustDL.RazorComponents.Markdown.MarkdownRenderer Value="@MarkdownText" />
+                    }
+                </div>
+            </div>
+
+            <div class="row mt-2" style="@(CurrentEditor.Equals(TextEditors.RichText) ? "" : "display:none")">
+                <div class="col-10">
+                    <BlazoredTextEditor @ref="@Editor">
+                        <ToolbarContent>
+                            <span class="ql-formats">
+                                <select class="ql-font">
+                                    <option selected=""></option>
+                                    <option value="serif"></option>
+                                    <option value="monospace"></option>
+                                </select>
+                                <select class="ql-header">
+                                    <option selected="">Paragraph</option>
+                                    <option value="5">Header 5</option>
+                                    <option value="4">Header 4</option>
+                                    <option value="3">Header 3</option>
+                                    <option value="2">Header 2</option>
+                                    <option value="1">Header 1</option>
+                                </select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-bold"></button>
+                                <button class="ql-italic"></button>
+                                <button class="ql-underline"></button>
+                                <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <select class="ql-color"></select>
+                                <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                                <button class="ql-indent" value="-1"></button>
+                                <button class="ql-indent" value="+1"></button>
+                                <select class="ql-align">
+                                    <option selected=""></option>
+                                    <option value="center"></option>
+                                    <option value="right"></option>
+                                    <option value="justify"></option>
+                                </select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-link"></button>
+                            </span>
+                        </ToolbarContent>
+                        <EditorContent>
+                        </EditorContent>
+                    </BlazoredTextEditor>
+                </div>
+            </div>
+            <div class="row mt-3 mb-2">
+                <div class="col-4">
+                    <MatFileUpload Label="Перетащите или выберите файл" OnChange="MultipleFilesReady" AllowMultiple="true"></MatFileUpload>
+                </div>
+            </div>
+            <div class="row">
+                @foreach (var file in uploadedFiles)
+                {
+                    <div class="col-2">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <i style="font-size:35px" class="@GetExtensionClass(file.Name.Split(".").Last())"></i>
+                            </div>
+                            <div class="card-footer text-center">
+                                <p style="font-size: 12px" class="mb-0">@file.Name</p>
+                            </div>
                         </div>
                     </div>
                 }
-                else if (Position.Equals(MdPosition.ROW))
-                {
-                    <div class="row">
-                        <div class="col-6">
-                            <MatInputTextComponent Value="@MarkdownText" @oninput="MarkdownTextChanged" Outlined="true" Class="w-100" TextArea="true" Style="resize: none; height: 50vh">
-                            </MatInputTextComponent>
-                        </div>
-                        <div class="col-6">
-                            @((MarkupString)MarkdownService.ToHtml(MarkdownText))
-                        </div>
-                    </div>
-                }
             </div>
-        </div>
-
-        <div class="row mt-2" style="@(CurrentEditor.Equals(TextEditors.RichText) ? "" : "display:none")">
-            <div class="col-12">
-                <BlazoredTextEditor @ref="@Editor">
-                    <ToolbarContent>
-                        <span class="ql-formats">
-                            <select class="ql-font">
-                                <option selected=""></option>
-                                <option value="serif"></option>
-                                <option value="monospace"></option>
-                            </select>
-                            <select class="ql-size">
-                                <option value="small"></option>
-                                <option selected=""></option>
-                                <option value="large"></option>
-                                <option value="huge"></option>
-                            </select>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-bold"></button>
-                            <button class="ql-italic"></button>
-                            <button class="ql-underline"></button>
-                            <button class="ql-strike"></button>
-                        </span>
-                        <span class="ql-formats">
-                            <select class="ql-color"></select>
-                            <select class="ql-background"></select>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-list" value="ordered"></button>
-                            <button class="ql-list" value="bullet"></button>
-                            <button class="ql-indent" value="-1"></button>
-                            <button class="ql-indent" value="+1"></button>
-                            <select class="ql-align">
-                                <option selected=""></option>
-                                <option value="center"></option>
-                                <option value="right"></option>
-                                <option value="justify"></option>
-                            </select>
-                        </span>
-                        <span class="ql-formats">
-                            <button class="ql-link"></button>
-                        </span>
-                    </ToolbarContent>
-                    <EditorContent >
-                    </EditorContent>
-                </BlazoredTextEditor>
+            <div class="row">
+                <button class="btn btn-primary" type="button" style="font-size: 20px" @onclick="e => CreatePost()">Опубликовать</button>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 
 @code {
+
+    [Parameter]
+    public User CurrentUser { get; set; }
+
+    MatTheme theme = new MatTheme
+    {
+        Primary = "#007bff", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
 
     enum TextEditors { Markdown, RichText };
 
@@ -121,24 +174,34 @@
 
     string MarkdownText { get; set; }
 
-    string HtmlText { get; set; }
-
-    bool IsOpened { get; set; }
+    List<IMatFileUploadEntry> uploadedFiles { get; set; }
 
     protected override void OnInitialized()
     {
         MarkdownText = string.Empty;
-        HtmlText = string.Empty;
 
-        IsOpened = false;
-        Position = MdPosition.ROW;
+        uploadedFiles = new();
+
+        Position = MdPosition.COL;
 
         Editors = new()
         {
-            (TextEditors.Markdown, "Markdown"),
-            (TextEditors.RichText, "Rich Text")
-        };
+                (TextEditors.Markdown, "Markdown"),
+                (TextEditors.RichText, "Rich Text")
+            };
+
         CurrentEditor = Editors[0].Type;
+    }
+
+    string GetExtensionClass(string extension)
+    {
+        return extension switch
+        {
+            "doc" or "docx" => "far fa-file-word",
+            "xls" => "far fa-file-excel",
+            "pdf" => "far fa-file-pdf",
+            _ => "far fa-file"
+        };
     }
 
     void MarkdownTextChanged(ChangeEventArgs e)
@@ -148,6 +211,38 @@
         var s = MarkdownService.ToHtml(MarkdownText);
     }
 
+    void MultipleFilesReady(IMatFileUploadEntry[] files)
+    {
+        uploadedFiles.AddRange(files);
+    }
+
+    async Task CreatePost()
+    {
+        var fileModels = new List<FileModel>();
+        foreach (var file in uploadedFiles)
+        {
+            using (MemoryStream memoryStream = new())
+            {
+
+                var fileAwaiter = file.WriteToStreamAsync(memoryStream);
+
+                var filePath = Path.Combine("file_system\\users", CurrentUser.Id.ToString());
+
+                await fileAwaiter;
+
+                try
+                {
+                    fileModels.Add(await FileService.UploadFile(memoryStream, filePath, $"{file.Name}"));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+        }
+
+        NavigationManager.NavigateTo("/account/groups");
+    }
 
     async Task TextEditorChanged(int activeIndex)
     {
@@ -162,6 +257,7 @@
         {
             var html = MarkdownService.ToHtml(MarkdownText);
 
+            // Ожидаем, пока не будет создан и отрендерен Editor
             await Task.WhenAll(Task.Run(() => { while (Editor is null) ; }));
 
             try

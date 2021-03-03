@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj": {}
+    "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj": {}
   },
   "projects": {
-    "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj": {
+    "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
+        "projectUniqueName": "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj",
         "projectName": "Edurem",
-        "projectPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
-        "packagesPath": "C:\\Users\\Илья\\.nuget\\packages\\",
-        "outputPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\obj\\",
+        "projectPath": "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj",
+        "packagesPath": "C:\\Users\\Mi\\.nuget\\packages\\",
+        "outputPath": "D:\\8 семестр\\Edurem\\Edurem\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Илья\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -118,6 +115,10 @@
             "WebStoating.Markdig.Prism": {
               "target": "Package",
               "version": "[1.0.0, )"
+            },
+            "Westwind.AspNetCore.Markdown": {
+              "target": "Package",
+              "version": "[3.5.0, )"
             }
           },
           "imports": [
@@ -138,7 +139,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

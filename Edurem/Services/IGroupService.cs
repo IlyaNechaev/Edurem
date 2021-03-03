@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Edurem.Models;
@@ -21,5 +22,7 @@ namespace Edurem.Services
         public Task<Group> GetGroup(int groupId);
 
         public Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1);
+
+        public Task CreatePost(PostModel post, List<FileModel> files = null );
     }
 }

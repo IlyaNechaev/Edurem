@@ -13,98 +13,98 @@ namespace Edurem.Components
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 1 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 2 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 3 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 4 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 5 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 6 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 7 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 8 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using MatBlazor;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 9 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Edurem;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 10 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Edurem.Components;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\_Imports.razor"
+#line 11 "D:\8 семестр\Edurem\Edurem\Components\_Imports.razor"
 using Edurem.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\ConfirmEmail.razor"
+#line 1 "D:\8 семестр\Edurem\Edurem\Components\ConfirmEmail.razor"
 using MimeKit;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\ConfirmEmail.razor"
+#line 2 "D:\8 семестр\Edurem\Edurem\Components\ConfirmEmail.razor"
 using System.Net.Mail;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\ConfirmEmail.razor"
+#line 3 "D:\8 семестр\Edurem\Edurem\Components\ConfirmEmail.razor"
 using Edurem.Extensions;
 
 #line default
@@ -118,7 +118,7 @@ using Edurem.Extensions;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 46 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\ConfirmEmail.razor"
+#line 46 "D:\8 семестр\Edurem\Edurem\Components\ConfirmEmail.razor"
        
     [Parameter]
     public User User { get; set; }

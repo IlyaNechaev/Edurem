@@ -77,5 +77,23 @@ namespace Edurem.Services
                 .Take(postsCount)?
                 .ToList();
         }
+
+        public async Task CreatePost(PostModel post, List<FileModel> files = null)
+        {
+            var PostModelRepository = RepositoryFactory.GetRepository<PostModel>();
+            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
+
+            // Добавляем новую публикацию в БД
+            await PostModelRepository.Add(post);
+            
+            // Создать связующие записи post_files
+            var postFiles = files.Select(file => new PostFile { FileId = file.Id, PostId = post.Id });
+
+            // Добавляем связующие записи в БД
+            foreach (var postFile in postFiles)
+            {
+                await PostFileRepository.Add(postFile);
+            }
+        }
     }
 }

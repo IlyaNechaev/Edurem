@@ -1,4 +1,5 @@
-﻿using Edurem.Extensions;
+﻿using Edurem.Data;
+using Edurem.Extensions;
 using Edurem.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,23 +15,56 @@ namespace Edurem.Services
     public class FileService : IFileService
     {
         IWebHostEnvironment AppEnvironment { get; init; }
-        IConfiguration Configuration { get; set; }
+        IRepositoryFactory RepositoryFactory { get; init; }
 
         public FileService(IWebHostEnvironment appEnvironment,
-                           [FromServices] IConfiguration configuration)
+                           [FromServices] IRepositoryFactory repositoryFactory)
         {
             AppEnvironment = appEnvironment;
-            Configuration = configuration;
+            RepositoryFactory = repositoryFactory;
         }
 
-        public void UploadFile(FileModel file)
+        public async Task<FileModel> UploadFile(Stream stream, string filePath, string fileName)
         {
+            var FileRepository = RepositoryFactory.GetRepository<FileModel>();
 
+            string fullFilePath = Path.Combine(AppEnvironment.WebRootPath, filePath, fileName);
+            string directoryPath = Path.Combine(AppEnvironment.WebRootPath, filePath);
+
+            // Создаем директорию, если ее нет
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
+
+            var fileModel = new FileModel() { Name = fileName, Path = filePath };
+
+            // Если файл не существует
+            if (!File.Exists(fullFilePath))
+            {
+                // Сохраняем данные в БД
+                await FileRepository.Add(fileModel);
+            }
+
+            using (var fileStream = File.Exists(fullFilePath) ? File.OpenWrite(fullFilePath) : File.Create(fullFilePath))
+            {
+                stream.Position = 0;
+                await stream.CopyToAsync(fileStream);
+            }
+
+            // Возвращаем модель файла
+            return fileModel;
         }
 
-        public void DownloadFile(FileModel file)
+        public async Task<FileStream> GetFile(int fileId)
         {
+            var FileRepository = RepositoryFactory.GetRepository<FileModel>();
 
+            // Получаем модель файла из БД
+            var file = await FileRepository.Get(f => f.Id == fileId);
+
+            // Создаем FileStream для файла
+            var fileStream = new FileStream(file.GetFullPath(), FileMode.Open);
+
+            return fileStream;
         }
 
         public string GetFileText(FileModel file)

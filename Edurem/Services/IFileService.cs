@@ -1,6 +1,7 @@
 ﻿using Edurem.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,9 +9,9 @@ namespace Edurem.Services
 {
     public interface IFileService
     {
-        public void UploadFile(FileModel file);
+        public Task<FileModel> UploadFile(Stream stream, string filePath, string fileName);
 
-        public void DownloadFile(FileModel file);
+        public Task<FileStream> GetFile(int fileId);
 
         public string GetFileText(FileModel file);
 

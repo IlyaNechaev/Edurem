@@ -1,6 +1,6 @@
 ﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="_content/BlazorAnimate" Path="C:\Users\Илья\.nuget\packages\blazoranimate\3.0.0\build\..\staticwebassets\" />
-  <ContentRoot BasePath="_content/Blazored.TextEditor" Path="C:\Users\Илья\.nuget\packages\blazored.texteditor\1.0.3\build\..\staticwebassets\" />
-  <ContentRoot BasePath="_content/MatBlazor" Path="C:\Users\Илья\.nuget\packages\matblazor\2.8.0\build\..\staticwebassets\" />
-  <ContentRoot BasePath="_content/StardustDL.RazorComponents.Markdown" Path="C:\Users\Илья\.nuget\packages\stardustdl.razorcomponents.markdown\0.0.2.24\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/BlazorAnimate" Path="C:\Users\Mi\.nuget\packages\blazoranimate\3.0.0\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/Blazored.TextEditor" Path="C:\Users\Mi\.nuget\packages\blazored.texteditor\1.0.3\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/MatBlazor" Path="C:\Users\Mi\.nuget\packages\matblazor\2.8.0\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/StardustDL.RazorComponents.Markdown" Path="C:\Users\Mi\.nuget\packages\stardustdl.razorcomponents.markdown\0.0.2.24\build\..\staticwebassets\" />
 </StaticWebAssets>

@@ -9,7 +9,15 @@
       "DEBUG",
       "NET",
       "NET5_0",
-      "NETCOREAPP"
+      "NETCOREAPP",
+      "NET5_0_OR_GREATER",
+      "NETCOREAPP1_0_OR_GREATER",
+      "NETCOREAPP1_1_OR_GREATER",
+      "NETCOREAPP2_0_OR_GREATER",
+      "NETCOREAPP2_1_OR_GREATER",
+      "NETCOREAPP2_2_OR_GREATER",
+      "NETCOREAPP3_0_OR_GREATER",
+      "NETCOREAPP3_1_OR_GREATER"
     ],
     "languageVersion": "9.0",
     "platform": "",
@@ -44,6 +52,7 @@
           "Pomelo.EntityFrameworkCore.MySql": "3.2.4",
           "StardustDL.RazorComponents.Markdown": "0.0.2.24",
           "WebStoating.Markdig.Prism": "1.0.0",
+          "Westwind.AspNetCore.Markdown": "3.5.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "5.0.0.0",
@@ -2685,6 +2694,20 @@
         },
         "compile": {
           "lib/netstandard2.0/Markdig.Prism.dll": {}
+        }
+      },
+      "Westwind.AspNetCore.Markdown/3.5.0": {
+        "dependencies": {
+          "Markdig": "0.23.0"
+        },
+        "runtime": {
+          "lib/net5.0/Westwind.AspNetCore.Markdown.dll": {
+            "assemblyVersion": "3.5.0.0",
+            "fileVersion": "3.5.0.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Westwind.AspNetCore.Markdown.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
@@ -5789,6 +5812,13 @@
       "sha512": "sha512-Yyw4/fuqVEEIqjCGbRfowLAQ1pMZwuOU7s3FMg/J48LaJDW55pJfvBoKaeQTKSjQwWOFZonHu+VWSvd6RC0zVA==",
       "path": "webstoating.markdig.prism/1.0.0",
       "hashPath": "webstoating.markdig.prism.1.0.0.nupkg.sha512"
+    },
+    "Westwind.AspNetCore.Markdown/3.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lag3+NH3jDAMxAi/kk3+D4rz7uAh6z+N0xBOeglMkHu7stMqLwX/E2t4FrqVcoAzzfU15NhtqGzVFjRNX0KLRw==",
+      "path": "westwind.aspnetcore.markdown/3.5.0",
+      "hashPath": "westwind.aspnetcore.markdown.3.5.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",

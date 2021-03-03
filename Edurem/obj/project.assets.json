@@ -3279,6 +3279,21 @@
         "runtime": {
           "lib/netstandard2.0/Markdig.Prism.dll": {}
         }
+      },
+      "Westwind.AspNetCore.Markdown/3.5.0": {
+        "type": "package",
+        "dependencies": {
+          "Markdig": "0.22.0"
+        },
+        "compile": {
+          "lib/net5.0/Westwind.AspNetCore.Markdown.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Westwind.AspNetCore.Markdown.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -11269,6 +11284,21 @@
         "webstoating.markdig.prism.1.0.0.nupkg.sha512",
         "webstoating.markdig.prism.nuspec"
       ]
+    },
+    "Westwind.AspNetCore.Markdown/3.5.0": {
+      "sha512": "lag3+NH3jDAMxAi/kk3+D4rz7uAh6z+N0xBOeglMkHu7stMqLwX/E2t4FrqVcoAzzfU15NhtqGzVFjRNX0KLRw==",
+      "type": "package",
+      "path": "westwind.aspnetcore.markdown/3.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.MD",
+        "icon.png",
+        "lib/net5.0/Westwind.AspNetCore.Markdown.dll",
+        "lib/netcoreapp3.1/Westwind.AspNetCore.Markdown.dll",
+        "westwind.aspnetcore.markdown.3.5.0.nupkg.sha512",
+        "westwind.aspnetcore.markdown.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -11291,27 +11321,24 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
       "Pomelo.EntityFrameworkCore.MySql >= 3.2.4",
       "StardustDL.RazorComponents.Markdown >= 0.0.2.24",
-      "WebStoating.Markdig.Prism >= 1.0.0"
+      "WebStoating.Markdig.Prism >= 1.0.0",
+      "Westwind.AspNetCore.Markdown >= 3.5.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Илья\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Mi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
+      "projectUniqueName": "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj",
       "projectName": "Edurem",
-      "projectPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
-      "packagesPath": "C:\\Users\\Илья\\.nuget\\packages\\",
-      "outputPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\obj\\",
+      "projectPath": "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj",
+      "packagesPath": "C:\\Users\\Mi\\.nuget\\packages\\",
+      "outputPath": "D:\\8 семестр\\Edurem\\Edurem\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Илья\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Mi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11412,6 +11439,10 @@
           "WebStoating.Markdig.Prism": {
             "target": "Package",
             "version": "[1.0.0, )"
+          },
+          "Westwind.AspNetCore.Markdown": {
+            "target": "Package",
+            "version": "[3.5.0, )"
           }
         },
         "imports": [
@@ -11432,7 +11463,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -24,11 +24,7 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
     <PackageReference Include="StardustDL.RazorComponents.Markdown" Version="0.0.2.24" />
     <PackageReference Include="WebStoating.Markdig.Prism" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\FileSystem\Dockerfiles\Python\" />
-    <Folder Include="wwwroot\FileSystem\Images\" />
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.5.0" />
   </ItemGroup>
 
 </Project>
