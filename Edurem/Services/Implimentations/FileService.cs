@@ -35,10 +35,13 @@ namespace Edurem.Services
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
-            var fileModel = new FileModel() { Name = fileName, Path = filePath };
-
+            var fileModel = new FileModel() 
+            { 
+                Name = fileName, 
+                Path = filePath 
+            };
             // Если файл не существует
-            if (!File.Exists(fullFilePath))
+            if ((await FileRepository.Get(file => file.Name == fileModel.Name && file.Path == fileModel.Path)) is null)
             {
                 // Сохраняем данные в БД
                 await FileRepository.Add(fileModel);
@@ -54,17 +57,21 @@ namespace Edurem.Services
             return fileModel;
         }
 
-        public async Task<FileStream> GetFile(int fileId)
+        public async Task<FileModel> GetFile(int fileId)
         {
             var FileRepository = RepositoryFactory.GetRepository<FileModel>();
-
+            FileModel file = new();
             // Получаем модель файла из БД
-            var file = await FileRepository.Get(f => f.Id == fileId);
+            try
+            {
+                file = (await FileRepository.Find(f => f.Id == fileId)).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
-            // Создаем FileStream для файла
-            var fileStream = new FileStream(file.GetFullPath(), FileMode.Open);
-
-            return fileStream;
+            return file;
         }
 
         public string GetFileText(FileModel file)
@@ -103,6 +110,57 @@ namespace Edurem.Services
             }
 
             return text;
+        }
+
+        public FileStream OpenFile(FileModel fileModel)
+        {
+            // Полный путь до файла
+            var filePath = Path.Combine(AppEnvironment.WebRootPath, fileModel.GetFullPath());
+
+            // Создаем FileStream для файла
+            var fileStream = new FileStream(filePath, FileMode.Open);
+
+            return fileStream;
+        }
+
+        public FileStream OpenFile(int fileId)
+        {
+            var file = GetFile(fileId).Result;
+
+            var fileStream = OpenFile(file);
+
+            return fileStream;
+        }
+
+        public async Task RemoveFile(int fileId, bool forceRemove)
+        {
+            var FileRepository = RepositoryFactory.GetRepository<FileModel>();
+
+            if (!await HasReferences(fileId) || forceRemove)
+            {
+                var file = await FileRepository.Get(f => f.Id == fileId);
+
+                // Удалить файл из БД
+                await FileRepository.Delete(file);
+
+                // Удалить файл из файловой системы
+                var filePath = Path.Combine(AppEnvironment.WebRootPath, file.GetFullPath());
+                File.Delete(filePath);
+            }
+            else
+            {
+                throw new Exception("Невозможно удалить файл, поскольку на него ссылаются другие сущности");
+            }
+
+            return;
+        }
+
+        public async Task<bool> HasReferences(int fileId)
+        {
+            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
+            if ((await PostFileRepository.Get(postFile => postFile.FileId == fileId)) is not null) return true;
+
+            return false;
         }
     }
 }

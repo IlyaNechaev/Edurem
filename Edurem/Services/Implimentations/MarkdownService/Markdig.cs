@@ -15,7 +15,38 @@ namespace Edurem.Services
         public string ToHtml(string markdownText)
         {
             var codeFragments = GetCodeFragments(markdownText);
-            var html = Markdown.ToHtml(markdownText);
+
+            var html = string.Empty;
+            var htmlString = string.Empty;
+            var markdownStrings = markdownText
+                .Split(@"```")
+                .Select((@string, index) => index % 2 == 0 ? @string.Split("\n") : new string[1] { @string =  "```" + @string + "```" })
+                .SelectMany(@string => @string)
+                .ToList();
+
+            foreach (var @string in markdownStrings)
+            {
+                if (!string.IsNullOrEmpty(@string))
+                {
+                    htmlString = Markdown.ToHtml(@string);
+                }
+                else
+                {
+                    htmlString = "\n";
+                }
+                html += htmlString;
+            }
+
+            // Поскольку HTML не воспринимает количество символов переноса строк,
+            // для каждой пустой строки необходимо сделать элемент <p></p>
+            
+
+            // Убрать нижний пробел у элемента <p>
+            html = html
+                .Replace("<p>", @"<p class='mb-0'>");
+
+            //// Удаление пустых строк
+            //html = html.Replace("\n<p></p>\n", "\n");
 
             if (codeFragments.Count > 0)
                 html = InsertCodeFragments(html, codeFragments.Select(cf => ColorCode(cf.Code, cf.Language)).ToList());
@@ -32,6 +63,7 @@ namespace Edurem.Services
             return converter.Convert(htmlText).Replace("\r\n\r\n", "\r\n"); 
         }
 
+        // Получить фрагменты, содержащие код, из Markdown
         private List<(string Code, string Language)> GetCodeFragments(string markdownText)
         {
             var fragments = markdownText.Split("\n");
@@ -69,6 +101,7 @@ namespace Edurem.Services
 
             return codeFragments;
         }
+        
         private string InsertCodeFragments(string html, List<string> htmlCodes)
         {
             var fragments = html.Split("<code");
@@ -120,6 +153,7 @@ namespace Edurem.Services
             return html;
         }
 
+        // Возвращает HTML-разметку кода со стилями подсветки синтаксиса
         private string ColorCode(string code, string language)
         {
             //var formatter = new HtmlFormatter();

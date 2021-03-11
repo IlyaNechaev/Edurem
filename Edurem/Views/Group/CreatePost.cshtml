@@ -1,4 +1,4 @@
-﻿@model Edurem.ViewModels.AccountViewModel;
+﻿@model Edurem.ViewModels.AccountViewModel<Group>;
 
 @{
     ViewData["Title"] = "Новый пост";
@@ -7,4 +7,6 @@
 }
 
 
-<component>@(await Html.RenderComponentAsync<Edurem.Components.EditPost>(RenderMode.ServerPrerendered, new { CurrentUser = Model.CurrentUser }))</component>
+<component>@(await Html.RenderComponentAsync<Edurem.Components.EditPost>(RenderMode.ServerPrerendered, new { CurrentUser = Model.CurrentUser, Group = Model.ViewModel }))</component>
+
+<script src="~/js/input_file.js"></script>

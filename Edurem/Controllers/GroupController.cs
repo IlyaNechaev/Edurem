@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Edurem.Models;
+using Edurem.Data;
 
 namespace Edurem.Controllers
 {
@@ -14,12 +15,15 @@ namespace Edurem.Controllers
     {
         IUserService UserService { get; init; }
         IGroupService GroupService { get; init; }
+        IRepositoryFactory RepositoryFactory { get; init; }
 
         public GroupController([FromServices] IUserService userService,
-                                [FromServices] IGroupService groupService)
+                                [FromServices] IGroupService groupService,
+                                [FromServices] IRepositoryFactory repositoryFactory) 
         {
             UserService = userService;
             GroupService = groupService;
+            RepositoryFactory = repositoryFactory;
         }
 
         [Route("{id}")]
@@ -37,13 +41,39 @@ namespace Edurem.Controllers
 
         [Route("{id}/createPost")]
         [HttpGet]
-        public IActionResult CreatePost(int id)
+        public async Task<IActionResult> CreatePost(int id)
         {
             var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+            var group = await RepositoryFactory.GetRepository<Group>().Get(group => group.Id == id);
 
-            var accountViewModel = new AccountViewModel() { CurrentUser = authenticatedUser };
+            var accountViewModel = new AccountViewModel<Group>() { CurrentUser = authenticatedUser, ViewModel = group };
 
             return View(accountViewModel);
+        }
+
+        [Route("/files/download")]
+        [HttpGet]
+        public async Task<IActionResult> DownloadFile(int fileId, [FromServices] IFileService FileService)
+        {
+            Dictionary<string, string> mimeTypes = new()
+            {
+                { "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
+                { "doc", "application/msword" },
+                { "ppt", "application/vnd.ms-powerpoint" },
+                { "pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
+                { "xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" },
+                { "xls", "application/vnd.ms-excel" },
+                { "jpg", "image/jpeg" },
+                { "jpeg", "image/jpeg" },
+                { "png", "image/png" },
+                { "pdf", "application/pdf" }
+            };
+
+            var FileRepository = RepositoryFactory.GetRepository<FileModel>();
+
+            var file = await FileRepository.Get(file => file.Id == fileId);
+
+            return File(FileService.OpenFile(file), mimeTypes[file.Name.Split(".").Last()], file.Name);
         }
     }
 }

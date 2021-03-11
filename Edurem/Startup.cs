@@ -22,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StardustDL.RazorComponents.Markdown;
 using MimeKit;
+using System.Net.Http;
 
 namespace Edurem
 {
@@ -31,6 +32,7 @@ namespace Edurem
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
             Configuration["ApplicationName"] = "Edurem";
         }
 
@@ -75,6 +77,8 @@ namespace Edurem
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IMarkdownService, Services.Markdig>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+
+            services.AddHttpClient();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

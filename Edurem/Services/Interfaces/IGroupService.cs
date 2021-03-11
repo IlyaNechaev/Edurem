@@ -23,6 +23,6 @@ namespace Edurem.Services
 
         public Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1);
 
-        public Task CreatePost(PostModel post, List<FileModel> files = null );
+        public Task CreatePost(PostModel post, int groupId, List<FileModel> files = null );
     }
 }

@@ -1,6 +1,9 @@
 ﻿@inject Edurem.Services.IMarkdownService MarkdownService;
 @inject Edurem.Services.IFileService FileService;
+@inject Edurem.Services.IGroupService GroupService;
 @inject NavigationManager NavigationManager;
+@inject IJSRuntime JsRuntime;
+@inject IHttpClientFactory HttpFactory;
 @using System.IO;
 @using ColorCode;
 @using Jering.Web.SyntaxHighlighters.Prism;
@@ -11,7 +14,7 @@
         <div class="col-12">
             <div class="row mt-2">
                 <div class="col-6">
-                    <input class="form-control" style="font-size: 18px" placeholder="Название поста" />
+                    <input class="form-control" @onchange="e => PostTitle = e.Value.ToString()" style="font-size: 18px" placeholder="Название поста" />
                 </div>
             </div>
             <div class="row">
@@ -50,7 +53,8 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-10 border">
-                                <StardustDL.RazorComponents.Markdown.MarkdownRenderer Value="@MarkdownText" />
+                                @((MarkupString)MarkdownService.ToHtml(MarkdownText))
+                                <!--<StardustDL.RazorComponents.Markdown.MarkdownRenderer Value="@MarkdownText" />-->
                             </div>
                         </div>
                     }
@@ -71,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="row mt-2" style="@(CurrentEditor.Equals(TextEditors.RichText) ? "" : "display:none")">
+            <div class="row mt-2 mb-5" style="@(CurrentEditor.Equals(TextEditors.RichText) ? "" : "display:none")">
                 <div class="col-10">
                     <BlazoredTextEditor @ref="@Editor">
                         <ToolbarContent>
@@ -122,27 +126,76 @@
                 </div>
             </div>
             <div class="row mt-3 mb-2">
-                <div class="col-4">
-                    <MatFileUpload Label="Перетащите или выберите файл" OnChange="MultipleFilesReady" AllowMultiple="true"></MatFileUpload>
+                <div class="col-12">
+                    <MatThemeProvider Theme="theme">
+                        <MatFileUpload Style="18px" Label="Выберите файлы или перетащите их сюда" Class="border" OnChange="FilesReadyForUpload" AllowMultiple="true"></MatFileUpload>
+                    </MatThemeProvider>
                 </div>
             </div>
-            <div class="row">
-                @foreach (var file in uploadedFiles)
+            <div class="row mb-3">
+                @foreach (var file in filesToUpload)
                 {
                     <div class="col-2">
                         <div class="card">
-                            <div class="card-body text-center">
-                                <i style="font-size:35px" class="@GetExtensionClass(file.Name.Split(".").Last())"></i>
+                            <div class="card-body" style="padding-top: 5px">
+                                <div class="row justify-content-end">
+                                    <p style="font-size: 13px" class="mb-0">
+                                        <a href="" @onclick="e => DeleteFile(file)" @onclick:preventDefault="true">X</a>
+                                    </p>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <i style="font-size:35px" class="@GetExtensionClass(file.File.Name.Split(".").Last())"></i>
+                                </div>
                             </div>
-                            <div class="card-footer text-center">
-                                <p style="font-size: 12px" class="mb-0">@file.Name</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="row justify-content-center">
+                                <p style="font-size: 14px" class="mb-0">
+                                    <b>@file.File.Name</b>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <p style="font-size: 11px" class="mb-0">
+                                    @FileSizeToText(file.File.Size)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @foreach (var file in filesToPrepare)
+                {
+                    @if (file.IsUploaded) continue;
+                    <div class="col-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <MatThemeProvider Theme="theme">
+                                            <MatProgressCircle Indeterminate="true" Size="MatProgressCircleSize.Medium" />
+                                        </MatThemeProvider>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="row justify-content-center">
+                                <p style="font-size: 14px" class="mb-0">
+                                    <b>@file.File.Name</b>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <p style="font-size: 11px" class="mb-0">
+                                    @FileSizeToText(file.File.Size)
+                                </p>
                             </div>
                         </div>
                     </div>
                 }
             </div>
             <div class="row">
-                <button class="btn btn-primary" type="button" style="font-size: 20px" @onclick="e => CreatePost()">Опубликовать</button>
+                <div class="col-3">
+                    <button class="btn btn-primary" type="button" style="font-size: 18px" @onclick="e => Confirm()">Опубликовать</button>
+                </div>
             </div>
         </div>
     </div>
@@ -154,15 +207,35 @@
     [Parameter]
     public User CurrentUser { get; set; }
 
+    [Parameter]
+    public Group Group { get; set; }
+
     MatTheme theme = new MatTheme
     {
         Primary = "#007bff", // Цвет кнопки
         Surface = "white" // Цвет фона диалогового окна
     };
 
+    string PostTitle { get; set; }
+
+    #region CUSTOM_TYPES
+
     enum TextEditors { Markdown, RichText };
 
     enum MdPosition { COVERED, ROW, COL };
+
+    class FileToUpload
+    {
+        public IMatFileUploadEntry File { get; set; }
+
+        public Stream Stream { get; set; }
+
+        public bool IsUploaded { get; set; }
+    }
+
+    #endregion
+
+    #region PROPERTIES
 
     MdPosition Position { get; set; }
 
@@ -174,78 +247,127 @@
 
     string MarkdownText { get; set; }
 
-    List<IMatFileUploadEntry> uploadedFiles { get; set; }
+    List<FileToUpload> filesToUpload { get; set; }
+
+    List<FileToUpload> filesToPrepare { get; set; }
+
+    #endregion
 
     protected override void OnInitialized()
     {
         MarkdownText = string.Empty;
 
-        uploadedFiles = new();
+        filesToUpload = new();
+        filesToPrepare = new();
 
         Position = MdPosition.COL;
 
         Editors = new()
         {
-                (TextEditors.Markdown, "Markdown"),
-                (TextEditors.RichText, "Rich Text")
-            };
+            (TextEditors.Markdown, "Markdown"),
+            (TextEditors.RichText, "Rich Text")
+        };
 
         CurrentEditor = Editors[0].Type;
     }
 
-    string GetExtensionClass(string extension)
+    string GetExtensionClass(string extension) => extension switch
     {
-        return extension switch
-        {
-            "doc" or "docx" => "far fa-file-word",
-            "xls" => "far fa-file-excel",
-            "pdf" => "far fa-file-pdf",
-            _ => "far fa-file"
-        };
-    }
+        "doc" or "docx" or "odt" => "far fa-file-word",
+        "xls" or "xlsx" => "far fa-file-excel",
+        "pdf" => "far fa-file-pdf",
+        "txt" => "far fa-file-alt",
+        "py" or "pyw" or "pyd" or "cs" or "cpp" or "php" or "html" or "css" => "far fa-file-code",
+        "png" or "jpg" or "jpeg" or "gif" => "far fa-file-image",
+        _ => "far fa-file"
+    };
 
     void MarkdownTextChanged(ChangeEventArgs e)
     {
         MarkdownText = e.Value.ToString();
-
-        var s = MarkdownService.ToHtml(MarkdownText);
     }
 
-    void MultipleFilesReady(IMatFileUploadEntry[] files)
+    // Добавлены новые файлы
+    async Task FilesReadyForUpload(IMatFileUploadEntry[] files)
     {
-        uploadedFiles.AddRange(files);
-    }
-
-    async Task CreatePost()
-    {
-        var fileModels = new List<FileModel>();
-        foreach (var file in uploadedFiles)
+        // Добавляем файлы
+        foreach (var file in files)
         {
-            using (MemoryStream memoryStream = new())
+            if (filesToUpload.FirstOrDefault(item => item.File.Name == file.Name) is not null ||
+                filesToPrepare.FirstOrDefault(item => item.File.Name == file.Name) is not null) continue;
+
+            var fileToUpload = new FileToUpload()
             {
+                File = file,
+                Stream = null,
+                IsUploaded = false
+            };
 
-                var fileAwaiter = file.WriteToStreamAsync(memoryStream);
+            filesToPrepare.Add(fileToUpload);
+        }
 
-                var filePath = Path.Combine("file_system\\users", CurrentUser.Id.ToString());
+        StateHasChanged();
 
-                await fileAwaiter;
+        // Загружаем файлы в MemoryStream
+        foreach (var file in filesToPrepare)
+        {
+            file.Stream = new MemoryStream();
+            await file.File.WriteToStreamAsync(file.Stream);
+            file.IsUploaded = true;
+            filesToUpload.Add(file);
 
-                try
-                {
-                    fileModels.Add(await FileService.UploadFile(memoryStream, filePath, $"{file.Name}"));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            StateHasChanged();
+        }
+
+        filesToPrepare = new();
+        await JsRuntime.InvokeVoidAsync("clearInputFile");
+    }
+
+    void DeleteFile(FileToUpload fileToDelete)
+    {
+        filesToUpload.Remove(filesToUpload.First(file => file.Equals(fileToDelete)));
+    }
+
+    async Task Confirm()
+    {
+        // Модели файлов для связи с БД
+        var fileModels = new List<FileModel>();
+        foreach (var file in filesToUpload)
+        {
+            var filePath = Path.Combine("file_system\\users", CurrentUser.Id.ToString());
+
+            try
+            {
+                // Загрузка файлов на сервер
+                fileModels.Add(await FileService.UploadFile(file.Stream, filePath, $"{file.File.Name}"));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
 
-        NavigationManager.NavigateTo("/account/groups");
+        if (!CurrentEditor.Equals(TextEditors.Markdown))
+            await TextEditorChanged((int)TextEditors.Markdown);
+
+        var html = MarkdownService.ToHtml(MarkdownText);
+
+        var postModel = new PostModel()
+        {
+            AuthorId = CurrentUser.Id,
+            PublicationDate = DateTime.Now,
+            PostBody = html,
+            Title = PostTitle
+        };
+
+        await GroupService.CreatePost(postModel, Group.Id, fileModels);
+
+        NavigationManager.NavigateTo($"group/{Group.Id}", true);
     }
 
     async Task TextEditorChanged(int activeIndex)
     {
+        // Тип выбранного редактора
         CurrentEditor = activeIndex == 0 ? TextEditors.Markdown : TextEditors.RichText;
 
         if (CurrentEditor.Equals(TextEditors.Markdown))
@@ -257,11 +379,13 @@
         {
             var html = MarkdownService.ToHtml(MarkdownText);
 
-            // Ожидаем, пока не будет создан и отрендерен Editor
+            // Ожидаем, пока не будет создан Editor
             await Task.WhenAll(Task.Run(() => { while (Editor is null) ; }));
 
             try
             {
+                // При первом вызове вызывается исключение, поэтому оборачиваем в
+                // try catch и вызываем еще раз
                 await Editor.LoadHTMLContent(html);
             }
             catch (Exception e)
@@ -271,5 +395,11 @@
             }
         }
 
+    }
+
+    string FileSizeToText(float size)
+    {
+        size = size / 1000;
+        return $"{size.ToString("0.00")} Кб";
     }
 }

@@ -59,18 +59,19 @@ namespace Edurem.Services
 
             return await GroupRepository.Get(group => group.Id == groupId, nameof(Group.Subject), nameof(Group.Members));
         }
-
         
         public async Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1)
         {
             var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
+            var PostRepository = RepositoryFactory.GetRepository<PostModel>();
 
-            // 
-            var groupPosts = (await GroupPostRepository.Find(gp => gp.GroupId == groupId, nameof(GroupPost.Post)));
+            // Находим идентификаторы публикаций для данной группы
+            var postsId = (await GroupPostRepository.Find(gp => gp.GroupId == groupId)).Select(gp => gp.PostId);
+
+            var posts = (await PostRepository.Find(post => postsId.Contains(post.Id), nameof(PostModel.AttachedFiles), nameof(PostModel.Author)));
 
             // Находим последние несколько постов (postsCount), начиная со startIndex
-            return groupPosts?
-                .Select(gp => gp.Post)?
+            return posts?
                 .OrderBy(post => post.PublicationDate)?
                 .Reverse()?
                 .Skip(startIndex)?
@@ -78,10 +79,11 @@ namespace Edurem.Services
                 .ToList();
         }
 
-        public async Task CreatePost(PostModel post, List<FileModel> files = null)
+        public async Task CreatePost(PostModel post, int groupId, List<FileModel> files = null)
         {
             var PostModelRepository = RepositoryFactory.GetRepository<PostModel>();
             var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
+            var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
 
             // Добавляем новую публикацию в БД
             await PostModelRepository.Add(post);
@@ -94,6 +96,8 @@ namespace Edurem.Services
             {
                 await PostFileRepository.Add(postFile);
             }
+
+            await GroupPostRepository.Add(new GroupPost { GroupId = groupId, PostId = post.Id });
         }
     }
 }

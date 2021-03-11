@@ -119,10 +119,12 @@
 
     GroupFilterOptions FilterOptions { get; set; }
 
+    #region FILTER_OPTIONS
     int MinMembersCount { get; set; }
     int MaxMembersCount { get; set; }
     RoleInGroup UserRole { get; set; }
     string GroupName { get; set; }
+    #endregion
 
     MatTheme theme = new MatTheme
     {
@@ -139,10 +141,10 @@
 
         Roles = new()
         {
-                (RoleInGroup.MEMBER | RoleInGroup.ADMIN, "-"),
-                (RoleInGroup.ADMIN, "Администратор"),
-                (RoleInGroup.MEMBER, "Участник")
-            };
+            (RoleInGroup.MEMBER | RoleInGroup.ADMIN, "-"),
+            (RoleInGroup.ADMIN, "Администратор"),
+            (RoleInGroup.MEMBER, "Участник")
+        };
 
         FilterOptions = new()
         {

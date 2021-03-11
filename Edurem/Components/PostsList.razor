@@ -1,4 +1,5 @@
 ﻿@inject Edurem.Services.IGroupService GroupService;
+@inject Edurem.Services.IFileService FileService;
 
 @if (Posts.Count == 0)
 {
@@ -10,12 +11,51 @@ else
 {
     @foreach (var post in Posts)
     {
-        <div class="row">
-            <p>@post.Title</p>
+        <div class="row justify-content-center mb-4">
+            <div class="col-12">
+                <div class="card border-dark">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-8">
+                                <h4 class="font-weight-bold">@post.Post.Title</h4>
+                            </div>
+                            <div class="col-4">
+                                <p><b>Автор</b>: @post.Post.Author.Name @post.Post.Author.Surname</p>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="card-body">
+                        @((MarkupString)post.Post.GetShortBody(50))
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            @foreach (var file in post.Files)
+                            {
+                                <div class="col-3">
+                                    <div class="card">
+                                        <div class="card-body" style="padding-top: 5px">
+                                            <div class="row mt-2 justify-content-center">
+                                                <i style="font-size:30px" class="@GetExtensionClass(file.Name.Split(".").Last())"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-center bg-white">
+                                            <div class="row justify-content-center">
+                                                <p style="font-size: 10px" class="mb-0">
+                                                    <b><a href="/files/download?fileId=@file.Id" >@file.Name</a></b>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     }
     <div class="row">
-        <MatButtonLink OnClick="AddPosts">Ранние записи</MatButtonLink>
+        <MatButtonLink Class="w-100" Href="#" OnClick="AddPosts">Ранние записи</MatButtonLink>
     </div>
 }
 
@@ -24,16 +64,31 @@ else
     [Parameter]
     public int GroupId { get; set; }
 
-    public List<PostModel> Posts { get; set; }
+    public List<(PostModel Post, List<FileModel> Files)> Posts { get; set; }
 
     protected override void OnInitialized()
     {
-        Posts = new List<PostModel>();
+        Posts = new();
         Task.WaitAll(AddPosts());
     }
 
     async Task AddPosts()
     {
-        Posts.AddRange(await GroupService.GetGroupPosts(GroupId, startIndex: Posts.Count, postsCount: 3));
+        foreach (var post in await GroupService.GetGroupPosts(GroupId, startIndex: Posts.Count, postsCount: 3))
+        {
+            var files = post.AttachedFiles.Select(af => FileService.GetFile(af.FileId).Result).ToList();
+            Posts.Add((post, files));
+        }
     }
+
+    string GetExtensionClass(string extension) => extension switch
+    {
+        "doc" or "docx" or "odt" => "far fa-file-word",
+        "xls" or "xlsx" => "far fa-file-excel",
+        "pdf" => "far fa-file-pdf",
+        "txt" => "far fa-file-alt",
+        "py" or "pyw" or "pyd" or "cs" or "cpp" or "php" or "html" or "css" => "far fa-file-code",
+        "png" or "jpg" or "jpeg" or "gif" => "far fa-file-image",
+        _ => "far fa-file"
+    };
 }

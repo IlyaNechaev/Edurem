@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj": {}
+    "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj": {}
   },
   "projects": {
-    "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj": {
+    "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj",
+        "projectUniqueName": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
         "projectName": "Edurem",
-        "projectPath": "D:\\8 семестр\\Edurem\\Edurem\\Edurem.csproj",
-        "packagesPath": "C:\\Users\\Mi\\.nuget\\packages\\",
-        "outputPath": "D:\\8 семестр\\Edurem\\Edurem\\obj\\",
+        "projectPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
+        "packagesPath": "C:\\Users\\Илья\\.nuget\\packages\\",
+        "outputPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Mi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Илья\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -139,7 +142,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
