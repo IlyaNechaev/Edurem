@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Edurem.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,10 +9,8 @@ namespace Edurem.Services
 {
     public interface ICodeTestingService
     {
-        public List<(string Parameters, string Result)> GetRandomTests();
+        public bool TestCode(string testsFilePath, string codeFilePath);
 
-        public List<(string Parameters, string Result)> GetPropertyBasedTests();
-
-        public bool CheckTests();
+        public void CreateDockerfile(List<string> testsFilePath, string codeFilePath, Language language, string saveToPath);
     }
 }

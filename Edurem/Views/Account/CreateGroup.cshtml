@@ -1,5 +1,5 @@
 ﻿@using Edurem.Components;
-@model Edurem.ViewModels.AccountViewModel<Edurem.ViewModels.GroupCreationEditModel>
+@model Edurem.ViewModels.GroupCreationEditModel
 
 @{
     ViewData["Title"] = "Новая группа";
@@ -11,15 +11,15 @@
     <div class="col-12 justify-content-center">
         <div class="row">
             <div class="col-5">
-                <input asp-for="ViewModel.Name" class="form-control" placeholder="Название группы" style="font-size:20px" />
-                <span asp-validation-for="ViewModel.Name" class="text-danger" style="font-weight: bold"></span>
+                <input asp-for="Name" class="form-control" placeholder="Название группы" style="font-size:20px" />
+                <span asp-validation-for="Name" class="text-danger" style="font-weight: bold"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-8">
-                <component>@(await Html.RenderComponentAsync<Edurem.Components.SubjectsDropdown>(RenderMode.ServerPrerendered, new { CurrentUser = Model.CurrentUser, SubjectId = Model.ViewModel.SubjectId }))</component>
-                <input asp-for="ViewModel.SubjectId" id="SubjectId" hidden />
-                <span asp-validation-for="ViewModel.SubjectId" class="text-danger" style="font-weight: bold"></span>
+                <component>@(await Html.RenderComponentAsync<Edurem.Components.SubjectsDropdown>(RenderMode.ServerPrerendered, new { UserId = int.Parse(Context.User.GetClaim(ClaimKey.Id)), SubjectId = Model.SubjectId }))</component>
+                <input asp-for="SubjectId" id="SubjectId" hidden />
+                <span asp-validation-for="SubjectId" class="text-danger" style="font-weight: bold"></span>
             </div>
         </div>
         <div class="row mt-2">

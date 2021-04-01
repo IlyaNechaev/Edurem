@@ -10,7 +10,7 @@ namespace Edurem.Extensions
     {
         public static string GetFilePath(this IConfiguration confguration, string fileName)
         {
-            return confguration.GetValue<string>($"FilePaths:{fileName}");
+            return confguration.GetValue<string>($"Paths:{fileName}");
         }
     }
 }

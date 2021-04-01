@@ -30,5 +30,16 @@ namespace Edurem.Services
         public string GetFileText(FileModel file);
 
         public string GetFileText(string filePath);
+
+        public string GetExtensionClass(string extension) => extension switch
+        {
+            "doc" or "docx" or "odt" => "far fa-file-word",
+            "xls" or "xlsx" => "far fa-file-excel",
+            "pdf" => "far fa-file-pdf",
+            "txt" => "far fa-file-alt",
+            "py" or "pyw" or "pyd" or "cs" or "cpp" or "php" or "html" or "css" => "far fa-file-code",
+            "png" or "jpg" or "jpeg" or "gif" => "far fa-file-image",
+            _ => "far fa-file"
+        };
     }
 }

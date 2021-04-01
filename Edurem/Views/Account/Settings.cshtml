@@ -1,4 +1,4 @@
-﻿@model Edurem.ViewModels.AccountViewModel<Edurem.ViewModels.SettingsViewModel>
+﻿@model Edurem.ViewModels.SettingsViewModel
 
 @{
     ViewData["Title"] = "Настройки";
@@ -20,20 +20,20 @@
             <div class="form-group row justify-content-around">
                 <div class="col-9 col-md-5">
                     <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Имя</p>
-                    <input placeholder="Имя" class="form-control" style="font-size: 19px" asp-for="CurrentUser.Name" />
-                    <span asp-validation-for="CurrentUser.Name" class="text-danger" style="font-weight: bold"></span>
+                    <input placeholder="Имя" class="form-control" style="font-size: 19px" asp-for="User.Name" />
+                    <span asp-validation-for="User.Name" class="text-danger" style="font-weight: bold"></span>
                 </div>
                 <div class="col-9 col-md-5">
                     <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Фамилия</p>
-                    <input placeholder="Фамилия" class="form-control" style="font-size: 19px" asp-for="CurrentUser.Surname" />
-                    <span asp-validation-for="CurrentUser.Surname" class="text-danger" style="font-weight: bold"></span>
+                    <input placeholder="Фамилия" class="form-control" style="font-size: 19px" asp-for="User.Surname" />
+                    <span asp-validation-for="User.Surname" class="text-danger" style="font-weight: bold"></span>
                 </div>
             </div>
             <div class="form-group row justify-content-around">
                 <div class="col-9 col-md-5">
                     <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Логин</p>
-                    <input placeholder="Логин" class="form-control" style="font-size: 19px" asp-for="CurrentUser.Login" />
-                    <span asp-validation-for="CurrentUser.Login" class="text-danger" style="font-weight: bold"></span>
+                    <input placeholder="Логин" class="form-control" style="font-size: 19px" asp-for="User.Login" />
+                    <span asp-validation-for="User.Login" class="text-danger" style="font-weight: bold"></span>
                 </div>
                 <div class="col-9 col-md-5 mt-4">
                     <a style="font-size: 19px" href="#">Сменить пароль</a>
@@ -54,10 +54,10 @@
         <div class="col-10 border rounded">
             <div class="form-group row justify-content-center">
                 <div class="col-9 col-md-7">
-                    @if (Model.CurrentUser.IsActivated)
+                    @if (Model.User.IsActivated)
                     {
                         <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Почта</p>
-                        <input class="form-control" style="font-size: 19px" asp-for="CurrentUser.Email" readonly />
+                        <input class="form-control" style="font-size: 19px" asp-for="User.Email" readonly />
                     }
                     else
                     {
@@ -67,7 +67,7 @@
                                 <i class="far fa-question-circle ml-2" style="color:red"></i>
                             </a>
                         </p>
-                        <component>@(await Html.RenderComponentAsync<Edurem.Components.ConfirmEmail>(RenderMode.ServerPrerendered, new { User = Model.CurrentUser }))</component>
+                        <component>@(await Html.RenderComponentAsync<Edurem.Components.ConfirmEmail>(RenderMode.ServerPrerendered, new { User = Model.User }))</component>
                     }
                 </div>
             </div>
@@ -86,7 +86,7 @@
         <div class="col-10 border rounded">
             <div class="form-group row justify-content-md-start justify-content-center ml-md-4 ml-0">
                 <div class="col-12">
-                    <component>@(await Html.RenderComponentAsync<Edurem.Components.NotificationOprions>(RenderMode.ServerPrerendered, new { NotificationOptions = Model.ViewModel.Notifications }))</component>
+                    <component>@(await Html.RenderComponentAsync<Edurem.Components.NotificationOprions>(RenderMode.ServerPrerendered, new { NotificationOptions = Model.Notifications }))</component>
                 </div>
             </div>
         </div>

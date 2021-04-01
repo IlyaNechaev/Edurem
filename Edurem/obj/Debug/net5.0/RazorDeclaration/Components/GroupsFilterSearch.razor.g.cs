@@ -108,7 +108,7 @@ using Edurem.ViewModels;
        
 
     [Parameter]
-    public User CurrentUser { get; set; }
+    public CurrentUserViewModel CurrentUser { get; set; }
 
     GroupsListViewModel GroupsList { get; set; }
 
@@ -160,7 +160,7 @@ using Edurem.ViewModels;
 
     async Task GetGroupViews()
     {
-        var groups = await GroupService.GetUserGroups(CurrentUser);
+        var groups = await GroupService.GetUserGroups(CurrentUser.Id);
 
         GroupsList = new(groups);
     }

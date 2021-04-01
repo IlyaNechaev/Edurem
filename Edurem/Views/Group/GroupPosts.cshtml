@@ -1,25 +1,25 @@
-﻿@model Edurem.ViewModels.AccountViewModel<Edurem.ViewModels.GroupViewModel>
+﻿@model Edurem.ViewModels.GroupViewModel
 
 @{
-    ViewData["Title"] = $"{Model.ViewModel.Name}, {Model.ViewModel.Subject.Name}";
+    ViewData["Title"] = $"{Model.Name}, {Model.Subject.Name}";
     ViewData["ApplicationName"] = "Edurem";
     Layout = "_AccountLayout";
 }
 
-@if (Model.ViewModel.UserRole.Equals(RoleInGroup.ADMIN))
+@if (Model.UserRole.Equals(RoleInGroup.ADMIN))
 {
     <div class="row mt-2">
         <div class="col-3 col-md-4 col-xl-2 text-left">
             <div class="row">
                 <input type="button" value="Добавить пост" class="w-100 btn btn-success text-center"
-                       onclick="window.location='@Url.Action("CreatePost", "Group", new { id = Model.ViewModel.Id })'" />
+                       onclick="window.location='@Url.Action("CreatePost", "Group", new { id = Model.Id })'" />
             </div>
         </div>
     </div>
 }
 <div class="row mt-5">
     <div class="col-7">
-        <component>@(await Html.RenderComponentAsync<Edurem.Components.PostsList>(RenderMode.ServerPrerendered, new { GroupId = Model.ViewModel.Id }))</component>
+        @(await Html.RenderComponentAsync<Edurem.Components.PostsList>(RenderMode.ServerPrerendered, new { GroupId = Model.Id }))
     </div>
     <div class="col-5">
         <div class="row rounded border" style="background-color: azure">
@@ -32,7 +32,19 @@
                     </div>
                     <div class="col-6">
                         <p class="text-left" style="font-size: 15px">
-                            @Model.ViewModel.MembersCount
+                            @Model.MembersCount
+                        </p>
+                    </div>
+                </div>
+                <div class="row mt-2 align-items-center">
+                    <div class="col-6">
+                        <p class="text-right" style="font-size: 15px">
+                            <b>Количество публикаций</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p class="text-left" style="font-size: 15px">
+                            @Model.PostsCount
                         </p>
                     </div>
                 </div>

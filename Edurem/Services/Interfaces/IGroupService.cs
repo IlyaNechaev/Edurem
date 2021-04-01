@@ -12,12 +12,15 @@ namespace Edurem.Services
 
         // Возвращает группы в которых состоит пользователь
         public Task<List<(Group Group, RoleInGroup UserRole)>> GetUserGroups(User user);
+        public Task<List<(Group Group, RoleInGroup UserRole)>> GetUserGroups(int userId);
 
         public Task CreateGroup(Group group, User creator);
 
         public Task AddSubject(string subjectName, User user);
+        public Task AddSubject(string subjectName, int userId);
 
         public Task<List<Subject>> GetUserSubjects(User user);
+        public Task<List<Subject>> GetUserSubjects(int userId);
 
         public Task<Group> GetGroup(int groupId);
 

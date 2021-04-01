@@ -37,7 +37,7 @@
         <div class="main">
             <div class="top-row px-4" style="z-index: 99">
                 <a class="nav-link text-dark" style="font-size: 20px" href="/account/home">
-                    @($"{UserService.GetAuthenticatedUser(Context).Surname} {UserService.GetAuthenticatedUser(Context).Name}")
+                    @($"{Context.User.GetClaim(ClaimKey.Surname)} {Context.User.GetClaim(ClaimKey.Name)}")
                 </a>
             </div>
             <div class="content px-4">

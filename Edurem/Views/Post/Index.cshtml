@@ -1,0 +1,38 @@
+﻿@model Edurem.ViewModels.AccountViewModel<Edurem.ViewModels.PostViewModel>;
+@inject Edurem.Services.IFileService FileService;
+@using Microsoft.AspNetCore.Components; 
+
+@{
+    ViewData["Title"] = Model.ViewModel.Title;
+    ViewData["ApplicationName"] = "Edurem";
+    Layout = "_AccountLayout";
+}
+
+<div class="row justify-content-center">
+    <div class="col-9">
+        <div class="row mt-4">
+            @Html.Raw(Model.ViewModel.Body)
+        </div>
+        <div class="row mt-4">
+            @foreach (var file in Model.ViewModel.Files)
+            {
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body" style="padding-top: 5px">
+                            <div class="row mt-2 justify-content-center">
+                                <i style="font-size:30px" class="@FileService.GetExtensionClass(file.Name.Split(".").Last())"></i>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center bg-white">
+                            <div class="row justify-content-center">
+                                <p style="font-size: 10px" class="mb-0">
+                                    <b><a href="/files/download?fileId=@file.Id">@file.Name</a></b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

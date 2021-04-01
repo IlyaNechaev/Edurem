@@ -28,6 +28,7 @@ namespace Edurem.Services
 
         // Возвращает настройки уведомлений для данного пользователя
         public Task<NotificationOptions> GetUserNotificationOptions(User user);        
+        public Task<NotificationOptions> GetUserNotificationOptions(int userId);        
 
         // Отправить на почту пользователя письмо с подтверждением
         public Task SendUserEmailConfirmation(User user, params SendCompletedHandler[] onSendCompleted);

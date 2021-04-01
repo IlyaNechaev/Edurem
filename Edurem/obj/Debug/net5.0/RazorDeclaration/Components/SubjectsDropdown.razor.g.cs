@@ -89,6 +89,13 @@ using Edurem.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
+using Edurem.ViewModels;
+
+#line default
+#line hidden
+#nullable disable
     public partial class SubjectsDropdown : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -97,11 +104,12 @@ using Edurem.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 48 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
+#line 49 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
        
 
+    // Id авторизованного пользователя
     [Parameter]
-    public User CurrentUser { get; set; }
+    public int UserId { get; set; }
 
     [Parameter]
     public int SubjectId { get; set; }
@@ -121,9 +129,9 @@ using Edurem.Models;
     {
         AvailableSubjects = new();
         AvailableSubjects.Add(new Subject() { Name = "-", Id = 0 });
-
+        
         // Добавляем все имеющиеся дисциплины
-        (await GroupService.GetUserSubjects(CurrentUser))
+        (await GroupService.GetUserSubjects(UserId))
             .ForEach(AvailableSubjects.Add);
     }
 
@@ -132,7 +140,7 @@ using Edurem.Models;
         Task.WaitAll(
             Task.Run(async () =>
             {
-                await GroupService.AddSubject(SubjectName, CurrentUser);
+                await GroupService.AddSubject(SubjectName, UserId);
                 await FillAvailableSubjects();
             })
         );

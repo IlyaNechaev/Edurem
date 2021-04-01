@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Edurem.Models;
 using Edurem.Data;
-
 namespace Edurem.Controllers
 {
     [Route("group")]
@@ -30,25 +29,24 @@ namespace Edurem.Controllers
         [HttpGet]
         public async Task<IActionResult> GroupPosts(int id)
         {
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+            var currentUserId = int.Parse(HttpContext.User.GetClaim(ClaimKey.Id));
+
             var group = await GroupService.GetGroup(id);
-            var groupView = new GroupViewModel(group, group.Members.First(gm => gm.UserId == authenticatedUser.Id).RoleInGroup, group.Subject);
+            var postsCount = (await GroupService.GetGroupPosts(id, postsCount: int.MaxValue)).Count();
 
-            var accountViewModel = new AccountViewModel<GroupViewModel>() { CurrentUser = authenticatedUser, ViewModel = groupView };
+            var groupView = new GroupViewModel(group, group.Members.First(gm => gm.UserId == currentUserId).RoleInGroup, group.Subject);
+            groupView.PostsCount = postsCount;
 
-            return View("GroupPosts", accountViewModel);
+            return View("GroupPosts", groupView);
         }
 
         [Route("{id}/createPost")]
         [HttpGet]
         public async Task<IActionResult> CreatePost(int id)
         {
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
             var group = await RepositoryFactory.GetRepository<Group>().Get(group => group.Id == id);
 
-            var accountViewModel = new AccountViewModel<Group>() { CurrentUser = authenticatedUser, ViewModel = group };
-
-            return View(accountViewModel);
+            return View(group);
         }
 
         [Route("/files/download")]

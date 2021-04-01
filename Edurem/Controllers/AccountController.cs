@@ -17,7 +17,7 @@ namespace Edurem.Controllers
     [Authorize(Policy = "AuthenticatedOnly")]
     public class AccountController : Controller
     {
-        IUserService UserService;
+        IUserService UserService { get; set; }
 
         public AccountController(IUserService userService)
         {
@@ -43,58 +43,55 @@ namespace Edurem.Controllers
         [Route("home")]
         public IActionResult Home([FromServices] IConfiguration config)
         {
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
-            return View(authenticatedUser);
+            return View();
         }
 
         [Route("settings")]
         [HttpGet]
         public async Task<IActionResult> Settings()
         {
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
-            var userNotificationOptions = await UserService.GetUserNotificationOptions(authenticatedUser);
+            var currentUserId = int.Parse(HttpContext.User.GetClaim(ClaimKey.Id));
+            var userNotificationOptions = await UserService.GetUserNotificationOptions(currentUserId);
 
-            var settings = new SettingsViewModel();
+            var settingsViewModel = new SettingsViewModel();
 
-            settings.Notifications = userNotificationOptions;
+            settingsViewModel.Notifications = userNotificationOptions;
 
-            var accountViewModel = new AccountViewModel<SettingsViewModel>() { ViewModel = settings, CurrentUser = authenticatedUser };
+            settingsViewModel.User = UserService.GetAuthenticatedUser(HttpContext);
 
-            return View(accountViewModel);
+            return View(settingsViewModel);
         }
 
 
         [Route("settings")]
         [HttpPost]
-        public async Task<IActionResult> Settings(AccountViewModel<SettingsViewModel> accountViewModel)
+        public async Task<IActionResult> Settings(SettingsViewModel settingsViewModel)
         {
-            TryValidateModel(accountViewModel.CurrentUser);
+            TryValidateModel(settingsViewModel.User);
             if (!ModelState.IsValid)
             {
-                return View(accountViewModel);
+                return View(settingsViewModel);
             }
             else
             {
                 try
                 {
-                    await UserService.UpdateUser(accountViewModel.CurrentUser);
+                    await UserService.UpdateUser(settingsViewModel.User);
                 }
                 catch (DatabaseServiceException)
                 {
                     ModelState.AddModelError("", "Не удалось изменить данные. Попробуйте повторить опреацию позже");
-                    return View(accountViewModel);
+                    return View(settingsViewModel);
                 }
             }
-            return View(accountViewModel);
+            return View(settingsViewModel);
         }
 
         [Route("groups")]
         [HttpGet]
         public IActionResult Groups([FromServices] IGroupService groupService)
         {
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
-
-            var accountViewModel = new AccountViewModel() { CurrentUser = authenticatedUser };
+            var accountViewModel = new AccountViewModel(HttpContext);
 
             return View(accountViewModel);
         }
@@ -103,27 +100,22 @@ namespace Edurem.Controllers
         [HttpGet]
         public IActionResult CreateGroup([FromServices] IGroupService groupService)
         {
-
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
-
-            var accountViewModel = new AccountViewModel<GroupCreationEditModel>() { ViewModel = new GroupCreationEditModel(), CurrentUser = authenticatedUser };
-
-            return View(accountViewModel);
+            return View(new GroupCreationEditModel());
         }
 
         [Route("groups/create")]
         [HttpPost]
-        public async Task<IActionResult> CreateGroup(AccountViewModel<GroupCreationEditModel> accountViewModel,
+        public async Task<IActionResult> CreateGroup(GroupCreationEditModel groupCreationModel,
                                          [FromServices] IGroupService groupService)
         {
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
-
-            if (!TryValidateModel(accountViewModel.ViewModel))
+            // Если в модели создания группы имеет ошибка
+            if (!TryValidateModel(groupCreationModel))
             {
-                accountViewModel.CurrentUser = authenticatedUser;
-                return View(accountViewModel);
+                return View(groupCreationModel);
             }
-            var newGroup = accountViewModel.ViewModel.ToGroup();
+
+            var newGroup = groupCreationModel.ToGroup();
+            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
 
             await groupService.CreateGroup(newGroup, authenticatedUser);
 
@@ -148,10 +140,12 @@ namespace Edurem.Controllers
 
             foreach (var claim in claims)
             {
-                if ((claim.Type, claim.Value) == ("Status", "REGISTERED"))
-                    cause = "Registered";
-                else if ((claim.Type, claim.Value) == ("Status", "BLOCKED"))
-                    cause = "Blocked";
+                cause = (claim.Type, claim.Value) switch
+                {
+                    ("Status", "REGISTERED") => "Registered",
+                    ("Status", "BLOCKED") => "Blocked",
+                    _ => cause
+                };
             }
             return Content($"Access denied {cause}");
         }

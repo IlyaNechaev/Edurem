@@ -1,4 +1,5 @@
-﻿@model Edurem.ViewModels.AccountViewModel<Group>;
+﻿@using Edurem.ViewModels;
+@model Edurem.Models.Group;
 
 @{
     ViewData["Title"] = "Новый пост";
@@ -7,6 +8,15 @@
 }
 
 
-<component>@(await Html.RenderComponentAsync<Edurem.Components.EditPost>(RenderMode.ServerPrerendered, new { CurrentUser = Model.CurrentUser, Group = Model.ViewModel }))</component>
+<component>
+    @(await Html.RenderComponentAsync<Edurem.Components.EditPost>(RenderMode.ServerPrerendered, new { Group = Model, 
+        CurrentUser = new CurrentUserViewModel 
+        { 
+            Id = int.Parse(Context.User.GetClaim(ClaimKey.Id)),
+            Name = Context.User.GetClaim(ClaimKey.Name),
+            Surname = Context.User.GetClaim(ClaimKey.Surname)
+        } 
+    }))
+</component>
 
 <script src="~/js/input_file.js"></script>

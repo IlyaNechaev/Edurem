@@ -17,15 +17,18 @@ else
                     <div class="card-header">
                         <div class="row">
                             <div class="col-8">
-                                <h4 class="font-weight-bold">@post.Post.Title</h4>
+                                <h4 class="font-weight-bold">
+                                    <a href="@($"post/{post.Post.Id}")">@($"{post.Post.Title} ") </a> 
+                                    @if (post.Post.HasTests)
+                                    {
+                                        <a href=""><i class="fas fa-brain" style="color:green"></i></a>
+                                    }
+                                </h4>
                             </div>
                             <div class="col-4">
                                 <p><b>Автор</b>: @post.Post.Author.Name @post.Post.Author.Surname</p>
                             </div>
-                        </div>                        
-                    </div>
-                    <div class="card-body">
-                        @((MarkupString)post.Post.GetShortBody(50))
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -35,13 +38,13 @@ else
                                     <div class="card">
                                         <div class="card-body" style="padding-top: 5px">
                                             <div class="row mt-2 justify-content-center">
-                                                <i style="font-size:30px" class="@GetExtensionClass(file.Name.Split(".").Last())"></i>
+                                                <i style="font-size:30px" class="@FileService.GetExtensionClass(file.Name.Split(".").Last())"></i>
                                             </div>
                                         </div>
                                         <div class="card-footer text-center bg-white">
                                             <div class="row justify-content-center">
                                                 <p style="font-size: 10px" class="mb-0">
-                                                    <b><a href="/files/download?fileId=@file.Id" >@file.Name</a></b>
+                                                    <b><a href="/files/download?fileId=@file.Id">@file.Name</a></b>
                                                 </p>
                                             </div>
                                         </div>
@@ -80,15 +83,4 @@ else
             Posts.Add((post, files));
         }
     }
-
-    string GetExtensionClass(string extension) => extension switch
-    {
-        "doc" or "docx" or "odt" => "far fa-file-word",
-        "xls" or "xlsx" => "far fa-file-excel",
-        "pdf" => "far fa-file-pdf",
-        "txt" => "far fa-file-alt",
-        "py" or "pyw" or "pyd" or "cs" or "cpp" or "php" or "html" or "css" => "far fa-file-code",
-        "png" or "jpg" or "jpeg" or "gif" => "far fa-file-image",
-        _ => "far fa-file"
-    };
 }

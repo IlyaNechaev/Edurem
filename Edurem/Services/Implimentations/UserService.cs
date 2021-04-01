@@ -128,19 +128,16 @@ namespace Edurem.Services
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, validUser.Login)
+                    new Claim(ClaimKey.Login, validUser.Login),
+                    new Claim(ClaimKey.Name, validUser.Name),
+                    new Claim(ClaimKey.Id, validUser.Id.ToString()),
+                    new Claim(ClaimKey.Surname, validUser.Surname),
+                    new Claim(ClaimKey.Status, "REGISTERED")
                 };
 
-                // Добавляем роли пользователя в ClaimIdentity
-                foreach (var userRole in validUser.Roles)
-                {
-                    claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole.Role.Name));
-                }
-                // Добавление дополнительных клеймов
-                claims.Add(new Claim("Status", "REGISTERED"));
 
                 // Создаем объект ClaimsIdentity
-                var claimId = new ClaimsIdentity(claims, "EduremCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                var claimId = new ClaimsIdentity(claims, "EduremCookie");
 
                 // Установка аутентификационных куки
                 await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimId));
@@ -160,7 +157,7 @@ namespace Edurem.Services
 
             var UserRepository = RepositoryFactory.GetRepository<User>();
 
-            return UserRepository.Get(user => user.Login == context.User.Identity.Name).Result;
+            return UserRepository.Get(user => user.Login == context.User.FindFirst(ClaimKey.Login).Value).Result;
         }
 
         public async Task UpdateUser(User user)
@@ -178,9 +175,14 @@ namespace Edurem.Services
 
         public async Task<NotificationOptions> GetUserNotificationOptions(User user)
         {
+            return await GetUserNotificationOptions(user.Id);
+        }
+
+        public async Task<NotificationOptions> GetUserNotificationOptions(int userId)
+        {
             var UserRepository = RepositoryFactory.GetRepository<User>();
 
-            return (await UserRepository.Get(u => u.Id == user.Id, nameof(User.Options))).Options;
+            return (await UserRepository.Get(u => u.Id == userId, nameof(User.Options))).Options;
         }
 
         public async Task SendUserEmailConfirmation(User user, params SendCompletedHandler[] onSendCompleted)
@@ -196,7 +198,7 @@ namespace Edurem.Services
             }
 
             // Получить текст файла
-            var emailMessageText = FileService.GetFileText(Configuration.GetFilePath("ConfirmEmail.html"));
+            var emailMessageText = FileService.GetFileText(Configuration.GetFilePath("ConfirmEmailPattern"));
 
             // Вставка пароля
             emailMessageText = emailMessageText.Replace("@password", emailCode);

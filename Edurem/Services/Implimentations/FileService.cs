@@ -46,6 +46,10 @@ namespace Edurem.Services
                 // Сохраняем данные в БД
                 await FileRepository.Add(fileModel);
             }
+            else
+            {
+                fileModel = await FileRepository.Get(file => file.Name == fileModel.Name && file.Path == fileModel.Path);
+            }
 
             using (var fileStream = File.Exists(fullFilePath) ? File.OpenWrite(fullFilePath) : File.Create(fullFilePath))
             {

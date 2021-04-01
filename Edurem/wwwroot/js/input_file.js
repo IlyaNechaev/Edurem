@@ -1,6 +1,8 @@
 // Очистить InputFile элемент
 window.clearInputFile = function () {
-    let inputElement = document.querySelector("[type='file']");
-    console.log(inputElement)
-    inputElement.value = "";
+    let inputElements = document.querySelectorAll("[type='file']");
+
+    for (let i = 0; i < inputElements.length; i++) {
+        inputElements[i].value = "";
+    }
 }

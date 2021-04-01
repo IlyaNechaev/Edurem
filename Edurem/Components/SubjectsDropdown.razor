@@ -1,4 +1,5 @@
 ﻿@using Edurem.Models;
+@using Edurem.ViewModels;
 @inject Edurem.Services.IGroupService GroupService;
 @inject IJSRuntime JSRuntime;
 
@@ -47,8 +48,9 @@
 
 @code {
 
+    // Id авторизованного пользователя
     [Parameter]
-    public User CurrentUser { get; set; }
+    public int UserId { get; set; }
 
     [Parameter]
     public int SubjectId { get; set; }
@@ -68,9 +70,9 @@
     {
         AvailableSubjects = new();
         AvailableSubjects.Add(new Subject() { Name = "-", Id = 0 });
-
+        
         // Добавляем все имеющиеся дисциплины
-        (await GroupService.GetUserSubjects(CurrentUser))
+        (await GroupService.GetUserSubjects(UserId))
             .ForEach(AvailableSubjects.Add);
     }
 
@@ -79,7 +81,7 @@
         Task.WaitAll(
             Task.Run(async () =>
             {
-                await GroupService.AddSubject(SubjectName, CurrentUser);
+                await GroupService.AddSubject(SubjectName, UserId);
                 await FillAvailableSubjects();
             })
         );

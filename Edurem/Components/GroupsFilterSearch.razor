@@ -111,7 +111,7 @@
 @code {
 
     [Parameter]
-    public User CurrentUser { get; set; }
+    public CurrentUserViewModel CurrentUser { get; set; }
 
     GroupsListViewModel GroupsList { get; set; }
 
@@ -163,7 +163,7 @@
 
     async Task GetGroupViews()
     {
-        var groups = await GroupService.GetUserGroups(CurrentUser);
+        var groups = await GroupService.GetUserGroups(CurrentUser.Id);
 
         GroupsList = new(groups);
     }

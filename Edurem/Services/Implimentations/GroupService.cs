@@ -20,11 +20,16 @@ namespace Edurem.Services
 
         public async Task<List<(Group, RoleInGroup)>> GetUserGroups(User user)
         {
+            return await GetUserGroups(user.Id);
+        }
+
+        public async Task<List<(Group, RoleInGroup)>> GetUserGroups(int userId)
+        {
             var GroupRepository = RepositoryFactory.GetRepository<Group>();
             // Находим группы, в которых состоит пользователь
-            var groups = await GroupRepository.Find(group => group.Members.Any(gm => gm.UserId == user.Id), nameof(Group.Subject), nameof(Group.Members));
+            var groups = await GroupRepository.Find(group => group.Members.Any(gm => gm.UserId == userId), nameof(Group.Subject), nameof(Group.Members));
 
-            return groups.Select(group => (group, group.Members.First(gm => gm.UserId == user.Id).RoleInGroup)).ToList();
+            return groups.Select(group => (group, group.Members.First(gm => gm.UserId == userId).RoleInGroup)).ToList();
         }
 
         public async Task CreateGroup(Group group, User creator)
@@ -39,18 +44,27 @@ namespace Edurem.Services
 
         public async Task AddSubject(string subjectName, User user)
         {
+            await AddSubject(subjectName, user.Id);
+        }
+        public async Task AddSubject(string subjectName, int userId)
+        {
             var SubjectRepository = RepositoryFactory.GetRepository<Subject>();
 
-            var subject = new Subject() { AuthorId = user.Id, Name = subjectName };
+            var subject = new Subject() { AuthorId = userId, Name = subjectName };
 
             await SubjectRepository.Add(subject);
         }
 
         public async Task<List<Subject>> GetUserSubjects(User user)
         {
+            return await GetUserSubjects(user.Id);
+        }
+
+        public async Task<List<Subject>> GetUserSubjects(int userId)
+        {
             var SubjectRepository = RepositoryFactory.GetRepository<Subject>();
 
-            return (await SubjectRepository.Find(subject => subject.AuthorId == user.Id)).ToList();
+            return (await SubjectRepository.Find(subject => subject.AuthorId == userId)).ToList();
         }
 
         public async Task<Group> GetGroup(int groupId)
@@ -59,7 +73,7 @@ namespace Edurem.Services
 
             return await GroupRepository.Get(group => group.Id == groupId, nameof(Group.Subject), nameof(Group.Members));
         }
-        
+
         public async Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1)
         {
             var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
@@ -85,16 +99,26 @@ namespace Edurem.Services
             var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
             var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
 
-            // Добавляем новую публикацию в БД
-            await PostModelRepository.Add(post);
-            
-            // Создать связующие записи post_files
-            var postFiles = files.Select(file => new PostFile { FileId = file.Id, PostId = post.Id });
-
-            // Добавляем связующие записи в БД
-            foreach (var postFile in postFiles)
+            try
             {
-                await PostFileRepository.Add(postFile);
+                // Добавляем новую публикацию в БД
+                await PostModelRepository.Add(post);
+
+                if (files is not null)
+                {
+                    // Создать связующие записи post_files
+                    var postFiles = files.Select(file => new PostFile { FileId = file.Id, PostId = post.Id });
+
+                    // Добавляем связующие записи в БД
+                    foreach (var postFile in postFiles)
+                    {
+                        await PostFileRepository.Add(postFile);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
             await GroupPostRepository.Add(new GroupPost { GroupId = groupId, PostId = post.Id });

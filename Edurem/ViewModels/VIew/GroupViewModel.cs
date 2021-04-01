@@ -21,6 +21,7 @@ namespace Edurem.ViewModels
 
         public Dictionary<string, string> GroupInfo { get; set; }
 
+        public int PostsCount { get; set; }
 
         public GroupViewModel(Group group, RoleInGroup role, Subject subject)
         {
@@ -28,8 +29,8 @@ namespace Edurem.ViewModels
 
             Id = group.Id;
             Name = group.Name;
-            MembersCount = group.Members.Count();
             Subject = subject;
+            MembersCount = group.Members.Count();
 
             GroupInfo = new();
             GroupInfo.Add("Дисциплина", Subject.Name);

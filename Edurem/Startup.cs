@@ -73,6 +73,7 @@ namespace Edurem
             services.AddTransient<IDbService, MySqlService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
+            services.AddTransient<IPostService, PostService>();
             services.AddTransient<IEmailService, MimeEmailService>();
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IMarkdownService, Services.Markdig>();
@@ -89,7 +90,7 @@ namespace Edurem
 
             services.AddAuthorization(options =>
                     {
-                        options.AddPolicy("AccessDenied", policy => policy.RequireClaim("Status", "REGISTERED")
+                        options.AddPolicy("AccessDenied", policy => policy.RequireClaim(ClaimKey.Status, "REGISTERED")
                                                                           .AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme)
                                                                           .Build());
 
@@ -97,6 +98,11 @@ namespace Edurem
                                                                                .AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme)
                                                                                .Build());
                     });
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(15);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,6 +122,8 @@ namespace Edurem
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
             app.UseAuthentication();

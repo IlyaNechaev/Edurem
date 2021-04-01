@@ -1,5 +1,6 @@
 ﻿using Edurem.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,40 @@ namespace Edurem.Data
 
         public Repository(DbContext context) => Context = context;
 
-        public async Task Add(TEntity entity)
+        public async Task Add(TEntity entity, bool forceSave = true)
         {
             try
             {
                 Context.Set<TEntity>().Add(entity);
+                if (forceSave)
+                {
+                    await Context.SaveChangesAsync();
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.InnerException.Message);
                 throw;
             }
 
-            await Context.SaveChangesAsync();
+        }
+
+        public async Task AddRange(List<TEntity> entity, bool forceSave = true)
+        {
+            try
+            {
+                await Context.Set<TEntity>().AddRangeAsync(entity);
+                if (forceSave)
+                {
+                    await Context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException.Message);
+                throw;
+            }
+
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
@@ -143,32 +166,36 @@ namespace Edurem.Data
             return entities;
         }
 
-        public async Task Update(TEntity entity)
+        public async Task Update(TEntity entity, bool forceSave = true)
         {
             try
             {
                 Context.Set<TEntity>().Update(entity);
+                if (forceSave)
+                {
+                    await Context.SaveChangesAsync();
+                }
             }
             catch (Exception)
             {
                 throw;
             }
-
-            await Context.SaveChangesAsync();
         }
 
-        public async Task Delete(TEntity entity)
+        public async Task Delete(TEntity entity, bool forceSave = true)
         {
             try
             {
                 Context.Set<TEntity>().Remove(entity);
+                if (forceSave)
+                {
+                    await Context.SaveChangesAsync();
+                }
             }
             catch (Exception)
             {
                 throw;
             }
-
-            await Context.SaveChangesAsync();
         }
     }
 }
