@@ -2,7 +2,6 @@
 using Edurem.Models;
 using Edurem.Services;
 using Edurem.ViewModels;
-using Edurem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,6 @@ namespace Edurem.Controllers
     [Route("post")]
     public class PostController : Controller
     {
-        CurrentUserViewModel currentUser { get; set; }
         IRepositoryFactory RepositoryFactory { get; init; }
         IUserService UserService { get; init; }
 
@@ -25,34 +23,31 @@ namespace Edurem.Controllers
             UserService = userService;
         }
 
-        [Route("{id}")]
+        [Route("{postId}")]
         [HttpGet]
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index(int postId)
         {
-            GetCurrentUser();
-
             var postRepository = RepositoryFactory.GetRepository<PostModel>();
             var fileRepository = RepositoryFactory.GetRepository<FileModel>();
 
-            var postModel = await postRepository.Get(postModel => postModel.Id == id, nameof(PostModel.AttachedFiles));
+            var postModel = await postRepository.Get(postModel => postModel.Id == postId, nameof(PostModel.AttachedFiles));
             var postFiles = (await fileRepository.Find(file => postModel.AttachedFiles.Select(af => af.FileId).Contains(file.Id))).ToList();
 
             PostViewModel postViewModel = new();
             postViewModel.FromPostModel(postModel, postFiles);
 
-            var viewModel = new AccountViewModel<PostViewModel> { CurrentUser = currentUser, ViewModel = postViewModel };
-
-            return View(viewModel);
+            return View(postViewModel);
         }
 
-        private void GetCurrentUser()
+        [Route("{postId}/test")]
+        [HttpGet]
+        public async Task<IActionResult> Test(int postId, int userId)
         {
-            currentUser = currentUser ?? new CurrentUserViewModel
-            {
-                Id = int.Parse(User.FindFirst(ClaimKey.Id).Value),
-                Name = User.FindFirst(ClaimKey.Name).Value,
-                Surname = User.FindFirst(ClaimKey.Surname).Value
-            };
+            var PostModelRepository = RepositoryFactory.GetRepository<PostModel>();
+
+            var post = await PostModelRepository.Get(post => post.Id == postId);
+
+            return View(post);
         }
     }
 }

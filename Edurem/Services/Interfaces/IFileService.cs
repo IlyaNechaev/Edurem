@@ -25,6 +25,7 @@ namespace Edurem.Services
         // Удалить файл из файловой системы и БД
         public Task RemoveFile(int fileId, bool forceRemove = false);
 
+        // Имеются ли ссылки на файл в БД
         public Task<bool> HasReferences(int fileId);
 
         public string GetFileText(FileModel file);

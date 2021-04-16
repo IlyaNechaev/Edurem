@@ -1,0 +1,356 @@
+﻿@using System.IO;
+@using System.Text;
+@inject Edurem.Services.ICodeTestingService TestService;
+@inject Edurem.Services.IFileService FileService;
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment AppEnvironment;
+@inject IJSRuntime JsRuntime;
+@inject Edurem.Services.IMarkdownService MarkdownService;
+
+<div class="row">
+    <div class="col-12">
+        <div class="row justify-content-center mt-5">
+            <div class="col-4 card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8 text-left">
+                            <p style="font-size: 20px" class="mb-0"><b>Ответы</b></p>
+                        </div>
+                        <div class="col-4 justify-content-end text-right">
+                            <a href="#" @onclick:preventDefault @onclick="e => CreateNewFile()">
+                                <i class="far fa-file" style="font-size: 21px; color: green"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center mt-4">
+                        <ul class="col-12">
+                            @foreach (var file in Files.FilesToUpload)
+                            {
+                                <li class="row justify-content-center">
+                                    <div class="col-4">
+                                        <p style="font-size: 18px">@file.Name</p>
+                                    </div>
+                                    <div class="col-1">
+                                        <i style="font-size: 18px; color: #007bff" class="far fa-check-circle"></i>
+                                    </div>
+                                    <div class="col-1">
+                                        <a href="" @onclick:preventDefault="true"
+                                           @onclick="async e =>
+                                         {
+                                             await OpenFile(file);
+                                         }">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-1">
+                                        <a href="" @onclick:preventDefault="true"
+                                           @onclick="e =>
+                                         {
+                                             DeleteFile(file);
+                                         }">
+                                            <b class="text-danger">X</b>
+                                        </a>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="row justify-content-center">
+                        <ul class="col-12">
+                            @foreach (var file in Files.FilesToPrepare)
+                            {
+                                <li class="row justify-content-center">
+                                    <div class="col-4">
+                                        @file.File.Name
+                                    </div>
+                                    <div class="col-3">
+                                        <MatThemeProvider Theme="theme">
+                                            <MatProgressCircle Indeterminate="true" Size="MatProgressCircleSize.Medium" />
+                                        </MatThemeProvider>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-10">
+                            <MatFileUpload Style="16px" Label="Добавить файл" Class="border h-25" OnChange="files => FilesReady(files)" AllowMultiple="true">
+                            </MatFileUpload>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8 rounded border align-content-center">
+                <div class="row" hidden="@(!fileToEdit?.IsOpened ?? true)">
+                    <div class="col-12">
+                        <div class="row">
+                            <input class="form-control" type="text" @bind-value="fileToEdit.Name" />
+                        </div>
+                        <div class="row mt-1 border-bottom">
+                            <div class="col-1">
+                                <a href="#" @onclick:preventDefault @onclick="e => SaveFile()">
+                                    <i class="far fa-save" style="font-size: 21px"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12 h-100">
+                                <CodeMirror Language="CodeLanguage.Language" @ref="CodeEditor"></CodeMirror>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-start m-2">
+            <button class="btn btn-primary" style="font-size: 18px" disabled="@IsTestingProceduring"
+                    @onclick="async e =>
+                              {
+                                  if (IsFormValid())
+                                  {
+                                      IsTestingProceduring = true;
+                                      await Test();
+                                      IsTestingProceduring = false;
+                                  }
+                              }">
+                Начать тестирование
+            </button>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-6 m-3">
+                @((MarkupString)MarkdownService.ToHtml(TestInfo.ResultText))
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int PostId { get; set; }
+
+    [Parameter]
+    public int UserId { get; set; }
+
+    [Parameter]
+    public CodeLanguage CodeLanguage { get; set; }
+
+    class FileToEdit
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Text { get; set; }
+        public bool IsOpened { get; set; }
+    }
+
+    TestInfo TestInfo { get; set; }
+
+    MatFileUpload InputFile { get; set; }
+
+    CodeMirror CodeEditor { get; set; }
+
+    FileToEdit fileToEdit { get; set; }
+
+    bool IsTestingProceduring { get; set; }
+
+    class FileToUpload
+    {
+        public int Id { get; set; }
+
+        public string Type { get; set; }
+
+        public string Name { get; set; }
+
+        public long Size { get; set; }
+
+        public Stream Stream { get; set; }
+    }
+
+    MatTheme theme = new MatTheme
+    {
+        Primary = "#007bff", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    (List<FileToUpload> FilesToUpload, List<(FileToUpload File, IMatFileUploadEntry FileEntry)> FilesToPrepare) Files { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Files = (new List<FileToUpload>(), new List<(FileToUpload, IMatFileUploadEntry)>());
+
+        fileToEdit = new();
+        fileToEdit.IsOpened = false;
+
+        TestInfo = TestService.GetTestInfo(UserId, PostId).GetAwaiter().GetResult();
+
+        IsTestingProceduring = false;
+    }
+
+    // Добавлены новые файлы
+    async Task FilesReady(IMatFileUploadEntry[] files)
+    {
+        var filesToUpload = Files.FilesToUpload;
+        var filesToPrepare = Files.FilesToPrepare;
+
+        // Добавление файлов
+        foreach (var file in files)
+        {
+            if (filesToUpload.FirstOrDefault(item => item.Name == file.Name) is not null ||
+                filesToPrepare.FirstOrDefault(item => item.File.Name == file.Name) is not (null, null)) continue;
+
+            var fileToUpload = new FileToUpload()
+            {
+                Id = ((MatFileUploadEntry)file).Id + 1,
+                Type = file.Type,
+                Name = file.Name,
+                Size = file.Size,
+                Stream = new MemoryStream()
+            };
+
+            filesToPrepare.Add((fileToUpload, file));
+        }
+
+        StateHasChanged();
+
+        // Загрузка файлов в MemoryStream
+        foreach (var file in filesToPrepare)
+        {
+            await file.FileEntry.WriteToStreamAsync(file.File.Stream);
+            filesToUpload.Add(file.File);
+
+            StateHasChanged();
+        }
+        // Удаление
+        filesToPrepare.RemoveAll(file => file.File.Id >= 0);
+        StateHasChanged();
+
+        // Очистка полей ввода для файлов
+        await JsRuntime.InvokeVoidAsync("clearInputFile");
+    }
+
+    void DeleteFile(FileToUpload fileToDelete)
+    {
+        var filesToUpload = Files.FilesToUpload;
+
+        filesToUpload.Remove(filesToUpload.First(file => file.Equals(fileToDelete)));
+    }
+
+    async Task OpenFile(FileToUpload fileToOpen)
+    {
+        await CodeEditor.GetEditor();
+
+        fileToOpen.Stream.Position = 0;
+        var sr = new StreamReader((MemoryStream)fileToOpen.Stream);
+
+        var fileCode = new StringBuilder();
+        var line = string.Empty;
+
+        while ((line = sr.ReadLine()) != null)
+        {
+            fileCode.AppendLine(line);
+        }
+
+        fileToEdit.Text = fileCode.ToString();
+        fileToEdit.Name = fileToOpen.Name;
+        fileToEdit.Id = fileToOpen.Id;
+        fileToEdit.IsOpened = true;
+
+        await CodeEditor.SetCode(fileToEdit.Text);
+    }
+
+    async Task SaveFile()
+    {
+        fileToEdit.Text = await CodeEditor.GetCode();
+
+        using (var memoryStream = new MemoryStream(fileToEdit.Text.Length))
+        using (var streamWriter = new StreamWriter(memoryStream))
+        {
+            foreach (var line in fileToEdit.Text.Split("\n"))
+            {
+                await streamWriter.WriteLineAsync(line);
+            }
+            await streamWriter.FlushAsync();
+
+            var file = Files.FilesToUpload.FirstOrDefault(file => file.Name == fileToEdit.Name) ?? new FileToUpload()
+            {
+                Id = Files.FilesToUpload.Max(file => file.Id) + 1,
+                Type = "",
+                Name = fileToEdit.Name
+            };
+
+            file.Stream = new MemoryStream(fileToEdit.Text.Length);
+
+            memoryStream.Position = 0;
+            await memoryStream.CopyToAsync(file.Stream);
+
+            file.Size = file.Stream.Length;
+
+            if (!Files.FilesToUpload.Any(f => (f.Id, f.Name) == (file.Id, file.Name)))
+            {
+                Files.FilesToUpload.Add(file);
+            }
+            else
+            {
+                var index = Files.FilesToUpload.IndexOf(Files.FilesToUpload.First(f => f.Id == file.Id));
+                Files.FilesToUpload[index] = file;
+            }
+        }
+    }
+
+    async Task CreateNewFile()
+    {
+        fileToEdit.Name = "Новый файл";
+        fileToEdit.Text = string.Empty;
+        fileToEdit.IsOpened = true;
+
+        await CodeEditor.GetEditor();
+        await CodeEditor.SetCode(fileToEdit.Text);
+    }
+
+    async Task Test()
+    {
+        var fileModels = new List<FileModel>();
+
+        // Загрузка файлов с кодом студентов на сервер
+        foreach (var file in Files.FilesToUpload)
+        {
+            var filePath = Path.Combine("file_system\\tests", $"post_{PostId}", $"user_{UserId}");
+            fileModels.Add(await FileService.UploadFile(file.Stream, filePath, file.Name));
+        }
+
+        // Тестирование
+        var testFilePaths = Directory.GetFiles(Path.Combine(AppEnvironment.WebRootPath, "file_system\\tests", $"post_{PostId}")).ToList();
+        var dockerfilePath = Path.Combine(AppEnvironment.WebRootPath, "file_system\\tests", $"post_{PostId}", $"user_{UserId}");
+        var contextPath = Path.Combine(AppEnvironment.WebRootPath, "file_system\\tests", $"post_{PostId}");
+
+        var testInfo = await TestService.CreateTest(UserId, PostId, fileModels.Select(file => file.Id).ToList());
+        testInfo = await TestService.TestCode(dockerfilePath, contextPath, testInfo);
+
+        // Обработка результатов
+        TestInfo = testInfo;
+    }
+
+    bool IsFormValid()
+    {
+        // Соответствует ли язык тестируемых файлов заявленному в тестовых сценариях
+        var isFilesLanguageCorrect = !Files.FilesToUpload
+            .Select(file => GetLanguage(file.Name.Split(".").Last()))
+            .Any(fileLanguage => !fileLanguage.Equals(CodeLanguage.Language));
+
+        return isFilesLanguageCorrect;
+    }
+
+    Language GetLanguage(string fileExtension) => fileExtension switch
+    {
+        "cs" => Models.Language.CSHARP,
+        "py" or "pyw" or "pyd" => Models.Language.PYTHON,
+        _ => Models.Language.DEFAULT
+    };
+
+    string FileSizeToText(float size)
+    {
+        size = size / 1000;
+        return $"{size.ToString("0.00")} Кб";
+    }
+}

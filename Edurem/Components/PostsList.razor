@@ -21,7 +21,7 @@ else
                                     <a href="@($"post/{post.Post.Id}")">@($"{post.Post.Title} ") </a> 
                                     @if (post.Post.HasTests)
                                     {
-                                        <a href=""><i class="fas fa-brain" style="color:green"></i></a>
+                                        <a href="@($"post/{post.Post.Id}/test?userId={UserId}")"><i class="fas fa-brain" style="color:green"></i></a>
                                     }
                                 </h4>
                             </div>
@@ -66,6 +66,9 @@ else
 {
     [Parameter]
     public int GroupId { get; set; }
+
+    [Parameter]
+    public int UserId { get; set; }
 
     public List<(PostModel Post, List<FileModel> Files)> Posts { get; set; }
 

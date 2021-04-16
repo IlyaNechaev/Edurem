@@ -57,11 +57,11 @@
             },
             "ColorCode.Core": {
               "target": "Package",
-              "version": "[2.0.6, )"
+              "version": "[2.0.8, )"
             },
             "ColorCode.HTML": {
               "target": "Package",
-              "version": "[2.0.6, )"
+              "version": "[2.0.8, )"
             },
             "CommonMark.NET": {
               "target": "Package",
@@ -85,11 +85,11 @@
             },
             "MailKit": {
               "target": "Package",
-              "version": "[2.10.1, )"
+              "version": "[2.11.1, )"
             },
             "Markdig": {
               "target": "Package",
-              "version": "[0.23.0, )"
+              "version": "[0.24.0, )"
             },
             "MarkdigExtensions.SyntaxHighlighting": {
               "target": "Package",
@@ -101,7 +101,7 @@
             },
             "Microsoft.Azure.SignalR": {
               "target": "Package",
-              "version": "[1.7.1, )"
+              "version": "[1.8.0, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
@@ -113,7 +113,7 @@
             },
             "StardustDL.RazorComponents.Markdown": {
               "target": "Package",
-              "version": "[0.0.2.24, )"
+              "version": "[0.0.3.25, )"
             },
             "WebStoating.Markdig.Prism": {
               "target": "Package",

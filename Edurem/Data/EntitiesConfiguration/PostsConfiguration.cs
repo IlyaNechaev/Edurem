@@ -20,6 +20,8 @@ namespace Edurem.Data
             builder.ApplyConfiguration(new PostsConfiguration());
             builder.ApplyConfiguration(new PostFilesConfiguration());
             builder.ApplyConfiguration(new DiscussionsConfiguration());
+            builder.ApplyConfiguration(new TestsConfiguration());
+            builder.ApplyConfiguration(new TestFilesConfiguration());
         }
     }
 
@@ -65,6 +67,34 @@ namespace Edurem.Data
             builder
                 .HasMany(discussion => discussion.Messages)
                 .WithOne(message => message.TargetedDiscussion);
+        }
+    }
+
+    public class TestsConfiguration : IEntityTypeConfiguration<TestInfo>
+    {
+        public void Configure(EntityTypeBuilder<TestInfo> builder)
+        {
+            // Первичный ключ
+            builder
+                .HasKey(test => test.Id);
+
+            builder
+                .HasMany(test => test.TestFiles)
+                .WithOne(tf => tf.Test);
+        }
+    }
+
+    public class TestFilesConfiguration : IEntityTypeConfiguration<TestFile>
+    {
+        public void Configure(EntityTypeBuilder<TestFile> builder)
+        {
+            // Первичный ключ
+            builder
+                .HasKey(tf => new { tf.TestId, tf.FileId });
+
+            builder
+                .HasOne(tf => tf.Test)
+                .WithMany(test => test.TestFiles);
         }
     }
 }

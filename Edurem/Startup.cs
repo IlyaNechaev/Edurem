@@ -76,6 +76,8 @@ namespace Edurem
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IEmailService, MimeEmailService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<ICodeTestingService, TestingService>();
+            services.AddTransient<IDockerService, ConsoleDockerService>();
             services.AddTransient<IMarkdownService, Services.Markdig>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 

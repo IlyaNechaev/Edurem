@@ -197,5 +197,21 @@ namespace Edurem.Data
                 throw;
             }
         }
+
+        public async Task DeleteRange(IEnumerable<TEntity> entities, bool forceSave = true)
+        {
+            try
+            {
+                Context.Set<TEntity>().RemoveRange(entities);
+                if (forceSave)
+                {
+                    await Context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

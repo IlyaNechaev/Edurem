@@ -17,17 +17,17 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Content Include="$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.2.24\contentFiles\any\net5.0\package-lock.json" Condition="Exists('$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.2.24\contentFiles\any\net5.0\package-lock.json')">
+    <Content Include="$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.3.25\contentFiles\any\net5.0\package-lock.json" Condition="Exists('$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.3.25\contentFiles\any\net5.0\package-lock.json')">
       <NuGetPackageId>StardustDL.RazorComponents.Markdown</NuGetPackageId>
-      <NuGetPackageVersion>0.0.2.24</NuGetPackageVersion>
+      <NuGetPackageVersion>0.0.3.25</NuGetPackageVersion>
       <NuGetItemType>Content</NuGetItemType>
       <Pack>false</Pack>
       <Private>False</Private>
       <Link>package-lock.json</Link>
     </Content>
-    <Content Include="$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.2.24\contentFiles\any\net5.0\package.json" Condition="Exists('$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.2.24\contentFiles\any\net5.0\package.json')">
+    <Content Include="$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.3.25\contentFiles\any\net5.0\package.json" Condition="Exists('$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.3.25\contentFiles\any\net5.0\package.json')">
       <NuGetPackageId>StardustDL.RazorComponents.Markdown</NuGetPackageId>
-      <NuGetPackageVersion>0.0.2.24</NuGetPackageVersion>
+      <NuGetPackageVersion>0.0.3.25</NuGetPackageVersion>
       <NuGetItemType>Content</NuGetItemType>
       <Pack>false</Pack>
       <Private>False</Private>
@@ -45,7 +45,8 @@
     </Content>
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.2.24\buildTransitive\StardustDL.RazorComponents.Markdown.props" Condition="Exists('$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.2.24\buildTransitive\StardustDL.RazorComponents.Markdown.props')" />
+    <Import Project="$(NuGetPackageRoot)modulight.modules.client.razorcomponents\0.0.4\buildTransitive\Modulight.Modules.Client.RazorComponents.props" Condition="Exists('$(NuGetPackageRoot)modulight.modules.client.razorcomponents\0.0.4\buildTransitive\Modulight.Modules.Client.RazorComponents.props')" />
+    <Import Project="$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.3.25\buildTransitive\StardustDL.RazorComponents.Markdown.props" Condition="Exists('$(NuGetPackageRoot)stardustdl.razorcomponents.markdown\0.0.3.25\buildTransitive\StardustDL.RazorComponents.Markdown.props')" />
     <Import Project="$(NuGetPackageRoot)matblazor\2.8.0\buildTransitive\MatBlazor.props" Condition="Exists('$(NuGetPackageRoot)matblazor\2.8.0\buildTransitive\MatBlazor.props')" />
     <Import Project="$(NuGetPackageRoot)blazored.texteditor\1.0.3\buildTransitive\Blazored.TextEditor.props" Condition="Exists('$(NuGetPackageRoot)blazored.texteditor\1.0.3\buildTransitive\Blazored.TextEditor.props')" />
     <Import Project="$(NuGetPackageRoot)blazoranimate\3.0.0\buildTransitive\BlazorAnimate.props" Condition="Exists('$(NuGetPackageRoot)blazoranimate\3.0.0\buildTransitive\BlazorAnimate.props')" />

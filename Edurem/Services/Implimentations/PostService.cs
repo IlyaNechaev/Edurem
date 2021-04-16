@@ -43,5 +43,21 @@ namespace Edurem.Services
 
             await PostModelRepository.Update(post);
         }
+
+        public async Task AddTestsToPost(int postId, List<FileModel> testFiles, Language language)
+        {
+            var PostModelRepository = RepositoryFactory.GetRepository<PostModel>();
+
+            // Путь к папке с тестами
+            var testFolderPath = testFiles.First().Path;
+            // Получить публикацию по id
+            var post = await PostModelRepository.Get(post => post.Id == postId);
+            // Добавить публикации путь к тестам
+            post.TestFolderPath = testFolderPath;
+
+            post.Language = language;
+
+            await PostModelRepository.Update(post);
+        }
     }
 }

@@ -138,20 +138,20 @@
             <div class="row mt-3 mb-2 justify-content-center">
                 <div class="col-8 col-xl-6">
                     <MatThemeProvider Theme="theme">
-                        <MatFileUpload Style="18px" Label="Выберите файлы или перетащите их сюда" Class="border" OnChange="files => FilesReadyForUpload(files, postFilesToUpload, postFilesToPrepare)" AllowMultiple="true">
+                        <MatFileUpload Style="18px" Label="Выберите файлы или перетащите их сюда" Class="border" OnChange="files => FilesReadyForUpload(files, UploadFileType.POST)" AllowMultiple="true">
                         </MatFileUpload>
                     </MatThemeProvider>
                 </div>
             </div>
             <div class="row mb-3">
-                @foreach (var file in postFilesToUpload)
+                @foreach (var file in Files[UploadFileType.POST].FilesToUpload)
                 {
                     <div class="col-2">
                         <div class="card">
                             <div class="card-body" style="padding-top: 5px">
                                 <div class="row justify-content-end">
                                     <p style="font-size: 13px" class="mb-0">
-                                        <a href="" @onclick="e => DeleteFile(file, postFilesToUpload)" @onclick:preventDefault="true">X</a>
+                                        <a href="" @onclick="e => DeleteFile(file, UploadFileType.POST)" @onclick:preventDefault="true">X</a>
                                     </p>
                                 </div>
                                 <div class="row justify-content-center">
@@ -173,7 +173,7 @@
                         </div>
                     </div>
                 }
-                @foreach (var file in postFilesToPrepare)
+                @foreach (var file in Files[UploadFileType.POST].FilesToPrepare)
                 {
                     @if (file.IsUploaded) continue;
                     <div class="col-2">
@@ -242,7 +242,7 @@
                 </div>
                 <div class="col-6">
                     <p style="font-size: 18px" class="bold @(TestLanguage.IsLanguageDetected ? "" : "text-danger")">
-                        @TestLanguage.Language.LanguageTitle
+                        @TestLanguage.CodeLanguage.LanguageTitle
                     </p>
                 </div>
             </div>
@@ -250,7 +250,7 @@
         <MatDialogContent>
             <div class="row">
                 <ul class="col-12">
-                    @foreach (var testFile in testsToUpload)
+                    @foreach (var testFile in Files[UploadFileType.TEST].FilesToUpload)
                     {
                         <li class="row">
                             <div class="col-6">
@@ -263,15 +263,15 @@
                                 <a href="" @onclick:preventDefault="true"
                                    @onclick="e =>
                                          {
-                                             DeleteFile(testFile, testsToUpload);
-                                             TestLanguage.SetLanguage(testsToUpload.Select(test => test.File.Name.Split('.').Last()).ToArray());
+                                             DeleteFile(testFile, UploadFileType.TEST);
+                                             TestLanguage.SetLanguage(Files[UploadFileType.TEST].FilesToUpload.Select(test => test.File.Name.Split('.').Last()).ToArray());
                                          }">
                                     <b class="text-danger">X</b>
                                 </a>
                             </div>
                         </li>
                     }
-                    @foreach (var testFile in testsToPrepare)
+                    @foreach (var testFile in Files[UploadFileType.TEST].FilesToPrepare)
                     {
                         <li class="row">
                             <div class="col-6">
@@ -290,8 +290,8 @@
                                    AllowMultiple="true"
                                    OnChange="async files =>
                                          {
-                                             await FilesReadyForUpload(files, testsToUpload, testsToPrepare);
-                                             TestLanguage.SetLanguage(testsToUpload.Select(test => test.File.Name.Split('.').Last()).ToArray());
+                                             await FilesReadyForUpload(files, UploadFileType.TEST);
+                                             TestLanguage.SetLanguage(Files[UploadFileType.TEST].FilesToUpload.Select(test => test.File.Name.Split('.').Last()).ToArray());
                                          }">
                     </MatFileUpload>
                 </MatThemeProvider>
@@ -332,6 +332,8 @@
 
     enum MdPosition { COVERED, ROW, COL };
 
+    enum UploadFileType { POST, TEST };
+
     class FileToUpload
     {
         public IMatFileUploadEntry File { get; set; }
@@ -345,10 +347,10 @@
     {
         static TestLanguage()
         {
-            Language = new CodeLanguage() { LanguageTitle = string.Empty };
+            CodeLanguage = new CodeLanguage() { LanguageTitle = string.Empty };
         }
 
-        public static CodeLanguage Language { get; set; }
+        public static CodeLanguage CodeLanguage { get; set; }
 
         public static bool IsLanguageDetected { get; set; }
 
@@ -362,7 +364,7 @@
                 // Если расширение не принадлежит поддерживаемым языкам
                 if (languages.First().Equals(Models.Language.DEFAULT))
                 {
-                    Language = new CodeLanguage
+                    CodeLanguage = new CodeLanguage
                     {
                         Language = Models.Language.DEFAULT,
                         LanguageTitle = "Язык не определен"
@@ -372,15 +374,15 @@
                 // Если расширение принадлежит поддерживаемому языку
                 else
                 {
-                    Language = new CodeLanguage();
-                    Language.SetLanguage(languages.First());
+                    CodeLanguage = new CodeLanguage();
+                    CodeLanguage.SetLanguage(languages.First());
                     IsLanguageDetected = true;
                 }
             }
             // Если представлены файлы с разными расширениями
             else if (languages.Count() > 1)
             {
-                Language = new CodeLanguage
+                CodeLanguage = new CodeLanguage
                 {
                     Language = Models.Language.DEFAULT,
                     LanguageTitle = "Язык не определен"
@@ -390,7 +392,7 @@
             // Если файлов нет
             else
             {
-                Language = new CodeLanguage
+                CodeLanguage = new CodeLanguage
                 {
                     Language = Models.Language.DEFAULT,
                     LanguageTitle = ""
@@ -398,7 +400,7 @@
                 IsLanguageDetected = false;
             }
 
-            return Language.LanguageTitle;
+            return CodeLanguage.LanguageTitle;
         }
 
         private static Language GetLanguage(string fileExtension) => fileExtension switch
@@ -423,13 +425,7 @@
 
     string MarkdownText { get; set; }
 
-    List<FileToUpload> postFilesToUpload { get; set; }
-
-    List<FileToUpload> postFilesToPrepare { get; set; }
-
-    List<FileToUpload> testsToUpload { get; set; }
-
-    List<FileToUpload> testsToPrepare { get; set; }
+    Dictionary<UploadFileType, (List<FileToUpload> FilesToUpload, List<FileToUpload> FilesToPrepare)> Files { get; set; }
 
     bool NotifyError { get; set; }
 
@@ -449,11 +445,12 @@
         IsTestOpened = false;
         IsTitleValid = true;
 
-        postFilesToUpload = new();
-        postFilesToPrepare = new();
-
-        testsToUpload = new();
-        testsToPrepare = new();
+        Files = new();
+        foreach (var fileType in Enum.GetValues(typeof(UploadFileType)))
+        {
+            var files = (new List<FileToUpload>(), new List<FileToUpload>());
+            Files.Add((UploadFileType)fileType, files);
+        }
 
         Position = MdPosition.COL;
 
@@ -472,8 +469,11 @@
     }
 
     // Добавлены новые файлы
-    async Task FilesReadyForUpload(IMatFileUploadEntry[] files, List<FileToUpload> filesToUpload, List<FileToUpload> filesToPrepare)
+    async Task FilesReadyForUpload(IMatFileUploadEntry[] files, UploadFileType filesType)
     {
+        var filesToUpload = Files[filesType].FilesToUpload;
+        var filesToPrepare = Files[filesType].FilesToPrepare;
+
         // Добавление файлов
         foreach (var file in files)
         {
@@ -510,16 +510,18 @@
         await JsRuntime.InvokeVoidAsync("clearInputFile");
     }
 
-    void DeleteFile(FileToUpload fileToDelete, List<FileToUpload> filesToUpload)
+    void DeleteFile(FileToUpload fileToDelete, UploadFileType filesType)
     {
-        filesToUpload.Remove(filesToUpload.First(file => file.Equals(fileToDelete)));
+        var filesToUpload = Files[filesType].FilesToUpload;
+
+        filesToUpload.Remove(fileToDelete);
     }
 
     bool IsFormValid()
     {
         IsTitleValid = (PostTitle != string.Empty);
 
-        return IsTitleValid && (TestLanguage.IsLanguageDetected || testsToUpload.Count() == 0);
+        return IsTitleValid && (TestLanguage.IsLanguageDetected || Files[UploadFileType.TEST].FilesToUpload.Count() == 0);
     }
 
     async Task Confirm()
@@ -534,7 +536,8 @@
             AuthorId = CurrentUser.Id,
             PublicationDate = DateTime.Now,
             PostBody = html,
-            Title = PostTitle
+            Title = PostTitle,
+            Language = Language.DEFAULT
         };
 
         try
@@ -548,12 +551,11 @@
             ErrorNotification("Произошла непредвиденная ошибка. Попробуйте повторить операцию через несколько минут либо обратитесь в техническую поддержку");
         }
 
-
         // Модели файлов для связи с БД
         var postFileModels = new List<FileModel>();
         var testFileModels = new List<FileModel>();
 
-        foreach (var file in postFilesToUpload)
+        foreach (var file in Files[UploadFileType.POST].FilesToUpload)
         {
             var filePath = Path.Combine("file_system\\users", CurrentUser.Id.ToString());
 
@@ -571,11 +573,11 @@
         await PostService.AddFilesToPost(postModel.Id, postFileModels);
 
         // Если добавлены тесты
-        if (testsToUpload is not null && testsToUpload.Count > 0)
+        if (Files[UploadFileType.TEST].FilesToUpload is not null && Files[UploadFileType.TEST].FilesToUpload.Count > 0)
         {
-            foreach (var file in testsToUpload)
+            foreach (var file in Files[UploadFileType.TEST].FilesToUpload)
             {
-                var filePath = Path.Combine("file_system\\tests", postModel.Id.ToString());
+                var filePath = Path.Combine("file_system\\tests", $"post_{postModel.Id}");
 
                 try
                 {
@@ -588,7 +590,7 @@
                 }
             }
             // Добавление тестов к публикации
-            await PostService.AddTestsToPost(postModel.Id, testFileModels);
+            await PostService.AddTestsToPost(postModel.Id, testFileModels, TestLanguage.CodeLanguage.Language);
         }
 
 

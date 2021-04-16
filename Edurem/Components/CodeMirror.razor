@@ -1,0 +1,41 @@
+﻿@inject IJSRuntime JSRuntime;
+
+<textarea id="editor" hidden>
+    @Code
+</textarea>
+
+@code {
+
+    [Parameter]
+    public Language Language { get; set; }
+
+    string Code { get; set; }
+
+    Dictionary<Language, string> codeMirrorLanguages { get; set; }
+
+    protected override void OnInitialized()
+    {
+        codeMirrorLanguages = new()
+        {
+            { Language.PYTHON, "python" },
+            { Language.CSHARP, "text/x-csharp" },
+            { Language.JAVA, "text/x-java" }
+        };
+    }
+
+    public async Task GetEditor()
+    {
+        await JSRuntime.InvokeVoidAsync("getEditor", codeMirrorLanguages[this.Language]);
+    }
+
+    public async Task SetCode(string code)
+    {
+        Code = code;
+        await JSRuntime.InvokeVoidAsync("setCode", Code);
+    }
+
+    public async Task<string> GetCode()
+    {
+        return await JSRuntime.InvokeAsync<string>("getCode");
+    }
+}

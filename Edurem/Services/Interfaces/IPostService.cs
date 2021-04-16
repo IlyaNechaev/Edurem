@@ -11,5 +11,6 @@ namespace Edurem.Services
         public Task AddFilesToPost(int postId, List<FileModel> files);
 
         public Task AddTestsToPost(int postId, List<FileModel> testFiles);
+        public Task AddTestsToPost(int postId, List<FileModel> testFiles, Language language);
     }
 }

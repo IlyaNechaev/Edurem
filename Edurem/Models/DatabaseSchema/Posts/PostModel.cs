@@ -31,6 +31,22 @@ namespace Edurem.Models
 
         public string TestFolderPath { get; set; }
 
+        public Language Language
+        {
+            get
+            {
+                return CodeLanguage?.Language ?? Language;
+            }
+            set
+            {
+                CodeLanguage = new CodeLanguage();
+                CodeLanguage.SetLanguage(value);
+            }
+        }
+
+        [NotMapped]
+        public CodeLanguage CodeLanguage { get; private set; }
+
         [NotMapped]
         public bool HasTests => (TestFolderPath != null && TestFolderPath != string.Empty);
     }

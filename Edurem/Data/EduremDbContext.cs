@@ -33,6 +33,8 @@ namespace Edurem.Data
         public DbSet<PostFile> PostsFiles { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<TestInfo> TestsInfo { get; set; }
+        public DbSet<TestFile> TestFiles { get; set; }
 
         public EduremDbContext(DbContextOptions<EduremDbContext> builder,
                                [FromServices] ISecurityService securityService) : base(builder)

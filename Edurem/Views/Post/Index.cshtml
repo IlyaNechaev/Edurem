@@ -1,9 +1,9 @@
-﻿@model Edurem.ViewModels.AccountViewModel<Edurem.ViewModels.PostViewModel>;
+﻿@model Edurem.ViewModels.PostViewModel;
 @inject Edurem.Services.IFileService FileService;
 @using Microsoft.AspNetCore.Components; 
 
 @{
-    ViewData["Title"] = Model.ViewModel.Title;
+    ViewData["Title"] = Model.Title;
     ViewData["ApplicationName"] = "Edurem";
     Layout = "_AccountLayout";
 }
@@ -11,10 +11,10 @@
 <div class="row justify-content-center">
     <div class="col-9">
         <div class="row mt-4">
-            @Html.Raw(Model.ViewModel.Body)
+            @Html.Raw(Model.Body)
         </div>
         <div class="row mt-4">
-            @foreach (var file in Model.ViewModel.Files)
+            @foreach (var file in Model.Files)
             {
                 <div class="col-3">
                     <div class="card">

@@ -1,0 +1,26 @@
+﻿@model Edurem.Models.PostModel;
+
+@{
+    ViewData["Title"] = $"{Model.Title}. Ответ";
+    ViewData["ApplicationName"] = "Edurem";
+    Layout = "_AccountLayout";
+}
+<link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-12">
+        @(await Html.RenderComponentAsync<Edurem.Components.CodeTesting>(RenderMode.ServerPrerendered,
+        new
+        {
+            PostId = Model.Id,
+            UserId = int.Parse(Context.User.GetClaim(ClaimKey.Id)),
+            CodeLanguage = Model.CodeLanguage
+        }))
+    </div>
+</div>
+
+<script src="~/codemirror/custom/editor.js"></script>
+<script src="~/js/input_file.js"></script>
+<script src="~/codemirror/lib/codemirror.js"></script>
+<script src="~/codemirror/mode/python/python.js"></script>
+<script src="~/codemirror/mode/clike/clike.js"></script>

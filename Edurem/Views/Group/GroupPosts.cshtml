@@ -19,7 +19,7 @@
 }
 <div class="row mt-5">
     <div class="col-7">
-        @(await Html.RenderComponentAsync<Edurem.Components.PostsList>(RenderMode.ServerPrerendered, new { GroupId = Model.Id }))
+        @(await Html.RenderComponentAsync<Edurem.Components.PostsList>(RenderMode.ServerPrerendered, new { GroupId = Model.Id, UserId = int.Parse(Context.User.GetClaim(ClaimKey.Id)) }))
     </div>
     <div class="col-5">
         <div class="row rounded border" style="background-color: azure">
