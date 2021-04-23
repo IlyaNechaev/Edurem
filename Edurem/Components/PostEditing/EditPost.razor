@@ -1,0 +1,629 @@
+﻿@namespace Edurem.Components
+@inject Edurem.Services.IPostService PostService;
+@inject Edurem.Services.IFileService FileService;
+@inject Edurem.Services.IMarkdownService MarkdownService;
+@inject Edurem.Services.IGroupService GroupService;
+@inject IJSRuntime JsRuntime;
+@using Edurem.ViewModels;
+@using System.IO;
+@using Blazored.TextEditor;
+
+<div class="row">
+    <div class="col-12">
+
+        <div class="row mt-3 border-bottom">
+            <h4><i class="fas fa-users mr-2"></i>Группы</h4>
+        </div>
+        <div class="row mt-2 mb-4 justify-content-start">
+            <div class="col-5">
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <button style="font-size: 16px" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-modal-lg"
+                                @onclick="e =>
+                                          {
+                                              Groups = (Groups.Chosen, Groups.All, Groups.All.Where(group => Groups.Filtered.Any(g => g.Group.Id == group.Group.Id)).ToList());
+                                              GroupIds = new();
+                                          }">
+                            <i class="fas fa-edit" style="color: white; font-size: 16px"></i> Изменить
+                        </button>
+                    </div>
+                </div>
+                @if (!IsGroupsValid)
+                {
+                    <span class="text-danger">Выберите как минимум 1 группу</span>
+                }
+                <div class="row mb-4">
+                    <div class="col-4" style="font-weight: bold">
+                        Группа
+                    </div>
+                    <div class="col-6" style="font-weight: bold">
+                        Дисциплина
+                    </div>
+                    <div class="col-2" style="font-weight: bold">
+                        Участники
+                    </div>
+                </div>
+                @if (Groups.Chosen.Count == 0)
+                {
+                    <div class="row justify-content-center mt-4">
+                        <h3 class="text-muted text-center mt-4">Нет групп</h3>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var group in Groups.Chosen)
+                    {
+                        <div class="row">
+                            <div class="col-4">
+                                @group.Name
+                            </div>
+                            <div class="col-6">
+                                @group.Subject.Name
+                            </div>
+                            <div class="col-2">
+                                @group.MembersCount
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="row mt-5 border-bottom">
+            <h4><i class="fas fa-feather-alt"></i> Описание</h4>
+        </div>
+        <div class="row mt-2">
+            <div class="col-6">
+                <input class="form-control @(IsTitleValid ? "" : "border-danger")" @oninput="e => { PostTitle = e.Value.ToString(); IsTitleValid = true; }"
+                       style="font-size: 18px" placeholder="Название поста" value="@PostTitle" />
+                @if (!IsTitleValid)
+                {
+                    <span class="text-danger">Введите название публикации</span>
+                }
+            </div>
+        </div>
+        <!-- Выбор редактора
+        <div class="row">
+            <div class="col-6">
+                <MatThemeProvider Theme="theme">
+                    <MatTabGroup ActiveIndexChanged="TextEditorChanged">
+                        @foreach (var editor in Editors)
+                        {
+                            <MatTab Label="@editor.Name">
+                            </MatTab>
+                        }
+                    </MatTabGroup>
+                </MatThemeProvider>
+            </div>
+        </div>-->
+
+        <div class="row mt-2" style="@(CurrentEditor.Equals(TextEditors.Markdown) ? "" : "display:none")">
+            <div class="col-12">
+                <div class="row mt-2  mb-2">
+                    <div class="col-3">
+                        <select class="form-control" @onchange="e => Position = (MdPosition)Enum.Parse(typeof(MdPosition), e.Value.ToString())">
+                            <option value="@MdPosition.COL" selected>В столбец</option>
+                            <option value="@MdPosition.ROW">В строку</option>
+                        </select>
+                    </div>
+                </div>
+                @if (Position.Equals(MdPosition.COL))
+                {
+                    <div class="row">
+                        <div class="col-10">
+                            <MatThemeProvider Theme="theme">
+                                <MatInputTextComponent Value="@(MarkdownText)" @oninput="MarkdownTextChanged" Outlined="true" Class="w-100" TextArea="true" Style="resize: none; height: 30vh">
+                                </MatInputTextComponent>
+                            </MatThemeProvider>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-10 border">
+                            @((MarkupString)MarkdownService.ToHtml(MarkdownText))
+                            <!--<StardustDL.RazorComponents.Markdown.MarkdownRenderer Value="@MarkdownText" />-->
+                        </div>
+                    </div>
+                }
+                else if (Position.Equals(MdPosition.ROW))
+                {
+                    <div class="row">
+                        <div class="col-6">
+                            <MatThemeProvider Theme="theme">
+                                <MatInputTextComponent Value="@MarkdownText" @oninput="MarkdownTextChanged" Outlined="true" Class="w-100" TextArea="true" Style="resize: none; height: 50vh">
+                                </MatInputTextComponent>
+                            </MatThemeProvider>
+                        </div>
+                        <div class="col-6">
+                            @((MarkupString)MarkdownService.ToHtml(MarkdownText))
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!--Текстовый RichText редактор-->
+        <!--
+        <div class="row mt-2 mb-5" style="@(CurrentEditor.Equals(TextEditors.RichText) ? "" : "display:none")">
+            <div class="col-10">
+                <BlazoredTextEditor @ref="@Editor">
+                    <ToolbarContent>
+                        <span class="ql-formats">
+                            <select class="ql-font">
+                                <option selected=""></option>
+                                <option value="serif"></option>
+                                <option value="monospace"></option>
+                            </select>
+                            <select class="ql-header">
+                                <option selected="">Paragraph</option>
+                                <option value="5">Header 5</option>
+                                <option value="4">Header 4</option>
+                                <option value="3">Header 3</option>
+                                <option value="2">Header 2</option>
+                                <option value="1">Header 1</option>
+                            </select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <select class="ql-color"></select>
+                            <select class="ql-background"></select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-list" value="ordered"></button>
+                            <button class="ql-list" value="bullet"></button>
+                            <button class="ql-indent" value="-1"></button>
+                            <button class="ql-indent" value="+1"></button>
+                            <select class="ql-align">
+                                <option selected=""></option>
+                                <option value="center"></option>
+                                <option value="right"></option>
+                                <option value="justify"></option>
+                            </select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-link"></button>
+                        </span>
+                    </ToolbarContent>
+                    <EditorContent>
+                    </EditorContent>
+                </BlazoredTextEditor>
+            </div>
+        </div>-->
+        <div class="row mt-3 border-bottom">
+            <h4><i class="fas fa-file"></i> Прикрепленные файлы</h4>
+        </div>
+        <div class="row mt-2 mb-2 justify-content-center">
+            <div class="col-12">
+                <MatThemeProvider Theme="theme">
+                    <MatFileUpload Style="18px" Label="Выберите файлы или перетащите их сюда" Class="border" OnChange="files => FilesReadyForUpload(files)" AllowMultiple="true">
+                    </MatFileUpload>
+                </MatThemeProvider>
+            </div>
+        </div>
+        <div class="row mb-3">
+            @foreach (var file in Files.FilesToUpload)
+            {
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-body" style="padding-top: 5px">
+                            <div class="row justify-content-end">
+                                <p style="font-size: 13px" class="mb-0">
+                                    <a href="" @onclick="e => DeleteFile(file)" @onclick:preventDefault="true">X</a>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <i style="font-size:35px" class="@FileService.GetExtensionClass(file.File.Name.Split(".").Last())"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="row justify-content-center">
+                            <p style="font-size: 14px" class="mb-0">
+                                <b>@file.File.Name</b>
+                            </p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <p style="font-size: 11px" class="mb-0">
+                                @FileSizeToText(file.File.Size)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+            @foreach (var file in Files.FilesToPrepare)
+            {
+                @if (file.IsUploaded) continue;
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col-6">
+                                    <MatThemeProvider Theme="theme">
+                                        <MatProgressCircle Indeterminate="true" Size="MatProgressCircleSize.Medium" />
+                                    </MatThemeProvider>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="row justify-content-center">
+                            <p style="font-size: 14px" class="mb-0">
+                                <b>@file.File.Name</b>
+                            </p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <p style="font-size: 11px" class="mb-0">
+                                @FileSizeToText(file.File.Size)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+    </div>
+</div>
+
+<div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Группы
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <input class="form-control" style="font-size:18px" placeholder="Группа" @oninput="FilterGroupsForChoosing" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        @foreach (var group in Groups.Filtered)
+                        {
+                            <div class="row align-items-center">
+                                <div class="col-1">
+                                    <MatThemeProvider Theme="checkboxTheme">
+                                        <MatCheckbox Value="group.IsChosen" @oninput="e => GroupChanged(group.Group.Id)" @onchange="e => GroupChanged(group.Group.Id)"></MatCheckbox>
+                                    </MatThemeProvider>
+                                </div>
+                                <div class="col-4 ">
+                                    @group.Group.Name
+                                </div>
+                                <div class="col-6">
+                                    @group.Group.Subject.Name
+                                </div>
+                                <div class="col-1">
+                                    @group.Group.MembersCount
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button style="font-size: 16px" type="button" class="btn btn-primary" data-dismiss="modal"
+                        @onclick="e =>
+                                  {
+                                      SetChosenGroups();
+                                      if (IsGroupsValid == false && Groups.Chosen.Count > 0)
+                                          IsGroupsValid = true;
+                                  }">
+                    Готово
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--
+<MatThemeProvider Theme="theme">
+    <MatDialog @bind-IsOpen="@IsGroupsDialogOpened">
+        <MatDialogTitle>Группы</MatDialogTitle>
+        <MatDialogContent>
+            <div class="row mb-3">
+                <input class="col-6 form-control" style="font-size:18px" placeholder="Группа" @oninput="FilterGroupsForChoosing" />
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    @foreach (var group in Groups.Filtered)
+                    {
+                        <div class="row">
+                            <div class="col-1">
+                                @if (group.IsChosen)
+                                {
+                                    <input class="form-control" type="checkbox" checked />
+                                }
+                                else
+                                {
+                                    <input class="form-control" type="checkbox" />
+                                }
+                            </div>
+                            <div class="col-4">
+                                @group.Group.Name
+                            </div>
+                            <div class="col-6">
+                                @group.Group.Subject.Name
+                            </div>
+                            <div class="col-1">
+                                @group.Group.MembersCount
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton OnClick="@(e => { IsGroupsDialogOpened = false; })">Готово</MatButton>
+        </MatDialogActions>
+    </MatDialog>
+</MatThemeProvider>-->
+
+@code {
+
+    [Parameter]
+    public int UserId { get; set; }
+
+    [Parameter]
+    public int GroupId { get; set; }
+
+    [Parameter]
+    public PostModel Post { get; set; }
+
+    [Parameter]
+    public List<int> ChosenGroupsId { get; set; }
+
+    enum TextEditors { Markdown, RichText };
+
+    enum MdPosition { COVERED, ROW, COL };
+
+    #region PROPERTIES
+
+    MdPosition Position { get; set; }
+
+    TextEditors CurrentEditor { get; set; }
+
+    BlazoredTextEditor Editor { get; set; }
+
+    List<(TextEditors Type, string Name)> Editors { get; set; }
+
+    (List<FileToUpload> FilesToUpload, List<FileToUpload> FilesToPrepare) Files { get; set; }
+
+    // Chosen - выбранные для публикации поста
+    // All - все доступные группы
+    // Filtered - выводимые в окне выбора групп
+    (List<GroupViewModel> Chosen, List<(GroupViewModel Group, bool IsChosen)> All, List<(GroupViewModel Group, bool IsChosen)> Filtered) Groups { get; set; }
+
+    List<int> GroupIds { get; set; }
+
+    string MarkdownText { get; set; }
+
+    string PostTitle { get; set; }
+
+    bool IsTitleValid { get; set; }
+
+    bool IsGroupsValid { get; set; }
+
+    #endregion
+
+    public class FileToUpload
+    {
+        public IMatFileUploadEntry File { get; set; }
+
+        public Stream Stream { get; set; }
+
+        public bool IsUploaded { get; set; }
+    }
+
+    MatTheme theme = new MatTheme
+    {
+        Primary = "#007bff", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    MatTheme checkboxTheme = new MatTheme
+    {
+        Secondary = "#007bff", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    protected override void OnInitialized()
+    {
+        MarkdownText = Post?.PostBody ?? string.Empty;
+        PostTitle = Post?.Title ?? string.Empty;
+        IsTitleValid = true;
+        IsGroupsValid = true;
+
+        if (ChosenGroupsId is null)
+            ChosenGroupsId = new() { GroupId };
+
+        GetGroups();
+
+        Files = (new List<FileToUpload>(), new List<FileToUpload>());
+        GroupIds = new();
+
+        Position = MdPosition.COL;
+
+        Editors = new()
+        {
+            (TextEditors.Markdown, "Markdown"),
+            (TextEditors.RichText, "Rich Text")
+        };
+
+        CurrentEditor = Editors[0].Type;
+
+    }
+
+    // Добавлены новые файлы
+    async Task FilesReadyForUpload(IMatFileUploadEntry[] files)
+    {
+
+        // Добавление файлов
+        foreach (var file in files)
+        {
+            if (Files.FilesToUpload.FirstOrDefault(item => item.File.Name == file.Name) is not null ||
+                Files.FilesToPrepare.FirstOrDefault(item => item.File.Name == file.Name) is not null) continue;
+
+            var fileToUpload = new FileToUpload()
+            {
+                File = file,
+                Stream = null,
+                IsUploaded = false
+            };
+
+            Files.FilesToPrepare.Add(fileToUpload);
+        }
+
+        StateHasChanged();
+
+        // Загрузка файлов в MemoryStream
+        foreach (var file in Files.FilesToPrepare)
+        {
+            file.Stream = new MemoryStream();
+            await file.File.WriteToStreamAsync(file.Stream);
+            file.IsUploaded = true;
+            Files.FilesToUpload.Add(file);
+
+            StateHasChanged();
+        }
+        // Удаление
+        Files.FilesToPrepare.RemoveAll(file => file.IsUploaded == true);
+
+
+        // Очистка полей ввода для файлов
+        await JsRuntime.InvokeVoidAsync("clearInputFile");
+    }
+
+    async Task TextEditorChanged(int activeIndex)
+    {
+        // Тип выбранного редактора
+        CurrentEditor = activeIndex == 0 ? TextEditors.Markdown : TextEditors.RichText;
+
+        if (CurrentEditor.Equals(TextEditors.Markdown))
+        {
+            var html = await Editor.GetHTML();
+            MarkdownText = MarkdownService.ToMarkdown(html);
+        }
+        else if (CurrentEditor.Equals(TextEditors.RichText))
+        {
+            var html = MarkdownService.ToHtml(MarkdownText);
+
+            // Ожидаем, пока не будет создан Editor
+            await Task.WhenAll(Task.Run(() => { while (Editor is null) ; }));
+
+            try
+            {
+                // При первом вызове вызывается исключение, поэтому оборачиваем в
+                // try catch и вызываем еще раз
+                await Editor.LoadHTMLContent(html);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                await Editor.LoadHTMLContent(html);
+            }
+        }
+
+    }
+
+    void MarkdownTextChanged(ChangeEventArgs e)
+    {
+        MarkdownText = e.Value.ToString();
+    }
+
+    void DeleteFile(FileToUpload fileToDelete)
+    {
+        var filesToUpload = Files.FilesToUpload;
+
+        filesToUpload.Remove(fileToDelete);
+    }
+
+    void FilterGroupsForChoosing(ChangeEventArgs e)
+    {
+        var groupName = e.Value.ToString().ToLower();
+
+        var FilteredGroups = Groups.All
+            .Where(group => group.Group.Name.ToLower().Contains(groupName.ToLower()))
+            .OrderBy(group => group.IsChosen)
+            .ToList();
+
+        Groups = (Groups.Chosen, Groups.All, FilteredGroups);
+    }
+
+    void GroupChanged(int groupId)
+    {
+        if (GroupIds.Contains(groupId))
+            GroupIds.Remove(groupId);
+        else
+            GroupIds.Add(groupId);
+    }
+
+    void SetChosenGroups()
+    {
+        IEnumerable<(GroupViewModel Group, bool IsChosen)> AllGroups = Groups.All.Select(group => (group.Group, GroupIds.Contains(group.Group.Id) ? !group.IsChosen : group.IsChosen));
+
+        Groups = (AllGroups.Where(group => group.IsChosen).Select(group => group.Group).ToList(), AllGroups.ToList(), AllGroups.Where(group => Groups.Filtered.Any(g => g.Group.Id == group.Group.Id)).ToList());
+    }
+
+    void GetGroups()
+    {
+        var AllGroups = GroupService.GetUserGroups(UserId)
+            .Result
+            .Where(group => group.UserRole.Equals(RoleInGroup.ADMIN))
+            .Select(group => (new GroupViewModel(group.Group, group.UserRole, group.Group.Subject), ChosenGroupsId.Contains(group.Group.Id)))
+            .ToList();
+
+        Groups = (new() { AllGroups.First(group => ChosenGroupsId.Contains(group.Item1.Id)).Item1 }, AllGroups, AllGroups);
+    }
+
+    public bool IsValid()
+    {
+        IsTitleValid = (PostTitle is not null && PostTitle != string.Empty);
+        IsGroupsValid = Groups.Chosen.Count > 0;
+
+        StateHasChanged();
+
+        return IsTitleValid && IsGroupsValid;
+    }
+
+    public async Task<(PostModel Post, List<FileToUpload> Files, List<int> GroupIds)> GetPost()
+    {
+        if (!CurrentEditor.Equals(TextEditors.Markdown))
+            await TextEditorChanged((int)TextEditors.Markdown);
+
+        var html = MarkdownService.ToHtml(MarkdownText);
+
+        var postModel = Post ?? new PostModel()
+        {
+            AuthorId = UserId,
+            PublicationDate = DateTime.Now,
+            PostBody = html,
+            Title = PostTitle,
+            Language = Language.DEFAULT
+        };
+
+        if (Post is null)
+            Post = new PostModel()
+            {
+                AuthorId = UserId,
+                Language = Language.DEFAULT
+            };
+
+        Post.PublicationDate = DateTime.Now;
+        Post.PostBody = html;
+        Post.Title = PostTitle;
+
+        return (Post, Files.FilesToUpload, Groups.Chosen.Select(group => group.Id).ToList());
+    }
+
+    string FileSizeToText(float size)
+    {
+        size = size / 1000;
+        return $"{size.ToString("0.00")} Кб";
+    }
+}

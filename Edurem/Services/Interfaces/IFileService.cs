@@ -32,6 +32,8 @@ namespace Edurem.Services
 
         public string GetFileText(string filePath);
 
+        public Stream GetFileStream(FileModel file);
+
         public string GetExtensionClass(string extension) => extension switch
         {
             "doc" or "docx" or "odt" => "far fa-file-word",

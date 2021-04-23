@@ -18,5 +18,9 @@ namespace Edurem.Services
         public Task SaveTestInfo(TestInfo testInfo);
 
         public Task<TestInfo> GetTestInfo(int userId, int postId);
+
+        public Task<FileModel> CreateUnitTests(int postId, string jsonParameters, string unitTestFileName = "unit_test");
+
+        public string GetTestsDirectory(int userId, int postId);
     }
 }

@@ -116,10 +116,16 @@
                               }">
                 Начать тестирование
             </button>
+            @if (IsTestingProceduring)
+            {
+                <MatThemeProvider Theme="theme">
+                    <MatProgressCircle Class="ml-4" Indeterminate="true" Size="MatProgressCircleSize.Medium" />
+                </MatThemeProvider>
+            }
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-start">
             <div class="col-6 m-3">
-                @((MarkupString)MarkdownService.ToHtml(TestInfo.ResultText))
+                @((MarkupString)GetResultHtml())
             </div>
         </div>
     </div>
@@ -236,6 +242,7 @@
         filesToUpload.Remove(filesToUpload.First(file => file.Equals(fileToDelete)));
     }
 
+    // Открыть файл для редактирования
     async Task OpenFile(FileToUpload fileToOpen)
     {
         await CodeEditor.GetEditor();
@@ -259,6 +266,7 @@
         await CodeEditor.SetCode(fileToEdit.Text);
     }
 
+    // Сохранить редактируемый файл
     async Task SaveFile()
     {
         fileToEdit.Text = await CodeEditor.GetCode();
@@ -298,6 +306,7 @@
         }
     }
 
+    // Создать новый файл для редактирования
     async Task CreateNewFile()
     {
         fileToEdit.Name = "Новый файл";
@@ -325,6 +334,7 @@
         var contextPath = Path.Combine(AppEnvironment.WebRootPath, "file_system\\tests", $"post_{PostId}");
 
         var testInfo = await TestService.CreateTest(UserId, PostId, fileModels.Select(file => file.Id).ToList());
+
         testInfo = await TestService.TestCode(dockerfilePath, contextPath, testInfo);
 
         // Обработка результатов
@@ -339,6 +349,18 @@
             .Any(fileLanguage => !fileLanguage.Equals(CodeLanguage.Language));
 
         return isFilesLanguageCorrect;
+    }
+
+    string GetResultHtml()
+    {
+        if (TestInfo is null) return string.Empty;
+
+        var html = TestInfo.ResultText;
+
+        html.Replace("\r\n", "\n");
+        html = $"<p>{string.Join(@"</p><p style=""font-family: 'Oswald', sans-serif;"">", html.Split("\n"))}</p>";
+
+        return html;
     }
 
     Language GetLanguage(string fileExtension) => fileExtension switch

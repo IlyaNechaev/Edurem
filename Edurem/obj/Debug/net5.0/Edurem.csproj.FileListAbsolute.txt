@@ -177,8 +177,6 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\PostsList.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Group\GroupPosts.cshtml.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Views\Group\CreatePost.cshtml.g.cs
-D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\EditPost.razor.g.cs
-D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\EditPost.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\ColorCode.Core.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\CommonMark.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Markdig.dll
@@ -649,3 +647,9 @@ D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Modul
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\bin\Debug\net5.0\Modulight.Modules.Core.dll
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\CodeMirror.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\CodeMirror.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\PostEditing\EditPost.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\PostEditing\EditPostTests.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\PostEditing\NewPost.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\PostEditing\EditPost.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\PostEditing\EditPostTests.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem\Edurem\obj\Debug\net5.0\Razor\Components\PostEditing\NewPost.razor.g.cs

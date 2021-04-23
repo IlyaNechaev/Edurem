@@ -31,6 +31,7 @@
     </div>
 </div>
 
+
 <MatDialog @bind-IsOpen="@IsAddSubjectOpened" Class="col-12">
     <MatDialogTitle>
         <div class="col-12 text-left">
@@ -41,7 +42,7 @@
         <input class="form-control" placeholder="Название дисциплины" @bind-value="SubjectName" />
     </MatDialogContent>
     <MatDialogActions>
-        <button class="btn btn-primary mr-2" type="button" @onclick="(e => { AddSubject(); IsAddSubjectOpened = false;})">Добавить</button>
+        <button class="btn btn-primary mr-2" type="button" @onclick="(e => { AddSubject(); IsAddSubjectOpened = false; SubjectName = string.Empty; })">Добавить</button>
         <button class="btn btn-danger" type="button" @onclick="(e => { IsAddSubjectOpened = false; })">Закрыть</button>
     </MatDialogActions>
 </MatDialog>
@@ -70,7 +71,7 @@
     {
         AvailableSubjects = new();
         AvailableSubjects.Add(new Subject() { Name = "-", Id = 0 });
-        
+
         // Добавляем все имеющиеся дисциплины
         (await GroupService.GetUserSubjects(UserId))
             .ForEach(AvailableSubjects.Add);

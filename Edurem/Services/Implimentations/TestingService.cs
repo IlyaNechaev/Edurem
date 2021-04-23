@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using Edurem.Data;
 using Microsoft.AspNetCore.Hosting;
+using Edurem.Providers;
+using Newtonsoft.Json;
 
 namespace Edurem.Services
 {
@@ -22,18 +24,24 @@ namespace Edurem.Services
         IRepositoryFactory RepositoryFactory { get; set; }
         IDockerService DockerService { get; set; }
         IWebHostEnvironment AppEnvironment { get; set; }
+        IPostService PostService { get; set; }
+        LanguageTestProviderFactory LanguageTestProviderFactory { get; set; }
 
         public TestingService([FromServices] IConfiguration configuration,
             [FromServices] IFileService fileService,
             [FromServices] IRepositoryFactory repositoryFactory,
             [FromServices] IDockerService dockerService,
-            [FromServices] IWebHostEnvironment appEnvironment)
+            [FromServices] IWebHostEnvironment appEnvironment,
+            [FromServices] IPostService postService,
+            LanguageTestProviderFactory languageTestProviderFactory)
         {
             Configuration = configuration;
             FileService = fileService;
             RepositoryFactory = repositoryFactory;
             DockerService = dockerService;
             AppEnvironment = appEnvironment;
+            PostService = postService;
+            LanguageTestProviderFactory = languageTestProviderFactory;
         }
 
         public async Task<TestInfo> TestCode(string dockerfilePath, string contextPath, TestInfo testInfo)
@@ -53,7 +61,9 @@ namespace Edurem.Services
 
             try
             {
-                testInfo.ResultText = await DockerService.RunImage(imageTag);
+                testInfo.ResultText = await DockerService.RunImage(imageTag, $"{imageTag}c");
+                var containerId = await DockerService.GetContainerId($"{imageTag}c");
+                await DockerService.RemoveContainer(containerId);
             }
             catch (Exception ex)
             {
@@ -114,11 +124,13 @@ namespace Edurem.Services
 
             // Создание Dockerfile
             var post = await PostModelRepository.Get(post => post.Id == postId);
+            // Путь к файлам, содержащим тестовые сценарии
             var testFilePaths = Directory.GetFiles(Path.Combine(AppEnvironment.WebRootPath, post.TestFolderPath)).ToList();
+            // Путь к файлам, которые будут протестированы
             var codeFilePaths = (await RepositoryFactory.GetRepository<TestFile>().Find(tf => tf.TestId == testInfo.Id))
                 .Select(tf => Path.Combine(AppEnvironment.WebRootPath, tf.File.GetFullPath()))
                 .ToList();
-            var saveToPath = $"{AppEnvironment.WebRootPath}\\file_system\\tests\\post_{postId}\\user_{userId}";
+            var saveToPath = GetTestsDirectory(userId, postId);
 
             DockerService.CreateDockerfile(testFilePaths, codeFilePaths, post.Language, saveToPath);
 
@@ -138,5 +150,40 @@ namespace Edurem.Services
 
             return (await TestInfoRepository.Find(info => info.UserId == userId && info.PostId == postId)).FirstOrDefault();
         }
+
+        public async Task<FileModel> CreateUnitTests(int postId, string jsonParameters, string unitTestFileName = "unit_test")
+        {
+            var language = (await RepositoryFactory.GetRepository<PostModel>().Get(post => post.Id == postId)).Language;
+
+            var languageProvider = LanguageTestProviderFactory.GetLanguageTestProvider(language);
+
+            var parameters = JsonConvert.DeserializeObject<UnitTestInfo>(jsonParameters);
+            // Task, в котором создаются юнит-тесты
+            var unitTests = await Task.Run(() => languageProvider.CreateUnitTests(parameters));
+
+            var unitTestsPath = GetTestsDirectory(postId);
+
+            FileModel unitTestsFile = null;
+            // Сохранение тестовых файлов на сервере
+            using (var memoryStream = new MemoryStream(unitTests.Length))
+            using (var streamWriter = new StreamWriter(memoryStream))
+            {
+                streamWriter.Write(unitTests);
+
+                unitTestsFile = await FileService.UploadFile(memoryStream, unitTestsPath, $"{unitTestFileName}.{languageProvider.GetFileExtension()}");
+            }
+
+            return unitTestsFile;
+        }
+
+        public string GetTestsDirectory(int postId, int userId)
+        {
+            return Path.Combine(AppEnvironment.WebRootPath, $"file_system\\tests\\post_{postId}\\user_{userId}");
+        }
+        public string GetTestsDirectory(int postId)
+        {
+            return Path.Combine(AppEnvironment.WebRootPath, $"file_system\\tests\\post_{postId}");
+        }
+
     }
 }

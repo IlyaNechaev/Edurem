@@ -104,7 +104,7 @@ using Edurem.ViewModels;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 49 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
+#line 50 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\SubjectsDropdown.razor"
        
 
     // Id авторизованного пользователя
@@ -129,7 +129,7 @@ using Edurem.ViewModels;
     {
         AvailableSubjects = new();
         AvailableSubjects.Add(new Subject() { Name = "-", Id = 0 });
-        
+
         // Добавляем все имеющиеся дисциплины
         (await GroupService.GetUserSubjects(UserId))
             .ForEach(AvailableSubjects.Add);

@@ -6,10 +6,10 @@
     ViewData["ApplicationName"] = "Edurem";
     Layout = "_AccountLayout";
 }
-
+<link href="~/css/progress-steps.css" rel="stylesheet" />
 
 <component>
-    @(await Html.RenderComponentAsync<Edurem.Components.EditPost>(RenderMode.ServerPrerendered, new { Group = Model, 
+    @(await Html.RenderComponentAsync<Edurem.Components.NewPost>(RenderMode.ServerPrerendered, new { Group = Model, 
         CurrentUser = new CurrentUserViewModel 
         { 
             Id = int.Parse(Context.User.GetClaim(ClaimKey.Id)),

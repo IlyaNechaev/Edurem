@@ -23,6 +23,7 @@ using Microsoft.Extensions.Hosting;
 using StardustDL.RazorComponents.Markdown;
 using MimeKit;
 using System.Net.Http;
+using Edurem.Providers;
 
 namespace Edurem
 {
@@ -79,6 +80,7 @@ namespace Edurem
             services.AddTransient<ICodeTestingService, TestingService>();
             services.AddTransient<IDockerService, ConsoleDockerService>();
             services.AddTransient<IMarkdownService, Services.Markdig>();
+            services.AddTransient<LanguageTestProviderFactory>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 
             services.AddHttpClient();

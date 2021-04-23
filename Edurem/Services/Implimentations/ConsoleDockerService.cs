@@ -117,9 +117,9 @@ namespace Edurem.Services
             return process;
         }
 
-        public async Task<string> RunImage(string imageTag)
+        public async Task<string> RunImage(string imageTag, string name = null)
         {
-            var command = $"docker run {imageTag}";
+            var command = $"docker run {(name == null ? "" : $"--name {name}")} {imageTag}";
 
             var process = GetProcess();
             process.Start();
@@ -130,7 +130,7 @@ namespace Edurem.Services
             {
                 if (sw.BaseStream.CanWrite)
                 {
-                    sw.WriteLine(command);
+                    await sw.WriteLineAsync(command);
                 }
             }
 
@@ -139,6 +139,57 @@ namespace Edurem.Services
 
             var outputs = output.Split(command);
             output = outputs[1].Split(outputs[0].Split("\r\n").Last())[0];
+
+            return output;
+        }        
+
+        public async Task RemoveContainer(string containerId)
+        {
+            var commands = new List<string>
+            {
+                $"docker stop {containerId}",
+                $"docker rm {containerId}"
+            };
+            
+
+            var process = GetProcess();
+            process.Start();
+
+            using (var sw = process.StandardInput)
+            {
+                if (sw.BaseStream.CanWrite)
+                {
+                    foreach (var command in commands)
+                    {
+                        await sw.WriteLineAsync(command);
+                    }
+                }
+            }
+
+            var output = await process.StandardOutput.ReadToEndAsync();
+            var error = await process.StandardError.ReadToEndAsync();
+        }
+
+        public async Task<string> GetContainerId(string containerName)
+        {
+            var command = $"(docker ps -qa --filter=\"name=\"{containerName}\"\")";
+
+            var process = GetProcess();
+            process.Start();
+
+            using (var sw = process.StandardInput)
+            {
+                if (sw.BaseStream.CanWrite)
+                {
+                    await sw.WriteLineAsync(command);
+                }
+            }
+
+            var output = await process.StandardOutput.ReadToEndAsync();
+            var errors = process.StandardError.ReadToEndAsync();
+
+            var outputs = output.Split(command);
+            output = outputs[1].Split("\r\n")[1].Replace("\n", "");
 
             return output;
         }

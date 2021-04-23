@@ -166,5 +166,10 @@ namespace Edurem.Services
 
             return false;
         }
+
+        public Stream GetFileStream(FileModel file)
+        {
+            return File.OpenRead(Path.Combine(AppEnvironment.WebRootPath, file.GetFullPath()));
+        }
     }
 }

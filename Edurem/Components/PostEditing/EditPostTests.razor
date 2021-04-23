@@ -1,0 +1,226 @@
+﻿@namespace Edurem.Components
+@inject Edurem.Services.IFileService FileService;
+@inject IJSRuntime JsRuntime;
+@using System.IO;
+
+<div class="row">
+    <div class="col-12">
+        <div class="row mt-3">
+            <h4>Тесты  <a class="tooltip" title="JSON-файлы с набором тестов, а также собственные тестовые сценарии"><i class="fas fa-question" style="color: cornflowerblue"></i></a></h4>
+        </div>
+        <div class="row">
+            @foreach (var file in TestFiles.FilesToUpload)
+            {
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-body" style="padding-top: 5px">
+                            <div class="row justify-content-end">
+                                <p style="font-size: 13px" class="mb-0">
+                                    <a href="" @onclick="e => DeleteFile(file)" @onclick:preventDefault="true">X</a>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <i style="font-size:35px" class="@FileService.GetExtensionClass(file.File.Name.Split(".").Last())"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="row justify-content-center">
+                            <p style="font-size: 14px" class="mb-0">
+                                <b>@file.File.Name</b>
+                            </p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <p style="font-size: 11px" class="mb-0">
+                                @FileSizeToText(file.File.Size)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+            @foreach (var file in TestFiles.FilesToPrepare)
+            {
+                @if (file.IsUploaded) continue;
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col-6">
+                                    <MatThemeProvider Theme="theme">
+                                        <MatProgressCircle Indeterminate="true" Size="MatProgressCircleSize.Medium" />
+                                    </MatThemeProvider>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="row justify-content-center">
+                            <p style="font-size: 14px" class="mb-0">
+                                <b>@file.File.Name</b>
+                            </p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <p style="font-size: 11px" class="mb-0">
+                                @FileSizeToText(file.File.Size)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <MatThemeProvider Theme="theme">
+                    <MatFileUpload Style="18px" Label="Выберите файлы или перетащите их сюда" Class="border" OnChange="files => FilesReadyForUpload(files)" AllowMultiple="true">
+                    </MatFileUpload>
+                </MatThemeProvider>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="row">
+            <h4>Скрипты</h4>
+        </div>
+        <div class="row">
+            @foreach (var file in ScriptFiles.FilesToUpload)
+            {
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-body" style="padding-top: 5px">
+                            <div class="row justify-content-end">
+                                <p style="font-size: 13px" class="mb-0">
+                                    <a href="" @onclick="e => DeleteFile(file)" @onclick:preventDefault="true">X</a>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <i style="font-size:35px" class="@FileService.GetExtensionClass(file.File.Name.Split(".").Last())"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="row justify-content-center">
+                            <p style="font-size: 14px" class="mb-0">
+                                <b>@file.File.Name</b>
+                            </p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <p style="font-size: 11px" class="mb-0">
+                                @FileSizeToText(file.File.Size)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+            @foreach (var file in ScriptFiles.FilesToPrepare)
+            {
+                @if (file.IsUploaded) continue;
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col-6">
+                                    <MatThemeProvider Theme="theme">
+                                        <MatProgressCircle Indeterminate="true" Size="MatProgressCircleSize.Medium" />
+                                    </MatThemeProvider>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="row justify-content-center">
+                            <p style="font-size: 14px" class="mb-0">
+                                <b>@file.File.Name</b>
+                            </p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <p style="font-size: 11px" class="mb-0">
+                                @FileSizeToText(file.File.Size)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <MatThemeProvider Theme="theme">
+                    <MatFileUpload Style="18px" Label="Выберите файлы или перетащите их сюда" Class="border" OnChange="files => FilesReadyForUpload(files)" AllowMultiple="true">
+                    </MatFileUpload>
+                </MatThemeProvider>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    MatTheme theme = new MatTheme
+    {
+        Primary = "#007bff", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    (List<EditPost.FileToUpload> FilesToUpload, List<EditPost.FileToUpload> FilesToPrepare) TestFiles { get; set; }
+
+    (List<EditPost.FileToUpload> FilesToUpload, List<EditPost.FileToUpload> FilesToPrepare) ScriptFiles { get; set; }
+
+    protected override void OnInitialized()
+    {
+        TestFiles = (new List<EditPost.FileToUpload>(), new List<EditPost.FileToUpload>());
+        ScriptFiles = (new List<EditPost.FileToUpload>(), new List<EditPost.FileToUpload>());
+    }
+
+    void DeleteFile(EditPost.FileToUpload fileToDelete)
+    {
+        var filesToUpload = TestFiles.FilesToUpload;
+
+        filesToUpload.Remove(fileToDelete);
+    }
+
+    async Task FilesReadyForUpload(IMatFileUploadEntry[] files)
+    {
+
+        // Добавление файлов
+        foreach (var file in files)
+        {
+            if (TestFiles.FilesToUpload.FirstOrDefault(item => item.File.Name == file.Name) is not null ||
+                TestFiles.FilesToPrepare.FirstOrDefault(item => item.File.Name == file.Name) is not null) continue;
+
+            var fileToUpload = new EditPost.FileToUpload()
+            {
+                File = file,
+                Stream = null,
+                IsUploaded = false
+            };
+
+            TestFiles.FilesToPrepare.Add(fileToUpload);
+        }
+
+        StateHasChanged();
+
+        // Загрузка файлов в MemoryStream
+        foreach (var file in TestFiles.FilesToPrepare)
+        {
+            file.Stream = new MemoryStream();
+            await file.File.WriteToStreamAsync(file.Stream);
+            file.IsUploaded = true;
+            TestFiles.FilesToUpload.Add(file);
+
+            StateHasChanged();
+        }
+        // Удаление
+        TestFiles.FilesToPrepare.RemoveAll(file => file.IsUploaded == true);
+
+
+        // Очистка полей ввода для файлов
+        await JsRuntime.InvokeVoidAsync("clearInputFile");
+    }
+
+    string FileSizeToText(float size)
+    {
+        size = size / 1000;
+        return $"{size.ToString("0.00")} Кб";
+    }
+}

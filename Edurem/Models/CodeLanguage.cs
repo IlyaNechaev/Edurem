@@ -13,11 +13,12 @@ namespace Edurem.Models
 
         public void SetLanguage(Language language) => (Language, LanguageTitle) = (language, GetLanguageTitle(language));
 
-        private string GetLanguageTitle(Language language) => language switch
+        public static string GetLanguageTitle(Language language) => language switch
         {
             Language.CSHARP => "C#",
             Language.PYTHON => "Python",
             Language.JAVA => "Java",
+            Language.JSON => "Json",
             _ => ""
         };
     }
@@ -28,6 +29,7 @@ namespace Edurem.Models
         CSHARP = 1 << 0,
         PYTHON = 1 << 1,
         JAVA = 1 << 2,
+        JSON = 1 << 3,
 
         DEFAULT = 0
     }

@@ -22,6 +22,10 @@ namespace Edurem.Services
         /// <returns>ID созданного контейнера</returns>
         public Task<string> CreateContainer(CreateContainerParameters parameters);
 
-        public Task<string> RunImage(string imageTag);
+        public Task<string> RunImage(string imageTag, string name = null);
+
+        public Task<string> GetContainerId(string containerName);
+
+        public Task RemoveContainer(string containerId);
     }
 }

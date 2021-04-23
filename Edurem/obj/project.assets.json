@@ -1531,7 +1531,7 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
-      "Newtonsoft.Json/12.0.3": {
+      "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
@@ -3400,10 +3400,10 @@
           "lib/netstandard2.0/Markdig.Prism.dll": {}
         }
       },
-      "Westwind.AspNetCore.Markdown/3.5.0": {
+      "Westwind.AspNetCore.Markdown/3.6.0": {
         "type": "package",
         "dependencies": {
-          "Markdig": "0.22.0"
+          "Markdig": "0.24.0"
         },
         "compile": {
           "lib/net5.0/Westwind.AspNetCore.Markdown.dll": {}
@@ -6126,10 +6126,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "Newtonsoft.Json/12.0.3": {
-      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
       "type": "package",
-      "path": "newtonsoft.json/12.0.3",
+      "path": "newtonsoft.json/13.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6148,11 +6148,7 @@
         "lib/netstandard1.3/Newtonsoft.Json.xml",
         "lib/netstandard2.0/Newtonsoft.Json.dll",
         "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
-        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
-        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.13.0.1.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
@@ -11588,18 +11584,18 @@
         "webstoating.markdig.prism.nuspec"
       ]
     },
-    "Westwind.AspNetCore.Markdown/3.5.0": {
-      "sha512": "lag3+NH3jDAMxAi/kk3+D4rz7uAh6z+N0xBOeglMkHu7stMqLwX/E2t4FrqVcoAzzfU15NhtqGzVFjRNX0KLRw==",
+    "Westwind.AspNetCore.Markdown/3.6.0": {
+      "sha512": "ckpac5PfOaGGkKdvN4a9zl73tCSgXkJkq6/y+bspm/wqlm1QLFKlkIww+F6E6J2c/9oVyP+nXU2wbJ/012n1gA==",
       "type": "package",
-      "path": "westwind.aspnetcore.markdown/3.5.0",
+      "path": "westwind.aspnetcore.markdown/3.6.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.MD",
         "icon.png",
         "lib/net5.0/Westwind.AspNetCore.Markdown.dll",
-        "lib/netcoreapp3.1/Westwind.AspNetCore.Markdown.dll",
-        "westwind.aspnetcore.markdown.3.5.0.nupkg.sha512",
+        "lib/netcoreapp3.0/Westwind.AspNetCore.Markdown.dll",
+        "westwind.aspnetcore.markdown.3.6.0.nupkg.sha512",
         "westwind.aspnetcore.markdown.nuspec"
       ]
     }
@@ -11622,10 +11618,11 @@
       "MatBlazor >= 2.8.0",
       "Microsoft.Azure.SignalR >= 1.8.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
+      "Newtonsoft.Json >= 13.0.1",
       "Pomelo.EntityFrameworkCore.MySql >= 3.2.4",
       "StardustDL.RazorComponents.Markdown >= 0.0.3.25",
       "WebStoating.Markdig.Prism >= 1.0.0",
-      "Westwind.AspNetCore.Markdown >= 3.5.0"
+      "Westwind.AspNetCore.Markdown >= 3.6.0"
     ]
   },
   "packageFolders": {
@@ -11735,6 +11732,10 @@
             "target": "Package",
             "version": "[5.0.2, )"
           },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
+          },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
             "version": "[3.2.4, )"
@@ -11749,7 +11750,7 @@
           },
           "Westwind.AspNetCore.Markdown": {
             "target": "Package",
-            "version": "[3.5.0, )"
+            "version": "[3.6.0, )"
           }
         },
         "imports": [

@@ -1,0 +1,380 @@
+﻿@namespace Edurem.Components
+@inject Edurem.Services.IMarkdownService MarkdownService;
+@inject Edurem.Services.IFileService FileService;
+@inject Edurem.Services.IGroupService GroupService;
+@inject Edurem.Services.IPostService PostService;
+@inject Edurem.Services.ICodeTestingService TestingService;
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JsRuntime;
+@inject IHttpClientFactory HttpFactory;
+@using System.IO;
+@using Edurem.ViewModels;
+@using Blazored.TextEditor
+
+
+<div class="container">
+    <div class="row bs-wizard" style="border-bottom:0;">
+
+        <div class="col-4 bs-wizard-step @(Page < 1 ? "disabled" : (Page == 1 ? "active" : "complete"))">
+            <div class="text-center bs-wizard-stepnum" style="font-weight: bold">Описание</div>
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+            <a href="#" class="bs-wizard-dot"></a>
+            <!--<div class="bs-wizard-info text-center">Lorem ipsum dolor sit amet.</div>-->
+        </div>
+
+        <div class="col-4 bs-wizard-step @(Page < 2 ? "disabled" : (Page == 2 ? "active" : "complete"))">
+            <div class="text-center bs-wizard-stepnum" style="font-weight: bold">Тесты</div>
+            <div class="progress">
+            <div class="progress-bar"></div>
+            </div>
+            <a href="#" class="bs-wizard-dot"></a>
+            <!--<div class="bs-wizard-info text-center">Nam mollis tristique erat vel tristique. Aliquam erat volutpat. Mauris et vestibulum nisi. Duis molestie nisl sed scelerisque vestibulum. Nam placerat tristique placerat</div>-->
+        </div>
+
+        <div class="col-4 bs-wizard-step @(Page < 3 ? "disabled" : (Page == 3 ? "active" : "complete"))">
+            <div class="text-center bs-wizard-stepnum" style="font-weight: bold">Подтверждение</div>
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+            <a href="#" class="bs-wizard-dot"></a>
+            <!--<div class="bs-wizard-info text-center">Integer semper dolor ac auctor rutrum. Duis porta ipsum vitae mi bibendum bibendum</div>-->
+        </div>
+    </div>
+</div>
+
+@switch (Page)
+{
+    case 1:
+        <div class="row mb-3">
+            <div class="col-12">
+                <EditPost @ref="EditPost" UserId="CurrentUser.Id" GroupId="Group.Id" Post="Post" ChosenGroupsId="GroupIds"></EditPost>
+            </div>
+        </div>
+        break;
+    case 2:
+        <div class="row mb-3">
+            <div class="col-12">
+                <EditPostTests @ref="EditPostTests"></EditPostTests>
+            </div>
+        </div>
+        break;
+}
+<div class="row">
+    <div class="col-3">
+        @if (Page > 1)
+        {
+            <button class="btn btn-outline-dark w-100" style="font-size: 18px" @onclick="e => Page--">Назад</button>
+        }
+    </div>
+    <div class="col-6">
+
+    </div>
+    <div class="col-3">
+        @switch (Page)
+        {
+            case 1:
+                <button class="btn btn-primary w-100" style="font-size: 18px"
+                        @onclick="async e =>
+                                      {
+                                          if (EditPost.IsValid())
+                                          {
+                                              (Post, Files[UploadFileType.POST], GroupIds) = await EditPost.GetPost();
+                                              Page++;
+                                          }
+                                      }">
+                    Далее
+                </button>
+                break;
+            case 2:
+                <button class="btn btn-primary w-100" style="font-size: 18px"
+                        @onclick="e =>
+                                      {
+                                          Page++;
+                                      }">
+                    Далее
+                </button>
+                break;
+            case 3:
+                <button class="btn btn-success w-100" style="font-size: 18px">Опубликовать</button>
+                break;
+        }
+        @if (Page == 3)
+        {
+
+        }
+        else
+        {
+
+        }
+    </div>
+</div>
+
+<!--Диалоговое окно ошибки-->
+<MatThemeProvider Theme="@dialogTheme">
+    <MatDialog @bind-IsOpen="@NotifyError">
+        <MatDialogTitle Class="text-center bg-danger">
+            <div class="col-12">
+                <i class="fas fa-times" style="font-size: 65px; color: white"></i>
+                <p style="color: white">Ошибка</p>
+            </div>
+        </MatDialogTitle>
+        <MatDialogContent>
+            <p class="mt-2 text-center">
+                @ErrorMessage
+            </p>
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton Unelevated="true" Type="button" OnClick="@(e => { NotifyError = false; })">Закрыть</MatButton>
+        </MatDialogActions>
+    </MatDialog>
+</MatThemeProvider>
+
+<!--Диалоговое окно редактирования тестов-->
+<!--
+-->
+
+@code {
+
+    [Parameter]
+    public CurrentUserViewModel CurrentUser { get; set; }
+
+    [Parameter]
+    public Group Group { get; set; }
+
+    MatTheme theme = new MatTheme
+    {
+        Primary = "#007bff", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    MatTheme dialogTheme = new MatTheme
+    {
+        Primary = "#FF8740", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    #region CUSTOM_TYPES
+
+    enum UploadFileType { POST, TEST };
+
+    static class TestLanguage
+    {
+        static TestLanguage()
+        {
+            CodeLanguage = new CodeLanguage() { LanguageTitle = string.Empty };
+        }
+
+        public static CodeLanguage CodeLanguage { get; set; }
+
+        public static bool IsLanguageDetected { get; set; }
+
+        public static bool NeedToChooseLanguage { get; set; }
+
+        public static string SetLanguage(params string[] fileExtensions)
+        {
+            var languages = fileExtensions
+                .Select(extension => GetLanguage(extension))
+                .Distinct(); // Файлы с JSON-расширениями не учитываются
+
+            var onlyLanguages = languages.Where(language => !language.Equals(Language.JSON));
+
+            // Если представлены файлы с одинаковым расширением (за исключением JSON-файлов)
+            if (onlyLanguages.Count() == 1)
+            {
+                // Если расширение не принадлежит поддерживаемым языкам
+                if (onlyLanguages.First().Equals(Models.Language.DEFAULT))
+                {
+                    CodeLanguage = new CodeLanguage
+                    {
+                        Language = Models.Language.DEFAULT,
+                        LanguageTitle = "Язык не определен"
+                    };
+                    IsLanguageDetected = false;
+                }
+                // Если расширение принадлежит поддерживаемому языку
+                else
+                {
+                    CodeLanguage = new CodeLanguage();
+                    CodeLanguage.SetLanguage(onlyLanguages.First());
+                    IsLanguageDetected = true;
+                }
+                NeedToChooseLanguage = false;
+            }
+            // Если представлены файлы с разными расширениями
+            else if (onlyLanguages.Count() > 1)
+            {
+                CodeLanguage = new CodeLanguage
+                {
+                    Language = Models.Language.DEFAULT,
+                    LanguageTitle = "Язык не определен"
+                };
+                IsLanguageDetected = false;
+                NeedToChooseLanguage = false;
+            }
+            // Если представлены JSON-файлы
+            else if (languages.Count() == 1)
+            {
+                NeedToChooseLanguage = true;
+                IsLanguageDetected = false;
+            }
+            // Если файлов нет
+            else
+            {
+                CodeLanguage = new CodeLanguage
+                {
+                    Language = Models.Language.DEFAULT,
+                    LanguageTitle = ""
+                };
+                IsLanguageDetected = false;
+                NeedToChooseLanguage = false;
+            }
+
+            return CodeLanguage.LanguageTitle;
+        }
+
+        public static void ForceSetLanguage(Language language)
+        {
+            CodeLanguage.SetLanguage(language);
+            IsLanguageDetected = !language.Equals(Models.Language.DEFAULT) && !language.Equals(Models.Language.JSON);
+        }
+
+        private static Language GetLanguage(string fileExtension) => fileExtension switch
+        {
+            "cs" => Models.Language.CSHARP,
+            "py" or "pyw" or "pyd" => Models.Language.PYTHON,
+            "json" => Models.Language.JSON,
+            _ => Models.Language.DEFAULT
+        };
+    }
+
+    #endregion
+
+    #region PROPERTIES
+
+    EditPost EditPost { get; set; }
+
+    EditPostTests EditPostTests { get; set; }
+
+    PostModel Post { get; set; }
+
+    Dictionary<UploadFileType, List<EditPost.FileToUpload>> Files { get; set; }
+
+    List<int> GroupIds { get; set; }
+
+    int Page { get; set; }
+
+    bool NotifyError { get; set; }
+
+    string ErrorMessage { get; set; }
+
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        NotifyError = false;
+        Page = 1;
+
+        Files = new();
+        foreach (var fileType in Enum.GetValues(typeof(UploadFileType)))
+        {
+            var files = (new List<EditPost.FileToUpload>());
+            Files.Add((UploadFileType)fileType, files);
+        }
+
+        EditPost = new();
+        EditPostTests = new();
+    }
+
+    async Task Confirm()
+    {
+        (var postModel, var files, var groupIds) = await EditPost.GetPost();
+
+        Files[UploadFileType.POST] = files;
+
+        try
+        {
+            // Создание публикации
+            await GroupService.CreatePost(postModel, Group.Id);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            ErrorNotification("Произошла непредвиденная ошибка. Попробуйте повторить операцию через несколько минут либо обратитесь в техническую поддержку");
+        }
+
+        // Модели файлов для связи с БД
+        var postFileModels = new List<FileModel>();
+        var testFileModels = new List<FileModel>();
+
+        foreach (var file in Files[UploadFileType.POST])
+        {
+            var filePath = Path.Combine("file_system\\users", CurrentUser.Id.ToString());
+
+            try
+            {
+                // Загрузка файлов на сервер
+                postFileModels.Add(await FileService.UploadFile(file.Stream, filePath, $"{file.File.Name}"));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        // Добавление файлов к публикации
+        await PostService.AddFilesToPost(postModel.Id, postFileModels);
+
+        // Если добавлены тесты
+        if (Files[UploadFileType.TEST] is not null && Files[UploadFileType.TEST].Count > 0)
+        {
+            foreach (var file in Files[UploadFileType.TEST])
+            {
+                var filePath = Path.Combine("file_system\\tests", $"post_{postModel.Id}");
+
+                try
+                {
+                    // Загрузка тестов на сервер
+                    testFileModels.Add(await FileService.UploadFile(file.Stream, filePath, $"{file.File.Name}"));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            var jsonParameterFiles = Files[UploadFileType.TEST].Where(file => Path.GetExtension(file.File.Name) == ".json").ToList();
+
+            // Если есть JSON-файлы
+            if (jsonParameterFiles.Count() > 0)
+            {
+                var unitTestFiles = new List<FileModel>();
+                for (int i = 0; i < jsonParameterFiles.Count(); i++)
+                {
+                    using (var streamReader = new StreamReader(jsonParameterFiles[i].Stream))
+                    {
+                        testFileModels.Add(await TestingService.CreateUnitTests(postModel.Id, streamReader.ReadToEnd(), $"unit_tests{i + 1}"));
+                    }
+                }
+            }
+
+            // Добавление тестов к публикации
+            await PostService.AddTestsToPost(postModel.Id, testFileModels, TestLanguage.CodeLanguage.Language);
+        }
+
+
+        NavigationManager.NavigateTo($"group/{Group.Id}", true);
+    }
+
+    string FileSizeToText(float size)
+    {
+        size = size / 1000;
+        return $"{size.ToString("0.00")} Кб";
+    }
+
+    void ErrorNotification(string errorMessage = "")
+    {
+        ErrorMessage = errorMessage;
+        NotifyError = true;
+    }
+}

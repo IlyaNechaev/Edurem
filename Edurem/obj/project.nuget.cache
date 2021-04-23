@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "krq5JTA7mT1jI9vbee3AjKKM1wHcZr5mEhgfV2S5bonekG8JBHrKvmPFofv1D27iT9Ldp5sEl8LdUM16gO3imw==",
+  "dgSpecHash": "PqIwBP1gbq4ulSc9QckqgG+6/VsS8nY1HilkjRfGHHF8lPKZUjVVPKIyEdeL2fJ8xiiFO56xprUSyRDD52HopQ==",
   "success": true,
   "projectFilePath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
   "expectedPackageFiles": [
@@ -101,7 +101,7 @@
     "C:\\Users\\Илья\\.nuget\\packages\\modulight.modules.core\\0.0.4\\modulight.modules.core.0.0.4.nupkg.sha512",
     "C:\\Users\\Илья\\.nuget\\packages\\mysqlconnector\\0.69.9\\mysqlconnector.0.69.9.nupkg.sha512",
     "C:\\Users\\Илья\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
-    "C:\\Users\\Илья\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\Илья\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\Илья\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\3.2.4\\pomelo.entityframeworkcore.mysql.3.2.4.nupkg.sha512",
     "C:\\Users\\Илья\\.nuget\\packages\\pomelo.jsonobject\\2.2.1\\pomelo.jsonobject.2.2.1.nupkg.sha512",
     "C:\\Users\\Илья\\.nuget\\packages\\portable.bouncycastle\\1.8.10\\portable.bouncycastle.1.8.10.nupkg.sha512",
@@ -215,7 +215,7 @@
     "C:\\Users\\Илья\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
     "C:\\Users\\Илья\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Илья\\.nuget\\packages\\webstoating.markdig.prism\\1.0.0\\webstoating.markdig.prism.1.0.0.nupkg.sha512",
-    "C:\\Users\\Илья\\.nuget\\packages\\westwind.aspnetcore.markdown\\3.5.0\\westwind.aspnetcore.markdown.3.5.0.nupkg.sha512"
+    "C:\\Users\\Илья\\.nuget\\packages\\westwind.aspnetcore.markdown\\3.6.0\\westwind.aspnetcore.markdown.3.6.0.nupkg.sha512"
   ],
   "logs": []
 }
