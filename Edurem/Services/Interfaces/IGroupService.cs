@@ -9,9 +9,14 @@ namespace Edurem.Services
 {
     public interface IGroupService
     {
-
-        // Возвращает группы в которых состоит пользователь
+        /// <summary>
+        /// Возвращает группы в которых состоит пользователь
+        /// </summary>
         public Task<List<(Group Group, RoleInGroup UserRole)>> GetUserGroups(User user);
+
+        /// <summary>
+        /// Возвращает группы в которых состоит пользователь
+        /// </summary>
         public Task<List<(Group Group, RoleInGroup UserRole)>> GetUserGroups(int userId);
 
         public Task CreateGroup(Group group, User creator);
@@ -24,8 +29,14 @@ namespace Edurem.Services
 
         public Task<Group> GetGroup(int groupId);
 
-        public Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1);
+        public Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1);        
 
-        public Task CreatePost(PostModel post, int groupId, List<FileModel> files = null );
+        public Task<List<GroupMember>> GetMembers(int groupId);
+
+        public Task Invite(int groupId, List<string> emailsToInvite);
+
+        public Task<(bool HasErrors, int GroupId, int UserId, string Email)> IsInvited(string code);
+
+        public Task JoinGroup(int userId, int groupId);
     }
 }

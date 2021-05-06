@@ -14,15 +14,19 @@ namespace Edurem.Models
         public int Id { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
+        [Required(ErrorMessage = "Введите имя")]
         public string Name { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
+        [Required(ErrorMessage = "Введите фамилию")]
         public string Surname { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
+        [Required(ErrorMessage = "Введите логин")]
         public string Login { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
+        [Required(ErrorMessage = "Введите Email")]
         public string Email { get; set; }
 
         [Column("Password", TypeName = "nvarchar(512)")]
@@ -34,6 +38,9 @@ namespace Edurem.Models
 
         [Column(TypeName = "nvarchar(50)")]
         public Status Status { get; set; }
+
+        [Column(TypeName = "nvarchar(10)")]
+        public string EmailCode { get; set; }
 
         public int OptionsId { get; set; }
 

@@ -18,6 +18,7 @@ namespace Edurem.Models
 
         [Required]
         public string Path { get; set; }
+        public long Size { get; set; }
 
         public string GetFullPath() => System.IO.Path.Combine(Path, Name);
     }

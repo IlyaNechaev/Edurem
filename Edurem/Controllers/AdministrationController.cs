@@ -25,11 +25,38 @@ namespace Edurem.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+
+
             // Если пользователь авторизован
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Home", "Account");
 
             return View();
+        }
+
+        [Route("register/{email}")]
+        [HttpGet]
+        public IActionResult Register(string email)
+        {
+            // Если пользователь авторизован
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Home", "Account");
+
+            var redirect = string.Empty;
+            try
+            {
+                var referer = HttpContext.Request.Headers["Referer"];
+                redirect = new Uri(referer.Last()).LocalPath;
+            }
+            catch (Exception) { }
+            
+            var registerModel = new RegisterEditModel
+            {
+                Email = email,
+                Redirect = redirect
+            };
+
+            return View(registerModel);
         }
 
         [Route("register")]
@@ -52,7 +79,16 @@ namespace Edurem.Controllers
                 return View(model);
             }
 
-            return Redirect("home");
+            await UserService.SignInUser(model.Login, model.Password, HttpContext);
+
+            if (!string.IsNullOrEmpty(model.Redirect))
+            {
+                return Redirect(model.Redirect);
+            }
+            else
+            {
+                return RedirectToAction("Home", "Account");
+            }
         }
 
         [Route("login")]
@@ -64,6 +100,30 @@ namespace Edurem.Controllers
                 return RedirectToAction("Home", "Account");
 
             return View();
+        }
+
+        [Route("login/{email}")]
+        [HttpGet]
+        public IActionResult Login(string email)
+        {
+            // Если пользователь авторизован
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Home", "Account");
+
+            var redirect = string.Empty;
+            try
+            {
+                var referer = HttpContext.Request.Headers["Referer"];
+                redirect = new Uri(referer.Last()).LocalPath;
+            }
+            catch (Exception) { }
+
+            var loginModel = new LoginEditModel
+            {
+                Redirect = redirect
+            };
+
+            return View(loginModel);
         }
 
         [Route("login")]
@@ -84,13 +144,19 @@ namespace Edurem.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Home", "Account");
+                    if (!string.IsNullOrEmpty(model.Redirect))
+                    {
+                        return Redirect(model.Redirect);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Home", "Account");
+                    }
                 }
             }
 
             return View(model);
         }
-
         
         [Route("logout")]
         [HttpGet]

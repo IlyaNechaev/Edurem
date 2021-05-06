@@ -5,6 +5,7 @@
 @inject Edurem.Services.IGroupService GroupService;
 @inject IJSRuntime JsRuntime;
 @using Edurem.ViewModels;
+@using Edurem.Components;
 @using System.IO;
 @using Blazored.TextEditor;
 
@@ -196,15 +197,7 @@
         <div class="row mt-3 border-bottom">
             <h4><i class="fas fa-file"></i> Прикрепленные файлы</h4>
         </div>
-        <div class="row mt-2 mb-2 justify-content-center">
-            <div class="col-12">
-                <MatThemeProvider Theme="theme">
-                    <MatFileUpload Style="18px" Label="Выберите файлы или перетащите их сюда" Class="border" OnChange="files => FilesReadyForUpload(files)" AllowMultiple="true">
-                    </MatFileUpload>
-                </MatThemeProvider>
-            </div>
-        </div>
-        <div class="row mb-3">
+        <div class="row mb-3 mt-3">
             @foreach (var file in Files.FilesToUpload)
             {
                 <div class="col-2">
@@ -216,20 +209,20 @@
                                 </p>
                             </div>
                             <div class="row justify-content-center">
-                                <i style="font-size:35px" class="@FileService.GetExtensionClass(file.File.Name.Split(".").Last())"></i>
+                                <i style="font-size:35px" class="@FileService.GetExtensionClass(file.FileUploadEntry.Name.Split(".").Last())"></i>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <div class="row justify-content-center">
-                            <p style="font-size: 14px" class="mb-0">
-                                <b>@file.File.Name</b>
-                            </p>
-                        </div>
-                        <div class="row justify-content-center">
-                            <p style="font-size: 11px" class="mb-0">
-                                @FileSizeToText(file.File.Size)
-                            </p>
+                        <div class="card-footer text-center">
+                            <div class="row justify-content-center">
+                                <p style="font-size: 14px" class="mb-0">
+                                    <b>@file.FileUploadEntry.Name</b>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <p style="font-size: 11px" class="mb-0">
+                                    @FileSizeToText(file.FileUploadEntry.Size)
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -248,24 +241,28 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <div class="row justify-content-center">
-                            <p style="font-size: 14px" class="mb-0">
-                                <b>@file.File.Name</b>
-                            </p>
-                        </div>
-                        <div class="row justify-content-center">
-                            <p style="font-size: 11px" class="mb-0">
-                                @FileSizeToText(file.File.Size)
-                            </p>
+                        <div class="card-footer text-center">
+                            <div class="row justify-content-center">
+                                <p style="font-size: 14px" class="mb-0">
+                                    <b>@file.FileUploadEntry.Name</b>
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <p style="font-size: 11px" class="mb-0">
+                                    @FileSizeToText(file.FileUploadEntry.Size)
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
+            <div class="col-2">
+                <MatThemeProvider Theme="theme">
+                    <FileUploader @ref="FileUploader" Style="border-style: dashed; border-color: grey" Label="" Class="h-100" OnChange="files => FilesReadyForUpload(files)" AllowMultiple="true">
+                    </FileUploader>
+                </MatThemeProvider>
+            </div>
         </div>
-
-
     </div>
 </div>
 
@@ -321,49 +318,6 @@
 </div>
 
 
-<!--
-<MatThemeProvider Theme="theme">
-    <MatDialog @bind-IsOpen="@IsGroupsDialogOpened">
-        <MatDialogTitle>Группы</MatDialogTitle>
-        <MatDialogContent>
-            <div class="row mb-3">
-                <input class="col-6 form-control" style="font-size:18px" placeholder="Группа" @oninput="FilterGroupsForChoosing" />
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    @foreach (var group in Groups.Filtered)
-                    {
-                        <div class="row">
-                            <div class="col-1">
-                                @if (group.IsChosen)
-                                {
-                                    <input class="form-control" type="checkbox" checked />
-                                }
-                                else
-                                {
-                                    <input class="form-control" type="checkbox" />
-                                }
-                            </div>
-                            <div class="col-4">
-                                @group.Group.Name
-                            </div>
-                            <div class="col-6">
-                                @group.Group.Subject.Name
-                            </div>
-                            <div class="col-1">
-                                @group.Group.MembersCount
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </MatDialogContent>
-        <MatDialogActions>
-            <MatButton OnClick="@(e => { IsGroupsDialogOpened = false; })">Готово</MatButton>
-        </MatDialogActions>
-    </MatDialog>
-</MatThemeProvider>-->
-
 @code {
 
     [Parameter]
@@ -378,6 +332,9 @@
     [Parameter]
     public List<int> ChosenGroupsId { get; set; }
 
+    [Parameter]
+    public List<FileUploader.FileToUpload> PostFiles { get; set; }
+
     enum TextEditors { Markdown, RichText };
 
     enum MdPosition { COVERED, ROW, COL };
@@ -390,9 +347,11 @@
 
     BlazoredTextEditor Editor { get; set; }
 
+    FileUploader FileUploader { get; set; }
+
     List<(TextEditors Type, string Name)> Editors { get; set; }
 
-    (List<FileToUpload> FilesToUpload, List<FileToUpload> FilesToPrepare) Files { get; set; }
+    (List<FileUploader.FileToUpload> FilesToUpload, List<FileUploader.FileToUpload> FilesToPrepare) Files { get; set; }
 
     // Chosen - выбранные для публикации поста
     // All - все доступные группы
@@ -411,14 +370,6 @@
 
     #endregion
 
-    public class FileToUpload
-    {
-        public IMatFileUploadEntry File { get; set; }
-
-        public Stream Stream { get; set; }
-
-        public bool IsUploaded { get; set; }
-    }
 
     MatTheme theme = new MatTheme
     {
@@ -444,7 +395,7 @@
 
         GetGroups();
 
-        Files = (new List<FileToUpload>(), new List<FileToUpload>());
+        Files = (PostFiles ?? new List<FileUploader.FileToUpload>(), new List<FileUploader.FileToUpload>());
         GroupIds = new();
 
         Position = MdPosition.COL;
@@ -456,7 +407,6 @@
         };
 
         CurrentEditor = Editors[0].Type;
-
     }
 
     // Добавлены новые файлы
@@ -466,12 +416,12 @@
         // Добавление файлов
         foreach (var file in files)
         {
-            if (Files.FilesToUpload.FirstOrDefault(item => item.File.Name == file.Name) is not null ||
-                Files.FilesToPrepare.FirstOrDefault(item => item.File.Name == file.Name) is not null) continue;
+            if (Files.FilesToUpload.FirstOrDefault(item => item.FileUploadEntry.Name == file.Name) is not null ||
+                Files.FilesToPrepare.FirstOrDefault(item => item.FileUploadEntry.Name == file.Name) is not null) continue;
 
-            var fileToUpload = new FileToUpload()
+            var fileToUpload = new FileUploader.FileToUpload()
             {
-                File = file,
+                FileUploadEntry = file,
                 Stream = null,
                 IsUploaded = false
             };
@@ -485,7 +435,7 @@
         foreach (var file in Files.FilesToPrepare)
         {
             file.Stream = new MemoryStream();
-            await file.File.WriteToStreamAsync(file.Stream);
+            await file.FileUploadEntry.WriteToStreamAsync(file.Stream);
             file.IsUploaded = true;
             Files.FilesToUpload.Add(file);
 
@@ -496,7 +446,7 @@
 
 
         // Очистка полей ввода для файлов
-        await JsRuntime.InvokeVoidAsync("clearInputFile");
+        await FileUploader.Update();
     }
 
     async Task TextEditorChanged(int activeIndex)
@@ -536,7 +486,7 @@
         MarkdownText = e.Value.ToString();
     }
 
-    void DeleteFile(FileToUpload fileToDelete)
+    void DeleteFile(FileUploader.FileToUpload fileToDelete)
     {
         var filesToUpload = Files.FilesToUpload;
 
@@ -591,7 +541,7 @@
         return IsTitleValid && IsGroupsValid;
     }
 
-    public async Task<(PostModel Post, List<FileToUpload> Files, List<int> GroupIds)> GetPost()
+    public async Task<(PostModel Post, List<FileUploader.FileToUpload> Files, List<int> GroupIds)> GetPost()
     {
         if (!CurrentEditor.Equals(TextEditors.Markdown))
             await TextEditorChanged((int)TextEditors.Markdown);
@@ -603,15 +553,13 @@
             AuthorId = UserId,
             PublicationDate = DateTime.Now,
             PostBody = html,
-            Title = PostTitle,
-            Language = Language.DEFAULT
+            Title = PostTitle
         };
 
         if (Post is null)
             Post = new PostModel()
             {
-                AuthorId = UserId,
-                Language = Language.DEFAULT
+                AuthorId = UserId
             };
 
         Post.PublicationDate = DateTime.Now;

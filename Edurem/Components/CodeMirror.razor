@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime JSRuntime;
+@using System.Reflection; 
 
 <textarea id="editor" hidden>
     @Code
@@ -6,8 +7,11 @@
 
 @code {
 
-    [Parameter]
-    public Language Language { get; set; }
+    public Action<string> OnValueChanged;
+
+    private static CodeMirror Instance { get; set; }
+
+    Language Language { get; set; }
 
     string Code { get; set; }
 
@@ -19,12 +23,13 @@
         {
             { Language.PYTHON, "python" },
             { Language.CSHARP, "text/x-csharp" },
-            { Language.JAVA, "text/x-java" }
+            { Language.DEFAULT, "" }
         };
     }
 
     public async Task GetEditor()
     {
+        Instance = this;
         await JSRuntime.InvokeVoidAsync("getEditor", codeMirrorLanguages[this.Language]);
     }
 
@@ -34,8 +39,32 @@
         await JSRuntime.InvokeVoidAsync("setCode", Code);
     }
 
+    public async Task SetCode(string code, Language language)
+    {
+        Code = code;
+        await JSRuntime.InvokeVoidAsync("setCode", Code);
+        await SetLanguage(language);
+    }
+
+    public async Task SetLanguage(Language language)
+    {
+        if (Language.Equals(language)) return;
+        Language = language;
+        await JSRuntime.InvokeVoidAsync("setLanguage", codeMirrorLanguages[this.Language]);
+    }
+
     public async Task<string> GetCode()
     {
         return await JSRuntime.InvokeAsync<string>("getCode");
+    }
+
+    [JSInvokable]
+    public static async Task CodeMirrorValueChanged(string value)
+    {
+        var field = typeof(CodeMirror).GetField(nameof(OnValueChanged));
+
+        var method = field.FieldType.GetMethod("Invoke");
+
+        method.Invoke(Instance.OnValueChanged, new[] { value });
     }
 }

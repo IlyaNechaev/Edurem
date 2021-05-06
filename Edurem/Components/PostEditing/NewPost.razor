@@ -3,13 +3,15 @@
 @inject Edurem.Services.IFileService FileService;
 @inject Edurem.Services.IGroupService GroupService;
 @inject Edurem.Services.IPostService PostService;
-@inject Edurem.Services.ICodeTestingService TestingService;
+@inject Edurem.Services.ICodeTestService TestService;
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
 @inject NavigationManager NavigationManager;
 @inject IJSRuntime JsRuntime;
 @inject IHttpClientFactory HttpFactory;
 @using System.IO;
 @using Edurem.ViewModels;
-@using Blazored.TextEditor
+@using Edurem.Extensions;
+@using Blazored.TextEditor;
 
 
 <div class="container">
@@ -27,7 +29,7 @@
         <div class="col-4 bs-wizard-step @(Page < 2 ? "disabled" : (Page == 2 ? "active" : "complete"))">
             <div class="text-center bs-wizard-stepnum" style="font-weight: bold">Тесты</div>
             <div class="progress">
-            <div class="progress-bar"></div>
+                <div class="progress-bar"></div>
             </div>
             <a href="#" class="bs-wizard-dot"></a>
             <!--<div class="bs-wizard-info text-center">Nam mollis tristique erat vel tristique. Aliquam erat volutpat. Mauris et vestibulum nisi. Duis molestie nisl sed scelerisque vestibulum. Nam placerat tristique placerat</div>-->
@@ -49,14 +51,14 @@
     case 1:
         <div class="row mb-3">
             <div class="col-12">
-                <EditPost @ref="EditPost" UserId="CurrentUser.Id" GroupId="Group.Id" Post="Post" ChosenGroupsId="GroupIds"></EditPost>
+                <EditPost @ref="EditPost" UserId="CurrentUser.Id" GroupId="Group.Id" Post="Post" ChosenGroupsId="GroupIds" PostFiles="PostFiles"></EditPost>
             </div>
         </div>
         break;
     case 2:
         <div class="row mb-3">
             <div class="col-12">
-                <EditPostTests @ref="EditPostTests"></EditPostTests>
+                <EditPostTests @ref="EditPostTests" GroupIds="GroupIds" CommonTestFiles="CommonTestFiles" OptionTestFiles="OptionTestFiles"></EditPostTests>
             </div>
         </div>
         break;
@@ -65,7 +67,7 @@
     <div class="col-3">
         @if (Page > 1)
         {
-            <button class="btn btn-outline-dark w-100" style="font-size: 18px" @onclick="e => Page--">Назад</button>
+            <button class="btn btn-outline-dark w-100" style="font-size: 18px" @onclick="async e => await ChangePage(-1)">Назад</button>
         }
     </div>
     <div class="col-6">
@@ -80,8 +82,7 @@
                                       {
                                           if (EditPost.IsValid())
                                           {
-                                              (Post, Files[UploadFileType.POST], GroupIds) = await EditPost.GetPost();
-                                              Page++;
+                                              await ChangePage(1);
                                           }
                                       }">
                     Далее
@@ -89,24 +90,19 @@
                 break;
             case 2:
                 <button class="btn btn-primary w-100" style="font-size: 18px"
-                        @onclick="e =>
+                        @onclick="async e =>
                                       {
-                                          Page++;
+                                          await ChangePage(1);
                                       }">
                     Далее
                 </button>
                 break;
             case 3:
-                <button class="btn btn-success w-100" style="font-size: 18px">Опубликовать</button>
+                <button class="btn btn-success w-100" style="font-size: 18px"
+                        @onclick="e => Confirm()">
+                    Опубликовать
+                </button>
                 break;
-        }
-        @if (Page == 3)
-        {
-
-        }
-        else
-        {
-
         }
     </div>
 </div>
@@ -259,7 +255,11 @@
 
     PostModel Post { get; set; }
 
-    Dictionary<UploadFileType, List<EditPost.FileToUpload>> Files { get; set; }
+    List<FileUploader.FileToUpload> PostFiles { get; set; }
+
+    List<FileUploader.FileToUpload> CommonTestFiles { get; set; }
+
+    List<(FileUploader.FileToUpload File, int UserId)> OptionTestFiles { get; set; }
 
     List<int> GroupIds { get; set; }
 
@@ -276,27 +276,33 @@
         NotifyError = false;
         Page = 1;
 
-        Files = new();
-        foreach (var fileType in Enum.GetValues(typeof(UploadFileType)))
-        {
-            var files = (new List<EditPost.FileToUpload>());
-            Files.Add((UploadFileType)fileType, files);
-        }
+        PostFiles = new();
 
         EditPost = new();
         EditPostTests = new();
     }
 
+    async Task ChangePage(int pagesNumber)
+    {
+        switch (Page)
+        {
+            case 1:
+                (Post, PostFiles, GroupIds) = await EditPost.GetPost();
+                break;
+            case 2:
+                (CommonTestFiles, OptionTestFiles) = EditPostTests.GetTestFiles();
+                break;
+        }
+
+        Page += pagesNumber;
+    }
+
     async Task Confirm()
     {
-        (var postModel, var files, var groupIds) = await EditPost.GetPost();
-
-        Files[UploadFileType.POST] = files;
-
         try
         {
             // Создание публикации
-            await GroupService.CreatePost(postModel, Group.Id);
+            await PostService.CreatePost(Post, Group.Id);
         }
         catch (Exception ex)
         {
@@ -304,64 +310,21 @@
             ErrorNotification("Произошла непредвиденная ошибка. Попробуйте повторить операцию через несколько минут либо обратитесь в техническую поддержку");
         }
 
-        // Модели файлов для связи с БД
-        var postFileModels = new List<FileModel>();
-        var testFileModels = new List<FileModel>();
-
-        foreach (var file in Files[UploadFileType.POST])
-        {
-            var filePath = Path.Combine("file_system\\users", CurrentUser.Id.ToString());
-
-            try
-            {
-                // Загрузка файлов на сервер
-                postFileModels.Add(await FileService.UploadFile(file.Stream, filePath, $"{file.File.Name}"));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
         // Добавление файлов к публикации
-        await PostService.AddFilesToPost(postModel.Id, postFileModels);
+        await PostService.AddFilesToPost(Post.Id, PostFiles.Select(file => (file.Stream, file.FileUploadEntry.Name)).ToList());
 
-        // Если добавлены тесты
-        if (Files[UploadFileType.TEST] is not null && Files[UploadFileType.TEST].Count > 0)
+        // Если добавлены общие тесты
+        if (CommonTestFiles is not null && CommonTestFiles.Count > 0)
         {
-            foreach (var file in Files[UploadFileType.TEST])
-            {
-                var filePath = Path.Combine("file_system\\tests", $"post_{postModel.Id}");
-
-                try
-                {
-                    // Загрузка тестов на сервер
-                    testFileModels.Add(await FileService.UploadFile(file.Stream, filePath, $"{file.File.Name}"));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
-
-            var jsonParameterFiles = Files[UploadFileType.TEST].Where(file => Path.GetExtension(file.File.Name) == ".json").ToList();
-
-            // Если есть JSON-файлы
-            if (jsonParameterFiles.Count() > 0)
-            {
-                var unitTestFiles = new List<FileModel>();
-                for (int i = 0; i < jsonParameterFiles.Count(); i++)
-                {
-                    using (var streamReader = new StreamReader(jsonParameterFiles[i].Stream))
-                    {
-                        testFileModels.Add(await TestingService.CreateUnitTests(postModel.Id, streamReader.ReadToEnd(), $"unit_tests{i + 1}"));
-                    }
-                }
-            }
-
-            // Добавление тестов к публикации
-            await PostService.AddTestsToPost(postModel.Id, testFileModels, TestLanguage.CodeLanguage.Language);
+            // Добавление общих тестов к публикации
+            await PostService.AddTestsToPost(Post.Id, CommonTestFiles.Select(test => (test.Stream, test.FileUploadEntry.Name)).ToList());
         }
 
+        if (OptionTestFiles is not null && OptionTestFiles.Count > 0)
+        {
+            // Добавление тестов по вариантам к публикации
+            await PostService.AddTestsToPost(Post.Id, OptionTestFiles.Select(test => (test.File.Stream, test.File.FileUploadEntry.Name, test.UserId)).ToList());
+        }
 
         NavigationManager.NavigateTo($"group/{Group.Id}", true);
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -13,6 +14,7 @@ namespace Edurem.Models
         public static string Surname { get; private set; } = "Claim.Key.Surname";
         public static string Id { get; private set; } = "Claim.Key.Id";
         public static string Status { get; private set; } = "Claim.Key.Status";
+        public static string CookiesId { get; private set; } = "Edurem.Cookies.Id";
     }
 
     public static class AuthenticationExtensions
@@ -20,6 +22,15 @@ namespace Edurem.Models
         public static string GetClaim(this ClaimsPrincipal claimsPrincipal, string claimKey)
         {
             return claimsPrincipal?.FindFirst(claimKey)?.Value ?? string.Empty;
+        }
+
+        public static string GetCookieValue(this HttpRequest request, string cookieKey)
+        {
+            if (request.Cookies.TryGetValue(cookieKey, out var cookieValue))
+            {
+                return cookieValue;
+            }
+            return string.Empty;
         }
     }
 }

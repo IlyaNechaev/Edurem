@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="BlazorAnimate" Version="3.0.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
     <PackageReference Include="Blazored.TextEditor" Version="1.0.3" />
     <PackageReference Include="CKEditor" Version="3.6.4" />
     <PackageReference Include="ColorCode.Core" Version="2.0.8" />
@@ -19,10 +20,10 @@
     <PackageReference Include="Markdig" Version="0.24.0" />
     <PackageReference Include="MarkdigExtensions.SyntaxHighlighting" Version="1.0.3" />
     <PackageReference Include="MatBlazor" Version="2.8.0" />
-    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.8.0" />
+    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.8.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
     <PackageReference Include="StardustDL.RazorComponents.Markdown" Version="0.0.3.25" />
     <PackageReference Include="WebStoating.Markdig.Prism" Version="1.0.0" />
     <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.6.0" />

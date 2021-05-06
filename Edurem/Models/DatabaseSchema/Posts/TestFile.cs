@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Edurem.Models
 {
+    [Table("test_files")]
     public class TestFile
     {
-        public int TestId { get; set; }
+        public int TestInfoId { get; set; }
         public int FileId { get; set; }
 
-        [ForeignKey(nameof(TestId))]
-        public TestInfo Test { get; set; }
+        [ForeignKey(nameof(TestInfoId))]
+        public TestInfo TestInfo { get; set; }
 
         [ForeignKey(nameof(FileId))]
         public FileModel File { get; set; }
-
     }
 }

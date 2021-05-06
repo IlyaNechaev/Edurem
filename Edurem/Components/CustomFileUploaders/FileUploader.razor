@@ -1,0 +1,49 @@
+﻿@namespace Edurem.Components
+@inherits BaseMatFileUpload
+
+@inject IJSRuntime JsRuntime;
+@using System.IO;
+
+
+
+<div @ref="@Ref" @attributes="@Attributes" class="@ClassMapper.AsString()" style="@StyleMapper.AsString()" id="@Id"
+     ondragover="window.dragHandler(event, '@Id', 'lightskyblue')"
+     ondragleave="window.dragHandler(event, '@Id', 'grey')">
+
+    @if (AllowMultiple == true)
+    {
+        <input type="file" @ref="@InputRef" multiple />
+    }
+    else
+    {
+        <input type="file" @ref="@InputRef" />
+    }
+    <div class="mat-file-upload-content">
+        <i class="fas fa-plus" style="font-size: 23px"></i>
+        <span>@Label</span>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool IsEmpty { get; set; }
+
+    public class FileToUpload
+    {
+        public IMatFileUploadEntry FileUploadEntry { get; set; }
+
+        public Stream Stream { get; set; }
+
+        public bool IsUploaded { get; set; }
+    }
+
+    public async Task Update()
+    {
+        await JsRuntime.InvokeVoidAsync("clearInputFile");
+        await JsRuntime.InvokeVoidAsync($"dragHandler", null, Id, "grey");
+    }
+}

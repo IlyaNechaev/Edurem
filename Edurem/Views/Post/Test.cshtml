@@ -15,8 +15,7 @@
         new
         {
             PostId = Model.Id,
-            UserId = int.Parse(Context.User.GetClaim(ClaimKey.Id)),
-            CodeLanguage = Model.CodeLanguage
+            UserId = int.Parse(Context.User.GetClaim(ClaimKey.Id))
         }))
     </div>
 </div>

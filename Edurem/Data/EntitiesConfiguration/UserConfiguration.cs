@@ -50,14 +50,6 @@ namespace Edurem.Data
                 .HasMany(user => user.Groups)
                 .WithOne(groupMember => groupMember.User);
 
-            // Добавочное поле для кода подтверждения Email
-            
-            builder
-                .Property<string>("EmailConfirmCode")
-                .HasColumnType("nvarchar(10)")
-                .HasColumnName("EmailCode")
-                .ValueGeneratedNever();
-
             CreateAdminUser(builder);
         }
 
@@ -73,7 +65,8 @@ namespace Edurem.Data
                 Login = "root",
                 Gender = "MALE",
                 Email = "ilia.nechaeff@yandex.ru"
-            }.ToUser(SecurityService);
+            }
+            .ToUser(SecurityService);
 
             adminUser.Id = 1;
             adminUser.OptionsId = 1;

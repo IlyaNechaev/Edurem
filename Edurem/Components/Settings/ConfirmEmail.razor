@@ -1,0 +1,151 @@
+﻿@namespace Edurem.Components
+@using MimeKit
+@using System.Net.Mail
+@using Edurem.Extensions
+@inject Edurem.Services.IEmailService EmailService;
+@inject Edurem.Services.ISecurityService SecurityService;
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+@inject Edurem.Services.IUserService UserService;
+@inject IMatToaster Toaster;
+
+<div class="row align-items-center">
+    @if (Code is null)
+    {
+        <div class="col-10">
+            <input class="form-control" style="font-size: 19px" value="@Email" readonly />
+        </div>
+        <div class="col-2">
+            <a href="#" style="font-size: 18px" @onclick:preventDefault @onclick="e => Code = string.Empty">Изменить</a>
+        </div>
+    }
+    else
+    {
+        <div class="col-12">
+            <input placeholder="Email" class="form-control" style="font-size: 19px" value="@Email"
+                   @oninput="e => Email = e.Value.ToString()" />
+        </div>
+    }
+</div>
+@if (!User.Email.Equals(Email) || !User.IsActivated)
+{
+    <div class="row mt-2 justify-content-between align-items-center">
+        <div class="col-7 col-lg-6 mt-2 mt-lg-0 justify-content-end">
+            <div class="row">
+                <div class="col-12">
+                    <input placeholder="Код подтверждения" class="form-control" style="font-size: 19px" maxlength="@PasswordLength"
+                           @oninput="e => { IsCodeValid = true;  Code = e.Value.ToString(); }" />
+                </div>
+            </div>
+            @if (!IsCodeValid)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <span class="text-danger" style="font-weight: bold">Неверный код</span>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-7 col-lg-6 justify-content-end">
+            @if (Code.Length < PasswordLength)
+            {
+                <button type="button" class="form-control btn btn-outline-dark @(IsSendingPerformed ? "disabled" : "")" style="font-size: 15px" @onclick="SendEmail">Отправить</button>
+            }
+            else
+            {
+                <button type="button" class="form-control btn btn-primary" style="font-size: 15px" @onclick="e => Confirm(Code)">Подтвердить</button>
+            }
+        </div>
+    </div>
+}
+
+<MatThemeProvider Theme="@theme">
+    <MatDialog @bind-IsOpen="@IsSendingFailed">
+        <MatDialogTitle Class="text-center bg-danger">
+            <div class="col-12">
+                <i class="fas fa-times" style="font-size: 65px; color: white"></i>
+                <p style="color: white">Не удалось отправить сообщение</p>
+            </div>
+        </MatDialogTitle>
+        <MatDialogContent>
+            <p class="mt-2">
+                В данный момент мы не можем отправить вам сообщение для подтверждения Email. Попробуйте повторить отправку через несколько минут
+                либо свяжитесь с технической поддержкой
+            </p>
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton Unelevated="true" Type="button" OnClick="@(e => { IsSendingFailed = false; })">Закрыть</MatButton>
+        </MatDialogActions>
+    </MatDialog>
+</MatThemeProvider>
+<MatToastContainer />
+
+
+@code {
+    [Parameter]
+    public User User { get; set; }
+
+    int PasswordLength { get; set; }
+
+    string Email { get; set; }
+
+    string Code { get; set; }
+
+    bool IsSendingFailed { get; set; }
+
+    bool IsSendingPerformed { get; set; }
+
+    bool IsCodeValid { get; set; }
+
+    MatTheme theme = new MatTheme
+    {
+        Primary = "#FF8740", // Цвет кнопки
+        Surface = "white" // Цвет фона диалогового окна
+    };
+
+    protected override void OnInitialized()
+    {
+        PasswordLength = 10;
+        Code = User.IsActivated ? null : string.Empty;
+        Email = User.Email;
+        IsCodeValid = true;
+    }
+
+    async Task SendEmail()
+    {
+        IsSendingPerformed = true;
+
+        await UserService.SendUserEmailConfirmation(User, OnSendCompleted);
+        var password = SecurityService.GenerateCode();
+    }
+
+    void Show(MatToastType type, string title, string message, string icon = "")
+    {
+        Toaster.Add(message, type, title, icon);
+    }
+
+    void OnSendCompleted(object sender, Edurem.Services.SendCompletedEventArgs e)
+    {
+        if (e.IsFailed)
+        {
+            IsSendingFailed = true;
+        }
+        else
+        {
+            Show(MatToastType.Success, "Сообщение отправлено", "На указанную почту было отправлено сообщение с кодом подтверждения");
+        }
+
+        IsSendingPerformed = false;
+    }
+
+    async Task Confirm(string code)
+    {
+        if (!await UserService.ConfirmEmail(User, code))
+        {
+            IsCodeValid = false;
+        }
+        else
+        {
+            Code = null;
+        }
+    }
+}

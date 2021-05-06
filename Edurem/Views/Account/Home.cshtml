@@ -1,6 +1,8 @@
-﻿
+﻿@inject Edurem.Services.ICookieService CookieService;
+
 @{
-    ViewData["Title"] = Context.User.GetClaim(ClaimKey.Surname) + " " + Context.User.GetClaim(ClaimKey.Name);
+    var cookies = Context.Request.GetCookieValue(ClaimKey.CookiesId);
+    ViewData["Title"] = CookieService.GetCookie(ClaimKey.Surname, cookies) + " " + CookieService.GetCookie(ClaimKey.Name, cookies);
     ViewData["ApplicationName"] = "Edurem";
     Layout = "_AccountLayout";
 }

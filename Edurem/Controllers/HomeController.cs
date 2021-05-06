@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Edurem.Data;
 using System.IO;
 using Edurem.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace Edurem.Controllers
 {
@@ -25,17 +26,8 @@ namespace Edurem.Controllers
 
         [HttpGet]
         [Route("")]
-        public IActionResult Index([FromServices] IDockerService dockerService, [FromServices] IWebHostEnvironment appEnvironment)
+        public IActionResult Index()
         {
-            /*
-            var contextPath = Path.Combine(appEnvironment.WebRootPath, "file_system\\tests", $"post_1");
-            var parameters = new Docker.DotNet.Models.ImageBuildParameters
-            {
-                Dockerfile = Path.Combine(appEnvironment.WebRootPath, "file_system\\tests", $"post_1", $"user_1", "Dockerfile"),
-                Tags = new List<string>() { "test_1_1" }
-            };
-
-            dockerService.CreateImage(contextPath, parameters);*/
             return View();
         }
         public IActionResult Privacy()

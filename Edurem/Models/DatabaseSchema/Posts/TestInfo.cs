@@ -23,6 +23,9 @@ namespace Edurem.Models
         public string ResultText { get; set; }
         public int CountOfTests { get; set; }
         public int CountOfCompletedTests { get; set; }
+
+        public Language Language { get; set; }
+
         public List<TestFile> TestFiles { get; set; }
     }
 }

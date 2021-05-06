@@ -14,7 +14,17 @@ namespace Edurem.Services
         // Соответствие пароля хэш-сумме
         public bool ValidatePassword(string password, string hash);
 
-        // Генерация случайного пароля длиной length
-        public string GeneratePassword(int length = 10);
+        // Шифрование текста
+        public string Encrypt(string textToEncrypt, string key);
+
+        // дешифрование текста
+        public string Decrypt(string textToDecrypt, string key);
+
+        // Генерация случайного кода длиной length
+        public string GenerateCode(int length = 10);
+
+        public string GenerateToken(string seed);
+
+        public string GetSeedFromToken(string token);
     }
 }

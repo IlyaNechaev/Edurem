@@ -11,7 +11,7 @@ namespace Edurem.Services
     public interface IFileService
     {
         // Загрузка файлов на сервер
-        public Task<FileModel> UploadFile(Stream stream, string filePath, string fileName);
+        public Task<FileModel> UploadFile(Stream stream, string filePath, string fileName, bool dbUpload = true);
 
         // Получить модель файла из БД
         public Task<FileModel> GetFile(int fileId);
@@ -34,6 +34,7 @@ namespace Edurem.Services
 
         public Stream GetFileStream(FileModel file);
 
+        public string GetFullPath(params string[] paths);
         public string GetExtensionClass(string extension) => extension switch
         {
             "doc" or "docx" or "odt" => "far fa-file-word",

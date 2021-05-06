@@ -41,7 +41,7 @@ namespace Edurem.Controllers
         }
 
         [Route("home")]
-        public IActionResult Home([FromServices] IConfiguration config)
+        public IActionResult Home()
         {
             return View();
         }
@@ -57,7 +57,7 @@ namespace Edurem.Controllers
 
             settingsViewModel.Notifications = userNotificationOptions;
 
-            settingsViewModel.User = UserService.GetAuthenticatedUser(HttpContext);
+            settingsViewModel.User = await UserService.GetAuthenticatedUser(HttpContext);
 
             return View(settingsViewModel);
         }
@@ -115,7 +115,7 @@ namespace Edurem.Controllers
             }
 
             var newGroup = groupCreationModel.ToGroup();
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+            var authenticatedUser = await UserService.GetAuthenticatedUser(HttpContext);
 
             await groupService.CreateGroup(newGroup, authenticatedUser);
 
@@ -124,9 +124,9 @@ namespace Edurem.Controllers
 
         [Route("verifyEmail")]
         [HttpGet]
-        public IActionResult VerifyEmail()
+        public async Task<IActionResult> VerifyEmail()
         {
-            var authenticatedUser = UserService.GetAuthenticatedUser(HttpContext);
+            var authenticatedUser = await UserService.GetAuthenticatedUser(HttpContext);
             return View(authenticatedUser);
         }
 

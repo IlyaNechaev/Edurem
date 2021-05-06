@@ -48,6 +48,17 @@ namespace Edurem.Services
         // Отправка сообщения
         private async Task SendEmail(MimeMessage emailMessage, (string Host, int Port, bool UseSsl) smtpServer, (string Username, string Password) authInfo)
         {
+            /*
+            var emailOptions = new EmailOptions
+            {
+                Receivers = emailMessage.To.Select(to => (((MailboxAddress)to).Address, ((MailboxAddress)to).Name)).ToList(),
+                Sender = emailMessage.From.Select(from => (((MailboxAddress)from).Address, ((MailboxAddress)from).Name)).ElementAt(0),
+                Subject = emailMessage.Subject,
+                AuthInfo = authInfo,
+                Text = ((TextPart)emailMessage.Body).Text,
+                SmtpServer = smtpServer
+            };*/
+
             try
             {
                 using (var client = new SmtpClient())
@@ -58,8 +69,7 @@ namespace Edurem.Services
 
                     await client.DisconnectAsync(true);
                 }
-
-                var eventArgs = new SendCompletedEventArgs() { IsFailed = false};
+                var eventArgs = new SendCompletedEventArgs() { Error = "", IsFailed = false, ReceiverEmails = emailMessage.To.Select(to => ((MailboxAddress)to).Address).ToList() };
 
                 SendCompleted?.Invoke(this, eventArgs);
             }

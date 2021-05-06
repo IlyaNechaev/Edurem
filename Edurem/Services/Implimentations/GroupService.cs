@@ -1,21 +1,40 @@
 ﻿using Edurem.Data;
 using Edurem.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Edurem.Extensions;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace Edurem.Services
 {
     public class GroupService : IGroupService
     {
         IRepositoryFactory RepositoryFactory { get; init; }
+        IEmailService EmailService { get; init; }
+        IConfiguration Configuration { get; init; }
+        IFileService FileService { get; init; }
+        IHttpContextAccessor HttpContextAccessor { get; init; }
+        ISecurityService SecurityService { get; init; }
 
-        public GroupService([FromServices] IRepositoryFactory repositoryFactory)
+        public GroupService(
+            IRepositoryFactory repositoryFactory,
+            IEmailService emailService,
+            IConfiguration configuration,
+            IFileService fileService,
+            ISecurityService securityService,
+            IHttpContextAccessor httpContextAccessor)
         {
             RepositoryFactory = repositoryFactory;
+            EmailService = emailService;
+            Configuration = configuration;
+            FileService = fileService;
+            HttpContextAccessor = httpContextAccessor;
+            SecurityService = securityService;
         }
 
         public async Task<List<(Group, RoleInGroup)>> GetUserGroups(User user)
@@ -50,9 +69,12 @@ namespace Edurem.Services
         {
             var SubjectRepository = RepositoryFactory.GetRepository<Subject>();
 
-            var subject = new Subject() { AuthorId = userId, Name = subjectName };
+            if ((await SubjectRepository.Get(subject => subject.AuthorId == userId && subject.Name.Equals(subjectName))) is null)
+            {
+                var subject = new Subject() { AuthorId = userId, Name = subjectName };
 
-            await SubjectRepository.Add(subject);
+                await SubjectRepository.Add(subject);
+            }
         }
 
         public async Task<List<Subject>> GetUserSubjects(User user)
@@ -80,7 +102,7 @@ namespace Edurem.Services
             var PostRepository = RepositoryFactory.GetRepository<PostModel>();
 
             // Находим идентификаторы публикаций для данной группы
-            var postsId = (await GroupPostRepository.Find(gp => gp.GroupId == groupId)).Select(gp => gp.PostId);
+            var postsId = (await GroupPostRepository.Find(gp => gp.GroupId == groupId)).Select(gp => gp.PostId).ToList();
 
             var posts = (await PostRepository.Find(post => postsId.Contains(post.Id), nameof(PostModel.AttachedFiles), nameof(PostModel.Author)));
 
@@ -93,35 +115,96 @@ namespace Edurem.Services
                 .ToList();
         }
 
-        public async Task CreatePost(PostModel post, int groupId, List<FileModel> files = null)
+        public async Task<List<GroupMember>> GetMembers(int groupId)
         {
-            var PostModelRepository = RepositoryFactory.GetRepository<PostModel>();
-            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
-            var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
+            var members = (await RepositoryFactory
+                .GetRepository<GroupMember>()
+                .Find(gm => gm.GroupId == groupId, nameof(GroupMember.User), nameof(GroupMember.Group)))
+                .ToList();
 
+            return members;
+        }
+
+        public async Task Invite(int groupId, List<string> emailsToInvite)
+        {
+            var groupName = (await GetGroup(groupId)).Name;
+
+            var message = File.ReadAllText(
+                FileService.GetFullPath(
+                    Configuration.GetFilePath("InvitationPattern")
+                    )
+                );
+
+            Parallel.ForEach(emailsToInvite,
+                async email =>
+                {
+                    var inviteCode = SecurityService.Encrypt($"group_id={groupId}&email={email}", "edurem")
+                    .Replace("+", "&")
+                    .Replace("/", "&&");
+                    var request = HttpContextAccessor.HttpContext.Request;
+
+                    var link = $"{request.Scheme}://{request.Host}/group/join/{inviteCode}";
+
+                    message = message
+                    .Replace("@group_name", groupName)
+                    .Replace("@link", link);
+
+                    var options = new EmailOptions
+                    {
+                        Text = message,
+                        Subject = "Подтверждение Email",
+                        Sender = ("ilia.nechaeff@yandex.ru", "Edurem"),
+                        Receivers = new() { (email, "") },
+                        SmtpServer = ("smtp.yandex.ru", 25, false),
+                        AuthInfo = ("ilia.nechaeff@yandex.ru", "02081956Qw")
+                    };
+
+                    await EmailService.SendEmailAsync(options);
+                });
+        }
+
+        public async Task<(bool HasErrors, int GroupId, int UserId, string Email)> IsInvited(string code)
+        {
+            code = code.Replace("&&", "/").Replace("&", "+");
+
+            var decryptCode = new string[2];
+            var groupId = string.Empty;
+            var email = string.Empty;
             try
             {
-                // Добавляем новую публикацию в БД
-                await PostModelRepository.Add(post);
-
-                if (files is not null)
-                {
-                    // Создать связующие записи post_files
-                    var postFiles = files.Select(file => new PostFile { FileId = file.Id, PostId = post.Id });
-
-                    // Добавляем связующие записи в БД
-                    foreach (var postFile in postFiles)
-                    {
-                        await PostFileRepository.Add(postFile);
-                    }
-                }
+                decryptCode = SecurityService.Decrypt(code, "edurem").Split("&");
+                groupId = decryptCode[0].Split("=")[1];
+                email = decryptCode[1].Split("=")[1];
             }
             catch (Exception)
             {
-                throw;
+                return (true, 0, 0, string.Empty);
             }
 
-            await GroupPostRepository.Add(new GroupPost { GroupId = groupId, PostId = post.Id });
+            var groupToJoin = await RepositoryFactory.GetRepository<Group>().Get(group => group.Id == int.Parse(groupId));
+
+            if (groupToJoin is null) return (true, 0, 0, string.Empty);
+
+            var userToJoin = await RepositoryFactory.GetRepository<User>().Get(user => user.Email == email);
+
+            return (false, groupToJoin.Id, userToJoin?.Id ?? 0, email);
+        }
+
+        public async Task JoinGroup(int userId, int groupId)
+        {
+            var GroupMemberRepository = RepositoryFactory.GetRepository<GroupMember>();
+
+            if (GroupMemberRepository.Get(gm => (gm.UserId == userId && gm.GroupId == groupId)) is not null)
+                return;
+
+            var groupMember = new GroupMember
+            {
+                GroupId = groupId,
+                UserId = userId,
+                RoleInGroup = RoleInGroup.MEMBER
+            };
+
+            await RepositoryFactory.GetRepository<GroupMember>().Add(groupMember);
         }
     }
 }

@@ -22,8 +22,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StardustDL.RazorComponents.Markdown;
 using MimeKit;
+using Pomelo.EntityFrameworkCore.MySql;
 using System.Net.Http;
 using Edurem.Providers;
+using Blazored.LocalStorage;
 
 namespace Edurem
 {
@@ -44,7 +46,9 @@ namespace Edurem
 
             services.AddServerSideBlazor();
             services.AddRazorPages();
-            services.AddMarkdownComponent();
+            services.AddMarkdownComponent(); 
+            services.AddHttpContextAccessor(); 
+            services.AddBlazoredLocalStorage();
 
             // Добавляем конфигурацию Toaster
             services.AddMatToaster(config =>
@@ -63,10 +67,15 @@ namespace Edurem
                 config.RequireInteraction = false;
             });
 
+            // Replace with your connection string.
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            var serverVersion = ServerVersion.AutoDetect(connectionString);
+            
             services.AddDbContext<DbContext, EduremDbContext>(options =>
                 options.UseMySql(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    builder => builder.EnableRetryOnFailure()),
+                        serverVersion,
+                        builder => builder.EnableRetryOnFailure()),
                     ServiceLifetime.Transient
             );
 
@@ -77,9 +86,10 @@ namespace Edurem
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IEmailService, MimeEmailService>();
             services.AddTransient<IFileService, FileService>();
-            services.AddTransient<ICodeTestingService, TestingService>();
+            services.AddTransient<ICodeTestService, TestService>();
             services.AddTransient<IDockerService, ConsoleDockerService>();
             services.AddTransient<IMarkdownService, Services.Markdig>();
+            services.AddTransient<ICookieService, CookieService>();
             services.AddTransient<LanguageTestProviderFactory>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 

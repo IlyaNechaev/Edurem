@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Edurem.Models;
 using Edurem.Data;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Edurem.Controllers
 {
     [Route("group")]
@@ -47,6 +49,74 @@ namespace Edurem.Controllers
             var group = await RepositoryFactory.GetRepository<Group>().Get(group => group.Id == id);
 
             return View(group);
+        }
+
+        [Route("{id}/invite")]
+        [HttpGet]
+        public async Task<IActionResult> Invite(int id)
+        {
+            var currentUserId = int.Parse(HttpContext.User.GetClaim(ClaimKey.Id));
+
+            var group = await GroupService.GetGroup(id);
+            var postsCount = (await GroupService.GetGroupPosts(id, postsCount: int.MaxValue)).Count();
+
+            var groupView = new GroupViewModel(group, group.Members.First(gm => gm.UserId == currentUserId).RoleInGroup, group.Subject);
+            groupView.PostsCount = postsCount;
+
+            return View(groupView);
+        }
+
+        [Route("{id}/invite")]
+        [HttpPost]
+        public async Task<IActionResult> Invite(int id, string emailsToInvite)
+        {
+            var emails = emailsToInvite
+                .Split(";")
+                .Select(email => email.Trim())
+                .ToList();
+
+            await GroupService.Invite(id, emails);
+
+            return RedirectToAction(nameof(GroupPosts), new { id = id });
+        }
+
+        [Route("join/{code}")]
+        [HttpGet]
+        public async Task<IActionResult> Join(string code, 
+            [FromServices] ICookieService cookieService)
+        {
+            var isInvited = await GroupService.IsInvited(code);
+
+            if (isInvited.HasErrors)
+                return RedirectToAction("Index", "Home");
+
+            // Если запрос производит авторизованный пользователь
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var id = int.Parse(HttpContext.User.GetClaim(ClaimKey.Id));
+
+                if (id == isInvited.UserId)
+                {
+                    await GroupService.JoinGroup(isInvited.UserId, isInvited.GroupId);
+
+                    return RedirectToAction("GroupPosts", new { id = isInvited.GroupId });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Account");
+                }
+            }
+            else
+            {
+                if (isInvited.UserId == 0)
+                {
+                    return RedirectToAction("Register", "Administration", new { email = isInvited.Email });
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Administration", new { email = isInvited.Email });
+                }
+            }
         }
 
         [Route("/files/download")]

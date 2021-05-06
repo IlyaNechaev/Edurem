@@ -2,22 +2,19 @@
 using Edurem.Models;
 using Edurem.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using MimeKit;
 using Microsoft.Extensions.Configuration;
 using Edurem.Extensions;
-using Microsoft.AspNetCore.Hosting;
 using static Edurem.Services.IEmailService;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Edurem.Services
 {
@@ -29,13 +26,15 @@ namespace Edurem.Services
         IConfiguration Configuration { get; init; }
         IDbService DbService { get; init; }
         IRepositoryFactory RepositoryFactory { get; init; }
+        ICookieService CookieService { get; init; }
 
-        public UserService([FromServices] IRepositoryFactory repositoryFactory,
-                           [FromServices] IDbService dbService,
-                           [FromServices] ISecurityService securityService,
-                           [FromServices] IEmailService emailService,
-                           [FromServices] IFileService fileService,
-                           [FromServices] IConfiguration configuration)
+        public UserService(IRepositoryFactory repositoryFactory,
+                           IDbService dbService,
+                           ISecurityService securityService,
+                           IEmailService emailService,
+                           IFileService fileService,
+                           IConfiguration configuration,
+                           ICookieService cookieService)
         {
             RepositoryFactory = repositoryFactory;
             DbService = dbService;
@@ -43,6 +42,7 @@ namespace Edurem.Services
             EmailService = emailService;
             FileService = fileService;
             Configuration = configuration;
+            CookieService = cookieService;
         }
 
         public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterEditModel registerModel)
@@ -50,7 +50,7 @@ namespace Edurem.Services
             return await RegisterUser(registerModel, SecurityService);
         }
 
-        public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterEditModel registerModel, 
+        public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> RegisterUser(RegisterEditModel registerModel,
                                                                                                            ISecurityService securityService)
         {
             (bool HasErrors, List<(string Key, string Message)> ErrorMessages) result = new();
@@ -84,9 +84,9 @@ namespace Edurem.Services
             return await SignInUser(userLogin, userPassword, context, SecurityService);
         }
 
-        public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> SignInUser(string userLogin, 
-                                                                                                         string userPassword, 
-                                                                                                         HttpContext context, 
+        public async Task<(bool HasErrors, List<(string Key, string Message)> ErrorMessages)> SignInUser(string userLogin,
+                                                                                                         string userPassword,
+                                                                                                         HttpContext context,
                                                                                                          ISecurityService securityService)
         {
             (bool HasErrors, List<(string Key, string Message)> ErrorMessages) result = new();
@@ -128,16 +128,22 @@ namespace Edurem.Services
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimKey.Login, validUser.Login),
-                    new Claim(ClaimKey.Name, validUser.Name),
-                    new Claim(ClaimKey.Id, validUser.Id.ToString()),
-                    new Claim(ClaimKey.Surname, validUser.Surname),
-                    new Claim(ClaimKey.Status, "REGISTERED")
+                    new Claim(ClaimKey.Id, validUser.Id.ToString())
                 };
 
+                var cookies = new List<(string Key, string Value)>
+                {
+                    (ClaimKey.Login, validUser.Login),
+                    (ClaimKey.Name, validUser.Name),
+                    (ClaimKey.Surname, validUser.Surname),
+                    (ClaimKey.Status, "REGISTERED"),
+                };
 
                 // Создаем объект ClaimsIdentity
                 var claimId = new ClaimsIdentity(claims, "EduremCookie");
+
+                // Установка куки
+                context.Response.Cookies.Append(ClaimKey.CookiesId, CookieService.GenerateCookie(cookies));
 
                 // Установка аутентификационных куки
                 await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimId));
@@ -147,9 +153,11 @@ namespace Edurem.Services
         public async Task LogoutUser(HttpContext context)
         {
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            context.Response.Cookies.Delete(ClaimKey.CookiesId);
         }
 
-        public User GetAuthenticatedUser(HttpContext context)
+        public async Task<User> GetAuthenticatedUser(HttpContext context)
         {
             // Если пользователь не авторизован
             if (!context.User.Identity.IsAuthenticated)
@@ -157,7 +165,9 @@ namespace Edurem.Services
 
             var UserRepository = RepositoryFactory.GetRepository<User>();
 
-            return UserRepository.Get(user => user.Login == context.User.FindFirst(ClaimKey.Login).Value).Result;
+            var loginFromCookies = CookieService.GetCookie(ClaimKey.Login, context.Request.GetCookieValue(ClaimKey.CookiesId));
+
+            return await UserRepository.Get(user => user.Login == loginFromCookies);
         }
 
         public async Task UpdateUser(User user)
@@ -167,8 +177,9 @@ namespace Edurem.Services
                 var UserRepository = RepositoryFactory.GetRepository<User>();
                 await UserRepository.Update(user);
             }
-            catch(DatabaseServiceException)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -187,15 +198,10 @@ namespace Edurem.Services
 
         public async Task SendUserEmailConfirmation(User user, params SendCompletedHandler[] onSendCompleted)
         {
-            var emailCode = DbService.GetEntityProperty<User, string>(user, "EmailConfirmCode") ?? SecurityService.GeneratePassword();
-
-            // Если свойство emailCode не заполнен (null или пустая строка)
-            if (emailCode is null || emailCode.Equals(string.Empty))
-            {
-                // Генерируем пароль и передаем в БД
-                emailCode = SecurityService.GeneratePassword();
-                await DbService.SetEntityProperty(user, "EmailConfirmCode", emailCode);
-            }
+            // Каждый раз создается новый код подтверждения почты
+            var emailCode = SecurityService.GenerateCode();
+            user.EmailCode = emailCode;
+            await RepositoryFactory.GetRepository<User>().Update(user);
 
             // Получить текст файла
             var emailMessageText = FileService.GetFileText(Configuration.GetFilePath("ConfirmEmailPattern"));
@@ -211,7 +217,7 @@ namespace Edurem.Services
                 Receivers = new() { (user.Email, "") },
                 SmtpServer = ("smtp.yandex.ru", 25, false),
                 AuthInfo = ("ilia.nechaeff@yandex.ru", "02081956Qw")
-            };            
+            };
 
             foreach (var s in onSendCompleted)
             {
@@ -220,6 +226,70 @@ namespace Edurem.Services
 
             // Отправить email
             await EmailService.SendEmailAsync(emailOptions);
+        }
+
+        public async Task UpdateUserNotificationOptions(User user, NotificationOptions options)
+        {
+            await UpdateUserNotificationOptions(user.Id, options);
+        }
+
+        public async Task UpdateUserNotificationOptions(int userId, NotificationOptions options)
+        {
+            var OptionRepository = RepositoryFactory.GetRepository<NotificationOptions>();
+
+            try
+            {
+                await OptionRepository.Update(options);
+            }
+            catch (InvalidOperationException)
+            {
+                // В данном месте появлялась ошибка, для решения которой приходится доставать объект из БД,
+                // присваивать его свойствам необходимые значения, а после обновлять в БД
+                var newOptions = await OptionRepository.Get(notificationOptions => notificationOptions.Id == options.Id);
+
+                foreach (var option in newOptions.GetType().GetProperties())
+                {
+                    option.SetValue(newOptions, options.GetType().GetProperty(option.Name).GetValue(options));
+                }
+
+                await OptionRepository.Update(newOptions);
+            }
+        }
+
+        public async Task<bool> ConfirmEmail(User user, string code)
+        {
+            var UserRepository = RepositoryFactory.GetRepository<User>();
+
+            var emailCode = user.EmailCode;
+
+            if (emailCode.Equals(code))
+            {
+                user.Status = Status.ACTIVATED;
+                await UserRepository.Update(user);
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> IsPasswordValid(int userId, string password)
+        {
+            var UserRepository = RepositoryFactory.GetRepository<User>();
+
+            var user = await UserRepository.Get(user => user.Id == userId);
+
+            return user.PasswordHash.Equals(SecurityService.GetPasswordHash(password));
+        }
+
+        public async Task ChangePassword(int userId, string newPassword)
+        {
+            var UserRepository = RepositoryFactory.GetRepository<User>();
+
+            var user = await UserRepository.Get(user => user.Id == userId);
+
+            user.PasswordHash = SecurityService.GetPasswordHash(newPassword);
+
+            await UserRepository.Update(user);
         }
     }
 }

@@ -1,0 +1,72 @@
+﻿@namespace Edurem.Components
+
+
+<div class="row align-items-center mt-3">
+    <div class="col-1">
+        <MatThemeProvider Theme="(NotificationOptions.NewTasksToEmail == TempOptions.NewTasksToEmail ? themeEquality : themeUnequality)">
+            <MatCheckbox @bind-Value="NotificationOptions.NewTasksToEmail" @onchange="e => OnValueChanged(nameof(NotificationOptions.NewTasksToEmail), (bool)e.Value)"></MatCheckbox>
+        </MatThemeProvider>
+    </div>
+    <div class="col-10">
+        <p class="mb-0" style="font-size: 18px">Публикация новых заданий</p>
+    </div>
+</div>
+<div class="row align-items-center mt-3">
+    <div class="col-1">
+        <MatThemeProvider Theme="(NotificationOptions.TeacherMessageToEmail == TempOptions.TeacherMessageToEmail ? themeEquality : themeUnequality)">
+            <MatCheckbox @bind-Value="NotificationOptions.TeacherMessageToEmail" @onchange="e => OnValueChanged(nameof(NotificationOptions.TeacherMessageToEmail), (bool)e.Value)"></MatCheckbox>
+        </MatThemeProvider>
+    </div>
+    <div class="col-10">
+        <p class="mb-0" style="font-size: 18px">Ответ преподавателя на ваше сообщение</p>
+    </div>
+</div>
+<div class="row align-items-center mt-3">
+    <div class="col-1">
+        <MatThemeProvider Theme="(NotificationOptions.TaskResultToEmail == TempOptions.TaskResultToEmail ? themeEquality : themeUnequality)">
+            <MatCheckbox @bind-Value="NotificationOptions.TaskResultToEmail" @onchange="e => OnValueChanged(nameof(NotificationOptions.TaskResultToEmail), (bool)e.Value)"></MatCheckbox>
+        </MatThemeProvider>
+    </div>
+    <div class="col-10">
+        <p class="mb-0" style="font-size: 18px">Результаты проверки преподавателем вашего задания</p>
+    </div>
+</div>
+
+@code {
+
+    MatTheme themeEquality = new MatTheme
+    {
+        Secondary = "#6a1b9a"
+    };
+
+    MatTheme themeUnequality = new MatTheme
+    {
+        Secondary = "#007bff"
+    };
+
+    [Parameter]
+    public NotificationOptions NotificationOptions { get; set; }
+
+    public NotificationOptions TempOptions { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        TempOptions = new NotificationOptions
+        {
+            NewTasksToEmail = NotificationOptions.NewTasksToEmail,
+            TaskResultToEmail = NotificationOptions.TaskResultToEmail,
+            TeacherMessageToEmail = NotificationOptions.TeacherMessageToEmail
+        };
+    }
+
+    void OnValueChanged(string optionName, bool value)
+    {
+        NotificationOptions.GetType().GetProperty(optionName).SetValue(NotificationOptions, value);
+    }
+
+    public NotificationOptions GetOptions()
+    {
+        return NotificationOptions;
+    }
+}

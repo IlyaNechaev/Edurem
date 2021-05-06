@@ -34,6 +34,7 @@ namespace Edurem.Models
             if (lastCommand != "FROM" && lastCommand != string.Empty)
                 content.AppendLine();
 
+            lastCommand = "FROM";
             content.AppendLine($"FROM {baseImage}");
 
             return this;
@@ -44,7 +45,8 @@ namespace Edurem.Models
             if (lastCommand != "COPY")
                 content.AppendLine();
 
-            content.AppendLine($"COPY {copyFrom} {copyTo}");
+            lastCommand = "COPY";
+            content.AppendLine($"COPY \"{copyFrom}\" \"{copyTo}\"");
 
             return this;
         }
@@ -54,7 +56,8 @@ namespace Edurem.Models
             if (lastCommand != "ADD")
                 content.AppendLine();
 
-            content.AppendLine($"ADD {addFrom} {addTo}");
+            lastCommand = "ADD";
+            content.AppendLine($"ADD \"{addFrom}\" \"{addTo}\"");
 
             return this;
         }
@@ -64,6 +67,7 @@ namespace Edurem.Models
             if (lastCommand != "RUN")
                 content.AppendLine();
 
+            lastCommand = "RUN";
             content.AppendLine($"RUN [ \"{command}\", {string.Join(", ", args.Select(com => $"\"{com}\""))} ]");
 
             return this;
@@ -71,9 +75,10 @@ namespace Edurem.Models
 
         public DockerfileBuilder Cmd(string command, params string[] args)
         {
-            if (lastCommand != "RUN")
+            if (lastCommand != "CMD")
                 content.AppendLine();
 
+            lastCommand = "CMD";
             content.AppendLine($"CMD [ \"{command}\", {string.Join(", ", args.Select(com => $"\"{com}\""))} ]");
 
             return this;

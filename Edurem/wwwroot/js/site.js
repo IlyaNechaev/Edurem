@@ -1,4 +1,7 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿window.setCookies = function (newCookies, toReload) {
+    if (document.cookie != newCookies) {
+        document.cookie = newCookies;
 
-// Write your JavaScript code.
+        document.location.reload();
+    }    
+}

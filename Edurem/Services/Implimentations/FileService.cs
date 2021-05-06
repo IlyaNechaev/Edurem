@@ -24,9 +24,8 @@ namespace Edurem.Services
             RepositoryFactory = repositoryFactory;
         }
 
-        public async Task<FileModel> UploadFile(Stream stream, string filePath, string fileName)
+        public async Task<FileModel> UploadFile(Stream stream, string filePath, string fileName, bool dbUpload = true)
         {
-            var FileRepository = RepositoryFactory.GetRepository<FileModel>();
 
             string fullFilePath = Path.Combine(AppEnvironment.WebRootPath, filePath, fileName);
             string directoryPath = Path.Combine(AppEnvironment.WebRootPath, filePath);
@@ -34,27 +33,33 @@ namespace Edurem.Services
             // Создаем директорию, если ее нет
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
-
-            var fileModel = new FileModel() 
-            { 
-                Name = fileName, 
-                Path = filePath 
-            };
-            // Если файл не существует
-            if ((await FileRepository.Get(file => file.Name == fileModel.Name && file.Path == fileModel.Path)) is null)
-            {
-                // Сохраняем данные в БД
-                await FileRepository.Add(fileModel);
-            }
-            else
-            {
-                fileModel = await FileRepository.Get(file => file.Name == fileModel.Name && file.Path == fileModel.Path);
-            }
-
+            
             using (var fileStream = File.Exists(fullFilePath) ? File.OpenWrite(fullFilePath) : File.Create(fullFilePath))
             {
                 stream.Position = 0;
                 await stream.CopyToAsync(fileStream);
+            }
+
+            var fileModel = new FileModel()
+            {
+                Name = fileName,
+                Path = filePath, 
+                Size = stream.Length
+            };
+
+            if (dbUpload)
+            {
+                var FileRepository = RepositoryFactory.GetRepository<FileModel>();
+                // Если файл не существует
+                if ((await FileRepository.Get(file => file.Name == fileModel.Name && file.Path == fileModel.Path)) is null)
+                {
+                    // Сохраняем данные в БД
+                    await FileRepository.Add(fileModel);
+                }
+                else
+                {
+                    fileModel = await FileRepository.Get(file => file.Name == fileModel.Name && file.Path == fileModel.Path);
+                }
             }
 
             // Возвращаем модель файла
@@ -170,6 +175,16 @@ namespace Edurem.Services
         public Stream GetFileStream(FileModel file)
         {
             return File.OpenRead(Path.Combine(AppEnvironment.WebRootPath, file.GetFullPath()));
+        }
+
+        public string GetFullPath(params string[] paths)
+        {
+            var fullPath = AppEnvironment.WebRootPath;
+            foreach (var path in paths)
+            {
+                fullPath = Path.Combine(fullPath, path);
+            }
+            return fullPath;
         }
     }
 }

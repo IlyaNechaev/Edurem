@@ -9,6 +9,10 @@ function getEditor(language) {
           autoRefresh: true,
           lineNumbers: true
         });
+      editor.on('change', function (cMirror) {
+        // get value right from instance
+        DotNet.invokeMethodAsync('Edurem', 'CodeMirrorValueChanged', getCode());
+      });
     }
   });
 }
@@ -17,9 +21,15 @@ function setCode(code) {
   editor.getDoc().setValue(code);
   setTimeout(function () {
     editor.refresh();
-  }, 10);
+  }, 100);
 }
 
 function getCode() {
   return editor.getValue();
+}
+
+
+
+function setLanguage(language) {
+  editor.setOption("mode", language);
 }

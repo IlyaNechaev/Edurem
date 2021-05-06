@@ -1,0 +1,23 @@
+﻿@model Edurem.ViewModels.GroupViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Name}. Добавить участников";
+    ViewData["ApplicationName"] = "Edurem";
+    Layout = "_AccountLayout";
+}
+
+<form class="row justify-content-center mt-5" method="post" asp-area="" asp-controller="Group" asp-action="Invite">
+    <div class="col-8">
+        <div class="row text-left">
+            <p>
+                Введите список адресов электронных почт (email), пользователей которых Вы хотите пригласить в группу. В качестве разделителя используйте <strong>;</strong>.
+            </p>
+        </div>
+        <div class="row mt-1">
+            <textarea class="w-100 form-control rounded border border-dark" name="emailsToInvite" style="height: 200px; resize: none" ></textarea>
+        </div>
+        <div class="row text-left mt-3">
+            <button class="btn btn-primary" style="font-size: 18px">Пригласить</button>
+        </div>
+    </div>
+</form>

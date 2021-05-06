@@ -26,27 +26,44 @@
             <div class="col-12">
                 <div class="row mt-2 align-items-center">
                     <div class="col-6">
-                        <p class="text-right" style="font-size: 15px">
+                        <p class="text-right mb-0" style="font-size: 15px">
+                            <b>Дисциплина</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p class="text-left mb-0" style="font-size: 15px">
+                            @Model.Subject.Name
+                        </p>
+                    </div>
+                </div>
+                <div class="row mt-2 align-items-center">
+                    <div class="col-6">
+                        <p class="text-right mb-0" style="font-size: 15px">
                             <b>Количество участников</b>
                         </p>
                     </div>
                     <div class="col-6">
-                        <p class="text-left" style="font-size: 15px">
+                        <p class="text-left mb-0" style="font-size: 15px">
                             @Model.MembersCount
                         </p>
                     </div>
                 </div>
                 <div class="row mt-2 align-items-center">
                     <div class="col-6">
-                        <p class="text-right" style="font-size: 15px">
+                        <p class="text-right mb-0" style="font-size: 15px">
                             <b>Количество публикаций</b>
                         </p>
                     </div>
                     <div class="col-6">
-                        <p class="text-left" style="font-size: 15px">
+                        <p class="text-left mb-0" style="font-size: 15px">
                             @Model.PostsCount
                         </p>
                     </div>
+                </div>
+                <div class="row mt-4 mb-3 align-items-center">
+                    <div class="col-6 text-right">
+                        <a href="group/@(Model.Id)/invite" class="btn btn-primary" style="font-size: 15px">Добавить участников</a>
+                    </div>                    
                 </div>
             </div>
         </div>

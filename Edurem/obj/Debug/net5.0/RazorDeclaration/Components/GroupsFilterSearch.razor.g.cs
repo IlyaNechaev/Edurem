@@ -104,7 +104,7 @@ using Edurem.ViewModels;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 111 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\GroupsFilterSearch.razor"
+#line 113 "D:\Институт\8 семестр\ВКР\Edurem\Edurem\Components\GroupsFilterSearch.razor"
        
 
     [Parameter]

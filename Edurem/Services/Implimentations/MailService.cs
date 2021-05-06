@@ -12,6 +12,7 @@ namespace Edurem.Services
     public class MailService : IEmailService
     {
         public event SendCompletedHandler SendCompleted;
+        List<string> ReceiverEmails { get; set; }
 
         public async Task SendEmailAsync(EmailOptions options)
         {
@@ -39,6 +40,8 @@ namespace Edurem.Services
         // Отправка сообщения
         private async Task SendEmail(MailMessage emailMessage, (string Host, int Port, bool UseSsl) smtpServer, (string Username, string Password) authInfo)
         {
+            ReceiverEmails = emailMessage.To.Select(to => to.Address).ToList();
+
             SmtpClient smtpClient = new SmtpClient(smtpServer.Host, smtpServer.Port);
 
             smtpClient.Credentials = new System.Net.NetworkCredential(authInfo.Username, authInfo.Password);
@@ -51,7 +54,7 @@ namespace Edurem.Services
 
         private void sendCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
-            var eventArgs = new SendCompletedEventArgs() { Error = e.Error?.Message, IsFailed = (e.Error != null) };
+            var eventArgs = new SendCompletedEventArgs() { Error = e.Error?.Message, IsFailed = (e.Error != null), ReceiverEmails = this.ReceiverEmails };
 
             SendCompleted?.Invoke(this, eventArgs);
         }

@@ -47,6 +47,10 @@
               "target": "Package",
               "version": "[3.0.0, )"
             },
+            "Blazored.LocalStorage": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Blazored.TextEditor": {
               "target": "Package",
               "version": "[1.0.3, )"
@@ -101,7 +105,7 @@
             },
             "Microsoft.Azure.SignalR": {
               "target": "Package",
-              "version": "[1.8.0, )"
+              "version": "[1.8.1, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
@@ -113,7 +117,7 @@
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
-              "version": "[3.2.4, )"
+              "version": "[5.0.0, )"
             },
             "StardustDL.RazorComponents.Markdown": {
               "target": "Package",

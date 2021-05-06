@@ -1,0 +1,229 @@
+﻿@namespace Edurem.Components
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage;
+@inject Edurem.Services.IUserService UserService;
+@inject Edurem.Services.ICookieService CookieService;
+@inject IHttpContextAccessor HttpContextAccessor;
+@inject IJSRuntime JsRuntime;
+@inject HttpClient Http;
+@inject IMatToaster Toaster;
+@using Microsoft.AspNetCore.Http;
+@using System.Security.Claims;
+@using Edurem.Models;
+@using System.Collections.Generic;
+@using System.ComponentModel.DataAnnotations;
+
+<div class="mt-5">
+    <!--Окно "ПРОФИЛЬ". Отображает личные данные и данные для входа в систему-->
+    <div class="row justify-content-center">
+        <div class="col-10 mb-1">
+            <p class="mb-0" style="font-size: 20px; font-family: Algerian">
+                ПРОФИЛЬ
+            </p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10 border rounded">
+            <div class="form-group row justify-content-around">
+                <div class="col-9 col-md-5">
+                    <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Имя</p>
+                    <input placeholder="Имя"                            
+                           class="form-control @(ValidationResults.ContainsKey(nameof(User.Name)) ? "border border-danger" : "") @(TempUser.Name.Equals(User.Name) ? "" : "border-primary")" 
+                           style="font-size: 19px; border-width:2px" value="@User.Name" @oninput="e => User.Name = e.Value.ToString()" />
+                    @if (ValidationResults.ContainsKey(nameof(User.Name)))
+                    {
+                        <span class="text-danger" style="font-weight: bold">@ValidationResults[nameof(User.Name)]</span>
+                    }
+                </div>
+                <div class="col-9 col-md-5">
+                    <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Фамилия</p>
+                    <input placeholder="Фамилия" 
+                           class="form-control @(ValidationResults.ContainsKey(nameof(User.Surname)) ? "border border-danger" : "") @(TempUser.Surname.Equals(User.Surname) ? "" : "border-primary")" 
+                           style="font-size: 19px; border-width:2px" value="@User.Surname" @oninput="e => User.Surname = e.Value.ToString()" />
+                    @if (ValidationResults.ContainsKey(nameof(User.Surname)))
+                    {
+                        <span class="text-danger" style="font-weight: bold">@ValidationResults[nameof(User.Surname)]</span>
+                    }
+                </div>
+            </div>
+            <div class="form-group row justify-content-around">
+                <div class="col-9 col-md-5">
+                    <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">Логин</p>
+                    <input placeholder="Логин" 
+                           class="form-control @(ValidationResults.ContainsKey(nameof(User.Login)) ? "border border-danger" : "") @(TempUser.Login.Equals(User.Login) ? "" : "border-primary")" 
+                           style="font-size: 19px; border-width:2px" value="@User.Login" @oninput="e => User.Login = e.Value.ToString()" />
+                    @if (ValidationResults.ContainsKey(nameof(User.Login)))
+                    {
+                        <span class="text-danger" style="font-weight: bold">@ValidationResults[nameof(User.Login)]</span>
+                    }
+                </div>
+                <div class="col-9 col-md-5 mt-4">
+                    <div class="row h-100 align-content-center">
+                        <ChangePassword UserId="User.Id"></ChangePassword>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Окно "КОНТАКТНЫЕ ДАННЫЕ". Отображает информацию о средствах связи с владельцев аккаунта и оповещения-->
+    <div class="row justify-content-center mt-3">
+        <div class="col-10 mb-1">
+            <p class="mb-0" style="font-size: 20px; font-family: Algerian">
+                КОНТАКТНЫЕ ДАННЫЕ
+            </p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10 border rounded">
+            <div class="form-group row justify-content-around">
+                <div class="col-9 col-md-7">
+                    <p class="font-weight-bold mb-0" style="font-family: Algerian; font-size: 19px">
+                        Почта <a href="#" @onclick:preventDefault><i class="far fa-question-circle ml-2" style="color:red"></i></a>
+                    </p>
+                    <ConfirmEmail User="User"></ConfirmEmail>
+                </div>
+                <div class="col-9 col-md-3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Окно "УВЕДОМЛЕНИЯ". Отображает о каких событиях пользователь будет уведомлен по контактным данным, а о каких не будет-->
+    <div class="row justify-content-center mt-3">
+        <div class="col-10 mb-1">
+            <p class="mb-0" style="font-size: 20px; font-family: Algerian">
+                УВЕДОМЛЕНИЯ
+            </p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10 border rounded">
+            <div class="form-group row justify-content-md-start justify-content-center ml-md-4 ml-0">
+                <div class="col-12">
+                    <NotificationSettings @ref="NotificationSettings" NotificationOptions="NotificationOptions"></NotificationSettings>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+        <div class="col-10">
+            <div class="row justify-content-end">
+                <button class="btn btn-success" style="font-size: 18px" @onclick="async e => await SaveChanges()">Сохранить</button>
+                <button class="btn btn-outline-dark ml-2" style="font-size: 18px">Сбросить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<MatToastContainer />
+
+@code {
+
+    [Parameter]
+    public User User { get; set; }
+
+    [Parameter]
+    public NotificationOptions NotificationOptions { get; set; }
+
+    User TempUser { get; set; }
+
+    NotificationSettings NotificationSettings { get; set; }
+
+    Dictionary<string, string> ValidationResults { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ValidationResults = new();
+
+        //await IsSavingSuccessed();
+
+        User.Options = null;
+
+        TempUser = new User
+        {
+            Name = User.Name,
+            Surname = User.Surname,
+            Login = User.Login
+        };
+    }
+
+    async Task SaveChanges()
+    {
+        if (!ValidateModel(User))
+        {
+            return;
+        }
+        await SaveNotificationSettings();
+
+        await SaveProfileSettings();
+    }
+
+    async Task SaveProfileSettings()
+    {
+        await UserService.UpdateUser(User);
+
+        await UpdateAuthenticatedUser(User);
+    }
+
+    async Task SaveNotificationSettings()
+    {
+        NotificationOptions = NotificationSettings.GetOptions();
+        await UserService.UpdateUserNotificationOptions(User.Id, NotificationOptions);
+    }
+
+    bool ValidateModel(object obj)
+    {
+        var results = new List<ValidationResult>();
+        var context = new ValidationContext(obj);
+
+        var isValid = Validator.TryValidateObject(obj, context, results, true);
+
+        ValidationResults = new();
+        foreach (var result in results)
+        {
+            foreach (var memberName in result.MemberNames)
+            {
+                ValidationResults.Add(memberName, result.ErrorMessage);
+            }
+        }
+
+        return isValid;
+    }
+
+    void Show(MatToastType type, string title, string message, string icon = "")
+    {
+        Toaster.Add(message, type, title, icon);
+    }
+
+    async Task UpdateAuthenticatedUser(User user)
+    {
+        var newCookies = new List<(string Key, string Value)>
+{
+            (ClaimKey.Name, user.Name),
+            (ClaimKey.Surname, user.Surname),
+            (ClaimKey.Login, user.Login)
+        };
+
+        var cookiesToSet = $"{ClaimKey.CookiesId}={CookieService.GenerateCookie(newCookies)}; path=/";
+
+        await LocalStorage.SetItemAsync<bool>("Reloaded", true);
+
+        await JsRuntime.InvokeVoidAsync("setCookies", cookiesToSet);
+    }
+
+    async Task IsSavingSuccessed()
+    {
+        var referer = string.Empty;
+        try
+        {
+            referer = new Uri(HttpContextAccessor.HttpContext.Request.Headers["Referer"].Last()).LocalPath;
+        }
+        catch (Exception ex) { }
+
+        if (referer.Equals("") && (await LocalStorage.GetItemAsync<bool>("Reloaded")) == true)
+        {
+            Show(MatToastType.Success, "Успешно", "Изменения сохранены");
+
+            await LocalStorage.SetItemAsync<bool>("Reloaded", false);
+        }
+    }
+}

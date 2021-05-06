@@ -17,9 +17,23 @@ namespace Edurem.Models
         {
             Language.CSHARP => "C#",
             Language.PYTHON => "Python",
-            Language.JAVA => "Java",
             Language.JSON => "Json",
             _ => ""
+        };
+
+        public static string GetLanguageExtension(Language language) => language switch
+        {
+            Language.CSHARP => ".cs",
+            Language.PYTHON => ".py",
+            Language.JSON => ".json",
+            _ => ""
+        };
+
+        public static Language GetLanguageByExtension(string extension) => extension switch
+        {
+            ".py" or ".pyd" or ".pyw" => Language.PYTHON,
+            ".cs" => Language.CSHARP,
+            _ => Language.DEFAULT
         };
     }
 
@@ -28,7 +42,6 @@ namespace Edurem.Models
     {
         CSHARP = 1 << 0,
         PYTHON = 1 << 1,
-        JAVA = 1 << 2,
         JSON = 1 << 3,
 
         DEFAULT = 0

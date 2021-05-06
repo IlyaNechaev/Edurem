@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -46,6 +47,9 @@ namespace Edurem.ViewModels
         [Required(ErrorMessage = "Не выбран пол")]
         public string Gender { get; set; }
 
+        [NotMapped]
+        public string Redirect { get; set; }
+
         public User ToUser(ISecurityService securityService)
         {
             var user = new User();
@@ -55,6 +59,7 @@ namespace Edurem.ViewModels
             user.Login = Login;
             user.PasswordHash = securityService.GetPasswordHash(Password);
             user.Email = Email;
+            user.EmailCode = null;
             user.DateOfBirth = new DateTime(
                 int.Parse(DateOfBirth.Split('.')[2]),
                 int.Parse(DateOfBirth.Split('.')[1]),

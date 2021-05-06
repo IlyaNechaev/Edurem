@@ -13,6 +13,7 @@ namespace Edurem.Data
     public class EduremDbContext : DbContext
     {
         ISecurityService SecurityService { get; init; }
+        string ConnectionString { get; init; }
 
         public DbSet<FileModel> Files { get; set; }
 
@@ -34,14 +35,25 @@ namespace Edurem.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<TestInfo> TestsInfo { get; set; }
-        public DbSet<TestFile> TestFiles { get; set; }
+        public DbSet<TestFile> TestsFiles { get; set; }
 
         public EduremDbContext(DbContextOptions<EduremDbContext> builder,
-                               [FromServices] ISecurityService securityService) : base(builder)
+                               [FromServices] ISecurityService securityService,
+                               [FromServices] IConfiguration configuration)
         {
             SecurityService = securityService;
 
+            ConnectionString = configuration.GetConnectionString("DefaultConnection");
+
             Database.EnsureCreated();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySql(
+                ConnectionString,
+                ServerVersion.AutoDetect(ConnectionString)
+            );
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

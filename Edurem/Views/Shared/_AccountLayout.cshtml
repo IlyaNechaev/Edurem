@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.Extensions.Configuration.IConfiguration AppConfiguration
 @inject Edurem.Services.IUserService UserService
+@inject Edurem.Services.ICookieService CookieService
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -37,7 +38,7 @@
         <div class="main">
             <div class="top-row px-4" style="z-index: 99">
                 <a class="nav-link text-dark" style="font-size: 20px" href="/account/home">
-                    @($"{Context.User.GetClaim(ClaimKey.Surname)} {Context.User.GetClaim(ClaimKey.Name)}")
+                    @($"{CookieService.GetCookie(ClaimKey.Surname, Context.Request.GetCookieValue(ClaimKey.CookiesId))} {CookieService.GetCookie(ClaimKey.Name, Context.Request.GetCookieValue(ClaimKey.CookiesId))}")
                 </a>
             </div>
             <div class="content px-4">

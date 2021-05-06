@@ -80,7 +80,7 @@ namespace Edurem.Data
 
             builder
                 .HasMany(test => test.TestFiles)
-                .WithOne(tf => tf.Test);
+                .WithOne(tf => tf.TestInfo);
         }
     }
 
@@ -90,10 +90,10 @@ namespace Edurem.Data
         {
             // Первичный ключ
             builder
-                .HasKey(tf => new { tf.TestId, tf.FileId });
+                .HasKey(tf => new { tf.TestInfoId, tf.FileId });
 
             builder
-                .HasOne(tf => tf.Test)
+                .HasOne(tf => tf.TestInfo)
                 .WithMany(test => test.TestFiles);
         }
     }

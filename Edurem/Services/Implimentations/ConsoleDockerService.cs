@@ -31,16 +31,6 @@ namespace Edurem.Services
             Configuration = configuration;
         }
 
-        public void CreateDockerfile(List<string> testFilePaths, List<string> codeFilePaths, Language language, string saveToPath)
-        {
-            ILanguageTestProvider provider = new PythonTestProvider();
-
-            testFilePaths = testFilePaths.Select(path => $".\\{Path.GetRelativePath(Directory.GetParent(saveToPath).FullName, path)}").ToList();
-            codeFilePaths = codeFilePaths.Select(path => $".\\{Path.GetRelativePath(Directory.GetParent(saveToPath).FullName, path)}").ToList();
-
-            provider.CreateDockerfile(testFilePaths, codeFilePaths, saveToPath);            
-        }
-
         public void CreateImage(string contextPath, ImageBuildParameters parameters)
         {
             var commands = new List<string>
@@ -117,7 +107,7 @@ namespace Edurem.Services
             return process;
         }
 
-        public async Task<string> RunImage(string imageTag, string name = null)
+        public async Task<(string Response, string Errors)> RunImage(string imageTag, string name = null)
         {
             var command = $"docker run {(name == null ? "" : $"--name {name}")} {imageTag}";
 
@@ -140,7 +130,7 @@ namespace Edurem.Services
             var outputs = output.Split(command);
             output = outputs[1].Split(outputs[0].Split("\r\n").Last())[0];
 
-            return output;
+            return (output, errors);
         }        
 
         public async Task RemoveContainer(string containerId)

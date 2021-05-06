@@ -22,15 +22,25 @@ namespace Edurem.Services
         public Task LogoutUser(HttpContext context);
 
         // Возвращает авторизованного пользователя
-        public User GetAuthenticatedUser(HttpContext context);
+        public Task<User> GetAuthenticatedUser(HttpContext context);
 
         public Task UpdateUser(User user);
 
         // Возвращает настройки уведомлений для данного пользователя
         public Task<NotificationOptions> GetUserNotificationOptions(User user);        
-        public Task<NotificationOptions> GetUserNotificationOptions(int userId);        
+        public Task<NotificationOptions> GetUserNotificationOptions(int userId);
+
+        // Обновляет настройки уведомлений для данного пользователя
+        public Task UpdateUserNotificationOptions(User user, NotificationOptions options);
+        public Task UpdateUserNotificationOptions(int userId, NotificationOptions options);
 
         // Отправить на почту пользователя письмо с подтверждением
         public Task SendUserEmailConfirmation(User user, params SendCompletedHandler[] onSendCompleted);
+
+        public Task<bool> ConfirmEmail(User user, string password);
+
+        public Task<bool> IsPasswordValid(int userId, string password);
+
+        public Task ChangePassword(int userId, string newPassword);
     }
 }

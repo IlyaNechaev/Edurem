@@ -22,5 +22,7 @@ namespace Edurem.Services
         public string Error { get; init; }
 
         public bool IsFailed { get; init; }
+
+        public List<string> ReceiverEmails { get; set; }
     }
 }
