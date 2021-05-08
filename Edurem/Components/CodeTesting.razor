@@ -16,9 +16,16 @@
                             <p style="font-size: 20px" class="mb-0"><b>Ответы</b></p>
                         </div>
                         <div class="col-4 justify-content-end text-right">
-                            <a href="#" @onclick:preventDefault @onclick="e => CreateNewFile()">
-                                <i class="far fa-file" style="font-size: 21px; color: green"></i>
-                            </a>
+                            @if (IsTestPerforming)
+                            {
+                                <i class="far fa-file" style="font-size: 21px; color: grey"></i>
+                            }
+                            else
+                            {
+                                <a href="#" @onclick:preventDefault @onclick="e => CreateNewFile()">
+                                    <i class="far fa-file" style="font-size: 21px; color: green"></i>
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>
@@ -33,24 +40,36 @@
                                     </div>
                                     <div class="col-1">
                                     </div>
-                                    <div class="col-1">
-                                        <a href="" @onclick:preventDefault="true"
-                                           @onclick="async e =>
+                                    @if (IsTestPerforming)
+                                    {
+                                        <div class="col-1">
+                                            <i class="fas fa-pencil-alt" style="color: grey"></i>
+                                        </div>
+                                        <div class="col-1">
+                                            <i class="fas fa-times" style="color: grey"></i>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-1">
+                                            <a href="" @onclick:preventDefault="true"
+                                               @onclick="async e =>
                                          {
                                              await OpenFile(file);
                                          }">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-1">
-                                        <a href="" @onclick:preventDefault="true"
-                                           @onclick="e =>
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col-1">
+                                            <a href="" @onclick:preventDefault="true"
+                                               @onclick="e =>
                                          {
                                              DeleteFile(file);
                                          }">
-                                            <b class="text-danger">X</b>
-                                        </a>
-                                    </div>
+                                                <i class="fas fa-times" style="color: red"></i>
+                                            </a>
+                                        </div>
+                                    }
                                 </li>
                             }
                         </ul>
@@ -88,7 +107,7 @@
                         </div>
                         <div class="row mt-1 border-bottom">
                             <div class="col-1">
-                                @if (fileToEdit?.IsChanged ?? false)
+                                @if (fileToEdit?.IsChanged ?? false || !IsTestPerforming)
                                 {
                                     <a href="#" @onclick:preventDefault @onclick="e => SaveFile()">
                                         <i class="far fa-save" style="font-size: 21px"></i>
@@ -110,19 +129,19 @@
             </div>
         </div>
         <div class="row justify-content-start m-2">
-            <button class="btn btn-primary" style="font-size: 18px" disabled="@IsTestingProceduring"
+            <button class="btn btn-primary" style="font-size: 18px" disabled="@IsTestPerforming"
                     @onclick="async e =>
                               {
                                   if (IsFormValid())
                                   {
-                                      IsTestingProceduring = true;
+                                      IsTestPerforming = true;
                                       await Test();
-                                      IsTestingProceduring = false;
+                                      IsTestPerforming = false;
                                   }
                               }">
                 Начать тестирование
             </button>
-            @if (IsTestingProceduring)
+            @if (IsTestPerforming)
             {
                 <MatThemeProvider Theme="theme">
                     <MatProgressCircle Class="ml-4" Indeterminate="true" Size="MatProgressCircleSize.Medium" />
@@ -152,7 +171,7 @@
 </div>
 
 <MatThemeProvider Theme="@dialogTheme">
-    <MatDialog @bind-IsOpen="@IsTestingFailed">
+    <MatDialog @bind-IsOpen="@IsTestFailed">
         <MatDialogTitle Class="text-center bg-danger">
             <div class="col-12">
                 <i class="fas fa-times" style="font-size: 65px; color: white"></i>
@@ -166,7 +185,7 @@
             </p>
         </MatDialogContent>
         <MatDialogActions>
-            <MatButton Unelevated="true" Type="button" OnClick="@(e => { IsTestingFailed = false; })">Закрыть</MatButton>
+            <MatButton Unelevated="true" Type="button" OnClick="@(e => { IsTestFailed = false; })">Закрыть</MatButton>
         </MatDialogActions>
     </MatDialog>
 </MatThemeProvider>
@@ -196,9 +215,9 @@
 
     FileToEdit fileToEdit { get; set; }
 
-    bool IsTestingProceduring { get; set; }
+    bool IsTestPerforming { get; set; }
 
-    bool IsTestingFailed { get; set; }
+    bool IsTestFailed { get; set; }
 
     class FileToUpload
     {
@@ -234,8 +253,8 @@
 
         TestInfo = TestService.GetTestInfo(UserId, PostId).GetAwaiter().GetResult();
 
-        IsTestingProceduring = false;
-        IsTestingFailed = false;
+        IsTestPerforming = false;
+        IsTestFailed = false;
     }
 
     // Инициализация файлов с кодом студента
@@ -406,7 +425,7 @@
         }
         catch (Exception)
         {
-            IsTestingFailed = true;
+            IsTestFailed = true;
         }
     }
 

@@ -57,6 +57,7 @@ namespace Edurem.Services
             result.ErrorMessages = new List<(string Key, string Message)>();
 
             var UserRepository = RepositoryFactory.GetRepository<User>();
+            var NotificationRepository = RepositoryFactory.GetRepository<NotificationOptions>();
 
             // Существует ли пользователь с таким логином
             if (await UserRepository.Get(user => user.Login == registerModel.Login) != null)
@@ -69,7 +70,17 @@ namespace Edurem.Services
             }
             else
             {
+                var notifications = new NotificationOptions
+                {
+                    NewTasksToEmail = false,
+                    TaskResultToEmail = false,
+                    TeacherMessageToEmail = false
+                };
+                await NotificationRepository.Add(notifications);
+
                 User user = registerModel.ToUser(securityService);
+                user.OptionsId = notifications.Id;
+
                 await UserRepository.Add(user);
             }
             result.HasErrors = result.ErrorMessages.Count > 0;

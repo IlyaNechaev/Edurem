@@ -127,6 +127,9 @@ namespace Edurem.Services
 
         public async Task Invite(int groupId, List<string> emailsToInvite)
         {
+            var locker = new object();
+            var links = new List<string>();
+
             var groupName = (await GetGroup(groupId)).Name;
 
             var message = File.ReadAllText(
@@ -145,6 +148,11 @@ namespace Edurem.Services
 
                     var link = $"{request.Scheme}://{request.Host}/group/join/{inviteCode}";
 
+                    lock(locker)
+                    {
+                        links.Add(link);
+                    }
+
                     message = message
                     .Replace("@group_name", groupName)
                     .Replace("@link", link);
@@ -161,6 +169,8 @@ namespace Edurem.Services
 
                     await EmailService.SendEmailAsync(options);
                 });
+
+            Console.WriteLine(links);
         }
 
         public async Task<(bool HasErrors, int GroupId, int UserId, string Email)> IsInvited(string code)
@@ -194,7 +204,7 @@ namespace Edurem.Services
         {
             var GroupMemberRepository = RepositoryFactory.GetRepository<GroupMember>();
 
-            if (GroupMemberRepository.Get(gm => (gm.UserId == userId && gm.GroupId == groupId)) is not null)
+            if ((await GroupMemberRepository.Get(gm => gm.UserId == userId && gm.GroupId == groupId)) is not null)
                 return;
 
             var groupMember = new GroupMember

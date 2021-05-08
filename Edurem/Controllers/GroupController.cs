@@ -1,13 +1,14 @@
 ﻿using Edurem.Services;
 using Edurem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Edurem.Models;
 using Edurem.Data;
+using Edurem.Filters;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
 
 namespace Edurem.Controllers
 {
@@ -18,9 +19,10 @@ namespace Edurem.Controllers
         IGroupService GroupService { get; init; }
         IRepositoryFactory RepositoryFactory { get; init; }
 
-        public GroupController([FromServices] IUserService userService,
-                                [FromServices] IGroupService groupService,
-                                [FromServices] IRepositoryFactory repositoryFactory) 
+        public GroupController(
+            [FromServices] IUserService userService,
+            [FromServices] IGroupService groupService,
+            [FromServices] IRepositoryFactory repositoryFactory) 
         {
             UserService = userService;
             GroupService = groupService;
@@ -28,6 +30,7 @@ namespace Edurem.Controllers
         }
 
         [Route("{id}")]
+        [Authorize(Policy = "AuthenticatedOnly")]
         [HttpGet]
         public async Task<IActionResult> GroupPosts(int id)
         {
@@ -43,6 +46,8 @@ namespace Edurem.Controllers
         }
 
         [Route("{id}/createPost")]
+        [Authorize(Policy = "AuthenticatedOnly")]
+        [TypeFilter(typeof(OnlyGroupAdminFilter))]
         [HttpGet]
         public async Task<IActionResult> CreatePost(int id)
         {
@@ -52,6 +57,8 @@ namespace Edurem.Controllers
         }
 
         [Route("{id}/invite")]
+        [Authorize(Policy = "AuthenticatedOnly")]
+        [TypeFilter(typeof(OnlyGroupAdminFilter))]
         [HttpGet]
         public async Task<IActionResult> Invite(int id)
         {
@@ -67,6 +74,8 @@ namespace Edurem.Controllers
         }
 
         [Route("{id}/invite")]
+        [Authorize(Policy = "AuthenticatedOnly")]
+        [TypeFilter(typeof(OnlyGroupAdminFilter))]
         [HttpPost]
         public async Task<IActionResult> Invite(int id, string emailsToInvite)
         {
@@ -110,16 +119,20 @@ namespace Edurem.Controllers
             {
                 if (isInvited.UserId == 0)
                 {
-                    return RedirectToAction("Register", "Administration", new { email = isInvited.Email });
+                    TempData["RedirectedFrom"] = Request.Path.ToString();
+                    TempData["EmailToRegister"] = isInvited.Email;
+                    return RedirectToAction("Register", "Administration");
                 }
                 else
                 {
-                    return RedirectToAction("Login", "Administration", new { email = isInvited.Email });
+                    TempData["RedirectedFrom"] = Request.Path.ToString();
+                    return RedirectToAction("Login", "Administration");
                 }
             }
         }
 
         [Route("/files/download")]
+        [Authorize(Policy = "AuthenticatedOnly")]
         [HttpGet]
         public async Task<IActionResult> DownloadFile(int fileId, [FromServices] IFileService FileService)
         {

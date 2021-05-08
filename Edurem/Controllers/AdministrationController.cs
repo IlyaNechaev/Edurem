@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Edurem.Models;
@@ -16,7 +17,8 @@ namespace Edurem.Controllers
     public class AdministrationController : Controller
     {
         IUserService UserService;
-        public AdministrationController([FromServices] IUserService userService)
+        public AdministrationController(
+            [FromServices] IUserService userService)
         {
             UserService = userService;
         }
@@ -25,36 +27,26 @@ namespace Edurem.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-
-
             // Если пользователь авторизован
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Home", "Account");
 
-            return View();
-        }
-
-        [Route("register/{email}")]
-        [HttpGet]
-        public IActionResult Register(string email)
-        {
-            // Если пользователь авторизован
-            if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Home", "Account");
-
+            var registerModel = new RegisterEditModel();
             var redirect = string.Empty;
-            try
+            var email = string.Empty;
+
+            if (TempData.ContainsKey("EmailToRegister"))
             {
-                var referer = HttpContext.Request.Headers["Referer"];
-                redirect = new Uri(referer.Last()).LocalPath;
+                email = TempData["EmailToRegister"].ToString();
             }
-            catch (Exception) { }
-            
-            var registerModel = new RegisterEditModel
+
+            if (TempData.ContainsKey("RedirectedFrom"))
             {
-                Email = email,
-                Redirect = redirect
-            };
+                redirect = TempData["RedirectedFrom"].ToString();
+            }
+
+            registerModel.Redirect = redirect;
+            registerModel.Email = email;
 
             return View(registerModel);
         }
@@ -99,29 +91,24 @@ namespace Edurem.Controllers
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Home", "Account");
 
-            return View();
-        }
-
-        [Route("login/{email}")]
-        [HttpGet]
-        public IActionResult Login(string email)
-        {
-            // Если пользователь авторизован
-            if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Home", "Account");
-
+            var loginModel = new LoginEditModel();
             var redirect = string.Empty;
-            try
-            {
-                var referer = HttpContext.Request.Headers["Referer"];
-                redirect = new Uri(referer.Last()).LocalPath;
-            }
-            catch (Exception) { }
 
-            var loginModel = new LoginEditModel
+            if (TempData.ContainsKey("RedirectedFrom"))
             {
-                Redirect = redirect
-            };
+                redirect = TempData["RedirectedFrom"].ToString();
+            }
+            else
+            {
+                try
+                {
+                    var referer = HttpContext.Request.Headers["Referer"];
+                    redirect = new Uri(referer.Last()).LocalPath;
+                }
+                catch (Exception) { }
+            }
+
+            loginModel.Redirect = redirect;
 
             return View(loginModel);
         }
@@ -157,7 +144,7 @@ namespace Edurem.Controllers
 
             return View(model);
         }
-        
+
         [Route("logout")]
         [HttpGet]
         public async Task<IActionResult> Logout()

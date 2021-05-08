@@ -80,11 +80,11 @@ namespace Edurem.Providers
 
         public string CreateUnitTests(TestData tests)
         {
-            string testFile = @"
-try:
+            string testFile = @"try:
     @import
 except Exception as e:
     print(""[ERROR]"" + str(e))
+    print(""[INFO]"")
 
 class MyTest():
 
@@ -100,15 +100,15 @@ class MyTest():
 
     def run_tests(self, params):
         for param in params:
+            self.currentResult[""tests""] += 1
             try:
-                self.currentResult[""tests""] += 1
                 if @method(@input_params) == param[""output""]:
                     self.currentResult[""success""] += 1
                 else:
                     self.currentResult[""failures""] += 1
             except Exception as e:
-                self.currentResult[""error""] = e
-                return
+                if self.currentResult[""error""] == """":
+                    self.currentResult[""error""] = e
 
 test = MyTest()
 params = [ @params ]

@@ -103,6 +103,11 @@ using Edurem.Models;
     [Parameter]
     public string PickedGender { get; set; }
 
+    protected override void OnInitialized()
+    {
+        PickedGender = PickedGender ?? string.Empty;
+    }
+
     MatTheme theme = new MatTheme
     {
         Secondary = "#007bff"

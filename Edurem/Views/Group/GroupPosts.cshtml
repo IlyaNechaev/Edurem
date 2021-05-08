@@ -48,7 +48,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="row mt-2 align-items-center">
+                <div class="row mt-2 mb-4 align-items-center">
                     <div class="col-6">
                         <p class="text-right mb-0" style="font-size: 15px">
                             <b>Количество публикаций</b>
@@ -60,11 +60,14 @@
                         </p>
                     </div>
                 </div>
-                <div class="row mt-4 mb-3 align-items-center">
-                    <div class="col-6 text-right">
-                        <a href="group/@(Model.Id)/invite" class="btn btn-primary" style="font-size: 15px">Добавить участников</a>
-                    </div>                    
-                </div>
+                @if (Model.UserRole.Equals(RoleInGroup.ADMIN))
+                {
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-6 text-right">
+                            <a href="group/@(Model.Id)/invite" class="btn btn-primary" style="font-size: 15px">Добавить участников</a>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>

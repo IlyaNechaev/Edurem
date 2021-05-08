@@ -98,7 +98,18 @@ namespace Edurem.Services
                         }
                         catch (Exception)
                         {
-                            results = (0, 0);
+                            try
+                            {
+                                var testResultWithError = JsonConvert.DeserializeObject<TestResults>(testResults.Split("[INFO]")[1]);
+
+                                if (testResultWithError is null) throw new Exception();
+
+                                results = (testResultWithError.Tests, 0);
+                            }
+                            catch (Exception)
+                            {
+                                results = (0, 0);
+                            }
                         }
 
                         return results;
@@ -136,7 +147,7 @@ namespace Edurem.Services
                 // Если имеется критическая ошибка
                 else if (testResults[i].Contains("[ERROR]"))
                 {
-                    var error = testResults[i].Split("[ERROR]")[1];
+                    var error = testResults[i].Split("[ERROR]")[1].Split("[INFO]")[0];
                     html = $"<p class=\"text-danger mb-0\" style=\"font-family: 'Oswald', sans-serif;\">{error}</p>";
                 }
                 else
