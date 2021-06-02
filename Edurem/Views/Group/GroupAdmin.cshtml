@@ -1,0 +1,22 @@
+﻿@using Edurem.ViewModels;
+@model (List<int> PostsIds, int GroupId);
+
+@{
+    ViewData["Title"] = "Статистика";
+    ViewData["ApplicationName"] = "Edurem";
+    Layout = "_AccountLayout";
+}
+
+@foreach(var postId in Model.PostsIds)
+{
+    <div class="row mt-4">
+        <div class="col-12">
+            @(await Html.RenderComponentAsync<Edurem.Components.TestResultsAdmin>(RenderMode.ServerPrerendered, 
+            new 
+            { 
+                PostId = postId,
+                GroupId = Model.GroupId
+            }))
+        </div>
+    </div>
+}

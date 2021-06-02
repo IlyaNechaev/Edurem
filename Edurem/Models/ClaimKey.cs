@@ -21,7 +21,9 @@ namespace Edurem.Models
     {
         public static string GetClaim(this ClaimsPrincipal claimsPrincipal, string claimKey)
         {
-            return claimsPrincipal?.FindFirst(claimKey)?.Value ?? string.Empty;
+            var cl = claimsPrincipal?.FindFirst(claimKey)?.Value ?? string.Empty;
+
+            return cl;
         }
 
         public static string GetCookieValue(this HttpRequest request, string cookieKey)

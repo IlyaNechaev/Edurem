@@ -12,63 +12,66 @@
 <div class="row">
     <div class="col-12">
 
-        <div class="row mt-3 border-bottom">
-            <h4><i class="fas fa-users mr-2"></i>Группы</h4>
-        </div>
-        <div class="row mt-2 mb-4 justify-content-start">
-            <div class="col-5">
-                <div class="row mb-2">
-                    <div class="col-12">
-                        <button style="font-size: 16px" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-modal-lg"
-                                @onclick="e =>
+        @if (ChooseGroups)
+        {
+            <div class="row mt-3 border-bottom">
+                <h4><i class="fas fa-users mr-2"></i>Группы</h4>
+            </div>
+            <div class="row mt-2 mb-4 justify-content-start">
+                <div class="col-5">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <button style="font-size: 16px" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-modal-lg"
+                                    @onclick="e =>
                                           {
                                               Groups = (Groups.Chosen, Groups.All, Groups.All.Where(group => Groups.Filtered.Any(g => g.Group.Id == group.Group.Id)).ToList());
                                               GroupIds = new();
                                           }">
-                            <i class="fas fa-edit" style="color: white; font-size: 16px"></i> Изменить
-                        </button>
+                                <i class="fas fa-edit" style="color: white; font-size: 16px"></i> Изменить
+                            </button>
+                        </div>
                     </div>
-                </div>
-                @if (!IsGroupsValid)
-                {
-                    <span class="text-danger">Выберите как минимум 1 группу</span>
-                }
-                <div class="row mb-4">
-                    <div class="col-4" style="font-weight: bold">
-                        Группа
-                    </div>
-                    <div class="col-6" style="font-weight: bold">
-                        Дисциплина
-                    </div>
-                    <div class="col-2" style="font-weight: bold">
-                        Участники
-                    </div>
-                </div>
-                @if (Groups.Chosen.Count == 0)
-                {
-                    <div class="row justify-content-center mt-4">
-                        <h3 class="text-muted text-center mt-4">Нет групп</h3>
-                    </div>
-                }
-                else
-                {
-                    @foreach (var group in Groups.Chosen)
+                    @if (!IsGroupsValid)
                     {
-                        <div class="row">
-                            <div class="col-4">
-                                @group.Name
-                            </div>
-                            <div class="col-6">
-                                @group.Subject.Name
-                            </div>
-                            <div class="col-2">
-                                @group.MembersCount
-                            </div>
+                        <span class="text-danger">Выберите как минимум 1 группу</span>
+                    }
+                    <div class="row mb-4">
+                        <div class="col-4" style="font-weight: bold">
+                            Группа
+                        </div>
+                        <div class="col-6" style="font-weight: bold">
+                            Дисциплина
+                        </div>
+                        <div class="col-2" style="font-weight: bold">
+                            Участники
+                        </div>
+                    </div>
+                    @if (Groups.Chosen.Count == 0)
+                    {
+                        <div class="row justify-content-center mt-4">
+                            <h3 class="text-muted text-center mt-4">Нет групп</h3>
                         </div>
                     }
-                }
+                    else
+                    {
+                        @foreach (var group in Groups.Chosen)
+                        {
+                            <div class="row">
+                                <div class="col-4">
+                                    @group.Name
+                                </div>
+                                <div class="col-6">
+                                    @group.Subject.Name
+                                </div>
+                                <div class="col-2">
+                                    @group.MembersCount
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
             </div>
-        </div>
+        }
 
         <div class="row mt-5 border-bottom">
             <h4><i class="fas fa-feather-alt"></i> Описание</h4>
@@ -266,57 +269,59 @@
     </div>
 </div>
 
-<div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                Группы
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <input class="form-control" style="font-size:18px" placeholder="Группа" @oninput="FilterGroupsForChoosing" />
+@if (ChooseGroups)
+{
+    <div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Группы
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <input class="form-control" style="font-size:18px" placeholder="Группа" @oninput="FilterGroupsForChoosing" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            @foreach (var group in Groups.Filtered)
+                            {
+                                <div class="row align-items-center">
+                                    <div class="col-1">
+                                        <MatThemeProvider Theme="checkboxTheme">
+                                            <MatCheckbox Value="group.IsChosen" @oninput="e => GroupChanged(group.Group.Id)" @onchange="e => GroupChanged(group.Group.Id)"></MatCheckbox>
+                                        </MatThemeProvider>
+                                    </div>
+                                    <div class="col-4 ">
+                                        @group.Group.Name
+                                    </div>
+                                    <div class="col-6">
+                                        @group.Group.Subject.Name
+                                    </div>
+                                    <div class="col-1">
+                                        @group.Group.MembersCount
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        @foreach (var group in Groups.Filtered)
-                        {
-                            <div class="row align-items-center">
-                                <div class="col-1">
-                                    <MatThemeProvider Theme="checkboxTheme">
-                                        <MatCheckbox Value="group.IsChosen" @oninput="e => GroupChanged(group.Group.Id)" @onchange="e => GroupChanged(group.Group.Id)"></MatCheckbox>
-                                    </MatThemeProvider>
-                                </div>
-                                <div class="col-4 ">
-                                    @group.Group.Name
-                                </div>
-                                <div class="col-6">
-                                    @group.Group.Subject.Name
-                                </div>
-                                <div class="col-1">
-                                    @group.Group.MembersCount
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button style="font-size: 16px" type="button" class="btn btn-primary" data-dismiss="modal"
-                        @onclick="e =>
+                <div class="modal-footer">
+                    <button style="font-size: 16px" type="button" class="btn btn-primary" data-dismiss="modal"
+                            @onclick="e =>
                                   {
                                       SetChosenGroups();
                                       if (IsGroupsValid == false && Groups.Chosen.Count > 0)
                                           IsGroupsValid = true;
                                   }">
-                    Готово
-                </button>
+                        Готово
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
+}
 
 @code {
 
@@ -325,6 +330,9 @@
 
     [Parameter]
     public int GroupId { get; set; }
+
+    [Parameter]
+    public bool ChooseGroups { get; set; }
 
     [Parameter]
     public PostModel Post { get; set; }
@@ -385,7 +393,7 @@
 
     protected override void OnInitialized()
     {
-        MarkdownText = Post?.PostBody ?? string.Empty;
+        MarkdownText = Post is not null ? MarkdownService.ToMarkdown(Post.PostBody).Trim('\n', '\r') : string.Empty;
         PostTitle = Post?.Title ?? string.Empty;
         IsTitleValid = true;
         IsGroupsValid = true;
@@ -393,7 +401,8 @@
         if (ChosenGroupsId is null)
             ChosenGroupsId = new() { GroupId };
 
-        GetGroups();
+        if (ChooseGroups)
+            GetGroups();
 
         Files = (PostFiles ?? new List<FileUploader.FileToUpload>(), new List<FileUploader.FileToUpload>());
         GroupIds = new();
@@ -402,9 +411,9 @@
 
         Editors = new()
         {
-            (TextEditors.Markdown, "Markdown"),
-            (TextEditors.RichText, "Rich Text")
-        };
+                (TextEditors.Markdown, "Markdown"),
+                (TextEditors.RichText, "Rich Text")
+            };
 
         CurrentEditor = Editors[0].Type;
     }
@@ -534,7 +543,8 @@
     public bool IsValid()
     {
         IsTitleValid = (PostTitle is not null && PostTitle != string.Empty);
-        IsGroupsValid = Groups.Chosen.Count > 0;
+        if (ChooseGroups)
+            IsGroupsValid = Groups.Chosen.Count > 0;
 
         StateHasChanged();
 
@@ -566,7 +576,12 @@
         Post.PostBody = html;
         Post.Title = PostTitle;
 
-        return (Post, Files.FilesToUpload, Groups.Chosen.Select(group => group.Id).ToList());
+        return (Post, Files.FilesToUpload, Groups.Chosen?.Select(group => group.Id).ToList() ?? ChosenGroupsId);
+    }
+
+    public void DisposeStreams()
+    {
+        
     }
 
     string FileSizeToText(float size)

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj": {}
+    "D:\\Институт\\8 семестр\\ВКР\\Edurem_temp\\Edurem\\Edurem.csproj": {}
   },
   "projects": {
-    "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj": {
+    "D:\\Институт\\8 семестр\\ВКР\\Edurem_temp\\Edurem\\Edurem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
+        "projectUniqueName": "D:\\Институт\\8 семестр\\ВКР\\Edurem_temp\\Edurem\\Edurem.csproj",
         "projectName": "Edurem",
-        "projectPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\Edurem.csproj",
+        "projectPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem_temp\\Edurem\\Edurem.csproj",
         "packagesPath": "C:\\Users\\Илья\\.nuget\\packages\\",
-        "outputPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem\\Edurem\\obj\\",
+        "outputPath": "D:\\Институт\\8 семестр\\ВКР\\Edurem_temp\\Edurem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -49,7 +49,7 @@
             },
             "Blazored.LocalStorage": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[4.1.1, )"
             },
             "Blazored.TextEditor": {
               "target": "Package",
@@ -89,7 +89,7 @@
             },
             "MailKit": {
               "target": "Package",
-              "version": "[2.11.1, )"
+              "version": "[2.12.0, )"
             },
             "Markdig": {
               "target": "Package",
@@ -121,7 +121,7 @@
             },
             "StardustDL.RazorComponents.Markdown": {
               "target": "Package",
-              "version": "[0.0.3.25, )"
+              "version": "[0.0.3.26, )"
             },
             "WebStoating.Markdig.Prism": {
               "target": "Package",

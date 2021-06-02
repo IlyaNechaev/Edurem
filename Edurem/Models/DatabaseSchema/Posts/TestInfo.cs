@@ -23,6 +23,7 @@ namespace Edurem.Models
         public string ResultText { get; set; }
         public int CountOfTests { get; set; }
         public int CountOfCompletedTests { get; set; }
+        public DateTime DateOfTesting { get; set; }
 
         public Language Language { get; set; }
 

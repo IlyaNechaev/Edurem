@@ -15,6 +15,7 @@ namespace Edurem.Services
 
         // Получить модель файла из БД
         public Task<FileModel> GetFile(int fileId);
+        public Task<FileModel> GetFile(string path);
 
         // Получить FileStream файла
         public FileStream OpenFile(FileModel fileModel);
@@ -33,6 +34,7 @@ namespace Edurem.Services
         public string GetFileText(string filePath);
 
         public Stream GetFileStream(FileModel file);
+        public Stream GetFileStream(string filePath);
 
         public string GetFullPath(params string[] paths);
         public string GetExtensionClass(string extension) => extension switch

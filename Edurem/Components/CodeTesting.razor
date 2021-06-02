@@ -35,7 +35,7 @@
                             @foreach (var file in Files.FilesToUpload)
                             {
                                 <li class="row justify-content-center">
-                                    <div class="col-4">
+                                    <div class="col-5">
                                         <p style="font-size: 18px">@file.Name</p>
                                     </div>
                                     <div class="col-1">
@@ -103,7 +103,7 @@
                 <div class="row" hidden="@(!fileToEdit?.IsOpened ?? true)">
                     <div class="col-12">
                         <div class="row">
-                            <input class="form-control" type="text" @bind-value="fileToEdit.Name" />
+                            <input class="form-control" type="text" value="@fileToEdit.Name" @oninput="e => { fileToEdit.Name = e.Value.ToString(); fileToEdit.IsChanged = true; }" />
                         </div>
                         <div class="row mt-1 border-bottom">
                             <div class="col-1">

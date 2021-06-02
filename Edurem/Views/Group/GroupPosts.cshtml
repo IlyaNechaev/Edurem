@@ -63,7 +63,12 @@
                 @if (Model.UserRole.Equals(RoleInGroup.ADMIN))
                 {
                     <div class="row mb-3 align-items-center">
-                        <div class="col-6 text-right">
+                        <div class="col-6 text-left">
+                            <a href="group/@(Model.Id)/admin" class="btn btn-info" style="font-size: 15px">Статистика</a>
+                        </div>
+                    </div>
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-6 text-left">
                             <a href="group/@(Model.Id)/invite" class="btn btn-primary" style="font-size: 15px">Добавить участников</a>
                         </div>
                     </div>

@@ -46,8 +46,8 @@ namespace Edurem
 
             services.AddServerSideBlazor();
             services.AddRazorPages();
-            services.AddMarkdownComponent(); 
-            services.AddHttpContextAccessor(); 
+            services.AddMarkdownComponent();
+            services.AddHttpContextAccessor();
             services.AddBlazoredLocalStorage();
 
             // Добавляем конфигурацию Toaster
@@ -71,7 +71,7 @@ namespace Edurem
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             var serverVersion = ServerVersion.AutoDetect(connectionString);
-            
+
             services.AddDbContext<DbContext, EduremDbContext>(options =>
                 options.UseMySql(
                         serverVersion,

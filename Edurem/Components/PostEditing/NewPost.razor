@@ -6,12 +6,8 @@
 @inject Edurem.Services.ICodeTestService TestService;
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
 @inject NavigationManager NavigationManager;
-@inject IJSRuntime JsRuntime;
 @inject IHttpClientFactory HttpFactory;
-@using System.IO;
-@using Edurem.ViewModels;
-@using Edurem.Extensions;
-@using Blazored.TextEditor;
+@using Edurem.Models;
 
 
 <div class="container">
@@ -51,7 +47,7 @@
     case 1:
         <div class="row mb-3">
             <div class="col-12">
-                <EditPost @ref="EditPost" UserId="CurrentUser.Id" GroupId="Group.Id" Post="Post" ChosenGroupsId="GroupIds" PostFiles="PostFiles"></EditPost>
+                <EditPost @ref="EditPost" UserId="UserId" GroupId="GroupId" Post="Post" ChosenGroupsId="GroupIds" PostFiles="PostFiles" ChooseGroups="true"></EditPost>
             </div>
         </div>
         break;
@@ -134,10 +130,10 @@
 @code {
 
     [Parameter]
-    public CurrentUserViewModel CurrentUser { get; set; }
+    public int UserId { get; set; }
 
     [Parameter]
-    public Group Group { get; set; }
+    public int GroupId { get; set; }
 
     MatTheme theme = new MatTheme
     {
@@ -302,7 +298,7 @@
         try
         {
             // Создание публикации
-            await PostService.CreatePost(Post, Group.Id);
+            await PostService.CreatePost(Post, GroupId);
         }
         catch (Exception ex)
         {
@@ -326,7 +322,7 @@
             await PostService.AddTestsToPost(Post.Id, OptionTestFiles.Select(test => (test.File.Stream, test.File.FileUploadEntry.Name, test.UserId)).ToList());
         }
 
-        NavigationManager.NavigateTo($"group/{Group.Id}", true);
+        NavigationManager.NavigateTo($"group/{GroupId}", true);
     }
 
     string FileSizeToText(float size)

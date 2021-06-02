@@ -26,18 +26,28 @@ namespace Edurem.Services
 
         public async Task<FileModel> UploadFile(Stream stream, string filePath, string fileName, bool dbUpload = true)
         {
-
             string fullFilePath = Path.Combine(AppEnvironment.WebRootPath, filePath, fileName);
-            string directoryPath = Path.Combine(AppEnvironment.WebRootPath, filePath);
+            string directoryPath = Path.Combine(AppEnvironment.WebRootPath, filePath);            
 
             // Создаем директорию, если ее нет
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
-            
-            using (var fileStream = File.Exists(fullFilePath) ? File.OpenWrite(fullFilePath) : File.Create(fullFilePath))
+
+            // Если файл не находится там, куда его нужно загрузить
+            if (!((stream as FileStream)?.Name.Equals(fullFilePath) ?? false))
             {
-                stream.Position = 0;
-                await stream.CopyToAsync(fileStream);
+                try
+                {
+                    using (var fileStream = File.Exists(fullFilePath) ? File.OpenWrite(fullFilePath) : File.Create(fullFilePath))
+                    {
+                        stream.Position = 0;
+                        await stream.CopyToAsync(fileStream);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
             var fileModel = new FileModel()
@@ -73,7 +83,24 @@ namespace Edurem.Services
             // Получаем модель файла из БД
             try
             {
-                file = (await FileRepository.Find(f => f.Id == fileId)).FirstOrDefault();
+                file = (await FileRepository.Get(f => f.Id == fileId));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return file;
+        }
+
+        public async Task<FileModel> GetFile(string path)
+        {
+            var FileRepository = RepositoryFactory.GetRepository<FileModel>();
+            FileModel file = new();
+            // Получаем модель файла из БД
+            try
+            {
+                file = (await FileRepository.Get(f => f.Path.Equals(path)));
             }
             catch (Exception e)
             {
@@ -149,12 +176,25 @@ namespace Edurem.Services
             {
                 var file = await FileRepository.Get(f => f.Id == fileId);
 
-                // Удалить файл из БД
-                await FileRepository.Delete(file);
+                try
+                {
+                    // Удалить файл из файловой системы
+                    var filePath = Path.Combine(AppEnvironment.WebRootPath, file.GetFullPath());
+                    File.Delete(filePath);
+                }
+                catch (Exception ex)
+                {
+                    // Если невозможно удалить файл, то метод завершается,
+                    // чтобы не удалять информацию о файле из БД
+                    return;
+                }
 
-                // Удалить файл из файловой системы
-                var filePath = Path.Combine(AppEnvironment.WebRootPath, file.GetFullPath());
-                File.Delete(filePath);
+                if (forceRemove)
+                    // Удаление файла из связуюших таблиц
+                    await ForceRemoveFile(fileId);
+
+                // Удалить файл из БД
+                await FileRepository.Delete(file);                
             }
             else
             {
@@ -162,6 +202,17 @@ namespace Edurem.Services
             }
 
             return;
+        }
+
+        private async Task ForceRemoveFile(int fileId)
+        {
+            if (!await HasReferences(fileId)) return;
+
+            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
+
+            var postFile = (await PostFileRepository.Get(postFile => postFile.FileId == fileId));
+
+            await PostFileRepository.Delete(postFile);
         }
 
         public async Task<bool> HasReferences(int fileId)
@@ -185,6 +236,13 @@ namespace Edurem.Services
                 fullPath = Path.Combine(fullPath, path);
             }
             return fullPath;
+        }
+
+        public Stream GetFileStream(string filePath)
+        {            
+            if (File.Exists(filePath))
+                return File.OpenRead(filePath);
+            return File.OpenRead(Path.Combine(AppEnvironment.WebRootPath, filePath));
         }
     }
 }

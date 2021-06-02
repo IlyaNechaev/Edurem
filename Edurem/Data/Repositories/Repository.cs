@@ -36,9 +36,10 @@ namespace Edurem.Data
 
         public async Task AddRange(List<TEntity> entity, bool forceSave = true)
         {
+            if (entity.Count == 0) return;
             try
             {
-                await Context.Set<TEntity>().AddRangeAsync(entity);
+                Context.Set<TEntity>().AddRange(entity);
                 if (forceSave)
                 {
                     await Context.SaveChangesAsync();
@@ -92,7 +93,7 @@ namespace Edurem.Data
             TEntity entity;
             try
             {
-                entity = await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+                entity = Context.Set<TEntity>().FirstOrDefault(predicate);
             }
             catch (Exception)
             {
@@ -112,7 +113,7 @@ namespace Edurem.Data
                 {
                     contextEntites = contextEntites.Include(inclusion);
                 }
-                entity = await contextEntites.FirstOrDefaultAsync(predicate);
+                entity = contextEntites.FirstOrDefault(predicate);
             }
             catch (Exception)
             {
@@ -171,9 +172,10 @@ namespace Edurem.Data
             try
             {
                 Context.Set<TEntity>().Update(entity);
+
                 if (forceSave)
                 {
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
                 }
             }
             catch (Exception)
@@ -186,13 +188,14 @@ namespace Edurem.Data
         {
             try
             {
+                var s = Context.Set<TEntity>();
                 Context.Set<TEntity>().Remove(entity);
                 if (forceSave)
                 {
-                    await Context.SaveChangesAsync();
+                    Context.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

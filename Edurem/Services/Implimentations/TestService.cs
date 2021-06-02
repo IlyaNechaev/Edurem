@@ -13,8 +13,8 @@ using System.Diagnostics;
 using Edurem.Data;
 using Microsoft.AspNetCore.Hosting;
 using Edurem.Providers;
-using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace Edurem.Services
 {
@@ -72,6 +72,7 @@ namespace Edurem.Services
             try
             {
                 (resultText, errors) = await DockerService.RunImage(imageTag, $"{imageTag}c");
+                testInfo.DateOfTesting = DateTime.Now;
 
                 // Обработка ошибок
                 var providedErrors = LanguageTestProviderFactory
@@ -162,7 +163,7 @@ namespace Edurem.Services
                         }
                         else
                         {
-                            html = $"<p class=\"mb-0\" style=\"font-family: 'Oswald', sans-serif;\">Тестов выполнено: {testResult.Success}/{testResult.Tests} ({testResult.Completion}%)</p>";
+                            html = $"<p class=\"mb-0\" style=\"font-family: 'Oswald', sans-serif;\">Тестов выполнено: {testResult.Success}/{testResult.Tests} ({Math.Round(testResult.Completion)}%)</p>";
                         }
                     }
                     catch (JsonReaderException)
@@ -244,11 +245,15 @@ namespace Edurem.Services
                 .Where(file => Path.GetExtension(file).Equals(".json"))
                 .ToList();
 
-            foreach (var jsonPath in jsonPaths)
+            DeleteUserTestFiles(userId, postId);
+
+            for (int i = 0; i < jsonPaths.Count; i++)
             {
+                var jsonPath = jsonPaths[i];
+
                 var jsonParameters = await File.ReadAllTextAsync(jsonPath);
 
-                await CreateUnitTests(postId, userId, jsonParameters, language);
+                await CreateUnitTests(postId, userId, jsonParameters, language, $"unit_test_{i + 1}");
             }
 
             #endregion
@@ -361,13 +366,12 @@ namespace Edurem.Services
                     );
 
             if (!Directory.Exists(unitTestsPath)) Directory.CreateDirectory(unitTestsPath);
-            // Удаление файлов сгенерированных ранее тестов
-            Directory.GetFiles(unitTestsPath).ToList().ForEach(file => File.Delete(file));
 
             // Сохранение тестовых файлов на сервере
             for (int i = 0; i < unitTests.Count; i++)
             {
-                await File.WriteAllTextAsync(Path.Combine(unitTestsPath, $"{unitTestFileName}_{i + 1}{languageProvider.GetFileExtension()}"), unitTests[i]);
+                //await File.WriteAllTextAsync(Path.Combine(unitTestsPath, $"{unitTestFileName}_{i + 1}{languageProvider.GetFileExtension()}"), unitTests[i]);
+                await File.WriteAllTextAsync(Path.Combine(unitTestsPath, $"{unitTestFileName}{languageProvider.GetFileExtension()}"), unitTests[i]);
             }
         }
 
@@ -537,6 +541,17 @@ namespace Edurem.Services
             }
 
             throw new InvalidDataException("JSON не соответствует необходимому формату");
+        }
+
+        private void DeleteUserTestFiles(int userId, int postId)
+        {
+            var unitTestsPath = FileService.GetFullPath(
+                    Configuration.GetDirectoryPath().ForPostGeneratedOptionTests(
+                        postId.ToString(), userId.ToString()
+                        )
+                    );
+
+            Directory.GetFiles(unitTestsPath).ToList().ForEach(file => File.Delete(file));
         }
     }
 }

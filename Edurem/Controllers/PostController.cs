@@ -49,5 +49,13 @@ namespace Edurem.Controllers
 
             return View(post);
         }
+
+
+        [Route("{postId}/edit")]
+        [HttpGet]
+        public IActionResult EditPost(int postId, [FromQuery] int groupId)
+        {
+            return View((groupId, postId));
+        }
     }
 }

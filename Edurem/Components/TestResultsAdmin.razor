@@ -1,0 +1,120 @@
+﻿@inject Edurem.Services.IPostService PostService;
+@inject Edurem.Services.ICodeTestService TestService;
+@inject Edurem.Services.IGroupService GroupService;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor ContextAccessor;
+
+<div class="row h3">
+    @PostTitle
+</div>
+<div class="row">
+    <div class="col-7">
+        @for (int i = 0; i < testResultViews.Count; i++)
+        {
+            <div class="row align-items-center justify-items-center border-bottom border-top">
+                <div class="col-1">
+                    @(i + 1)
+                </div>
+                <div class="col-4 text-left">
+                    <p class="mb-0" style="font-size: 18px">@($"{testResultViews[i].User.Surname} {testResultViews[i].User.Name} {(testResultViews[i].User.Id == int.Parse(ContextAccessor.HttpContext.User.GetClaim(ClaimKey.Id)) ? "(Вы)" : "")}")</p>
+                </div>
+                <div class="col-2">
+                    <MatProgressCircle Indeterminate="false" Progress="testResultViews[i].GetProgress()" />
+                </div>
+                <div class="col-2 text-left">
+                    <p class="mb-0" style="font-size: 16px">@($"{Math.Round(testResultViews[i].GetProgress() * 100)} %")</p>
+                </div>
+                <div class="col-3 text-right">
+                    <a href="#" style="font-size: 16px">Подробнее</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int PostId { get; set; }
+
+    [Parameter]
+    public int GroupId { get; set; }
+
+    string PostTitle { get; set; }
+
+    List<TestResultsView> testResultViews { get; set; }
+
+    class TestResultsView
+    {
+        public int CountOfTests { get; set; }
+
+        public int CountOfCompletedTests { get; set; }
+
+        public List<(string TestName, string ResultHtml)> Results { get; set; }
+
+        public User User { get; set; }
+
+        public bool HasError { get; set; }
+
+        public TestResultsView()
+        {
+            CountOfTests = 0;
+            CountOfCompletedTests = 0;
+            Results = new();
+            HasError = false;
+            User = new();
+        }
+
+        public TestResultsView(TestInfo testInfo, List<(string TestName, string ResultHtml)> results)
+        {
+            CountOfTests = testInfo.CountOfTests;
+            CountOfCompletedTests = testInfo.CountOfCompletedTests;
+            Results = results;
+            User = testInfo.User;
+
+            HasError = testInfo.ResultText.Contains("[ERROR]");
+        }
+
+        public double GetProgress()
+        {
+            return CountOfTests != 0 ? (double)CountOfCompletedTests / CountOfTests : 0;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        PostTitle = PostService.GetPost(PostId).Result.Title;
+
+        testResultViews = PostService.GetTestResults(PostId)
+            .Result
+            .Select(testResult => new TestResultsView(testResult, TestService.BuildTestResults(testResult)))
+            .ToList();
+
+        var usersInGroup = GroupService.GetMembers(GroupId)
+            .Result
+            .Where(user => user.RoleInGroup.Equals(RoleInGroup.MEMBER));
+
+        foreach (var user in usersInGroup)
+        {
+            if (!testResultViews.Any(result => result.User.Id == user.UserId))
+            {
+                var resultView = new TestResultsView
+                {
+                    CountOfCompletedTests = 0,
+                    CountOfTests = 0,
+                    HasError = false,
+                    Results = new(),
+                    User = new User
+                    {
+                        Name = user.User.Name,
+                        Surname = user.User.Surname
+                    }
+                };
+                testResultViews.Add(resultView);
+            }
+        }
+
+        testResultViews = testResultViews
+            .OrderBy(resultView => resultView.User.Surname)
+            .ThenBy(resultView => resultView.User.Name)
+            .ToList();
+    }
+}

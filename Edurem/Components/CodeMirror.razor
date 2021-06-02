@@ -35,13 +35,13 @@
 
     public async Task SetCode(string code)
     {
-        Code = code;
+        Code = code.Trim('\n', '\r');
         await JSRuntime.InvokeVoidAsync("setCode", Code);
     }
 
     public async Task SetCode(string code, Language language)
     {
-        Code = code;
+        Code = code.Trim('\n', '\r');
         await JSRuntime.InvokeVoidAsync("setCode", Code);
         await SetLanguage(language);
     }

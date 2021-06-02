@@ -34,7 +34,7 @@
       "Edurem/1.0.0": {
         "dependencies": {
           "BlazorAnimate": "3.0.0",
-          "Blazored.LocalStorage": "3.0.0",
+          "Blazored.LocalStorage": "4.1.1",
           "Blazored.TextEditor": "1.0.3",
           "CKEditor": "3.6.4",
           "ColorCode.Core": "2.0.8",
@@ -44,7 +44,7 @@
           "GitLabApiClient": "1.7.0",
           "Html2Markdown": "4.0.0.427",
           "Jering.Web.SyntaxHighlighters.Prism": "4.3.0",
-          "MailKit": "2.11.1",
+          "MailKit": "2.12.0",
           "Markdig": "0.24.0",
           "MarkdigExtensions.SyntaxHighlighting": "1.0.3",
           "MatBlazor": "2.8.0",
@@ -52,7 +52,7 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
           "Newtonsoft.Json": "13.0.1",
           "Pomelo.EntityFrameworkCore.MySql": "5.0.0",
-          "StardustDL.RazorComponents.Markdown": "0.0.3.25",
+          "StardustDL.RazorComponents.Markdown": "0.0.3.26",
           "WebStoating.Markdig.Prism": "1.0.0",
           "Westwind.AspNetCore.Markdown": "3.6.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
@@ -62,7 +62,7 @@
           "Microsoft.AspNetCore.Authentication": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.OAuth": "5.0.0.0",
           "Microsoft.AspNetCore.Authorization.Policy": "5.0.0.0",
-          "Microsoft.AspNetCore.Components.Authorization": "5.0.0.0",
+          "Microsoft.AspNetCore.Components.Authorization.Reference": "5.0.0.0",
           "Microsoft.AspNetCore.Components.Server": "5.0.0.0",
           "Microsoft.AspNetCore.CookiePolicy": "5.0.0.0",
           "Microsoft.AspNetCore.Cors": "5.0.0.0",
@@ -336,8 +336,8 @@
       },
       "BlazorAnimate/3.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "5.0.3",
-          "Microsoft.AspNetCore.Components.Web": "5.0.3",
+          "Microsoft.AspNetCore.Components": "5.0.6",
+          "Microsoft.AspNetCore.Components.Web": "5.0.6",
           "MinVer": "2.0.0"
         },
         "runtime": {
@@ -350,25 +350,26 @@
           "lib/netstandard2.0/BlazorAnimate.dll": {}
         }
       },
-      "Blazored.LocalStorage/3.0.0": {
+      "Blazored.LocalStorage/4.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "5.0.3",
-          "Microsoft.AspNetCore.Components.Web": "5.0.3"
+          "Microsoft.AspNetCore.Components": "5.0.6",
+          "Microsoft.AspNetCore.Components.Web": "5.0.6",
+          "bunit.core": "1.1.5"
         },
         "runtime": {
-          "lib/netstandard2.1/Blazored.LocalStorage.dll": {
+          "lib/net5.0/Blazored.LocalStorage.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         },
         "compile": {
-          "lib/netstandard2.1/Blazored.LocalStorage.dll": {}
+          "lib/net5.0/Blazored.LocalStorage.dll": {}
         }
       },
       "Blazored.TextEditor/1.0.3": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "5.0.3",
-          "Microsoft.AspNetCore.Components.Web": "5.0.3"
+          "Microsoft.AspNetCore.Components": "5.0.6",
+          "Microsoft.AspNetCore.Components.Web": "5.0.6"
         },
         "runtime": {
           "lib/netstandard2.0/Blazored.TextEditor.dll": {
@@ -378,6 +379,24 @@
         },
         "compile": {
           "lib/netstandard2.0/Blazored.TextEditor.dll": {}
+        }
+      },
+      "bunit.core/1.1.5": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "5.0.6",
+          "Microsoft.AspNetCore.Components.Authorization": "5.0.0",
+          "Microsoft.AspNetCore.Components.Web": "5.0.6",
+          "Microsoft.Extensions.Logging": "5.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0"
+        },
+        "runtime": {
+          "lib/net5.0/Bunit.Core.dll": {
+            "assemblyVersion": "1.1.5.19909",
+            "fileVersion": "1.1.5.19909"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Bunit.Core.dll": {}
         }
       },
       "CKEditor/3.6.4": {},
@@ -596,14 +615,14 @@
           "lib/netstandard2.0/Jering.Web.SyntaxHighlighters.Prism.dll": {}
         }
       },
-      "MailKit/2.11.1": {
+      "MailKit/2.12.0": {
         "dependencies": {
-          "MimeKit": "2.11.0"
+          "MimeKit": "2.12.0"
         },
         "runtime": {
           "lib/net50/MailKit.dll": {
-            "assemblyVersion": "2.11.0.0",
-            "fileVersion": "2.11.1.0"
+            "assemblyVersion": "2.12.0.0",
+            "fileVersion": "2.12.0.0"
           }
         },
         "compile": {
@@ -639,8 +658,8 @@
       },
       "MatBlazor/2.8.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "5.0.3",
-          "Microsoft.AspNetCore.Components.Web": "5.0.3"
+          "Microsoft.AspNetCore.Components": "5.0.6",
+          "Microsoft.AspNetCore.Components.Web": "5.0.6"
         },
         "runtime": {
           "lib/netstandard2.1/MatBlazor.dll": {
@@ -652,82 +671,88 @@
           "lib/netstandard2.1/MatBlazor.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Authorization/5.0.3": {
+      "Microsoft.AspNetCore.Authorization/5.0.6": {
         "dependencies": {
-          "Microsoft.AspNetCore.Metadata": "5.0.3",
+          "Microsoft.AspNetCore.Metadata": "5.0.6",
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
           "Microsoft.Extensions.Options": "5.0.0"
         },
         "runtime": {
           "lib/net5.0/Microsoft.AspNetCore.Authorization.dll": {
             "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.321.7303"
+            "fileVersion": "5.0.621.22305"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.AspNetCore.Authorization.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Components/5.0.3": {
+      "Microsoft.AspNetCore.Components/5.0.6": {
         "dependencies": {
-          "Microsoft.AspNetCore.Authorization": "5.0.3",
-          "Microsoft.AspNetCore.Components.Analyzers": "5.0.3"
+          "Microsoft.AspNetCore.Authorization": "5.0.6",
+          "Microsoft.AspNetCore.Components.Analyzers": "5.0.6"
         },
         "runtime": {
           "lib/net5.0/Microsoft.AspNetCore.Components.dll": {
             "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.321.7303"
+            "fileVersion": "5.0.621.22305"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.AspNetCore.Components.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Components.Analyzers/5.0.3": {},
-      "Microsoft.AspNetCore.Components.Forms/5.0.3": {
+      "Microsoft.AspNetCore.Components.Analyzers/5.0.6": {},
+      "Microsoft.AspNetCore.Components.Authorization/5.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "5.0.3"
+          "Microsoft.AspNetCore.Authorization": "5.0.6",
+          "Microsoft.AspNetCore.Components": "5.0.6"
+        }
+      },
+      "Microsoft.AspNetCore.Components.Forms/5.0.6": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "5.0.6"
         },
         "runtime": {
           "lib/net5.0/Microsoft.AspNetCore.Components.Forms.dll": {
             "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.321.7303"
+            "fileVersion": "5.0.621.22305"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.AspNetCore.Components.Forms.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Components.Web/5.0.3": {
+      "Microsoft.AspNetCore.Components.Web/5.0.6": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "5.0.3",
-          "Microsoft.AspNetCore.Components.Forms": "5.0.3",
+          "Microsoft.AspNetCore.Components": "5.0.6",
+          "Microsoft.AspNetCore.Components.Forms": "5.0.6",
           "Microsoft.Extensions.DependencyInjection": "5.0.1",
-          "Microsoft.JSInterop": "5.0.3",
+          "Microsoft.JSInterop": "5.0.6",
           "System.IO.Pipelines": "5.0.1"
         },
         "runtime": {
           "lib/net5.0/Microsoft.AspNetCore.Components.Web.dll": {
             "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.321.7303"
+            "fileVersion": "5.0.621.22305"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.AspNetCore.Components.Web.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Components.WebAssembly/5.0.3": {
+      "Microsoft.AspNetCore.Components.WebAssembly/5.0.6": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components.Web": "5.0.3",
+          "Microsoft.AspNetCore.Components.Web": "5.0.6",
           "Microsoft.Extensions.Configuration.Binder": "5.0.0",
           "Microsoft.Extensions.Configuration.Json": "5.0.0",
           "Microsoft.Extensions.Logging": "5.0.0",
-          "Microsoft.JSInterop.WebAssembly": "5.0.3"
+          "Microsoft.JSInterop.WebAssembly": "5.0.6"
         },
         "runtime": {
           "lib/net5.0/Microsoft.AspNetCore.Components.WebAssembly.dll": {
-            "assemblyVersion": "5.0.3.0",
-            "fileVersion": "5.0.321.7303"
+            "assemblyVersion": "5.0.6.0",
+            "fileVersion": "5.0.621.22305"
           }
         },
         "compile": {
@@ -817,11 +842,11 @@
           "lib/net5.0/Microsoft.AspNetCore.Http.Features.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Metadata/5.0.3": {
+      "Microsoft.AspNetCore.Metadata/5.0.6": {
         "runtime": {
           "lib/net5.0/Microsoft.AspNetCore.Metadata.dll": {
             "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.321.7303"
+            "fileVersion": "5.0.621.22305"
           }
         },
         "compile": {
@@ -1419,25 +1444,25 @@
           "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.JSInterop/5.0.3": {
+      "Microsoft.JSInterop/5.0.6": {
         "runtime": {
           "lib/net5.0/Microsoft.JSInterop.dll": {
             "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.321.7303"
+            "fileVersion": "5.0.621.22305"
           }
         },
         "compile": {
           "lib/net5.0/Microsoft.JSInterop.dll": {}
         }
       },
-      "Microsoft.JSInterop.WebAssembly/5.0.3": {
+      "Microsoft.JSInterop.WebAssembly/5.0.6": {
         "dependencies": {
-          "Microsoft.JSInterop": "5.0.3"
+          "Microsoft.JSInterop": "5.0.6"
         },
         "runtime": {
           "lib/net5.0/Microsoft.JSInterop.WebAssembly.dll": {
-            "assemblyVersion": "5.0.3.0",
-            "fileVersion": "5.0.321.7303"
+            "assemblyVersion": "5.0.6.0",
+            "fileVersion": "5.0.621.22305"
           }
         },
         "compile": {
@@ -1613,7 +1638,7 @@
           "System.Runtime.InteropServices": "4.3.0"
         }
       },
-      "MimeKit/2.11.0": {
+      "MimeKit/2.12.0": {
         "dependencies": {
           "Portable.BouncyCastle": "1.8.10",
           "System.Buffers": "4.5.1",
@@ -1623,8 +1648,8 @@
         },
         "runtime": {
           "lib/net50/MimeKit.dll": {
-            "assemblyVersion": "2.11.0.0",
-            "fileVersion": "2.11.0.0"
+            "assemblyVersion": "2.12.0.0",
+            "fileVersion": "2.12.0.0"
           }
         },
         "compile": {
@@ -1632,22 +1657,22 @@
         }
       },
       "MinVer/2.0.0": {},
-      "Modulight.Modules.Client.RazorComponents/0.0.4": {
+      "Modulight.Modules.Client.RazorComponents/0.0.6": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components.WebAssembly": "5.0.3",
-          "Modulight.Modules.Core": "0.0.4"
+          "Microsoft.AspNetCore.Components.WebAssembly": "5.0.6",
+          "Modulight.Modules.Core": "0.0.6"
         },
         "runtime": {
           "lib/net5.0/Modulight.Modules.Client.RazorComponents.dll": {
-            "assemblyVersion": "0.0.4.0",
-            "fileVersion": "0.0.4.0"
+            "assemblyVersion": "0.0.6.0",
+            "fileVersion": "0.0.6.0"
           }
         },
         "compile": {
           "lib/net5.0/Modulight.Modules.Client.RazorComponents.dll": {}
         }
       },
-      "Modulight.Modules.Core/0.0.4": {
+      "Modulight.Modules.Core/0.0.6": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "5.0.1",
           "Microsoft.Extensions.Logging": "5.0.0",
@@ -1655,8 +1680,8 @@
         },
         "runtime": {
           "lib/net5.0/Modulight.Modules.Core.dll": {
-            "assemblyVersion": "0.0.4.0",
-            "fileVersion": "0.0.4.0"
+            "assemblyVersion": "0.0.6.0",
+            "fileVersion": "0.0.6.0"
           }
         },
         "compile": {
@@ -1808,16 +1833,16 @@
       "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
-      "StardustDL.RazorComponents.Markdown/0.0.3.25": {
+      "StardustDL.RazorComponents.Markdown/0.0.3.26": {
         "dependencies": {
           "Markdig": "0.24.0",
-          "Microsoft.AspNetCore.Components.Web": "5.0.3",
-          "Modulight.Modules.Client.RazorComponents": "0.0.4"
+          "Microsoft.AspNetCore.Components.Web": "5.0.6",
+          "Modulight.Modules.Client.RazorComponents": "0.0.6"
         },
         "runtime": {
           "lib/net5.0/StardustDL.RazorComponents.Markdown.dll": {
-            "assemblyVersion": "0.0.3.25",
-            "fileVersion": "0.0.3.25"
+            "assemblyVersion": "0.0.3.26",
+            "fileVersion": "0.0.3.26"
           }
         },
         "compile": {
@@ -2904,7 +2929,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Components.Authorization/5.0.0.0": {
+      "Microsoft.AspNetCore.Components.Authorization.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Components.Authorization.dll": {}
         },
@@ -4503,12 +4528,12 @@
       "path": "blazoranimate/3.0.0",
       "hashPath": "blazoranimate.3.0.0.nupkg.sha512"
     },
-    "Blazored.LocalStorage/3.0.0": {
+    "Blazored.LocalStorage/4.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-eXpHDvog+nRvAFsrqVKqGrpHXuyPTH8tgAremHKbteP5nNEROlItfP8Xh8pNMpTovuQ4tl3NyfQcG0rnbjQ5jw==",
-      "path": "blazored.localstorage/3.0.0",
-      "hashPath": "blazored.localstorage.3.0.0.nupkg.sha512"
+      "sha512": "sha512-Z0B7AQ7w8SiPF6+N7zo98wwLM6NSeM3vM6ixyRR962Jr0QJuYlTasBHclgFNCoqoqKTAFAMXaGOhJO4ul4zIag==",
+      "path": "blazored.localstorage/4.1.1",
+      "hashPath": "blazored.localstorage.4.1.1.nupkg.sha512"
     },
     "Blazored.TextEditor/1.0.3": {
       "type": "package",
@@ -4516,6 +4541,13 @@
       "sha512": "sha512-8B2QiqmoGjdvknI++Imq7zcAhyfKCHfiqNYXff7Ilv9iGt+Hu9UkCO5zE1JcQmayFac/I2ddXOikixbmVfW4dg==",
       "path": "blazored.texteditor/1.0.3",
       "hashPath": "blazored.texteditor.1.0.3.nupkg.sha512"
+    },
+    "bunit.core/1.1.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4ABC3VWkcfNJTqCRbG1mhDIjmgGmHU/KA+6wcror48xH0qsqRTy/FUtGKKcaFypU4IZanNYW00c3UGyYYird9A==",
+      "path": "bunit.core/1.1.5",
+      "hashPath": "bunit.core.1.1.5.nupkg.sha512"
     },
     "CKEditor/3.6.4": {
       "type": "package",
@@ -4608,12 +4640,12 @@
       "path": "jering.web.syntaxhighlighters.prism/4.3.0",
       "hashPath": "jering.web.syntaxhighlighters.prism.4.3.0.nupkg.sha512"
     },
-    "MailKit/2.11.1": {
+    "MailKit/2.12.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Z/MjVOicmCCLMgOQ3pr7MKQ9fsIrMt5qA2qqTO7Uux7Q6y4pYQFV4HBeJcc/oTjNxngiLzFlUoF9oSuQdFD/ig==",
-      "path": "mailkit/2.11.1",
-      "hashPath": "mailkit.2.11.1.nupkg.sha512"
+      "sha512": "sha512-YGjG1rHqTiyPZO3J/gWcBI1tOIMmSEALiEjf5i2YCUDkR4F+AEOyx/hNMP/99vPmpB6rxUdh/budN/tb3CcbCw==",
+      "path": "mailkit/2.12.0",
+      "hashPath": "mailkit.2.12.0.nupkg.sha512"
     },
     "Markdig/0.24.0": {
       "type": "package",
@@ -4636,47 +4668,54 @@
       "path": "matblazor/2.8.0",
       "hashPath": "matblazor.2.8.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Authorization/5.0.3": {
+    "Microsoft.AspNetCore.Authorization/5.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-yMX0DKFtLOiWsRfBJKTTRXCv2s//H801R5fP9uyf7/IjgGwUsnLWo/SUnB475SoFNFvurPRzW/J0UYPHWw9lrA==",
-      "path": "microsoft.aspnetcore.authorization/5.0.3",
-      "hashPath": "microsoft.aspnetcore.authorization.5.0.3.nupkg.sha512"
+      "sha512": "sha512-TNFB3i5mak/8XgvPjHiWdQAD7B1fsqY8NJmryV6rStJknAA0+upiJrCqK2cY7L2WMviIoxGt6SWHQmq5qmv4HQ==",
+      "path": "microsoft.aspnetcore.authorization/5.0.6",
+      "hashPath": "microsoft.aspnetcore.authorization.5.0.6.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components/5.0.3": {
+    "Microsoft.AspNetCore.Components/5.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+0297KJ2b1iuMzWbSUmv9pg1+idstvY//oBDLWNTxZH5nkzD0yDL9uo2QbhoWR4tFVP9RtgFbiuzMxbmE6poBA==",
-      "path": "microsoft.aspnetcore.components/5.0.3",
-      "hashPath": "microsoft.aspnetcore.components.5.0.3.nupkg.sha512"
+      "sha512": "sha512-slM3DJTfpvCtfLEsDLtyAoLc01ahSgZffIWTHXYLMmqMx6xnhlwIGucFslqGG7zVmxWHmD2KqybrMe2fRv69VA==",
+      "path": "microsoft.aspnetcore.components/5.0.6",
+      "hashPath": "microsoft.aspnetcore.components.5.0.6.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components.Analyzers/5.0.3": {
+    "Microsoft.AspNetCore.Components.Analyzers/5.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-CrWTS7rc6dMd/bnoE28+6lE4JXn6dmE1oHqAnxgt/dNq2lC63BPzj7S+cJqCbr/x1agboOAKPZyU5J2zRFHtcg==",
-      "path": "microsoft.aspnetcore.components.analyzers/5.0.3",
-      "hashPath": "microsoft.aspnetcore.components.analyzers.5.0.3.nupkg.sha512"
+      "sha512": "sha512-hgeQhZgSFLLR57pmfh0LSRAyLr39TTgrkV3iowQOI/UDRP+9ZJfxqQAJ/9rZzI1AtCwjMEE0Aclrxl7gMcgCcA==",
+      "path": "microsoft.aspnetcore.components.analyzers/5.0.6",
+      "hashPath": "microsoft.aspnetcore.components.analyzers.5.0.6.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components.Forms/5.0.3": {
+    "Microsoft.AspNetCore.Components.Authorization/5.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-XqdunZzgOQwuBeMTBvQmqZ2i3d8IcucZO0lHLrCLAUO4seYckBOLu4J5mk/YzGy7YcmyoTeKl/Edwf+hxG5IAA==",
-      "path": "microsoft.aspnetcore.components.forms/5.0.3",
-      "hashPath": "microsoft.aspnetcore.components.forms.5.0.3.nupkg.sha512"
+      "sha512": "sha512-I++r4RdziNB9HeQbkHQvzg2N0rX4dSmA1105OnR5xMKZKL8E7TOKR+Mwf45uXgKvxYb08otPrZWTx1M5rmL/8g==",
+      "path": "microsoft.aspnetcore.components.authorization/5.0.0",
+      "hashPath": "microsoft.aspnetcore.components.authorization.5.0.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components.Web/5.0.3": {
+    "Microsoft.AspNetCore.Components.Forms/5.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-dENc9yX6QWFWfE7s5++bwvR5iPoJTNkcwyonZgEIYIZBaq8QJ6stcRk/DILzJSs/Xle4Mw7GjVrYcR97IFLkXQ==",
-      "path": "microsoft.aspnetcore.components.web/5.0.3",
-      "hashPath": "microsoft.aspnetcore.components.web.5.0.3.nupkg.sha512"
+      "sha512": "sha512-fIMSGz82yxeTiWvGFGnryPSGR7QaLMvHVm91Y5LwnkY+P+o92xNh7doAiw7kzWHVwZNLQFdxOQXYi/sBxPGckA==",
+      "path": "microsoft.aspnetcore.components.forms/5.0.6",
+      "hashPath": "microsoft.aspnetcore.components.forms.5.0.6.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Components.WebAssembly/5.0.3": {
+    "Microsoft.AspNetCore.Components.Web/5.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-46Od/2gD02MI7FGd6FiT8O9cKUBCUO0uqbK7BW//lyjXfOMhSzzneThJMVUBNQHq149gmHe4qogU4OvDI62jIQ==",
-      "path": "microsoft.aspnetcore.components.webassembly/5.0.3",
-      "hashPath": "microsoft.aspnetcore.components.webassembly.5.0.3.nupkg.sha512"
+      "sha512": "sha512-w7OF5sVnuNDujUqInokepUN/LVvt2dZDBhk2HGzJjutmolKN8WaO5d5yDsaH6zt9hww0JfT6Yzi4Xs37+DZjgQ==",
+      "path": "microsoft.aspnetcore.components.web/5.0.6",
+      "hashPath": "microsoft.aspnetcore.components.web.5.0.6.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components.WebAssembly/5.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PpD50yS0V0ALso6gsQlyNEzi1U4ogvCNQxqWX06o4GMFKo0eoQ0Ia/08WWjwjIbX96RDjWY4qNzPiVgOSxRXKg==",
+      "path": "microsoft.aspnetcore.components.webassembly/5.0.6",
+      "hashPath": "microsoft.aspnetcore.components.webassembly.5.0.6.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Connections.Abstractions/5.0.1": {
       "type": "package",
@@ -4734,12 +4773,12 @@
       "path": "microsoft.aspnetcore.http.features/5.0.1",
       "hashPath": "microsoft.aspnetcore.http.features.5.0.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Metadata/5.0.3": {
+    "Microsoft.AspNetCore.Metadata/5.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-fDYFg9WZd2kAvdZ8AMTqZ0LjBZp53WC9kIr5YY1p5kuFBbrYqc/aFNR5vGWE+fKroWRvW/pUgn4SgzyoO/iP5w==",
-      "path": "microsoft.aspnetcore.metadata/5.0.3",
-      "hashPath": "microsoft.aspnetcore.metadata.5.0.3.nupkg.sha512"
+      "sha512": "sha512-mJbuL0obXSu+w+WprvaghSTKJhdvt2TLTFBMkzDsxecJbO8xHS+485SJoIxV37dQcMl/4tOXjGNUfjMH9seNWA==",
+      "path": "microsoft.aspnetcore.metadata/5.0.6",
+      "hashPath": "microsoft.aspnetcore.metadata.5.0.6.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Razor/2.2.0": {
       "type": "package",
@@ -5028,19 +5067,19 @@
       "path": "microsoft.identitymodel.tokens/5.5.0",
       "hashPath": "microsoft.identitymodel.tokens.5.5.0.nupkg.sha512"
     },
-    "Microsoft.JSInterop/5.0.3": {
+    "Microsoft.JSInterop/5.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-JkRQFUlxFHAC/W58HHOEJXeZSnQHSNooK3FQKHZfg1bWcR3Cx9Oo7CmV6c6lxQeP8XD6BS6OGOpwbGWMuCLajw==",
-      "path": "microsoft.jsinterop/5.0.3",
-      "hashPath": "microsoft.jsinterop.5.0.3.nupkg.sha512"
+      "sha512": "sha512-ME8rDsvz2hKkjKWHqzKADDPrNLSO/T2NDvZCq819z5VkEzl2eBRKbGiC+SoiRiO2rqsN/MmF98Spjzt+wgY2Ww==",
+      "path": "microsoft.jsinterop/5.0.6",
+      "hashPath": "microsoft.jsinterop.5.0.6.nupkg.sha512"
     },
-    "Microsoft.JSInterop.WebAssembly/5.0.3": {
+    "Microsoft.JSInterop.WebAssembly/5.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-x+75ZfO4kaztb4VyePp5vG0WUF+/SVT6XFeJenUueZpxgGFf6TuEopoy/l+SOJ+3gG0ZjcTSejK4WSc7GGsZnA==",
-      "path": "microsoft.jsinterop.webassembly/5.0.3",
-      "hashPath": "microsoft.jsinterop.webassembly.5.0.3.nupkg.sha512"
+      "sha512": "sha512-BR/Tr/7gPqEtdfGTVgqfiO4zGvhwYUZ60xVlI+RFq4xcBmTT7ldVkYKwr5hqitN4n3hxkGjkzYaobwKTDne59A==",
+      "path": "microsoft.jsinterop.webassembly/5.0.6",
+      "hashPath": "microsoft.jsinterop.webassembly.5.0.6.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/2.1.2": {
       "type": "package",
@@ -5133,12 +5172,12 @@
       "path": "microsoft.win32.registry/4.3.0",
       "hashPath": "microsoft.win32.registry.4.3.0.nupkg.sha512"
     },
-    "MimeKit/2.11.0": {
+    "MimeKit/2.12.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-xZGy3hLMxbw0ks82N/NjVYsW7Qb4pMEPtoJ+kcoJw566KVF2RJh2+kl0rdmzitghgf7FpxPGJmCNgIh+iciBmg==",
-      "path": "mimekit/2.11.0",
-      "hashPath": "mimekit.2.11.0.nupkg.sha512"
+      "sha512": "sha512-OB0sU/wk/Z0w8JBdtfdSme/trw0J7yWLivz+j/dO8KvfqQICkHL7oZVBRitFTlsTD68U62RNoUzrQ7zEiNtEoA==",
+      "path": "mimekit/2.12.0",
+      "hashPath": "mimekit.2.12.0.nupkg.sha512"
     },
     "MinVer/2.0.0": {
       "type": "package",
@@ -5147,19 +5186,19 @@
       "path": "minver/2.0.0",
       "hashPath": "minver.2.0.0.nupkg.sha512"
     },
-    "Modulight.Modules.Client.RazorComponents/0.0.4": {
+    "Modulight.Modules.Client.RazorComponents/0.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-NX+8RnY3hsDD4kBD1lJndx2u1SWXmmZ5cUbOk+v3NmCoFVYHq2wGEVxD2ta9idHiz7fll8qMjHH2wILLvzQmSg==",
-      "path": "modulight.modules.client.razorcomponents/0.0.4",
-      "hashPath": "modulight.modules.client.razorcomponents.0.0.4.nupkg.sha512"
+      "sha512": "sha512-O0mj7QdxxOeQ9hARvVoRdg2HJjN/s9bXvotXeK7ZpygfOLYiye2DqgvU9izZc9ct7wilZTILdb2sXy4+P1d7qw==",
+      "path": "modulight.modules.client.razorcomponents/0.0.6",
+      "hashPath": "modulight.modules.client.razorcomponents.0.0.6.nupkg.sha512"
     },
-    "Modulight.Modules.Core/0.0.4": {
+    "Modulight.Modules.Core/0.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-zeRYfXBV6hl/PgM1ezPItZYr/7gwBDcxBAK6Ue1VSh8QTQ6+q5JdbYyLqjrgCsfIRO/wEBZakaA38PqP2KggQA==",
-      "path": "modulight.modules.core/0.0.4",
-      "hashPath": "modulight.modules.core.0.0.4.nupkg.sha512"
+      "sha512": "sha512-GaRj+YKOBTyyfa3rYTmgzzbnf+AHWw9HAcpF/tSkhWzD9vray4pTmCigxOEUBKbg8onH9L7iWYy82A1XWFOsoQ==",
+      "path": "modulight.modules.core/0.0.6",
+      "hashPath": "modulight.modules.core.0.0.6.nupkg.sha512"
     },
     "MySqlConnector/1.3.7": {
       "type": "package",
@@ -5308,12 +5347,12 @@
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
     },
-    "StardustDL.RazorComponents.Markdown/0.0.3.25": {
+    "StardustDL.RazorComponents.Markdown/0.0.3.26": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ayHdlGnRE9uPqulvczlbulPee4zUXs0ML0XDGHpgh70kTkR/IG6U8fdf7NgiosWVaKUjBuD0+QrkKE07i97kUg==",
-      "path": "stardustdl.razorcomponents.markdown/0.0.3.25",
-      "hashPath": "stardustdl.razorcomponents.markdown.0.0.3.25.nupkg.sha512"
+      "sha512": "sha512-kFRrUVfgpzwqlToMDYH+OA8U6cbqk++1LgRzmxZhRzHKjCp9ZlXbR5KkYAl/BYOsJYf+JEHJWgYSrrvtJMkFAw==",
+      "path": "stardustdl.razorcomponents.markdown/0.0.3.26",
+      "hashPath": "stardustdl.razorcomponents.markdown.0.0.3.26.nupkg.sha512"
     },
     "System.AppContext/4.3.0": {
       "type": "package",
@@ -6008,7 +6047,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Components.Authorization/5.0.0.0": {
+    "Microsoft.AspNetCore.Components.Authorization.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

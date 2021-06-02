@@ -1,5 +1,5 @@
 ﻿@using Edurem.ViewModels;
-@model Edurem.Models.Group;
+@model (int GroupId, int PostId);
 
 @{
     ViewData["Title"] = "Новый пост";
@@ -8,8 +8,6 @@
 }
 <link href="~/css/progress-steps.css" rel="stylesheet" />
 
-@(await Html.RenderComponentAsync<Edurem.Components.NewPost>(RenderMode.ServerPrerendered, new { GroupId = Model.Id,
-    UserId = int.Parse(Context.User.GetClaim(ClaimKey.Id))
-}))
+@(await Html.RenderComponentAsync<Edurem.Components.PostEditor>(RenderMode.ServerPrerendered, new { PostId = Model.PostId, GroupId = Model.GroupId }))
 
 <script src="~/js/input_file.js"></script>

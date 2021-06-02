@@ -247,6 +247,8 @@
     {
         var filesToUpload = Files[testType].FilesToUpload;
 
+        fileToDelete.Stream.Dispose();
+
         filesToUpload.Remove((fileToDelete, userId));
     }
 

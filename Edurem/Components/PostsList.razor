@@ -33,10 +33,10 @@ else
                                         <i class="fas fa-ellipsis-h" style="font-size: 18px; color: black"></i>
                                     </a>
                                     <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                        <a class="dropdown-item" href="#">Изменить</a>
+                                        <a class="dropdown-item" href="@($"post/{post.Post.Id}/edit?groupId={GroupId}")" >Изменить</a>
                                         <div class="dropdown-divider">
                                         </div>
-                                        <a class="dropdown-item text-danger" data-toggle="modal" data-target="#deletePostModal" href="#" @onclick="e => ChosenPost = post.Post">Удалить</a>
+                                        <a class="dropdown-item text-danger" data-toggle="modal" data-target="#deletePostModal" style="cursor: pointer" @onclick="e => ChosenPost = post.Post">Удалить</a>
                                     </div>
                                 </div>
                             }

@@ -131,6 +131,22 @@ namespace Edurem.Controllers
             }
         }
 
+
+
+        [Route("{id}/admin")]
+        [Authorize(Policy = "AuthenticatedOnly")]
+        [TypeFilter(typeof(OnlyGroupAdminFilter))]
+        [HttpGet]
+        public async Task<IActionResult> GroupAdmin(int id)
+        {
+            var postIds = (await GroupService.GetGroupPosts(id, postsCount: int.MaxValue))
+                .Where(post => post.HasTests)
+                .Select(post => post.Id)
+                .ToList();
+
+            return View((postIds, id));
+        }
+
         [Route("/files/download")]
         [Authorize(Policy = "AuthenticatedOnly")]
         [HttpGet]
