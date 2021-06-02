@@ -8,26 +8,75 @@
 </div>
 <div class="row">
     <div class="col-7">
-        @for (int i = 0; i < testResultViews.Count; i++)
+        @foreach (var resultView in testResultViews)
         {
             <div class="row align-items-center justify-items-center border-bottom border-top">
                 <div class="col-1">
-                    @(i + 1)
+                    @(testResultViews.IndexOf(resultView) + 1)
                 </div>
                 <div class="col-4 text-left">
-                    <p class="mb-0" style="font-size: 18px">@($"{testResultViews[i].User.Surname} {testResultViews[i].User.Name} {(testResultViews[i].User.Id == int.Parse(ContextAccessor.HttpContext.User.GetClaim(ClaimKey.Id)) ? "(Вы)" : "")}")</p>
+                    <p class="mb-0" style="font-size: 18px">@($"{resultView.User.Surname} {resultView.User.Name} {(resultView.User.Id == int.Parse(ContextAccessor.HttpContext.User.GetClaim(ClaimKey.Id)) ? "(Вы)" : "")}")</p>
                 </div>
                 <div class="col-2">
-                    <MatProgressCircle Indeterminate="false" Progress="testResultViews[i].GetProgress()" />
+                    @if (resultView.LastTestTime.IsTested && resultView.CountOfTests == 0)
+                    {
+                        <i class="fas fa-pen mb-3 mt-3" style="font-size: 20px; color: #6200ee"></i>
+                    }
+                    else
+                    {
+                        <MatProgressCircle Indeterminate="false" Progress="resultView.GetProgress()" />
+                    }
                 </div>
                 <div class="col-2 text-left">
-                    <p class="mb-0" style="font-size: 16px">@($"{Math.Round(testResultViews[i].GetProgress() * 100)} %")</p>
+                    <p class="mb-0" style="font-size: 16px">@($"{Math.Round(resultView.GetProgress() * 100)} %")</p>
                 </div>
                 <div class="col-3 text-right">
-                    <a href="#" style="font-size: 16px">Подробнее</a>
+                    <a href="#" style="font-size: 16px" data-toggle="modal" data-target="#extendModal@(PostId.ToString())"
+                       @onclick="e =>
+                       {
+                           SetExtendedTestResult(resultView);
+                       }">Подробнее</a>
                 </div>
             </div>
         }
+    </div>
+</div>
+
+<div class="modal fade" id="extendModal@(PostId.ToString())" tabindex="-1" role="dialog" aria-labelledby="extendModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-weight: bold" id="exampleModalLabel">@ExtendedTestResults.UserFullName</h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-10">
+                    <div class="row">
+                        <p class="h5">@ExtendedTestResults.PostTitle</p>
+                    </div>
+                    <div class="row">
+                        <p style="font-size: 16px">@($"Дата последнего тестирования: {(ExtendedTestResults.LastTestTime.IsTested ? ExtendedTestResults.LastTestTime.Time : "-")}")</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            @foreach (var result in ExtendedTestResults.Results)
+                            {
+                                <div class="row mt-2">
+                                    <p style="font-weight: bold; font-size: 18px">@result.TestName</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        @((MarkupString)result.ResultHtml)
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -42,6 +91,8 @@
 
     List<TestResultsView> testResultViews { get; set; }
 
+    ExtendedTestResultsView ExtendedTestResults { get; set; }
+
     class TestResultsView
     {
         public int CountOfTests { get; set; }
@@ -49,6 +100,8 @@
         public int CountOfCompletedTests { get; set; }
 
         public List<(string TestName, string ResultHtml)> Results { get; set; }
+
+        public (bool IsTested, DateTime Time) LastTestTime { get; set; }
 
         public User User { get; set; }
 
@@ -68,6 +121,7 @@
             CountOfTests = testInfo.CountOfTests;
             CountOfCompletedTests = testInfo.CountOfCompletedTests;
             Results = results;
+            LastTestTime = (true, testInfo.DateOfTesting);
             User = testInfo.User;
 
             HasError = testInfo.ResultText.Contains("[ERROR]");
@@ -79,8 +133,31 @@
         }
     }
 
+    class ExtendedTestResultsView
+    {
+        public string UserFullName { get; set; }
+
+        public string PostTitle { get; set; }
+
+        public List<(string TestName, string ResultHtml)> Results { get; set; }
+
+        public (bool IsTested, DateTime Time) LastTestTime { get; set; }
+
+        public string DownloadLink { get; set; }
+
+        public ExtendedTestResultsView()
+        {
+            Results = new();
+            LastTestTime = (false, new());
+            UserFullName = string.Empty;
+            PostTitle = string.Empty;
+            DownloadLink = string.Empty;
+        }
+    }
+
     protected override void OnInitialized()
     {
+        ExtendedTestResults = new();
         PostTitle = PostService.GetPost(PostId).Result.Title;
 
         testResultViews = PostService.GetTestResults(PostId)
@@ -102,6 +179,7 @@
                     CountOfTests = 0,
                     HasError = false,
                     Results = new(),
+                    LastTestTime = (false, DateTime.Now),
                     User = new User
                     {
                         Name = user.User.Name,
@@ -116,5 +194,16 @@
             .OrderBy(resultView => resultView.User.Surname)
             .ThenBy(resultView => resultView.User.Name)
             .ToList();
+    }
+
+    void SetExtendedTestResult(TestResultsView resultView)
+    {
+        ExtendedTestResults = new ExtendedTestResultsView
+        {
+            PostTitle = PostTitle,
+            LastTestTime = resultView.LastTestTime,
+            UserFullName = $"{resultView.User.Surname} {resultView.User.Name}",
+            Results = resultView.Results
+        };
     }
 }

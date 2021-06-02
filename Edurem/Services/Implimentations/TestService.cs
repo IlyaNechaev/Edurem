@@ -139,7 +139,7 @@ namespace Edurem.Services
         {
             var html = testInfo.ResultText;
             var htmlResults = new List<(string TestName, string ResultHtml)>();
-            var testResults = html.Split("%TEST%").ToList();
+            var testResults = html?.Split("%TEST%").ToList() ?? new();
 
             for (int i = 1; i < testResults.Count; i++)
             {
@@ -551,7 +551,8 @@ namespace Edurem.Services
                         )
                     );
 
-            Directory.GetFiles(unitTestsPath).ToList().ForEach(file => File.Delete(file));
+            if (Directory.Exists(unitTestsPath))
+                Directory.GetFiles(unitTestsPath).ToList().ForEach(file => File.Delete(file));
         }
     }
 }

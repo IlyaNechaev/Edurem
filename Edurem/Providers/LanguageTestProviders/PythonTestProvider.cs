@@ -1,6 +1,7 @@
 ﻿using Edurem.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -120,7 +121,7 @@ test.printResults()
             testFile = testFile
                 .Replace("@import", $"from {tests.Method.Split(".")[0]} import {tests.Method.Split(".")[1]} as test_method")
                 .Replace("@method", "test_method")
-                .Replace("@params", string.Join(", ", tests.Runs.Select(run => $"{{ \"input\": [{string.Join(", ", run.Input)}], \"output\": {run.Output} }}")))
+                .Replace("@params", string.Join(", ", tests.Runs.Select(run => $"{{ \"input\": [{string.Join(", ", run.Input)}], \"output\": {run.Output.ToString(new CultureInfo("en-US"))} }}")))
                 .Replace("@input_params", string.Join(", ", Enumerable.Range(0, tests.Runs[0].Input.Count).Select(index => $"param[\"input\"][{index}]")));
 
             return testFile;

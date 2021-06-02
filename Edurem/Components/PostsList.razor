@@ -120,7 +120,7 @@ else
     async Task GetPosts()
     {
         Posts = new();
-        foreach (var post in await GroupService.GetGroupPosts(GroupId, startIndex: 0, postsCount: 3))
+        foreach (var post in await GroupService.GetGroupPosts(GroupId, startIndex: 0, postsCount: 5))
         {
             var files = post.AttachedFiles.Select(af => FileService.GetFile(af.FileId).Result).ToList();
 
@@ -130,7 +130,7 @@ else
 
     async Task AddPosts()
     {
-        foreach (var post in await GroupService.GetGroupPosts(GroupId, startIndex: Posts.Count, postsCount: 3))
+        foreach (var post in await GroupService.GetGroupPosts(GroupId, startIndex: Posts.Count, postsCount: 5))
         {
             var files = post.AttachedFiles.Select(af => FileService.GetFile(af.FileId).Result).ToList();
             Posts.Add((post, files));
