@@ -289,9 +289,7 @@
                             {
                                 <div class="row align-items-center">
                                     <div class="col-1">
-                                        <MatThemeProvider Theme="checkboxTheme">
-                                            <MatCheckbox Value="group.IsChosen" @oninput="e => GroupChanged(group.Group.Id)" @onchange="e => GroupChanged(group.Group.Id)"></MatCheckbox>
-                                        </MatThemeProvider>
+                                        <input type="checkbox" class="form-input" checked="@group.IsChosen" @onchange="e => GroupChanged(group.Group.Id)"></input>
                                     </div>
                                     <div class="col-4 ">
                                         @group.Group.Name

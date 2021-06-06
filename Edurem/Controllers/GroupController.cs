@@ -146,31 +146,5 @@ namespace Edurem.Controllers
 
             return View((postIds, id));
         }
-
-        [Route("/files/download")]
-        [Authorize(Policy = "AuthenticatedOnly")]
-        [HttpGet]
-        public async Task<IActionResult> DownloadFile(int fileId, [FromServices] IFileService FileService)
-        {
-            Dictionary<string, string> mimeTypes = new()
-            {
-                { "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
-                { "doc", "application/msword" },
-                { "ppt", "application/vnd.ms-powerpoint" },
-                { "pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
-                { "xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" },
-                { "xls", "application/vnd.ms-excel" },
-                { "jpg", "image/jpeg" },
-                { "jpeg", "image/jpeg" },
-                { "png", "image/png" },
-                { "pdf", "application/pdf" }
-            };
-
-            var FileRepository = RepositoryFactory.GetRepository<FileModel>();
-
-            var file = await FileRepository.Get(file => file.Id == fileId);
-
-            return File(FileService.OpenFile(file), mimeTypes[file.Name.Split(".").Last()], file.Name);
-        }
     }
 }

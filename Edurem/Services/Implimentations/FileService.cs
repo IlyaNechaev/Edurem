@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace Edurem.Services
         public async Task<FileModel> UploadFile(Stream stream, string filePath, string fileName, bool dbUpload = true)
         {
             string fullFilePath = Path.Combine(AppEnvironment.WebRootPath, filePath, fileName);
-            string directoryPath = Path.Combine(AppEnvironment.WebRootPath, filePath);            
+            string directoryPath = Path.Combine(AppEnvironment.WebRootPath, filePath);
 
             // Создаем директорию, если ее нет
             if (!Directory.Exists(directoryPath))
@@ -53,7 +54,7 @@ namespace Edurem.Services
             var fileModel = new FileModel()
             {
                 Name = fileName,
-                Path = filePath, 
+                Path = filePath,
                 Size = stream.Length
             };
 
@@ -194,7 +195,7 @@ namespace Edurem.Services
                     await ForceRemoveFile(fileId);
 
                 // Удалить файл из БД
-                await FileRepository.Delete(file);                
+                await FileRepository.Delete(file);
             }
             else
             {
@@ -239,10 +240,30 @@ namespace Edurem.Services
         }
 
         public Stream GetFileStream(string filePath)
-        {            
+        {
             if (File.Exists(filePath))
                 return File.OpenRead(filePath);
             return File.OpenRead(Path.Combine(AppEnvironment.WebRootPath, filePath));
+        }
+
+        public Stream ZipFiles(List<ZipItem> zipItems)
+        {
+
+            var zipStream = new MemoryStream();
+
+            using (var zip = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+            {
+                foreach (var zipItem in zipItems)
+                {
+                    var entry = zip.CreateEntry(zipItem.Name);
+                    using (var entryStream = entry.Open())
+                    {
+                        zipItem.Content.CopyTo(entryStream);
+                    }
+                }
+            }
+            zipStream.Position = 0;
+            return zipStream;
         }
     }
 }

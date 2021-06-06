@@ -50,6 +50,7 @@ namespace Edurem
             services.AddHttpContextAccessor();
             services.AddBlazoredLocalStorage();
 
+
             // Добавляем конфигурацию Toaster
             services.AddMatToaster(config =>
             {

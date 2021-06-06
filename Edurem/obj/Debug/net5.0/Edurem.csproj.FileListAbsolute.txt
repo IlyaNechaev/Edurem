@@ -914,3 +914,7 @@ D:\Институт\8 семестр\ВКР\Edurem_temp\Edurem\obj\Debug\net5.0\
 D:\Институт\8 семестр\ВКР\Edurem_temp\Edurem\obj\Debug\net5.0\Razor\Views\Post\EditPost.cshtml.g.cs
 D:\Институт\8 семестр\ВКР\Edurem_temp\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\TestResultsAdmin.razor.g.cs
 D:\Институт\8 семестр\ВКР\Edurem_temp\Edurem\obj\Debug\net5.0\Razor\Components\TestResultsAdmin.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem_temp\Edurem\bin\Debug\net5.0\EPPlus.dll
+D:\Институт\8 семестр\ВКР\Edurem_temp\Edurem\bin\Debug\net5.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\Институт\8 семестр\ВКР\Edurem_temp\Edurem\obj\Debug\net5.0\RazorDeclaration\Components\StatisticTable.razor.g.cs
+D:\Институт\8 семестр\ВКР\Edurem_temp\Edurem\obj\Debug\net5.0\Razor\Components\StatisticTable.razor.g.cs

@@ -2,12 +2,15 @@
 @inject Edurem.Services.ICodeTestService TestService;
 @inject Edurem.Services.IGroupService GroupService;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor ContextAccessor;
+@using Edurem.ViewModels;
 
-<div class="row h3">
-    @PostTitle
+<div class="row border-bottom border-top">
+    <a class="btn btn-white collapsed w-100 text-left" data-toggle="collapse" href="#post@(PostId)" role="button" aria-expanded="false" aria-controls="post@(PostId)">
+        <div class="h3">@PostTitle</div>
+    </a>
 </div>
 <div class="row">
-    <div class="col-7">
+    <div class="col-12 collapse" id="post@(PostId)">
         @foreach (var resultView in testResultViews)
         {
             <div class="row align-items-center justify-items-center border-bottom border-top">
@@ -74,11 +77,17 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                @if (ExtendedTestResults.LastTestTime.IsTested)
+                {
+                    <a href="/code/download?postId=@(PostId)&userId=@(ExtendedTestResults.UserId)" style="font-size: 18px">Скачать код</a>
+                }
+                <button type="button" class="btn btn-secondary ml-3" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
 </div>
+
+
 
 @code {
     [Parameter]
@@ -93,49 +102,12 @@
 
     ExtendedTestResultsView ExtendedTestResults { get; set; }
 
-    class TestResultsView
-    {
-        public int CountOfTests { get; set; }
-
-        public int CountOfCompletedTests { get; set; }
-
-        public List<(string TestName, string ResultHtml)> Results { get; set; }
-
-        public (bool IsTested, DateTime Time) LastTestTime { get; set; }
-
-        public User User { get; set; }
-
-        public bool HasError { get; set; }
-
-        public TestResultsView()
-        {
-            CountOfTests = 0;
-            CountOfCompletedTests = 0;
-            Results = new();
-            HasError = false;
-            User = new();
-        }
-
-        public TestResultsView(TestInfo testInfo, List<(string TestName, string ResultHtml)> results)
-        {
-            CountOfTests = testInfo.CountOfTests;
-            CountOfCompletedTests = testInfo.CountOfCompletedTests;
-            Results = results;
-            LastTestTime = (true, testInfo.DateOfTesting);
-            User = testInfo.User;
-
-            HasError = testInfo.ResultText.Contains("[ERROR]");
-        }
-
-        public double GetProgress()
-        {
-            return CountOfTests != 0 ? (double)CountOfCompletedTests / CountOfTests : 0;
-        }
-    }
 
     class ExtendedTestResultsView
     {
         public string UserFullName { get; set; }
+
+        public int UserId { get; set; }
 
         public string PostTitle { get; set; }
 
@@ -151,7 +123,6 @@
             LastTestTime = (false, new());
             UserFullName = string.Empty;
             PostTitle = string.Empty;
-            DownloadLink = string.Empty;
         }
     }
 
@@ -160,14 +131,16 @@
         ExtendedTestResults = new();
         PostTitle = PostService.GetPost(PostId).Result.Title;
 
-        testResultViews = PostService.GetTestResults(PostId)
-            .Result
-            .Select(testResult => new TestResultsView(testResult, TestService.BuildTestResults(testResult)))
-            .ToList();
-
         var usersInGroup = GroupService.GetMembers(GroupId)
             .Result
             .Where(user => user.RoleInGroup.Equals(RoleInGroup.MEMBER));
+
+        testResultViews = PostService.GetTestResults(PostId)
+            .Result
+            .Where(testResult => usersInGroup.Any(user => user.UserId == testResult.UserId))
+            .Select(testResult => new TestResultsView(testResult, TestService.BuildTestResults(testResult)))
+            .ToList();
+
 
         foreach (var user in usersInGroup)
         {
@@ -203,7 +176,8 @@
             PostTitle = PostTitle,
             LastTestTime = resultView.LastTestTime,
             UserFullName = $"{resultView.User.Surname} {resultView.User.Name}",
-            Results = resultView.Results
+            Results = resultView.Results,
+            UserId = resultView.User.Id
         };
     }
 }

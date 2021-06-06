@@ -129,7 +129,7 @@
                                 {
                                     <div class="card">
                                         <div class="card-header">
-                                            <p style="font-size: 23px; font-weight: bold">@(member.User.Name) @(member.User.Surname)</p>
+                                            <p style="font-size: 23px; font-weight: bold">@(member.User.Surname) @(member.User.Name)</p>
                                         </div>
                                         <div class="card-body">
                                             @foreach (var file in Files[TestFileType.OPTION].FilesToUpload.Where(f => f.UserId == member.User.Id))
@@ -234,7 +234,7 @@
         GroupMembers = new();
         foreach (var groupId in GroupIds)
         {
-            GroupMembers.AddRange(GroupService.GetMembers(groupId).Result);
+            GroupMembers.AddRange(GroupService.GetMembers(groupId).Result.OrderBy(gm => gm.User.Surname).ThenBy(gm => gm.User.Name));
         }
     }
 

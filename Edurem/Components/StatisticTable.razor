@@ -1,0 +1,220 @@
+﻿@inject Edurem.Services.IGroupService GroupService;
+@inject Edurem.Services.IPostService PostService;
+@inject Edurem.Services.ICodeTestService TestService;
+@inject HttpClient Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor ContextAccessor;
+@inject IHttpClientFactory ClientFactory;
+@using System.Text.Json.Serialization
+@using System.Net.Http
+@using System.IO
+@using Microsoft.AspNetCore.Mvc
+@using OfficeOpenXml
+@using Edurem.ViewModels
+@using Newtonsoft.Json;
+@using System.Net.Http.Headers
+
+<div class="row mt-3">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-modal">
+        <i class="fas fa-download" style="font-size: 18px"></i> Скачать результаты
+    </button>
+</div>
+
+<div class="modal fade bd-modal" tabindex="-1" role="dialog" aria-labelledby="modalDialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-weight: bold" id="exampleModalLabel">Результаты</h5>
+            </div>
+            <div class="modal-body">
+                <div class="col-10">
+                    <div class="row mb-4">
+                        <p class="mb-0" style="font-size: 16px">Выберите, результаты каких заданий Вам необходимо скачать</p>
+                    </div>
+                    @foreach (var post in PostsToSave)
+                    {
+                        <div class="row">
+                            <div class="col-1">
+                                <input type="checkbox" class="form-input" checked="@post.Value.IsSelected" @onchange="e => ValueChanged(post.Key)"></input>
+                            </div>
+                            <div class="col-8">
+                                <p>@post.Value.Title</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="@UrlToDownload" class="btn btn-primary">Сохранить</a>
+                <button type="button" class="btn btn-secondary ml-3" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int GroupId { get; set; }
+
+    Dictionary<int, (bool IsSelected, string Title)> PostsToSave { get; set; }
+
+    string UrlToDownload { get; set; }
+
+    protected override void OnInitialized()
+    {
+        UrlToDownload = $"/results/download?groupId={GroupId}";
+        PostsToSave = new();
+
+        IEnumerable<(int Id, string Title)> postIds = GroupService.GetGroupPosts(GroupId, postsCount: int.MaxValue).Result
+                .Where(post => post.HasTests)
+                .Select(post => (post.Id, post.Title));
+
+        foreach (var post in postIds)
+        {
+            PostsToSave.Add(post.Id, (false, post.Title));
+        }
+    }
+
+    void ValueChanged(int postId)
+    {
+        PostsToSave[postId] = (!PostsToSave[postId].IsSelected, PostsToSave[postId].Title);
+
+        var posts = PostsToSave
+            .Where(post => post.Value.IsSelected)
+            .Select(post => post.Key)
+            .ToList();
+
+        UrlToDownload = $"/results/download?groupId={GroupId}{(posts.Count == 0 ? "" : $"&posts={string.Join("p", posts)}")}";
+    }
+
+    /*
+    async Task DownloadTable()
+    {
+        var postBody = new Dictionary<string, string>();
+
+        var posts = PostsToSave
+            .Where(post => post.Value.IsSelected)
+            .Select(post => post.Key)
+            .ToList();
+
+        postBody.Add("GroupId", GroupId.ToString());
+        postBody.Add("PostIds", JsonConvert.SerializeObject(posts));
+
+
+        var url = $"{ContextAccessor.HttpContext.Request.Scheme}://{ContextAccessor.HttpContext.Request.Host}/results/download";
+        /*
+        var request = new HttpRequestMessage(HttpMethod.Post, "url");
+
+        request.Headers.Add("GroupId", GroupId.ToString());
+        request.Headers.Add("PostIds", JsonConvert.SerializeObject(PostsToSave.Where(post => post.Value.IsSelected).Select(post => post.Key).ToList()));
+
+        var client = ClientFactory.CreateClient();
+
+        await client.SendAsync(request);
+
+        using var response = await Http.PostAsJsonAsync(url, postBody);
+    }*/
+    /*
+    async Task<IActionResult> DownloadTable()
+    {
+        var postBody = new Dictionary<string, string>();
+
+        var postIds = PostsToSave
+            .Where(post => post.Value.IsSelected)
+            .Select(post => post.Key)
+            .ToList();
+
+
+        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+        using var tableStream = new MemoryStream();
+        using var package = new ExcelPackage(tableStream);
+
+        foreach (var postId in postIds)
+        {
+            var testResults = GetTestResults(postId)
+                .Select(results =>
+                {
+                    if (results.CountOfTests > 0)
+                    {
+                        return new
+                        {
+                            Name = $"{results.User.Surname} {results.User.Surname}",
+                            Progress = results.GetProgress(),
+                            LastTestTime = (results.LastTestTime.IsTested ? results.LastTestTime.Time.ToString() : "-"),
+                            Output = results.Results
+                        };
+                    }
+                    else
+                    {
+
+                        return new
+                        {
+                            Name = $"{results.User.Surname} {results.User.Surname}",
+                            Progress = results.GetProgress(),
+                            LastTestTime = (results.LastTestTime.IsTested ? results.LastTestTime.Time.ToString() : "-"),
+                            Output = results.Results
+                        };
+                    }
+                });
+
+            var postTitle = PostService.GetPost(postId).Result.Title;
+
+            var worksheet = package.Workbook.Worksheets.Add(postTitle);
+
+            worksheet.Cells["A1"].LoadFromCollection(testResults, true).AutoFitColumns();
+            await package.SaveAsync();
+        }
+
+
+        var groupTitle = GroupService.GetGroup(GroupId).Result.Name;
+
+        package.Stream.Position = 0;
+
+        var result = new FileStreamResult(package.Stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        result.FileDownloadName = $"{groupTitle}.xlsx";
+
+        /*
+        Response.Headers["Content-Disposition"] = new ContentDispositionHeaderValue("attachment")
+        {
+            FileName = $"{groupTitle}.xlsx"
+        }.ToString();
+
+        return result;
+
+        List<TestResultsView> GetTestResults(int postId)
+        {
+            var usersInGroup = GroupService.GetMembers(GroupId)
+                .Result
+                .Where(user => user.RoleInGroup.Equals(RoleInGroup.MEMBER));
+
+            var testResultViews = PostService.GetTestResults(postId)
+                .Result
+                .Where(testResult => usersInGroup.Any(user => user.UserId == testResult.UserId))
+                .Select(testResult => new TestResultsView(testResult, TestService.BuildTestResults(testResult)))
+                .ToList();
+
+            foreach (var user in usersInGroup)
+            {
+                if (!testResultViews.Any(result => result.User.Id == user.UserId))
+                {
+                    var resultView = new TestResultsView
+                    {
+                        CountOfCompletedTests = 0,
+                        CountOfTests = 0,
+                        HasError = false,
+                        Results = new(),
+                        LastTestTime = (false, DateTime.Now),
+                        User = new User
+                        {
+                            Name = user.User.Name,
+                            Surname = user.User.Surname
+                        }
+                    };
+                    testResultViews.Add(resultView);
+                }
+            }
+
+            return testResultViews;
+        }*/
+    }
+

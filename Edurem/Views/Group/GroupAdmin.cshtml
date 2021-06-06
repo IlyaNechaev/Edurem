@@ -7,16 +7,28 @@
     Layout = "_AccountLayout";
 }
 
-@foreach(var postId in Model.PostsIds)
-{
-    <div class="row mt-4">
-        <div class="col-12">
-            @(await Html.RenderComponentAsync<Edurem.Components.TestResultsAdmin>(RenderMode.ServerPrerendered, 
-            new 
-            { 
+<div class="row">
+    <div class="col-7">
+        @foreach (var postId in Model.PostsIds)
+        {
+            <div class="row mt-4">
+                <div class="col-12">
+                    @(await Html.RenderComponentAsync<Edurem.Components.TestResultsAdmin>(RenderMode.ServerPrerendered,
+            new
+            {
                 PostId = postId,
                 GroupId = Model.GroupId
             }))
-        </div>
+                </div>
+            </div>
+        }
     </div>
-}
+    <div class="col-2"></div>
+    <div class="col-3">
+        @(await Html.RenderComponentAsync<Edurem.Components.StatisticTable>(RenderMode.ServerPrerendered,
+            new
+            {
+                GroupId = Model.GroupId
+            }))
+    </div>
+</div>

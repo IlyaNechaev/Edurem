@@ -35,6 +35,7 @@ namespace Edurem.Services
 
         public Stream GetFileStream(FileModel file);
         public Stream GetFileStream(string filePath);
+        public Stream ZipFiles(List<ZipItem> zipItems);
 
         public string GetFullPath(params string[] paths);
         public string GetExtensionClass(string extension) => extension switch

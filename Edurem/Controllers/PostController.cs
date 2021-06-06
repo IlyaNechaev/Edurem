@@ -2,6 +2,7 @@
 using Edurem.Models;
 using Edurem.Services;
 using Edurem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace Edurem.Controllers
 {
     [Route("post")]
+    [Authorize(Policy = "AuthenticatedOnly")]
     public class PostController : Controller
     {
         IRepositoryFactory RepositoryFactory { get; init; }
