@@ -77,7 +77,7 @@ namespace Edurem
                 options.UseMySql(
                         serverVersion,
                         builder => builder.EnableRetryOnFailure()),
-                    ServiceLifetime.Transient
+                    ServiceLifetime.Scoped
             );
 
             services.AddTransient<ISecurityService, SecurityService>();

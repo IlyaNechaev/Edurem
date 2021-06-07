@@ -54,6 +54,7 @@
           "Newtonsoft.Json": "13.0.1",
           "Pomelo.EntityFrameworkCore.MySql": "5.0.0",
           "StardustDL.RazorComponents.Markdown": "0.0.3.26",
+          "System.Text.Encoding.CodePages": "5.0.0",
           "WebStoating.Markdig.Prism": "1.0.0",
           "Westwind.AspNetCore.Markdown": "3.6.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",

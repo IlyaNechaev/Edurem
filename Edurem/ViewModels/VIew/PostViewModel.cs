@@ -12,13 +12,13 @@ namespace Edurem.ViewModels
 
         public string Body { get; set; }
 
-        public List<FileModel> Files { get; set; }
+        public IEnumerable<FileModel> Files { get; set; }
 
-        public void FromPostModel(PostModel postModel, List<FileModel> files)
+        public void FromPostModel(PostModel postModel, IEnumerable<FileModel> files)
         {
             Title = postModel.Title;
             Body = postModel.PostBody;
-            Files = new(files);
+            Files = files;
         }
     }
 }

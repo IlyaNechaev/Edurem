@@ -18,10 +18,8 @@ namespace Edurem.Data
         public static void AddPostsConfiguration(this ModelBuilder builder)
         {
             builder.ApplyConfiguration(new PostsConfiguration());
-            builder.ApplyConfiguration(new PostFilesConfiguration());
             builder.ApplyConfiguration(new DiscussionsConfiguration());
             builder.ApplyConfiguration(new TestsConfiguration());
-            builder.ApplyConfiguration(new TestFilesConfiguration());
         }
     }
 
@@ -36,22 +34,8 @@ namespace Edurem.Data
             // Связь с таблицей posts_files
             builder
                 .HasMany(post => post.AttachedFiles)
-                .WithOne(file => file.Post);
-        }
-    }
-
-    public class PostFilesConfiguration : IEntityTypeConfiguration<PostFile>
-    {
-        public void Configure(EntityTypeBuilder<PostFile> builder)
-        {
-            // Первичный ключ
-            builder
-                .HasKey(post => new { post.FileId, post.PostId });
-
-            // Связь с таблицей posts
-            builder
-                .HasOne(fileModel => fileModel.Post)
-                .WithMany(post => post.AttachedFiles);
+                .WithMany(file => file.Posts)
+                .UsingEntity(j => j.ToTable("post_files"));
         }
     }
 
@@ -79,22 +63,9 @@ namespace Edurem.Data
                 .HasKey(test => test.Id);
 
             builder
-                .HasMany(test => test.TestFiles)
-                .WithOne(tf => tf.TestInfo);
-        }
-    }
-
-    public class TestFilesConfiguration : IEntityTypeConfiguration<TestFile>
-    {
-        public void Configure(EntityTypeBuilder<TestFile> builder)
-        {
-            // Первичный ключ
-            builder
-                .HasKey(tf => new { tf.TestInfoId, tf.FileId });
-
-            builder
-                .HasOne(tf => tf.TestInfo)
-                .WithMany(test => test.TestFiles);
+                .HasMany(test => test.FilesToTest)
+                .WithMany(file => file.TestsInfo)
+                .UsingEntity(j => j.ToTable("test_files"));
         }
     }
 }

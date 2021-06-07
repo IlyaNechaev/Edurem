@@ -66,7 +66,7 @@ namespace Edurem.ViewModels
                 int.Parse(DateOfBirth.Split('.')[0])
                 );
             user.Gender = GetGenderDict().GetValueOrDefault(Gender);
-            user.Roles = new List<UserRole>();
+            user.Roles = new List<Role>();
             user.Status = Status.REGISTERED;
 
             return user;

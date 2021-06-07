@@ -31,7 +31,7 @@ namespace Edurem.Services
 
         public Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1);        
 
-        public Task<List<GroupMember>> GetMembers(int groupId);
+        public Task<IEnumerable<GroupMember>> GetMembers(int groupId);
 
         public Task Invite(int groupId, List<string> emailsToInvite);
 

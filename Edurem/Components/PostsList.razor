@@ -122,7 +122,7 @@ else
         Posts = new();
         foreach (var post in await GroupService.GetGroupPosts(GroupId, startIndex: 0, postsCount: 5))
         {
-            var files = post.AttachedFiles.Select(af => FileService.GetFile(af.FileId).Result).ToList();
+            var files = post.AttachedFiles.Select(af => FileService.GetFile(af.Id).Result).ToList();
 
             Posts.Add((post, files));
         }
@@ -132,7 +132,7 @@ else
     {
         foreach (var post in await GroupService.GetGroupPosts(GroupId, startIndex: Posts.Count, postsCount: 5))
         {
-            var files = post.AttachedFiles.Select(af => FileService.GetFile(af.FileId).Result).ToList();
+            var files = post.AttachedFiles.Select(af => FileService.GetFile(af.Id).Result).ToList();
             Posts.Add((post, files));
         }
     }

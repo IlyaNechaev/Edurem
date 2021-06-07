@@ -33,7 +33,7 @@ namespace Edurem.Controllers
             var fileRepository = RepositoryFactory.GetRepository<FileModel>();
 
             var postModel = await postRepository.Get(postModel => postModel.Id == postId, nameof(PostModel.AttachedFiles));
-            var postFiles = (await fileRepository.Find(file => postModel.AttachedFiles.Select(af => af.FileId).Contains(file.Id))).ToList();
+            var postFiles = await fileRepository.Find(file => postModel.AttachedFiles.Select(af => af.Id).Contains(file.Id));
 
             PostViewModel postViewModel = new();
             postViewModel.FromPostModel(postModel, postFiles);

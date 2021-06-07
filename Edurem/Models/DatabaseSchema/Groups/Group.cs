@@ -20,9 +20,9 @@ namespace Edurem.Models
         [ForeignKey(nameof(SubjectId))]
         public Subject Subject { get; set; }
 
-        public List<GroupMember> Members { get; set; }
+        public ICollection<GroupMember> Members { get; set; }
 
-        public List<GroupPost> GroupPosts { get; set; }
+        public ICollection<PostModel> Posts { get; set; }
     }
 
     public enum RoleInGroup

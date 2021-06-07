@@ -47,9 +47,9 @@ namespace Edurem.Models
         [ForeignKey(nameof(OptionsId))]
         public NotificationOptions Options { get; set; }
 
-        public List<UserRole> Roles { get; set; }
+        public ICollection<Role> Roles { get; set; }
 
-        public List<GroupMember> Groups { get; set; }
+        public ICollection<GroupMember> Groups { get; set; }
 
         public bool IsEnabled => !Status.Equals(Status.DELETED) && !Status.Equals(Status.BLOCKED);
 

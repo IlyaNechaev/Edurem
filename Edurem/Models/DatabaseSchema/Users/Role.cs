@@ -31,14 +31,14 @@ namespace Edurem.Models
             set => Name = Enum.GetName(typeof(Roles), value); 
         }
 
-        public List<UserRole> Users { get; set; }
+        public ICollection<User> Users { get; set; }
 
         public Role()
         {
             Id = -1;
             Name = "";
 
-            Users = new List<UserRole>();
+            Users = new List<User>();
         }
         public Role(Roles role)
         {
@@ -46,7 +46,7 @@ namespace Edurem.Models
             Name = role.ToString();
             Value = role;
 
-            Users = new List<UserRole>();
+            Users = new List<User>();
         }
     }
 }

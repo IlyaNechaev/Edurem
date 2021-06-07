@@ -27,6 +27,6 @@ namespace Edurem.Models
 
         public Language Language { get; set; }
 
-        public List<TestFile> TestFiles { get; set; }
+        public ICollection<FileModel> FilesToTest { get; set; }
     }
 }

@@ -27,7 +27,8 @@ namespace Edurem.Models
         [ForeignKey(nameof(AuthorId))]
         public User Author { get; set; }
 
-        public List<PostFile> AttachedFiles { get; set; }
+        public ICollection<FileModel> AttachedFiles { get; set; }
+        public ICollection<Group> Groups { get; set; }
 
         public bool HasTests { get; set; }
     }

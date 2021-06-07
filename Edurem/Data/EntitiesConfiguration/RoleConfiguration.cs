@@ -16,7 +16,6 @@ namespace Edurem.Data
         public static void AddRoleConfiguration(this ModelBuilder builder)
         {
             builder.ApplyConfiguration(new RoleConfiguration());
-            builder.ApplyConfiguration(new UserRoleConfiguration());
         }
     }
 
@@ -26,24 +25,11 @@ namespace Edurem.Data
         public void Configure(EntityTypeBuilder<Role> builder)
         {
             builder
-                .HasMany(role => role.Users)
-                .WithOne(userRole => userRole.Role);
-
-            builder
                 .HasData(
                     Enum.GetValues(typeof(Roles))
                         .Cast<Roles>()
                         .Select(role => new Role(role))
                 );
-        }
-    }
-    public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
-    {
-        public void Configure(EntityTypeBuilder<UserRole> builder)
-        {
-            // Первичный ключ
-            builder
-                .HasKey(userRole => new { userRole.UserId, userRole.RoleId });
         }
     }
 }

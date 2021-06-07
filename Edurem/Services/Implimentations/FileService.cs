@@ -209,17 +209,31 @@ namespace Edurem.Services
         {
             if (!await HasReferences(fileId)) return;
 
-            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
+            var PostRepository = RepositoryFactory.GetRepository<PostModel>();
+            var TestInfoRepository = RepositoryFactory.GetRepository<TestInfo>();
+            var file = await RepositoryFactory.GetRepository<FileModel>().Get(file => file.Id == fileId, nameof(FileModel.Posts), nameof(FileModel.TestsInfo));
 
-            var postFile = (await PostFileRepository.Get(postFile => postFile.FileId == fileId));
+            // Удалить файл из всех постов
+            foreach (var post in file.Posts)
+            {
+                post.AttachedFiles.Remove(file);
+                await PostRepository.Update(post);
+            }
 
-            await PostFileRepository.Delete(postFile);
+            // Удалить файл из всех тестовых результатов
+            foreach (var testInfo in file.TestsInfo)
+            {
+                testInfo.FilesToTest.Remove(file);
+                await TestInfoRepository.Update(testInfo);
+            }
         }
 
         public async Task<bool> HasReferences(int fileId)
         {
-            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
-            if ((await PostFileRepository.Get(postFile => postFile.FileId == fileId)) is not null) return true;
+            var FileRepository = RepositoryFactory.GetRepository<FileModel>();
+            var file = await FileRepository.Get(file => file.Id == fileId, nameof(FileModel.Posts), nameof(FileModel.TestsInfo));
+
+            if (file.Posts?.Count > 0 || file.TestsInfo?.Count > 0) return true;
 
             return false;
         }

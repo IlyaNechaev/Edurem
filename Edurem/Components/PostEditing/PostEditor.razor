@@ -283,7 +283,7 @@
         Task.WaitAll(DownloadFiles());
 
         Post = PostService.GetPost(PostId).Result;
-        GroupIds = PostService.GetPostGroupsIds(PostId).Result;
+        GroupIds = new (PostService.GetPostGroupsIds(PostId).Result);
     }
 
     async Task ChangePage(int pagesNumber)
@@ -416,9 +416,10 @@
 
         foreach (var test in optionTestFilesPaths)
         {
-            for (int i = 0; i < test.FilePaths.Count; i++)
+            var filePathsArray = Enumerable.ToArray(test.FilePaths);
+            for (int i = 0; i < filePathsArray.Length; i++)
             {
-                var path = test.FilePaths[i];
+                var path = filePathsArray[i];
                 if (string.IsNullOrEmpty(path)) continue;
 
                 var stream = FileService.GetFileStream(path);

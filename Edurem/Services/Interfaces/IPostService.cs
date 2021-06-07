@@ -11,7 +11,7 @@ namespace Edurem.Services
     {
         public Task AddFilesToPost(int postId, List<(Stream Stream, string Name)> files);
 
-        public Task CreatePost(PostModel post, int groupId, List<FileModel> files = null);
+        public Task CreatePost(PostModel post, IEnumerable<int> groupIds, IEnumerable<FileModel> files = null);
         public Task DeletePost(int postId);
 
         public Task ModifyPost(int postId, PostModel post);
@@ -19,13 +19,13 @@ namespace Edurem.Services
         public Task AddTestsToPost(int postId, List<(Stream Stream, string Name)> files);
 
         public Task<PostModel> GetPost(int postId);
-        public Task<List<int>> GetPostGroupsIds(int postId);
-        public Task<List<TestInfo>> GetTestResults(int postId);
+        public Task<IEnumerable<int>> GetPostGroupsIds(int postId);
+        public Task<IEnumerable<TestInfo>> GetTestResults(int postId);
 
-        public List<string> GetPostFilesPaths(int postId);
-        public Task<(List<string> CommonTestsPaths, List<(int UserId, List<string> FilePaths)> OptionTestsPaths)> GetPostTestFilesPaths(int postId);
+        public ICollection<string> GetPostFilesPaths(int postId);
+        public Task<(IEnumerable<string> CommonTestsPaths, IEnumerable<(int UserId, IEnumerable<string> FilePaths)> OptionTestsPaths)> GetPostTestFilesPaths(int postId);
 
         public Task DeletePostFiles(int postId);
-        public Task<List<int>> GetAttachedFilesIds(int postId);
+        public Task<IEnumerable<int>> GetAttachedFilesIds(int postId);
     }
 }

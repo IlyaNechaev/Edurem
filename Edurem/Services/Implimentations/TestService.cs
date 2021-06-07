@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Edurem.Providers;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Edurem.Services
 {
@@ -82,8 +83,6 @@ namespace Edurem.Services
                 if (providedErrors.HasError)
                     throw new Exception();
 
-                testInfo.ResultText = providedErrors.ResultText;
-
                 var results = providedErrors.ResultText
                     .Split("%TEST%")
                     .Select(testResults =>
@@ -119,6 +118,8 @@ namespace Edurem.Services
 
                 testInfo.CountOfTests = results.Sum(result => result.Tests);
                 testInfo.CountOfCompletedTests = results.Sum(result => result.Success);
+
+                testInfo.ResultText = testInfo.CountOfTests > 0 ? providedErrors.ResultText : DecodeFromCP866(providedErrors.ResultText);
 
                 // Удаление контейнера
                 var containerId = await DockerService.GetContainerId($"{imageTag}c");
@@ -189,7 +190,6 @@ namespace Edurem.Services
             var directoryPaths = new List<string>();
 
             var TestInfoRepository = RepositoryFactory.GetRepository<TestInfo>();
-            var TestFileRepository = RepositoryFactory.GetRepository<TestFile>();
 
             // Подготовка данных к созданию тестового окружения
             #region PREPARATION
@@ -202,22 +202,28 @@ namespace Edurem.Services
                 testInfo = new TestInfo
                 {
                     UserId = userId,
-                    PostId = postId,
-                    TestFiles = new()
+                    PostId = postId
                 };
 
                 await TestInfoRepository.Add(testInfo);
             }
             else
             {
+                var FileRepository = RepositoryFactory.GetRepository<FileModel>();
                 // Все тестируемые файлы удаляются
-                var oldTestFiles = (await TestFileRepository.Find(tf => tf.TestInfoId == testInfo.Id))
-                    .ToList();
+                var filesToTest = testInfo.FilesToTest;
 
-                await TestFileRepository.DeleteRange(oldTestFiles);
-                oldTestFiles.ForEach(tf => FileService.RemoveFile(tf.FileId));
+                if (filesToTest is not null)
+                {
+                    await FileRepository.DeleteRange(filesToTest);
+                    foreach (var file in filesToTest)
+                    {
+                        await FileService.RemoveFile(file.Id);
+                    }
+                }
             }
             testInfo.Language = language;
+            testInfo.FilesToTest = new List<FileModel>();
 
             #endregion
 
@@ -553,6 +559,15 @@ namespace Edurem.Services
 
             if (Directory.Exists(unitTestsPath))
                 Directory.GetFiles(unitTestsPath).ToList().ForEach(file => File.Delete(file));
+        }
+
+        private string DecodeFromCP866(string encodedText)
+        {
+            var from = CodePagesEncodingProvider.Instance.GetEncoding(866);
+            var to = Encoding.UTF8;
+
+            byte[] bytes = from.GetBytes(encodedText);
+            return to.GetString(bytes);
         }
     }
 }

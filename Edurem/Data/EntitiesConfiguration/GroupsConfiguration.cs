@@ -18,7 +18,6 @@ namespace Edurem.Data
         {
             builder.ApplyConfiguration(new GroupConfiguration());
             builder.ApplyConfiguration(new GroupMemberConfiguration());
-            builder.ApplyConfiguration(new GroupPostsConfiguration());
         }
     }
 
@@ -31,16 +30,17 @@ namespace Edurem.Data
             builder
                 .HasKey(group => group.Id);
 
-            // Связь с таблицей groups_members
+            
             builder
                 .HasMany(group => group.Members)
                 .WithOne(member => member.Group);
 
 
-            // Связь с таблицей groups_posts
+            // Связь с таблицей group_posts
             builder
-                .HasMany(group => group.GroupPosts)
-                .WithOne(groupPost => groupPost.Group);
+                .HasMany(group => group.Posts)
+                .WithMany(post => post.Groups)
+                .UsingEntity(builder => builder.ToTable("group_posts"));
         }
     }
 
@@ -56,21 +56,6 @@ namespace Edurem.Data
             builder
                 .HasOne(admin => admin.Group)
                 .WithMany(group => group.Members);            
-        }
-    }
-
-    public class GroupPostsConfiguration : IEntityTypeConfiguration<GroupPost>
-    {
-        public void Configure(EntityTypeBuilder<GroupPost> builder)
-        {
-            // Первичный ключ
-            builder
-                .HasKey(groupPost => new { groupPost.GroupId, groupPost.PostId });
-
-            // Связь с таблицей groups
-            builder
-                .HasOne(groupPost => groupPost.Group)
-                .WithMany(group => group.GroupPosts);
         }
     }
 

@@ -98,13 +98,9 @@ namespace Edurem.Services
 
         public async Task<List<PostModel>> GetGroupPosts(int groupId, int startIndex = 0, int postsCount = 1)
         {
-            var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
             var PostRepository = RepositoryFactory.GetRepository<PostModel>();
 
-            // Находим идентификаторы публикаций для данной группы
-            var postsId = (await GroupPostRepository.Find(gp => gp.GroupId == groupId)).Select(gp => gp.PostId).ToList();
-
-            var posts = (await PostRepository.Find(post => postsId.Contains(post.Id), nameof(PostModel.AttachedFiles), nameof(PostModel.Author)));
+            var posts = (await PostRepository.Find(post => post.Groups.Any(group => group.Id == groupId), nameof(PostModel.AttachedFiles), nameof(PostModel.Author), nameof(PostModel.Groups)));
 
             // Находим последние несколько постов (postsCount), начиная со startIndex
             return posts?
@@ -115,12 +111,18 @@ namespace Edurem.Services
                 .ToList();
         }
 
-        public async Task<List<GroupMember>> GetMembers(int groupId)
+        public async Task<IEnumerable<GroupMember>> GetMembers(int groupId)
         {
-            var members = (await RepositoryFactory
-                .GetRepository<GroupMember>()
-                .Find(gm => gm.GroupId == groupId, nameof(GroupMember.User), nameof(GroupMember.Group)))
-                .ToList();
+            var GroupRepository = RepositoryFactory.GetRepository<GroupMember>();
+            IEnumerable<GroupMember> members = null;
+            try
+            {
+                members = (await GroupRepository.Find(gm => gm.GroupId == groupId, nameof(GroupMember.User), nameof(GroupMember.Group)));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return members;
         }

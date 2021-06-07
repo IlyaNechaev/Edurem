@@ -39,8 +39,8 @@ namespace Edurem.Services
 
         public async Task AddFilesToPost(int postId, List<(Stream Stream, string Name)> files)
         {
-            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
-            var postFiles = new List<PostFile>();
+            var PostRepository = RepositoryFactory.GetRepository<PostModel>();
+            var post = await PostRepository.Get(post => post.Id == postId, nameof(PostModel.AttachedFiles));
 
             foreach (var file in files)
             {
@@ -51,49 +51,43 @@ namespace Edurem.Services
                     // Загрузка файлов на сервер
                     var fileModel = await FileService.UploadFile(file.Stream, filePath, $"{file.Name}");
 
-                    postFiles.Add(new PostFile { PostId = postId, FileId = fileModel.Id });
+                    post.AttachedFiles.Add(fileModel);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
-            postFiles = postFiles
-                .Where(file => PostFileRepository.Get(pf => pf.FileId == file.FileId && pf.PostId == file.PostId).Result is null)
-                .ToList();
 
-            await PostFileRepository.AddRange(postFiles);
+            await PostRepository.Update(post);
         }
 
-        public async Task CreatePost(PostModel post, int groupId, List<FileModel> files = null)
+        public async Task CreatePost(PostModel post, IEnumerable<int> groupIds, IEnumerable<FileModel> files = null)
         {
-            var PostModelRepository = RepositoryFactory.GetRepository<PostModel>();
-            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
-            var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
+            var PostRepository = RepositoryFactory.GetRepository<PostModel>();
+            var GroupRepository = RepositoryFactory.GetRepository<Group>();
 
             try
             {
+                post.AttachedFiles = (ICollection<FileModel>)files;
+
                 // Добавляем новую публикацию в БД
-                await PostModelRepository.Add(post);
-
-                if (files is not null)
-                {
-                    // Создать связующие записи post_files
-                    var postFiles = files.Select(file => new PostFile { FileId = file.Id, PostId = post.Id });
-
-                    // Добавляем связующие записи в БД
-                    foreach (var postFile in postFiles)
-                    {
-                        await PostFileRepository.Add(postFile);
-                    }
-                }
+                await PostRepository.Add(post);
             }
             catch (Exception)
             {
                 throw;
             }
 
-            await GroupPostRepository.Add(new GroupPost { GroupId = groupId, PostId = post.Id });
+
+            foreach (var groupId in groupIds)
+            {
+                var group = await GroupRepository.Get(group => group.Id == groupId);
+                if (group.Posts is null) group.Posts = new List<PostModel>();
+                group.Posts.Add(post);
+
+                await GroupRepository.Update(group);
+            }
         }
 
         public async Task AddTestsToPost(int postId, List<(Stream Stream, string Name, int UserId)> files)
@@ -132,28 +126,24 @@ namespace Edurem.Services
 
         public async Task DeletePost(int postId)
         {
-            var PostModelRepository = RepositoryFactory.GetRepository<PostModel>();
-            var PostFileRepository = RepositoryFactory.GetRepository<PostFile>();
+            var PostRepository = RepositoryFactory.GetRepository<PostModel>();
 
-            var post = await PostModelRepository.Get(post => post.Id == postId, nameof(PostModel.AttachedFiles));
+            var post = await PostRepository.Get(post => post.Id == postId, nameof(PostModel.AttachedFiles));
 
             for (; post.AttachedFiles.Count > 0;)
             {
-                var postFile = post.AttachedFiles[0];
+                var fileId = post.AttachedFiles.First().Id;
 
-                var fileId = postFile.FileId;
-                await PostFileRepository.Delete(postFile);
-
-                await FileService.RemoveFile(fileId);
+                await FileService.RemoveFile(fileId, true);
             }
 
             var postDirectory = FileService.GetFullPath(Path.Combine("file_system", "posts", $"post_{post.Id}"));
             if (Directory.Exists(postDirectory))
             {
-                Directory.Delete(postDirectory);
+               Directory.Delete(postDirectory, true);
             }
 
-            await PostModelRepository.Delete(post);
+            await PostRepository.Delete(post);
         }
 
         public async Task<PostModel> GetPost(int postId)
@@ -165,7 +155,7 @@ namespace Edurem.Services
             return post.FirstOrDefault();
         }
 
-        public List<string> GetPostFilesPaths(int postId)
+        public ICollection<string> GetPostFilesPaths(int postId)
         {
             var directoryPath = Configuration.GetDirectoryPath().ForPostFiles(postId.ToString());
 
@@ -174,16 +164,18 @@ namespace Edurem.Services
             return Directory.Exists(directoryPath) ? Directory.GetFiles(directoryPath).ToList() : new List<string>();
         }
 
-        public async Task<(List<string> CommonTestsPaths, List<(int UserId, List<string> FilePaths)> OptionTestsPaths)> GetPostTestFilesPaths(int postId)
+        public async Task<(IEnumerable<string> CommonTestsPaths, IEnumerable<(int UserId, IEnumerable<string> FilePaths)> OptionTestsPaths)> GetPostTestFilesPaths(int postId)
         {
-            var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
+            var PostRepository = RepositoryFactory.GetRepository<PostModel>();
 
-            var groupIds = (await GroupPostRepository.Find(gp => gp.PostId == postId)).Select(gp => gp.GroupId).ToList();
+            var groupIds = (await PostRepository.Get(post => post.Id == postId, nameof(PostModel.Groups))).Groups.Select(group => group.Id);
+
             var userIds = new List<int>();
 
             foreach (var groupId in groupIds)
             {
-                userIds.AddRange((await GroupService.GetMembers(groupId)).Select(gm => gm.UserId));
+                var members = await GroupService.GetMembers(groupId);
+                userIds.AddRange(members.Select(gm => gm.UserId));
             }
 
             var optionTestsDirectoryPath = new List<(int UserId, string DirectoryPath)>();
@@ -196,19 +188,17 @@ namespace Edurem.Services
                 .ToList();
             commonTestsDirectoryPath = Path.Combine(AppEnvironment.WebRootPath, Configuration.GetDirectoryPath().ForPostCommonTests(postId.ToString()));
 
-            return (Directory.Exists(commonTestsDirectoryPath) ? Directory.GetFiles(commonTestsDirectoryPath).ToList() : new List<string>(),
+            return (Directory.Exists(commonTestsDirectoryPath) ? Directory.GetFiles(commonTestsDirectoryPath).ToList() : new string[0],
                 optionTestsDirectoryPath.Select(path =>
-                    (path.UserId, Directory.Exists(path.DirectoryPath) ? Directory.GetFiles(path.DirectoryPath).ToList() : new List<string>())
-                ).ToList());
+                    (path.UserId, (IEnumerable<string>)(Directory.Exists(path.DirectoryPath) ? Directory.GetFiles(path.DirectoryPath) : new string[0]))
+                ));
         }
 
-        public async Task<List<int>> GetPostGroupsIds(int postId)
+        public async Task<IEnumerable<int>> GetPostGroupsIds(int postId)
         {
-            var GroupPostRepository = RepositoryFactory.GetRepository<GroupPost>();
+            var PostRepository = RepositoryFactory.GetRepository<PostModel>();
 
-            return (await GroupPostRepository.Find(gp => gp.PostId == postId))
-                .Select(gp => gp.GroupId)
-                .ToList();
+            return (await PostRepository.Get(post => post.Id == postId, nameof(PostModel.Groups))).Groups.Select(group => group.Id);
         }
 
         public async Task ModifyPost(int postId, PostModel post)
@@ -258,18 +248,18 @@ namespace Edurem.Services
             });
         }
 
-        public async Task<List<int>> GetAttachedFilesIds(int postId)
+        public async Task<IEnumerable<int>> GetAttachedFilesIds(int postId)
         {
             var PostRepository = RepositoryFactory.GetRepository<PostModel>();
 
             return (await PostRepository.Find(p => p.Id == postId, nameof(PostModel.AttachedFiles)))
                 .FirstOrDefault()?
                 .AttachedFiles
-                .Select(af => af.FileId)
+                .Select(af => af.Id)
                 .ToList();
         }
 
-        public async Task<List<TestInfo>> GetTestResults(int postId)
+        public async Task<IEnumerable<TestInfo>> GetTestResults(int postId)
         {
             var TestInfoRepository = RepositoryFactory.GetRepository<TestInfo>();
 

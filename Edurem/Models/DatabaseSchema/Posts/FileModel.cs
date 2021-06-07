@@ -20,6 +20,9 @@ namespace Edurem.Models
         public string Path { get; set; }
         public long Size { get; set; }
 
+        public ICollection<PostModel> Posts { get; set; }
+        public ICollection<TestInfo> TestsInfo { get; set; }
+
         public string GetFullPath() => System.IO.Path.Combine(Path, Name);
     }
 }

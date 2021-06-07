@@ -156,8 +156,6 @@ namespace Edurem.Data
 
                 entities = contextEntites
                     .Where(predicate);
-
-                await Task.FromResult(entities.ToList());
             }
             catch (Exception)
             {

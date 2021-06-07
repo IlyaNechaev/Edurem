@@ -44,7 +44,8 @@ namespace Edurem.Data
 
             builder
                 .HasMany(user => user.Roles)
-                .WithOne(userRole => userRole.User);
+                .WithMany(role => role.Users)
+                .UsingEntity(j => j.ToTable("user_roles"));
 
             builder
                 .HasMany(user => user.Groups)

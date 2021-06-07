@@ -20,22 +20,18 @@ namespace Edurem.Data
         // Пользователи
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UsersRoles { get; set; }
         public DbSet<NotificationOptions> NotificationOptions { get; set; }
 
         // Группы
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupMember> GroupsMembers { get; set; }
-        public DbSet<GroupPost> GroupsPosts { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
         // Записи
         public DbSet<PostModel> Posts { get; set; }
-        public DbSet<PostFile> PostsFiles { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<TestInfo> TestsInfo { get; set; }
-        public DbSet<TestFile> TestsFiles { get; set; }
 
         public EduremDbContext(DbContextOptions<EduremDbContext> builder,
                                [FromServices] ISecurityService securityService,
