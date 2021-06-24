@@ -127,59 +127,6 @@ test.printResults()
             return testFile;
         }
 
-
-        /*
-        public string CreateUnitTests(TestData tests)
-        {
-            string testFile = @"
-import unittest
-
-class MyTest(unittest.TestCase):
-
-    currentResult = None # holds last result object passed to run method
-
-    @classmethod
-    def setResult(cls, amount, errors, failures, skipped):
-        cls.amount, cls.errors, cls.failures, cls.skipped = \
-            amount, errors, failures, skipped
-
-    def tearDown(self):
-        amount = self.currentResult.testsRun
-        errors = self.currentResult.errors
-        failures = self.currentResult.failures
-        skipped = self.currentResult.skipped
-        self.setResult(amount, errors, failures, skipped)
-
-    @classmethod
-    def tearDownClass(cls):
-        print(""\n{"")
-        print(""  \""tests\"": "" + str(cls.amount) + "","")
-        print(""  \""errors\"": "" + str(len(cls.errors)) + "","")
-        print(""  \""failures\"": "" + str(len(cls.failures)) + "","")
-        print(""  \""success\"": "" + str(cls.amount - len(cls.errors) - len(cls.failures)) + "","")
-        print(""}"")
-
-    def run(self, result= None):
-        self.currentResult = result # remember result for use in tearDown
-        unittest.TestCase.run(self, result) # call superclass run method
-
-    def test(self):
-        @test_asserts
-
-if __name__ == '__main__':
-    unittest.main()";
-
-            for(int i = 0; i < tests.Runs.Count; i++)
-            {
-                var testAssert = $"def test{ i + 1}(self):\n        self.assertEqual({tests.Method.Split("").Last()}({string.Join(", ", tests.Runs[i].Input)}, {tests.Runs[i].Output}))";
-                testFile = testFile.Replace("@test_assert", $"{testAssert}\n\n    @test_assert");
-            }
-
-            testFile = testFile.Replace("@test_assert", "");
-
-            return testFile;
-        }*/
-
         public string GetFileExtension() => ".py";
 
         public (string ResultText, bool HasError) ProvideError(string resultText, string errors)

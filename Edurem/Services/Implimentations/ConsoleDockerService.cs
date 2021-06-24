@@ -1,36 +1,18 @@
 ﻿using Edurem.Data;
-using Edurem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Edurem.Extensions;
 using Docker.DotNet.Models;
 using Docker.DotNet;
 using System.Diagnostics;
-using Edurem.Providers;
 
 namespace Edurem.Services
 {
     public class ConsoleDockerService : IDockerService
     {
-        IRepositoryFactory RepositoryFactory { get; set; }
-        IFileService FileService { get; set; }
-        IConfiguration Configuration { get; set; }
-
-        public ConsoleDockerService(
-            [FromServices] IRepositoryFactory repositoryFactory,
-            [FromServices] IFileService fileService,
-            [FromServices] IConfiguration configuration)
-        {
-            RepositoryFactory = repositoryFactory;
-            FileService = fileService;
-            Configuration = configuration;
-        }
-
         public void CreateImage(string contextPath, ImageBuildParameters parameters)
         {
             var commands = new List<string>
@@ -39,11 +21,8 @@ namespace Edurem.Services
                 $"docker build -t \"{parameters.Tags[0]}\" -f \"{parameters.Dockerfile}\" ."
             };
 
-            string output = default;
             var process = GetProcess();
-            //process.StartInfo.Arguments = $"/C cd \"{contextPath}\" & docker build -t \"{parameters.Tags[0]}\" -f \"{parameters.Dockerfile}\" . & echo HELLO & docker images -a";
             process.Start();
-
             
             using (StreamWriter sw = process.StandardInput)
             {
@@ -55,9 +34,6 @@ namespace Edurem.Services
                     }
                 }
             }
-
-            output = process.StandardOutput.ReadToEnd();
-            var errors = process.StandardError.ReadToEnd();
         }
 
         public async Task<string> StartContainer(string containerId, ContainerStartParameters parameters = null)
@@ -155,9 +131,6 @@ namespace Edurem.Services
                     }
                 }
             }
-
-            var output = await process.StandardOutput.ReadToEndAsync();
-            var error = await process.StandardError.ReadToEndAsync();
         }
 
         public async Task<string> GetContainerId(string containerName)
@@ -176,7 +149,6 @@ namespace Edurem.Services
             }
 
             var output = await process.StandardOutput.ReadToEndAsync();
-            var errors = process.StandardError.ReadToEndAsync();
 
             var outputs = output.Split(command);
             output = outputs[1].Split("\r\n")[1].Replace("\n", "");
